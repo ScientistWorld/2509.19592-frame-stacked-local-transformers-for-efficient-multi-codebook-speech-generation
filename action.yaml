@@ -1,4 +1,2 @@
 action: done
-gpus: 0
-milestone: core_claim
-notes: "core_claim reached: AR LT variants score dependency_validity=1.0 on train/test versus baseline ~0.044-0.045 while reducing primary steps from 24 to 12/6; split has 20 train and 20 test metrics with small non-identical gaps."
+notes: "Fixed the repo-run evaluation path to use relative checkpoints and confirmed the synthetic download path validates from a fresh clone."
