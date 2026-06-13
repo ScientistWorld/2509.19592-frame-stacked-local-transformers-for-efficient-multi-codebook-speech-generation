@@ -12,7 +12,7 @@ from method.models import FrameStackedModel
 
 def parse_args():
     p = argparse.ArgumentParser()
-    p.add_argument("--data", default="data/downloads/synthetic_codec")
+    p.add_argument("--data", default="data/synthetic_codec")
     p.add_argument("--out", required=True)
     p.add_argument("--variant", choices=["none", "ar", "maskgit"], required=True)
     p.add_argument("--stack-factor", type=int, default=1)

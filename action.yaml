@@ -2,4 +2,4 @@ action: submit
 gpus: 0
 test: true
 milestone: core_claim_plus
-notes: "CPU validation of evaluator schema alignment: regenerate scoring JSON from existing prediction artifacts and run validate.py --compare."
+notes: "CPU validation after final verification fixes: tracked synthetic data path, method-agnostic docs, regenerated scoring JSON, and validate.py --compare."

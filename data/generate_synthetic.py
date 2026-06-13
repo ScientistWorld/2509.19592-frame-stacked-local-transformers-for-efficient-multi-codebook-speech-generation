@@ -34,7 +34,7 @@ def make_split(num_sequences, seq_len, num_codebooks, vocab_size, num_speakers, 
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--out", default="data/downloads/synthetic_codec")
+    parser.add_argument("--out", default="data/synthetic_codec")
     parser.add_argument("--train", type=int, default=8192)
     parser.add_argument("--val", type=int, default=1024)
     parser.add_argument("--test", type=int, default=1024)

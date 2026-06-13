@@ -84,7 +84,7 @@ def score_file(path, ref, speaker, expected_split, indices):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--pred-dir", default="checkpoints/predictions")
-    parser.add_argument("--data", default="data/downloads/synthetic_codec")
+    parser.add_argument("--data", default="data/synthetic_codec")
     parser.add_argument("--data-split", default="test")
     parser.add_argument("--out", default="scoring/scores_train.json")
     args = parser.parse_args()

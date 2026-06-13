@@ -66,7 +66,7 @@ def score_file(path, ref, speaker, expected_split):
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("--pred-dir", default="checkpoints/predictions")
-    p.add_argument("--data", default="data/downloads/synthetic_codec")
+    p.add_argument("--data", default="data/synthetic_codec")
     p.add_argument("--split", default="test")
     p.add_argument("--out", default="scoring/scores.json")
     p.add_argument("--reference", default="scoring/reference.json")

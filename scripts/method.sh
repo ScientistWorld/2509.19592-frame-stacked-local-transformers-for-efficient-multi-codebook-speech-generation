@@ -10,7 +10,7 @@ STACK_FACTOR="${STACK_FACTOR:-2}"
 STEPS="${STEPS:-1500}"
 
 python -m method.train \
-  --data data/downloads/synthetic_codec \
+  --data data/synthetic_codec \
   --out "checkpoints/${MODEL_NAME}" \
   --variant "${VARIANT}" \
   --stack-factor "${STACK_FACTOR}" \
@@ -18,7 +18,7 @@ python -m method.train \
 
 mkdir -p checkpoints/predictions
 python -m method.predict \
-  --data data/downloads/synthetic_codec \
+  --data data/synthetic_codec \
   --checkpoint "checkpoints/${MODEL_NAME}/model.pt" \
   --out "checkpoints/predictions/${MODEL_NAME}.pt"
 
