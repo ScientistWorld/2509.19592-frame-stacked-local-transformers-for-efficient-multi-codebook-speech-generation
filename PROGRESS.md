@@ -63,6 +63,8 @@ Job `c18a070a-58c` completed the stack-factor-4 expansion and reaches `core_clai
 
 The 4x setting shows the AR local transformer still satisfies the synthetic codec dependency rule while reducing primary decoder steps by 4x relative to the unstacked baseline.
 
+Final verification job `856c925d-a5f` passed after the dataset path and documentation cleanup. It regenerated `scoring/scores.json`, `scoring/scores_train.json`, and `scoring/scores_test.json` with `speaker_conditioned_codec_fd`, then passed `python validate.py --compare`.
+
 ## Deviations From Paper
 
 - Original training data: 18k hours from Koel-TTS. Replacement: synthetic codec-token sequences generated locally.
@@ -88,3 +90,4 @@ The 4x setting shows the AR local transformer still satisfies the synthetic code
 - Job `e966ac72-db7` exposed evaluator reference-variable shadowing after artifacts were generated. Fixed in `eval/evaluate_predictions.py`; job `b04cfee6-16a` then regenerated `scoring/scores.json` under the corrected protocol.
 - The 4x stack-factor expansion is validated, but it is still part of the synthetic replacement benchmark rather than an exact LibriTTS/NanoCodec reproduction.
 - Login-node Python lacks `torch`, so evaluator reruns after the schema-alignment patch must be validated through the packaged compute environment rather than directly on the login node.
+- Final verification moved the small generated dataset from `data/downloads/synthetic_codec` to tracked `data/synthetic_codec` so future clones have the fixed split immediately while `scripts/download.sh` remains able to regenerate it.

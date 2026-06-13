@@ -30,3 +30,8 @@
 - CPU validation job `c18a070a-58c` trained `ar_lt_4x` for 5000 steps and passed `python validate.py --compare`.
 - `ar_lt_4x` reached dependency validity 1.000 with 6 primary decoder steps per 24-frame sequence, extending the validated effect beyond the minimum 2x stack setting.
 - Updated `scripts/reproduce.sh` so the end-to-end reproduction includes the validated 4x expansion.
+
+### [2026-06-13 21:24] - core_claim_plus
+- Final verification job `856c925d-a5f` passed in the packaged CPU environment.
+- Regenerated `scores.json`, `scores_train.json`, and `scores_test.json`; validation confirmed import separation, artifact-based evaluation, shared-path portability, and train/test evaluator independence.
+- Cleaned method-agnostic guidance and moved the small synthetic dataset to tracked `data/synthetic_codec`.
