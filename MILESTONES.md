@@ -35,3 +35,8 @@
 - Final verification job `856c925d-a5f` passed in the packaged CPU environment.
 - Regenerated `scores.json`, `scores_train.json`, and `scores_test.json`; validation confirmed import separation, artifact-based evaluation, shared-path portability, and train/test evaluator independence.
 - Cleaned method-agnostic guidance and moved the small synthetic dataset to tracked `data/synthetic_codec`.
+
+### [2026-06-13 21:30] - core_claim_plus
+- Audited the paper-context reference rows against Figure 2(g).
+- Expanded `scoring/reference.json` to include the seen and unseen LibriTTS 1x/2x/4x mean metrics and confidence intervals as reference-only experiments.
+- Re-ran `python validate.py --compare`; all scoring and structure checks passed.

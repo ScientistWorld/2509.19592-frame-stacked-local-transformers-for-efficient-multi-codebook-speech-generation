@@ -1,40 +1,60 @@
 {
   "experiments": {
-    "libritts_unseen_quality": {
-      "description": "Paper-reported LibriTTS unseen-speaker quality metrics from Figure 2(g).",
+    "libritts_seen_frame_stacking": {
+      "description": "Paper-reported LibriTTS seen-speaker metrics from Figure 2(g). These rows are reference-only because the paper's Koel-TTS/NanoCodec training data, tokenizer pipeline, and generated audio are unreleased.",
       "weight": 0.001,
       "primary_metric": "fd",
       "metrics": {
-        "wer_percent": {"higher_is_better": false, "coefficient": 0.0, "description": "Inactive paper-context metric; the train/test artifact evaluators do not compute LibriTTS WER."},
-        "ssim": {"higher_is_better": true, "coefficient": 0.0, "description": "Inactive paper-context metric; the train/test artifact evaluators do not compute LibriTTS SSIM."},
-        "fd": {"higher_is_better": false, "coefficient": 0.0, "description": "Inactive paper-context metric; the train/test artifact evaluators do not compute LibriTTS Frechet distance."},
-        "utmosv2": {"higher_is_better": true, "coefficient": 0.0, "description": "Inactive paper-context metric; the train/test artifact evaluators do not compute LibriTTS UTMOSv2."}
+        "wer_percent": {"higher_is_better": false, "coefficient": 0.0, "description": "Inactive paper-context metric; the artifact evaluator does not compute LibriTTS WER."},
+        "wer_ci95": {"higher_is_better": false, "coefficient": 0.0, "description": "95% confidence interval half-width reported in Figure 2(g)."},
+        "ssim": {"higher_is_better": true, "coefficient": 0.0, "description": "Inactive paper-context metric; the artifact evaluator does not compute TitaNet speaker similarity."},
+        "ssim_ci95": {"higher_is_better": false, "coefficient": 0.0, "description": "95% confidence interval half-width reported in Figure 2(g)."},
+        "fd": {"higher_is_better": false, "coefficient": 0.0, "description": "Inactive paper-context metric; the artifact evaluator does not compute LibriTTS codec Frechet distance."},
+        "fd_ci95": {"higher_is_better": false, "coefficient": 0.0, "description": "95% confidence interval half-width reported in Figure 2(g)."},
+        "utmosv2": {"higher_is_better": true, "coefficient": 0.0, "description": "Inactive paper-context metric; the artifact evaluator does not compute UTMOSv2."},
+        "utmosv2_ci95": {"higher_is_better": false, "coefficient": 0.0, "description": "95% confidence interval half-width reported in Figure 2(g)."}
       },
       "results": {
-        "baseline_parallel_1x": {"type": "baseline", "wer_percent": 1.2, "ssim": 0.765, "fd": 0.086, "utmosv2": 3.57},
-        "maskgit_lt_1x": {"type": "proposed", "wer_percent": 1.5, "ssim": 0.777, "fd": 0.063, "utmosv2": 3.68},
-        "ar_lt_1x": {"type": "proposed", "wer_percent": 1.3, "ssim": 0.784, "fd": 0.054, "utmosv2": 3.66}
+        "parallel_1x": {"type": "baseline", "wer_percent": 1.1, "wer_ci95": 0.2, "ssim": 0.796, "ssim_ci95": 0.002, "fd": 0.089, "fd_ci95": 0.003, "utmosv2": 3.54, "utmosv2_ci95": 0.06},
+        "maskgit_lt_1x": {"type": "proposed", "wer_percent": 1.4, "wer_ci95": 0.2, "ssim": 0.807, "ssim_ci95": 0.002, "fd": 0.050, "fd_ci95": 0.002, "utmosv2": 3.67, "utmosv2_ci95": 0.06},
+        "ar_lt_1x": {"type": "proposed", "wer_percent": 1.2, "wer_ci95": 0.3, "ssim": 0.810, "ssim_ci95": 0.003, "fd": 0.049, "fd_ci95": 0.002, "utmosv2": 3.66, "utmosv2_ci95": 0.05},
+        "parallel_2x": {"type": "baseline", "wer_percent": 1.1, "wer_ci95": 0.2, "ssim": 0.754, "ssim_ci95": 0.002, "fd": 0.161, "fd_ci95": 0.003, "utmosv2": 3.47, "utmosv2_ci95": 0.06},
+        "maskgit_lt_2x": {"type": "proposed", "wer_percent": 1.1, "wer_ci95": 0.3, "ssim": 0.790, "ssim_ci95": 0.001, "fd": 0.055, "fd_ci95": 0.001, "utmosv2": 3.63, "utmosv2_ci95": 0.05},
+        "ar_lt_2x": {"type": "proposed", "wer_percent": 1.1, "wer_ci95": 0.4, "ssim": 0.799, "ssim_ci95": 0.002, "fd": 0.057, "fd_ci95": 0.002, "utmosv2": 3.70, "utmosv2_ci95": 0.05},
+        "parallel_4x": {"type": "baseline", "wer_percent": 1.4, "wer_ci95": 0.2, "ssim": 0.676, "ssim_ci95": 0.003, "fd": 0.281, "fd_ci95": 0.004, "utmosv2": 3.27, "utmosv2_ci95": 0.06},
+        "maskgit_lt_4x": {"type": "proposed", "wer_percent": 1.1, "wer_ci95": 0.2, "ssim": 0.769, "ssim_ci95": 0.002, "fd": 0.061, "fd_ci95": 0.002, "utmosv2": 3.45, "utmosv2_ci95": 0.06},
+        "ar_lt_4x": {"type": "proposed", "wer_percent": 1.2, "wer_ci95": 0.1, "ssim": 0.779, "ssim_ci95": 0.001, "fd": 0.060, "fd_ci95": 0.003, "utmosv2": 3.68, "utmosv2_ci95": 0.05}
       }
     },
     "libritts_unseen_frame_stacking": {
-      "description": "Paper-reported LibriTTS unseen-speaker stack-factor-2 tradeoff from Figure 2(g) and Section 3.3. The parallel_2x throughput proxy is inferred from stack factor because the paper reports relative throughput for LT variants but not for the degraded parallel-stacked diagnostic.",
+      "description": "Paper-reported LibriTTS unseen-speaker metrics from Figure 2(g), with relative throughput values from Section 3.3 where the paper states them explicitly.",
       "weight": 0.001,
       "primary_metric": "fd",
       "metrics": {
-        "ssim": {"higher_is_better": true, "coefficient": 0.0, "description": "Inactive paper-context metric; the train/test artifact evaluators do not compute LibriTTS SSIM."},
-        "fd": {"higher_is_better": false, "coefficient": 0.0, "description": "Inactive paper-context metric; the train/test artifact evaluators do not compute LibriTTS Frechet distance."},
-        "utmosv2": {"higher_is_better": true, "coefficient": 0.0, "description": "Inactive paper-context metric; the train/test artifact evaluators do not compute LibriTTS UTMOSv2."},
-        "relative_throughput": {"higher_is_better": true, "coefficient": 0.0, "description": "Inactive paper-context metric; the train/test artifact evaluators use stack-factor steps instead of hardware-dependent throughput."}
+        "wer_percent": {"higher_is_better": false, "coefficient": 0.0, "description": "Inactive paper-context metric; the artifact evaluator does not compute LibriTTS WER."},
+        "wer_ci95": {"higher_is_better": false, "coefficient": 0.0, "description": "95% confidence interval half-width reported in Figure 2(g)."},
+        "ssim": {"higher_is_better": true, "coefficient": 0.0, "description": "Inactive paper-context metric; the artifact evaluator does not compute TitaNet speaker similarity."},
+        "ssim_ci95": {"higher_is_better": false, "coefficient": 0.0, "description": "95% confidence interval half-width reported in Figure 2(g)."},
+        "fd": {"higher_is_better": false, "coefficient": 0.0, "description": "Inactive paper-context metric; the artifact evaluator does not compute LibriTTS codec Frechet distance."},
+        "fd_ci95": {"higher_is_better": false, "coefficient": 0.0, "description": "95% confidence interval half-width reported in Figure 2(g)."},
+        "utmosv2": {"higher_is_better": true, "coefficient": 0.0, "description": "Inactive paper-context metric; the artifact evaluator does not compute UTMOSv2."},
+        "utmosv2_ci95": {"higher_is_better": false, "coefficient": 0.0, "description": "95% confidence interval half-width reported in Figure 2(g)."},
+        "relative_throughput": {"higher_is_better": true, "coefficient": 0.0, "description": "Paper-reported relative inference throughput from Section 3.3 when explicitly stated; omitted for rows without an explicit value."}
       },
       "results": {
-        "baseline_parallel_1x": {"type": "baseline", "ssim": 0.765, "fd": 0.086, "utmosv2": 3.57, "relative_throughput": 1.0},
-        "parallel_2x": {"type": "baseline", "ssim": 0.695, "fd": 0.144, "utmosv2": 3.46, "relative_throughput": 2.0},
-        "maskgit_lt_2x": {"type": "proposed", "ssim": 0.741, "fd": 0.053, "utmosv2": 3.63, "relative_throughput": 3.1},
-        "ar_lt_2x": {"type": "proposed", "ssim": 0.757, "fd": 0.056, "utmosv2": 3.7, "relative_throughput": 2.1}
+        "parallel_1x": {"type": "baseline", "wer_percent": 1.2, "wer_ci95": 0.1, "ssim": 0.765, "ssim_ci95": 0.001, "fd": 0.086, "fd_ci95": 0.003, "utmosv2": 3.57, "utmosv2_ci95": 0.05, "relative_throughput": 1.0},
+        "maskgit_lt_1x": {"type": "proposed", "wer_percent": 1.5, "wer_ci95": 0.4, "ssim": 0.777, "ssim_ci95": 0.005, "fd": 0.063, "fd_ci95": 0.004, "utmosv2": 3.68, "utmosv2_ci95": 0.05},
+        "ar_lt_1x": {"type": "proposed", "wer_percent": 1.3, "wer_ci95": 0.3, "ssim": 0.784, "ssim_ci95": 0.002, "fd": 0.054, "fd_ci95": 0.003, "utmosv2": 3.66, "utmosv2_ci95": 0.05},
+        "parallel_2x": {"type": "baseline", "wer_percent": 1.2, "wer_ci95": 0.1, "ssim": 0.695, "ssim_ci95": 0.005, "fd": 0.144, "fd_ci95": 0.002, "utmosv2": 3.46, "utmosv2_ci95": 0.06},
+        "maskgit_lt_2x": {"type": "proposed", "wer_percent": 1.3, "wer_ci95": 0.3, "ssim": 0.741, "ssim_ci95": 0.002, "fd": 0.053, "fd_ci95": 0.001, "utmosv2": 3.63, "utmosv2_ci95": 0.05, "relative_throughput": 3.1},
+        "ar_lt_2x": {"type": "proposed", "wer_percent": 1.0, "wer_ci95": 0.1, "ssim": 0.757, "ssim_ci95": 0.002, "fd": 0.056, "fd_ci95": 0.002, "utmosv2": 3.70, "utmosv2_ci95": 0.05, "relative_throughput": 2.1},
+        "parallel_4x": {"type": "baseline", "wer_percent": 1.5, "wer_ci95": 0.5, "ssim": 0.545, "ssim_ci95": 0.004, "fd": 0.312, "fd_ci95": 0.004, "utmosv2": 3.22, "utmosv2_ci95": 0.06},
+        "maskgit_lt_4x": {"type": "proposed", "wer_percent": 1.1, "wer_ci95": 0.1, "ssim": 0.624, "ssim_ci95": 0.005, "fd": 0.071, "fd_ci95": 0.002, "utmosv2": 3.41, "utmosv2_ci95": 0.06, "relative_throughput": 5.5},
+        "ar_lt_4x": {"type": "proposed", "wer_percent": 1.1, "wer_ci95": 0.3, "ssim": 0.642, "ssim_ci95": 0.002, "fd": 0.070, "fd_ci95": 0.004, "utmosv2": 3.71, "utmosv2_ci95": 0.05, "relative_throughput": 2.9}
       }
     },
     "synthetic_codec_unseen": {
-      "description": "Reproduction-gym replacement for the unreleased Koel-TTS/NanoCodec setup. Targets reflect the expected behavior on the fixed synthetic multi-codebook codec task: local-transformer methods should produce valid dependent codebook tuples with fewer primary steps under frame stacking.",
+      "description": "Runnable reproduction-gym replacement for the unreleased Koel-TTS/NanoCodec setup. Targets encode the expected behavior on the fixed synthetic multi-codebook codec task: local-transformer methods should produce valid dependent codebook tuples with fewer primary steps under frame stacking.",
       "weight": 0.998,
       "primary_metric": "dependency_validity",
       "metrics": {

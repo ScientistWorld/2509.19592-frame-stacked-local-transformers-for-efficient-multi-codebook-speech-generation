@@ -3,7 +3,7 @@
 ## What Works
 
 - Official arXiv paper files are saved under `paper/`.
-- `scoring/reference.json` records paper-reported LibriTTS unseen-speaker metrics for the no-LT baseline and LT variants, plus a clearly labeled synthetic replacement target group used by this gym's evaluator.
+- `scoring/reference.json` records paper-reported LibriTTS seen/unseen metrics for the no-LT baseline and LT variants, plus a clearly labeled synthetic replacement target group used by this gym's evaluator.
 - Paper/source audit confirmed no official code release; the only external link in the paper is the audio demo page.
 - `scoring/EXPERIMENTS.md` documents which experiments are runnable in this gym and which are paper-reference-only.
 - `data/generate_synthetic.py` creates a reproducible multi-codebook token dataset with intra-frame residual-style dependencies.
@@ -91,3 +91,4 @@ Final verification job `856c925d-a5f` passed after the dataset path and document
 - The 4x stack-factor expansion is validated, but it is still part of the synthetic replacement benchmark rather than an exact LibriTTS/NanoCodec reproduction.
 - Login-node Python lacks `torch`, so evaluator reruns after the schema-alignment patch must be validated through the packaged compute environment rather than directly on the login node.
 - Final verification moved the small generated dataset from `data/downloads/synthetic_codec` to tracked `data/synthetic_codec` so future clones have the fixed split immediately while `scripts/download.sh` remains able to regenerate it.
+- Final audit expanded `scoring/reference.json` to include all seen/unseen LibriTTS Figure 2(g) mean metrics and confidence intervals as reference-only paper-context experiments, while keeping `synthetic_codec_unseen` as the runnable target.
