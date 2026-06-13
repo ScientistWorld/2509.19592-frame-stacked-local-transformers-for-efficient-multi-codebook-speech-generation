@@ -1,8 +1,6 @@
 # IMPORTANT: Once you set action to 'submit' or 'done', STOP immediately.
 # Do NOT sleep, poll, or wait for jobs. The system reads this file
 # only after your turn ends. Sleeping blocks the entire pipeline.
-action: submit
-gpus: 0
-test: true
-milestone: core_claim
-notes: "Attempt core_claim_plus: train/predict ar_lt_4x on the synthetic codec task, then run the independent evaluator and validate scores."
+action: done
+milestone: core_claim_plus
+notes: "Validated AR local transformer at stack factors 2 and 4 on the synthetic codec task. ar_lt_2x and ar_lt_4x both reach dependency_validity 1.000 versus 0.045 for the parallel baseline, with 12 and 6 primary steps respectively. Environment packaged and validation passes."
