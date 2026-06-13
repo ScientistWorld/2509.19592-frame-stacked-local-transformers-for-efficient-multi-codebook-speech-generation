@@ -1,6 +1,6 @@
 # Reproduction Milestones
 
-**Current: method_runs**
+**Current: core_claim**
 
 ## Progress Log
 
@@ -24,3 +24,8 @@
 - CPU test job `30c8fb22-0d5` re-evaluated existing checkpoints after the AR sampling fix.
 - AR LT improved slightly but remained too close to the baseline (`dependency_validity` 0.055 vs 0.038), so the core claim is not yet reproduced.
 - Configured the next job to retrain only AR LT for a longer run using the existing baseline.
+
+### [2026-06-13 19:44] - core_claim
+- GPU test job `0f9f2e6f-d80` retrained the AR local transformer for 5000 steps after the sampling fix.
+- The synthetic core experiment now supports the paper's central claim: AR LT reaches `dependency_validity` 1.000 versus 0.038 for the parallel baseline, with NLL 0.435 versus 3.470.
+- Frame stacking is active in the reproduced method: `ar_lt_2x` uses 12 primary steps per 24-frame sequence versus 24 for the unstacked parallel baseline.

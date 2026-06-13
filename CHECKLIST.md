@@ -9,4 +9,4 @@
 - [x] Evaluator implemented
 - [x] Environment and scripts written
 - [x] End-to-end job completed
-- [ ] Core claim reproduced and documented
+- [x] Core claim reproduced and documented

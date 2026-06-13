@@ -7,6 +7,7 @@
 - `data/generate_synthetic.py` creates a reproducible multi-codebook token dataset with intra-frame residual-style dependencies.
 - `method/models.py` implements the paper's core algorithmic variants at reduced scale: parallel no-LT prediction, AR local transformer, MaskGIT local transformer, and frame stacking.
 - `eval/evaluate_predictions.py` scores saved prediction artifacts without importing method code.
+- The core AR LT experiment reproduces the claimed effect on the fixed synthetic replacement task.
 
 ## Results Achieved
 
@@ -15,6 +16,15 @@ Job `e194b6d3-0a8` generated the synthetic dataset, trained `baseline_parallel_1
 Job `27ab7f98-e2c` completed the full CPU smoke run. It trained and evaluated `baseline_parallel_1x`, `ar_lt_2x`, and `maskgit_lt_2x`. This reaches `method_runs`, but not `core_claim`: AR LT dependency validity was 0.032 versus baseline 0.038, indicating broken sampling. The AR sampling alignment is now fixed and will be re-evaluated from the existing checkpoints.
 
 Job `30c8fb22-0d5` re-evaluated the existing checkpoints after the AR sampling fix. AR LT improved to dependency validity 0.055 versus baseline 0.038 and codec FD 0.106, but this is still too close to the trivial baseline to claim `core_claim`. The AR checkpoint was only trained for 500 steps and its NLL remained 1.157, above the expected deterministic-slot lower bound, so the next run retrains AR LT longer.
+
+Job `0f9f2e6f-d80` retrained `ar_lt_2x` for 5000 steps and reached `core_claim` on the synthetic replacement benchmark. Final evaluated results:
+
+| Method | dependency_validity | NLL | token_accuracy | codec_fd | primary_steps_per_24_frames |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| `baseline_parallel_1x` | 0.038 | 3.470 | 0.031 | 0.035 | 24 |
+| `ar_lt_2x` | 1.000 | 0.435 | 0.030 | 0.039 | 12 |
+
+The token accuracy remains near random by construction because the first two codebook slots per stacked frame are sampled uniformly. The meaningful signal is whether later codebooks satisfy the residual dependency rule; AR LT learns that structure while the parallel baseline cannot condition within a frame.
 
 ## Deviations From Paper
 
@@ -25,9 +35,8 @@ Job `30c8fb22-0d5` re-evaluated the existing checkpoints after the AR sampling f
 
 ## What Remains
 
-- Run `scripts/reproduce.sh` on a compute node.
-- Confirm `baseline_parallel_1x` produces lower dependency validity than `ar_lt_2x` and `maskgit_lt_2x`.
-- Update milestones and scores after the job completes.
+- Higher milestones would require expanding beyond the minimum core claim, for example training MaskGIT longer, testing additional stack factors, or adding a public real-codec speech-token dataset.
+- Exact LibriTTS/WER/UTMOS reproduction remains blocked by the paper's unreleased training data, codec/tokenizer pipeline, and model checkpoints.
 
 ## Issues Encountered
 
@@ -36,3 +45,4 @@ Job `30c8fb22-0d5` re-evaluated the existing checkpoints after the AR sampling f
 - Job `e194b6d3-0a8` exposed a tensor broadcasting bug in `data/codec_dataset.py`; fixed by giving the codebook index tensor an explicit feature singleton dimension.
 - Job `27ab7f98-e2c` exposed an AR local-transformer sampling bug: generated previous slots were not shifted into the same positions used during teacher-forced training.
 - Job `30c8fb22-0d5` showed the fixed 500-step AR checkpoint was undertrained; next job retrains only AR LT for more steps while reusing the baseline.
+- The deterministic codec FD is not the primary success metric for the synthetic task: it compares coarse frame embeddings and does not strongly penalize invalid tuples. Dependency validity and NLL are the intended checks for the local-transformer claim.

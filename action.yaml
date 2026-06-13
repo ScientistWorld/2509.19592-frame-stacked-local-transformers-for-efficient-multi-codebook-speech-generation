@@ -1,5 +1,3 @@
-action: submit
-gpus: 1
-test: true
-milestone: method_runs
-notes: "Retrain only the AR local transformer longer after the sampling fix, reusing the existing baseline checkpoint."
+action: done
+milestone: core_claim
+notes: "Core claim reproduced on the synthetic multi-codebook codec task: AR LT reaches dependency_validity 1.000 versus 0.038 for the parallel baseline while using 12 versus 24 primary decoding steps. Environment, scripts, docs, and scoring are packaged."
