@@ -6,19 +6,29 @@
           "codec_fd": 0.040421665986082135,
           "dependency_validity": 1.0,
           "primary_steps_per_24_frames": 12.0,
+          "speaker_conditioned_codec_fd": 0.2691284554999838,
           "token_accuracy": 0.03035481832921505
         },
         "ar_lt_4x": {
           "codec_fd": 0.046566213007824334,
           "dependency_validity": 1.0,
           "primary_steps_per_24_frames": 6.0,
+          "speaker_conditioned_codec_fd": 0.3011953940617692,
           "token_accuracy": 0.02925618551671505
         },
         "baseline_parallel_1x": {
           "codec_fd": 0.03897335761778095,
           "dependency_validity": 0.0445672906935215,
           "primary_steps_per_24_frames": 24.0,
+          "speaker_conditioned_codec_fd": 0.4869015528691592,
           "token_accuracy": 0.03082275390625
+        },
+        "maskgit_lt_2x": {
+          "codec_fd": 1.4007402720647528,
+          "dependency_validity": 0.0300932377576828,
+          "primary_steps_per_24_frames": 12.0,
+          "speaker_conditioned_codec_fd": 3.3389997010372077,
+          "token_accuracy": 0.0313873291015625
         }
       }
     }

@@ -1,7 +1,7 @@
 {
   "_metadata": {
     "data_split": "test",
-    "method_source": "/home/user/checkpoints/predictions",
+    "method_source": "checkpoints/predictions",
     "num_examples": 512,
     "partition_seed": 250919592,
     "slice": "test"
