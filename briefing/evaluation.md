@@ -19,6 +19,6 @@ Additional metrics:
 - `token_accuracy`: exact token accuracy against the test split. Higher is better.
 - `codec_fd`: diagonal Fréchet distance between deterministic 32-dimensional codec-frame embeddings of generated and reference frames. Lower is better.
 - `speaker_conditioned_codec_fd`: average per-speaker version of `codec_fd`, included to catch methods that match global token statistics while collapsing speaker-conditioned structure. Lower is better.
-- `primary_steps_per_24_frames`: number of primary decoder steps needed to produce 24 frames. Lower is better and replaces wall-clock speed as a hardware-independent efficiency metric.
+- `primary_steps_per_24_frames`: number of coarse generation steps declared by the artifact for producing 24 frames. Lower is better and replaces wall-clock speed as a hardware-independent efficiency metric.
 
 The paper's original audio metrics are WER, speaker similarity, codec-space FD, UTMOSv2, and relative throughput on LibriTTS. The paper-reported LibriTTS mean scores and confidence intervals from Figure 2(g) are preserved as reference-only `libritts_*` experiments in `scoring/reference.json`. The reproduced synthetic experiment has its own `synthetic_codec_unseen` reference group for validator compatibility and is not numerically comparable to LibriTTS audio quality.

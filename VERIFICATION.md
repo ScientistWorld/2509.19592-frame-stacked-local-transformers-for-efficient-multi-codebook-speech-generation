@@ -2,27 +2,25 @@
 
 ## Initial Assessment
 
-The workspace had a validated synthetic reproduction at `core_claim_plus`, with the paper's unavailable Koel-TTS/NanoCodec resources replaced by a fixed synthetic multi-codebook token task. The claimed milestone was justified by prior container jobs: the stronger generated-token method reached dependency validity 1.000 versus 0.045 for the reference baseline, with 2x and 4x reductions in primary generation steps.
+The workspace started at `core_claim_plus`, and that milestone is justified. The reproduced gym result is based on saved prediction artifacts for the synthetic multi-codebook task: the independent baseline has low dependency validity, while the validated dependency-modeling variants reach dependency validity 1.0 at 2x and 4x generation-step reductions. The exact LibriTTS/NanoCodec results remain reference-only because the paper's training data, tokenizer pipeline, model checkpoints, and generated audio are unreleased.
 
 ## Issues Found
 
-- Minor: Method-agnostic guidance files leaked method identifiers and architecture names, which would compromise from-scratch mode.
-- Minor: The main evaluator had been extended with `speaker_conditioned_codec_fd`, but `scores.json` needed regeneration in the packaged environment.
-- Minor: The generated synthetic dataset was small enough to track directly under `data/`, but it was previously kept under `data/downloads/`.
-- Cosmetic: Root `README.md`, `manifest.json`, and trajectory files remain dirty system artifacts from the surrounding workflow; they are unrelated to the gym code and were left untouched.
+- Minor: `scoring/EXPERIMENTS.md` documented reference-only LibriTTS experiments even though `scores.json` contains only the runnable `synthetic_codec_unseen` experiment. This could confuse from-scratch scientist agents about what is actually scored.
+- Minor: `briefing/evaluation.md` described `primary_steps_per_24_frames` as decoder-specific. The metric is valid, but the method-agnostic evaluation guide should frame it as a hardware-independent generation-effort proxy.
+- Cosmetic/pre-existing: `README.md` and `manifest.json` are modified special device nodes, and tracked `trajectory/turn_*.jsonl` files are deleted. These were present before this verification pass and are outside the reproduction gym files; I left them untouched.
 
 ## Fixes Applied
 
-- Removed method-specific language from `briefing/problem.md`, `briefing/evaluation.md`, `scoring/EXPERIMENTS.md`, `scoring/TARGETS.md`, and `scoring/DIRECTION.md`.
-- Documented the reusable prediction artifact interface in `briefing/evaluation.md`.
-- Moved the synthetic dataset to tracked `data/synthetic_codec` and updated script/evaluator defaults.
-- Ran CPU validation job `856c925d-a5f`; it regenerated `scores.json`, `scores_train.json`, and `scores_test.json` and passed `python validate.py --compare`.
+- Narrowed `scoring/EXPERIMENTS.md` to the active `synthetic_codec_unseen` experiment and noted that LibriTTS rows are reference-only context in `reference.json`.
+- Reworded `briefing/evaluation.md` so `primary_steps_per_24_frames` is described as coarse generation steps declared by the artifact rather than a required architecture.
+- Re-ran `python validate.py --compare`; all scoring and structural checks passed.
 
 ## Final Judgment
 
-The workspace is ready to serve as a research gym. Improve-mode agents can build on the provided method and checkpoints, while from-scratch agents can use the problem, data, and evaluator without method leakage. The main limitation is that the runnable benchmark is a synthetic substitute for unreleased paper data and audio metrics.
+The workspace is ready to serve as a research gym. Improve-mode agents can run the packaged method and evaluator, and from-scratch agents can use the method-agnostic problem, data, and evaluation interface without importing the paper method. Evaluation reads saved prediction artifacts, not method internals; train/test score artifacts exist and use independent slices; `scripts/evaluate.sh` works standalone for any method that writes the expected artifact format.
 
 - Milestone: core_claim_plus
 - Ready for gym use: yes
 - Confidence: high
-- Key limitation: synthetic replacement data only
+- Key limitation: synthetic replacement data only; exact LibriTTS/NanoCodec reproduction is blocked by unreleased resources.

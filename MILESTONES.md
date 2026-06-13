@@ -40,3 +40,8 @@
 - Audited the paper-context reference rows against Figure 2(g).
 - Expanded `scoring/reference.json` to include the seen and unseen LibriTTS 1x/2x/4x mean metrics and confidence intervals as reference-only experiments.
 - Re-ran `python validate.py --compare`; all scoring and structure checks passed.
+
+### [2026-06-13 21:33] - core_claim_plus
+- Completed final gym verification.
+- Tightened method-agnostic evaluation wording and aligned `scoring/EXPERIMENTS.md` with the active scored experiment.
+- Wrote `VERIFICATION.md`; `python validate.py --compare` passes.
