@@ -1,6 +1,6 @@
 # Reproduction Milestones
 
-**Current: method_runs**
+**Current: core_claim**
 
 ## Progress Log
 
@@ -20,3 +20,8 @@
 - CPU validation job `e966ac72-db7` regenerated free-running prediction artifacts for baseline, AR LT, and MaskGIT, then failed inside the evaluator before writing fresh scores.
 - Root cause: evaluator variable shadowing replaced the reference token tensor with the parsed `reference.json` dictionary.
 - Fixed evaluator reference handling and split checking; resubmitting CPU validation before restoring `core_claim`.
+
+### [2026-06-13 20:03] - core_claim
+- CPU validation job `b04cfee6-16a` passed under the corrected free-running protocol and `python validate.py --compare`.
+- Reproduced core synthetic claim: `ar_lt_2x` reached dependency validity 1.000 versus 0.045 for `baseline_parallel_1x`, while reducing primary decoder steps from 24 to 12 per 24-frame sequence.
+- Added `ar_lt_4x` as a runnable synthetic stretch target and prepared a follow-up job to test whether the same local-transformer mechanism holds at 4x frame stacking.

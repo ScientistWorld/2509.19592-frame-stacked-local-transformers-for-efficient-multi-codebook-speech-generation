@@ -57,6 +57,13 @@
           "dependency_validity": 0.95,
           "codec_fd": 0.05,
           "primary_steps_per_24_frames": 12.0
+        },
+        "ar_lt_4x": {
+          "type": "proposed",
+          "token_accuracy": 0.03125,
+          "dependency_validity": 0.90,
+          "codec_fd": 0.06,
+          "primary_steps_per_24_frames": 6.0
         }
       }
     }

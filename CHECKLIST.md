@@ -9,5 +9,6 @@
 - [x] Evaluator implemented
 - [x] Environment and scripts written
 - [x] End-to-end job completed under the earlier protocol
-- [ ] Corrected free-running protocol validation completed
-- [ ] Core claim restored under corrected protocol
+- [x] Corrected free-running protocol validation completed
+- [x] Core claim restored under corrected protocol
+- [ ] Stack-factor-4 AR LT expansion completed

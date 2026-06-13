@@ -24,6 +24,15 @@ else
   MODEL_NAME=ar_lt_2x VARIANT=ar STACK_FACTOR=2 STEPS="${AR_STEPS:-5000}" scripts/method.sh
 fi
 
+if [ -e checkpoints/ar_lt_4x/model.pt ]; then
+  python -m method.predict \
+    --data data/downloads/synthetic_codec \
+    --checkpoint checkpoints/ar_lt_4x/model.pt \
+    --out checkpoints/predictions/ar_lt_4x.pt
+else
+  MODEL_NAME=ar_lt_4x VARIANT=ar STACK_FACTOR=4 STEPS="${AR4_STEPS:-5000}" scripts/method.sh
+fi
+
 if [ -e checkpoints/maskgit_lt_2x/model.pt ]; then
   python -m method.predict \
     --data data/downloads/synthetic_codec \

@@ -44,6 +44,15 @@ Current-turn audit found two issues in the previous `core_claim` state: predicti
 
 Job `e966ac72-db7` regenerated free-running prediction artifacts for `baseline_parallel_1x`, `ar_lt_2x`, and `maskgit_lt_2x`, but failed during evaluation before fresh scores were written. The failure was not in the models: `eval/evaluate_predictions.py` reused the variable name `ref` for both the test token tensor and parsed `reference.json`, so `score_file` received a dictionary instead of a tensor. The evaluator now keeps `ref_tokens` and `reference_spec` separate and validates artifacts against the requested split.
 
+Job `b04cfee6-16a` passed the corrected free-running validation and restored `core_claim`. Final corrected scores:
+
+| Method | dependency_validity | token_accuracy | codec_fd | primary_steps_per_24_frames |
+| --- | ---: | ---: | ---: | ---: |
+| `baseline_parallel_1x` | 0.045 | 0.031 | 0.039 | 24 |
+| `ar_lt_2x` | 1.000 | 0.030 | 0.040 | 12 |
+
+This supports the central paper claim in the runnable synthetic replacement task: a local transformer can model intra-frame multi-codebook dependencies that the parallel baseline cannot, while frame stacking halves the primary decoder steps. The next submitted job trains `ar_lt_4x` to test the same mechanism at a stronger stack factor.
+
 ## Deviations From Paper
 
 - Original training data: 18k hours from Koel-TTS. Replacement: synthetic codec-token sequences generated locally.
@@ -53,7 +62,7 @@ Job `e966ac72-db7` regenerated free-running prediction artifacts for `baseline_p
 
 ## What Remains
 
-- Higher milestones would require training MaskGIT longer, testing additional stack factors, or adding a public real-codec speech-token dataset.
+- Higher milestones would require the submitted `ar_lt_4x` stack-factor expansion to pass, training MaskGIT longer, or adding a public real-codec speech-token dataset.
 - Exact LibriTTS/WER/UTMOS reproduction remains blocked by the paper's unreleased training data, codec/tokenizer pipeline, and model checkpoints.
 - Restore `core_claim` after the CPU validation job regenerates corrected free-running prediction artifacts and `python validate.py --compare` passes.
 
@@ -67,4 +76,4 @@ Job `e966ac72-db7` regenerated free-running prediction artifacts for `baseline_p
 - The deterministic codec FD is not the primary success metric for the synthetic task: it compares coarse frame embeddings and does not strongly penalize invalid tuples. Dependency validity is the intended check for the local-transformer claim.
 - The root `README.md` and `manifest.json` paths are currently busy device nodes in this workspace; they were already modified before this turn and could not be replaced from the agent process. Reproduction code, scripts, briefing, and scoring files are unaffected.
 - Previous prediction artifacts were generated with teacher-forced temporal context. They must be regenerated before claiming `core_claim` under the corrected free-running protocol.
-- Job `e966ac72-db7` exposed evaluator reference-variable shadowing after artifacts were generated. Fixed in `eval/evaluate_predictions.py`; the next CPU validation job should regenerate `scoring/scores.json` under the corrected protocol.
+- Job `e966ac72-db7` exposed evaluator reference-variable shadowing after artifacts were generated. Fixed in `eval/evaluate_predictions.py`; job `b04cfee6-16a` then regenerated `scoring/scores.json` under the corrected protocol.
