@@ -19,3 +19,8 @@
 - CPU test job `27ab7f98-e2c` trained and evaluated the parallel baseline, AR LT, and MaskGIT LT end-to-end.
 - The method reached runnable status, but AR/MaskGIT dependency validity was still at random-baseline level, so `core_claim` is not reached.
 - Diagnosed and fixed AR generation alignment: sampled previous slots were not shifted to match the teacher-forced local-transformer input.
+
+### [2026-06-13 19:28] - method_runs
+- CPU test job `30c8fb22-0d5` re-evaluated existing checkpoints after the AR sampling fix.
+- AR LT improved slightly but remained too close to the baseline (`dependency_validity` 0.055 vs 0.038), so the core claim is not yet reproduced.
+- Configured the next job to retrain only AR LT for a longer run using the existing baseline.

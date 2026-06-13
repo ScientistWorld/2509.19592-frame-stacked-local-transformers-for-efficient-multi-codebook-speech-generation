@@ -1,5 +1,5 @@
 action: submit
-gpus: 0
+gpus: 1
 test: true
 milestone: method_runs
-notes: "Re-evaluate existing checkpoints after fixing AR local-transformer sampling alignment."
+notes: "Retrain only the AR local transformer longer after the sampling fix, reusing the existing baseline checkpoint."
