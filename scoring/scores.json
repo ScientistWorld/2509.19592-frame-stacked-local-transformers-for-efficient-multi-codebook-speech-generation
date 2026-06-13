@@ -8,6 +8,12 @@
           "primary_steps_per_24_frames": 12.0,
           "token_accuracy": 0.03035481832921505
         },
+        "ar_lt_4x": {
+          "codec_fd": 0.046566213007824334,
+          "dependency_validity": 1.0,
+          "primary_steps_per_24_frames": 6.0,
+          "token_accuracy": 0.02925618551671505
+        },
         "baseline_parallel_1x": {
           "codec_fd": 0.03897335761778095,
           "dependency_validity": 0.0445672906935215,

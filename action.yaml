@@ -4,5 +4,5 @@
 action: submit
 gpus: 0
 test: true
-milestone: method_runs
-notes: "CPU validation after audit fixes: regenerate free-running prediction artifacts from existing checkpoints, run the independent evaluator, and validate updated scores."
+milestone: core_claim
+notes: "Attempt core_claim_plus: train/predict ar_lt_4x on the synthetic codec task, then run the independent evaluator and validate scores."
