@@ -1,3 +1,8 @@
-action: done
-milestone: core_claim
-notes: "Core claim reproduced on the synthetic multi-codebook codec task: AR LT reaches dependency_validity 1.000 versus 0.038 for the parallel baseline while using 12 versus 24 primary decoding steps. Environment, scripts, docs, and scoring are packaged."
+# IMPORTANT: Once you set action to 'submit' or 'done', STOP immediately.
+# Do NOT sleep, poll, or wait for jobs. The system reads this file
+# only after your turn ends. Sleeping blocks the entire pipeline.
+action: pending
+gpus: 1
+test: false
+milestone: method_runs
+notes: ""

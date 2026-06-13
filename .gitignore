@@ -99,3 +99,4 @@ python_wheels/
 *.bundle.lock
 core.[0-9]*
 core.*
+.git-credentials
