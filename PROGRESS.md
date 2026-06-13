@@ -87,3 +87,4 @@ The 4x setting shows the AR local transformer still satisfies the synthetic code
 - Previous prediction artifacts were generated with teacher-forced temporal context. They were regenerated under the corrected free-running protocol before restoring `core_claim`.
 - Job `e966ac72-db7` exposed evaluator reference-variable shadowing after artifacts were generated. Fixed in `eval/evaluate_predictions.py`; job `b04cfee6-16a` then regenerated `scoring/scores.json` under the corrected protocol.
 - The 4x stack-factor expansion is validated, but it is still part of the synthetic replacement benchmark rather than an exact LibriTTS/NanoCodec reproduction.
+- Login-node Python lacks `torch`, so evaluator reruns after the schema-alignment patch must be validated through the packaged compute environment rather than directly on the login node.

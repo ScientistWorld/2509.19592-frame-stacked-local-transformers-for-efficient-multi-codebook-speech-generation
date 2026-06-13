@@ -22,6 +22,20 @@ def frechet_distance(x, y):
     return float(((mx - my) ** 2).sum() + (vx + vy - 2 * torch.sqrt(vx * vy)).sum())
 
 
+def speaker_conditioned_fd(pred, ref, speaker, vocab):
+    distances = []
+    for speaker_id in torch.unique(speaker).sort().values:
+        mask = speaker == speaker_id
+        if int(mask.sum()) < 2:
+            continue
+        pred_feat = codec_features(pred[mask], speaker[mask], vocab)
+        ref_feat = codec_features(ref[mask], speaker[mask], vocab)
+        distances.append(frechet_distance(pred_feat, ref_feat))
+    if not distances:
+        return float("nan")
+    return float(sum(distances) / len(distances))
+
+
 def score_file(path, ref, speaker, expected_split):
     item = torch.load(path, map_location="cpu")
     pred = item["pred_tokens"].long()
@@ -38,11 +52,13 @@ def score_file(path, ref, speaker, expected_split):
     pred_feat = codec_features(pred, speaker, vocab)
     ref_feat = codec_features(ref, speaker, vocab)
     fd = frechet_distance(pred_feat, ref_feat)
+    speaker_fd = speaker_conditioned_fd(pred, ref, speaker, vocab)
     steps_per_24_frames = 24.0 / float(cfg["stack_factor"])
     return {
         "token_accuracy": acc,
         "dependency_validity": validity,
         "codec_fd": fd,
+        "speaker_conditioned_codec_fd": speaker_fd,
         "primary_steps_per_24_frames": steps_per_24_frames,
     }
 

@@ -1,2 +1,5 @@
-action: done
-notes: "Fixed the repo-run evaluation path to use relative checkpoints and confirmed the synthetic download path validates from a fresh clone."
+action: submit
+gpus: 0
+test: true
+milestone: core_claim_plus
+notes: "CPU validation of evaluator schema alignment: regenerate scoring JSON from existing prediction artifacts and run validate.py --compare."
