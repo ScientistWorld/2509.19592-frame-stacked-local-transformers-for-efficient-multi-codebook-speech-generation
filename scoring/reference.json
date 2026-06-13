@@ -2,13 +2,13 @@
   "experiments": {
     "libritts_unseen_quality": {
       "description": "Paper-reported LibriTTS unseen-speaker quality metrics from Figure 2(g).",
-      "weight": 0.5,
+      "weight": 0.0,
       "primary_metric": "fd",
       "metrics": {
-        "wer_percent": {"higher_is_better": false, "coefficient": -0.2},
-        "ssim": {"higher_is_better": true, "coefficient": 0.4},
-        "fd": {"higher_is_better": false, "coefficient": -1.0},
-        "utmosv2": {"higher_is_better": true, "coefficient": 0.4}
+        "wer_percent": {"higher_is_better": false, "coefficient": 0.0, "description": "Inactive paper-context metric; the train/test artifact evaluators do not compute LibriTTS WER."},
+        "ssim": {"higher_is_better": true, "coefficient": 0.0, "description": "Inactive paper-context metric; the train/test artifact evaluators do not compute LibriTTS SSIM."},
+        "fd": {"higher_is_better": false, "coefficient": 0.0, "description": "Inactive paper-context metric; the train/test artifact evaluators do not compute LibriTTS Frechet distance."},
+        "utmosv2": {"higher_is_better": true, "coefficient": 0.0, "description": "Inactive paper-context metric; the train/test artifact evaluators do not compute LibriTTS UTMOSv2."}
       },
       "results": {
         "baseline_parallel_1x": {"type": "baseline", "wer_percent": 1.2, "ssim": 0.765, "fd": 0.086, "utmosv2": 3.57},
@@ -18,13 +18,13 @@
     },
     "libritts_unseen_frame_stacking": {
       "description": "Paper-reported LibriTTS unseen-speaker stack-factor-2 tradeoff from Figure 2(g) and Section 3.3. The parallel_2x throughput proxy is inferred from stack factor because the paper reports relative throughput for LT variants but not for the degraded parallel-stacked diagnostic.",
-      "weight": 0.3,
+      "weight": 0.0,
       "primary_metric": "fd",
       "metrics": {
-        "ssim": {"higher_is_better": true, "coefficient": 0.4},
-        "fd": {"higher_is_better": false, "coefficient": -1.0},
-        "utmosv2": {"higher_is_better": true, "coefficient": 0.4},
-        "relative_throughput": {"higher_is_better": true, "coefficient": 0.6}
+        "ssim": {"higher_is_better": true, "coefficient": 0.0, "description": "Inactive paper-context metric; the train/test artifact evaluators do not compute LibriTTS SSIM."},
+        "fd": {"higher_is_better": false, "coefficient": 0.0, "description": "Inactive paper-context metric; the train/test artifact evaluators do not compute LibriTTS Frechet distance."},
+        "utmosv2": {"higher_is_better": true, "coefficient": 0.0, "description": "Inactive paper-context metric; the train/test artifact evaluators do not compute LibriTTS UTMOSv2."},
+        "relative_throughput": {"higher_is_better": true, "coefficient": 0.0, "description": "Inactive paper-context metric; the train/test artifact evaluators use stack-factor steps instead of hardware-dependent throughput."}
       },
       "results": {
         "baseline_parallel_1x": {"type": "baseline", "ssim": 0.765, "fd": 0.086, "utmosv2": 3.57, "relative_throughput": 1.0},
@@ -35,13 +35,14 @@
     },
     "synthetic_codec_unseen": {
       "description": "Reproduction-gym replacement for the unreleased Koel-TTS/NanoCodec setup. Targets reflect the expected behavior on the fixed synthetic multi-codebook codec task: local-transformer methods should produce valid dependent codebook tuples with fewer primary steps under frame stacking.",
-      "weight": 0.2,
+      "weight": 1.0,
       "primary_metric": "dependency_validity",
       "metrics": {
-        "token_accuracy": {"higher_is_better": true, "coefficient": 0.3},
-        "dependency_validity": {"higher_is_better": true, "coefficient": 1.0},
-        "codec_fd": {"higher_is_better": false, "coefficient": -0.7},
-        "primary_steps_per_24_frames": {"higher_is_better": false, "coefficient": -0.3}
+        "token_accuracy": {"higher_is_better": true, "coefficient": 0.45, "description": "Exact-token accuracy on the evaluated half of the fixed synthetic codec test split."},
+        "dependency_validity": {"higher_is_better": true, "coefficient": 1.0, "description": "Fraction of dependent codebook entries satisfying the synthetic codec dependency rule."},
+        "codec_fd": {"higher_is_better": false, "coefficient": -0.6, "description": "Distributional distance between predicted and reference deterministic codec-frame embeddings."},
+        "speaker_conditioned_codec_fd": {"higher_is_better": false, "coefficient": -0.4, "description": "Average per-speaker codec embedding distance, added to catch methods that match global statistics while collapsing speaker structure."},
+        "primary_steps_per_24_frames": {"higher_is_better": false, "coefficient": -0.25, "description": "Machine-independent decoding-effort proxy derived from the artifact stack factor."}
       },
       "results": {
         "baseline_parallel_1x": {
@@ -49,6 +50,7 @@
           "token_accuracy": 0.03125,
           "dependency_validity": 0.03125,
           "codec_fd": 0.1,
+          "speaker_conditioned_codec_fd": 0.1,
           "primary_steps_per_24_frames": 24.0
         },
         "ar_lt_2x": {
@@ -56,6 +58,7 @@
           "token_accuracy": 0.03125,
           "dependency_validity": 0.95,
           "codec_fd": 0.05,
+          "speaker_conditioned_codec_fd": 0.05,
           "primary_steps_per_24_frames": 12.0
         },
         "ar_lt_4x": {
@@ -63,6 +66,7 @@
           "token_accuracy": 0.03125,
           "dependency_validity": 0.90,
           "codec_fd": 0.06,
+          "speaker_conditioned_codec_fd": 0.06,
           "primary_steps_per_24_frames": 6.0
         }
       }

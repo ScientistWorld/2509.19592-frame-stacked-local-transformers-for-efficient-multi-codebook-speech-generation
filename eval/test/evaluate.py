@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 import argparse
-import json
 from pathlib import Path
 
 import torch
@@ -25,6 +24,20 @@ def frechet_distance(x, y):
     return float(((mx - my) ** 2).sum() + (vx + vy - 2 * torch.sqrt(vx * vy)).sum())
 
 
+def speaker_conditioned_fd(pred, ref, speaker, vocab):
+    distances = []
+    for speaker_id in torch.unique(speaker).sort().values:
+        mask = speaker == speaker_id
+        if int(mask.sum()) < 2:
+            continue
+        pred_feat = codec_features(pred[mask], speaker[mask], vocab)
+        ref_feat = codec_features(ref[mask], speaker[mask], vocab)
+        distances.append(frechet_distance(pred_feat, ref_feat))
+    if not distances:
+        return float("nan")
+    return float(sum(distances) / len(distances))
+
+
 def split_indices(num_items):
     generator = torch.Generator().manual_seed(PARTITION_SEED)
     order = torch.randperm(num_items, generator=generator)
@@ -34,21 +47,6 @@ def split_indices(num_items):
 
 def discover_methods(pred_dir):
     return [path.stem for path in sorted(pred_dir.glob("*.pt"))]
-
-
-def methods_from_train_scores(path):
-    scores_path = Path(path)
-    if not scores_path.is_file():
-        return None
-    scores = json.loads(scores_path.read_text())
-    experiments = scores.get("experiments", scores)
-    experiment = experiments.get(EXPERIMENT_NAME)
-    if not isinstance(experiment, dict):
-        raise ValueError(f"{scores_path} does not contain {EXPERIMENT_NAME}")
-    results = experiment.get("results", experiment)
-    if not isinstance(results, dict) or not results:
-        raise ValueError(f"{scores_path} has no scoreable methods for {EXPERIMENT_NAME}")
-    return sorted(method for method in results if not method.startswith("_"))
 
 
 def score_file(path, ref, speaker, expected_split, indices):
@@ -71,11 +69,13 @@ def score_file(path, ref, speaker, expected_split, indices):
     pred_feat = codec_features(pred_slice, speaker_slice, vocab)
     ref_feat = codec_features(ref_slice, speaker_slice, vocab)
     fd = frechet_distance(pred_feat, ref_feat)
+    speaker_fd = speaker_conditioned_fd(pred_slice, ref_slice, speaker_slice, vocab)
     steps_per_24_frames = 24.0 / float(cfg["stack_factor"])
     return {
         "token_accuracy": acc,
         "dependency_validity": validity,
         "codec_fd": fd,
+        "speaker_conditioned_codec_fd": speaker_fd,
         "primary_steps_per_24_frames": steps_per_24_frames,
     }
 
@@ -86,7 +86,6 @@ def main():
     parser.add_argument("--data", default="data/downloads/synthetic_codec")
     parser.add_argument("--data-split", default="test")
     parser.add_argument("--out", default="scoring/scores_test.json")
-    parser.add_argument("--train-scores", default="scoring/scores_train.json")
     args = parser.parse_args()
 
     pred_dir = Path(args.pred_dir)
@@ -95,23 +94,14 @@ def main():
     speaker = dataset.speaker
     indices = split_indices(ref_tokens.shape[0])
 
-    methods = methods_from_train_scores(args.train_scores)
-    if methods is None:
-        methods = discover_methods(pred_dir)
+    methods = discover_methods(pred_dir)
     if not methods:
         raise SystemExit(f"no scoreable prediction artifacts found in {pred_dir}")
 
     results = {}
-    missing = []
     for method in methods:
         path = pred_dir / f"{method}.pt"
-        if not path.is_file():
-            missing.append(str(path))
-            continue
         results[method] = score_file(path, ref_tokens, speaker, args.data_split, indices)
-    if missing:
-        missing_list = ", ".join(missing)
-        raise SystemExit(f"missing prediction artifacts for train-scored methods: {missing_list}")
 
     output = {
         "_metadata": {
@@ -119,7 +109,7 @@ def main():
             "data_split": args.data_split,
             "partition_seed": PARTITION_SEED,
             "num_examples": int(indices.numel()),
-            "method_source": args.train_scores if Path(args.train_scores).is_file() else str(pred_dir),
+            "method_source": str(pred_dir),
         },
         "experiments": {
             EXPERIMENT_NAME: {
