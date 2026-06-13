@@ -15,3 +15,8 @@
 - Fixed generation to roll out primary steps from model-generated previous frames.
 - Fixed evaluation to load the fixed test split from `data/downloads/synthetic_codec` and ignore artifact-provided references/speakers; removed artifact-reported NLL from official scoring.
 - Submitting a CPU validation job to regenerate prediction artifacts and scores before restoring `core_claim`.
+
+### [2026-06-13 19:59] - method_runs
+- CPU validation job `e966ac72-db7` regenerated free-running prediction artifacts for baseline, AR LT, and MaskGIT, then failed inside the evaluator before writing fresh scores.
+- Root cause: evaluator variable shadowing replaced the reference token tensor with the parsed `reference.json` dictionary.
+- Fixed evaluator reference handling and split checking; resubmitting CPU validation before restoring `core_claim`.

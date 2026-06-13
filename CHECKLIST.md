@@ -8,5 +8,6 @@
 - [x] Baseline and local-transformer methods implemented
 - [x] Evaluator implemented
 - [x] Environment and scripts written
-- [x] End-to-end job completed
-- [x] Core claim reproduced and documented
+- [x] End-to-end job completed under the earlier protocol
+- [ ] Corrected free-running protocol validation completed
+- [ ] Core claim restored under corrected protocol

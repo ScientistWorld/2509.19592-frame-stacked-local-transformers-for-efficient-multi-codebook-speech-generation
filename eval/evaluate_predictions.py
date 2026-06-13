@@ -22,7 +22,7 @@ def frechet_distance(x, y):
     return float(((mx - my) ** 2).sum() + (vx + vy - 2 * torch.sqrt(vx * vy)).sum())
 
 
-def score_file(path, ref, speaker):
+def score_file(path, ref, speaker, expected_split):
     item = torch.load(path, map_location="cpu")
     pred = item["pred_tokens"].long()
     cfg = item["config"]
@@ -31,8 +31,8 @@ def score_file(path, ref, speaker):
         raise ValueError(f"{path} predicted shape {tuple(pred.shape)} but expected {tuple(ref.shape)}")
     if int(cfg["num_codebooks"]) != ref.shape[-1]:
         raise ValueError(f"{path} config num_codebooks does not match test split")
-    if item.get("split") not in (None, "test"):
-        raise ValueError(f"{path} was generated for split={item.get('split')!r}, expected 'test'")
+    if item.get("split") not in (None, expected_split):
+        raise ValueError(f"{path} was generated for split={item.get('split')!r}, expected {expected_split!r}")
     acc = float((pred == ref).float().mean())
     validity = dependency_validity(pred, speaker, vocab)
     pred_feat = codec_features(pred, speaker, vocab)
@@ -62,13 +62,13 @@ def main():
     args = p.parse_args()
     pred_dir = Path(args.pred_dir)
     dataset = CodecTokenDataset(args.data, args.split)
-    ref = dataset.tokens
+    ref_tokens = dataset.tokens
     speaker = dataset.speaker
     allowed = None
     reference = Path(args.reference)
     if reference.exists() and not args.include_unreferenced:
-        ref = json.loads(reference.read_text())
-        allowed = set(ref["experiments"]["synthetic_codec_unseen"]["results"])
+        reference_spec = json.loads(reference.read_text())
+        allowed = set(reference_spec["experiments"]["synthetic_codec_unseen"]["results"])
     results = {}
     skipped = []
     for path in sorted(pred_dir.glob("*.pt")):
@@ -76,7 +76,7 @@ def main():
         if allowed is not None and method not in allowed:
             skipped.append(str(path))
             continue
-        results[method] = score_file(path, ref, speaker)
+        results[method] = score_file(path, ref_tokens, speaker, args.split)
     if not results:
         detail = f" skipped unreferenced artifacts: {', '.join(skipped)}" if skipped else ""
         raise SystemExit(f"no scoreable prediction artifacts found in {pred_dir}.{detail}")

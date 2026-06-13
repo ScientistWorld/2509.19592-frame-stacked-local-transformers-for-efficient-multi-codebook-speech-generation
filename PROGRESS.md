@@ -42,6 +42,8 @@ The MaskGIT checkpoint is a documented negative exploratory result at the curren
 
 Current-turn audit found two issues in the previous `core_claim` state: prediction used ground-truth previous frames for the primary decoder context, and the evaluator trusted references/speakers from prediction artifacts. Both have been fixed. `scoring/scores.json` is now intentionally stale until the submitted CPU job regenerates predictions and evaluator outputs under the corrected protocol.
 
+Job `e966ac72-db7` regenerated free-running prediction artifacts for `baseline_parallel_1x`, `ar_lt_2x`, and `maskgit_lt_2x`, but failed during evaluation before fresh scores were written. The failure was not in the models: `eval/evaluate_predictions.py` reused the variable name `ref` for both the test token tensor and parsed `reference.json`, so `score_file` received a dictionary instead of a tensor. The evaluator now keeps `ref_tokens` and `reference_spec` separate and validates artifacts against the requested split.
+
 ## Deviations From Paper
 
 - Original training data: 18k hours from Koel-TTS. Replacement: synthetic codec-token sequences generated locally.
@@ -65,3 +67,4 @@ Current-turn audit found two issues in the previous `core_claim` state: predicti
 - The deterministic codec FD is not the primary success metric for the synthetic task: it compares coarse frame embeddings and does not strongly penalize invalid tuples. Dependency validity is the intended check for the local-transformer claim.
 - The root `README.md` and `manifest.json` paths are currently busy device nodes in this workspace; they were already modified before this turn and could not be replaced from the agent process. Reproduction code, scripts, briefing, and scoring files are unaffected.
 - Previous prediction artifacts were generated with teacher-forced temporal context. They must be regenerated before claiming `core_claim` under the corrected free-running protocol.
+- Job `e966ac72-db7` exposed evaluator reference-variable shadowing after artifacts were generated. Fixed in `eval/evaluate_predictions.py`; the next CPU validation job should regenerate `scoring/scores.json` under the corrected protocol.
