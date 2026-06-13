@@ -1,0 +1,22 @@
+{
+  "experiments": {
+    "synthetic_codec_unseen": {
+      "results": {
+        "ar_lt_2x": {
+          "codec_fd": 0.03906921220655954,
+          "dependency_validity": 1.0,
+          "nll": 0.4351588562130928,
+          "primary_steps_per_24_frames": 12.0,
+          "token_accuracy": 0.0303955078125
+        },
+        "baseline_parallel_1x": {
+          "codec_fd": 0.0354633776049374,
+          "dependency_validity": 0.0380510613322258,
+          "nll": 3.4695059061050415,
+          "primary_steps_per_24_frames": 24.0,
+          "token_accuracy": 0.0313771553337574
+        }
+      }
+    }
+  }
+}
