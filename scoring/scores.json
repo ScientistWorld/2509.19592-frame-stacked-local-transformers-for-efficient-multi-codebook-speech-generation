@@ -3,18 +3,25 @@
     "synthetic_codec_unseen": {
       "results": {
         "ar_lt_2x": {
-          "codec_fd": 0.03906921220655954,
+          "codec_fd": 0.03875586264836099,
           "dependency_validity": 1.0,
-          "nll": 0.4351588562130928,
+          "nll": 0.4351593926548958,
           "primary_steps_per_24_frames": 12.0,
           "token_accuracy": 0.0303955078125
         },
         "baseline_parallel_1x": {
-          "codec_fd": 0.0354633776049374,
+          "codec_fd": 0.03541416648245945,
           "dependency_validity": 0.0380510613322258,
-          "nll": 3.4695059061050415,
+          "nll": 3.4695063829421997,
           "primary_steps_per_24_frames": 24.0,
-          "token_accuracy": 0.0313771553337574
+          "token_accuracy": 0.0313669852912426
+        },
+        "maskgit_lt_2x": {
+          "codec_fd": 1.4238161456500884,
+          "dependency_validity": 0.0296340212225914,
+          "nll": 1.617182195186615,
+          "primary_steps_per_24_frames": 12.0,
+          "token_accuracy": 0.0314280204474926
         }
       }
     }
