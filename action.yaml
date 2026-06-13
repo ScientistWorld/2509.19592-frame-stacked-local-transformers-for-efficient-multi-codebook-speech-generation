@@ -1,4 +1,3 @@
-action: submit
+action: done
 gpus: 0
-test: false
-notes: "Run evaluate_{train,test}.sh against existing checkpoints/predictions and validate split scores."
+notes: "Fixed half/half synthetic codec split; 20 train metrics, 20 test metrics; train/test gaps small and non-identical; caveat: dependency_validity is ceilinged for AR variants but FD/speaker-FD/steps still discriminate."
