@@ -129,4 +129,7 @@ The paper's original audio metrics are WER, speaker similarity, codec-space FD, 
 
 # Reproduction Milestones
 
-**Current: core_claim**
+**Current: method_runs**
+
+## Stop Justification
+- Completed at milestone `method_runs`.
