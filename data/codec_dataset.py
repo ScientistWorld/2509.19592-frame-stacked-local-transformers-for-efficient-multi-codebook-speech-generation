@@ -34,7 +34,7 @@ def dependency_validity(tokens, speaker, vocab_size):
 def codec_features(tokens, speaker, vocab_size, dim=32):
     """Deterministic codec-frame embedding used for FD evaluation."""
     device = tokens.device
-    k = torch.arange(tokens.shape[-1], device=device).float().view(1, 1, -1)
+    k = torch.arange(tokens.shape[-1], device=device).float().view(1, 1, -1, 1)
     d = torch.arange(dim, device=device).float().view(1, 1, 1, -1)
     x = tokens.float().unsqueeze(-1)
     sp = speaker.float().view(-1, 1, 1, 1)

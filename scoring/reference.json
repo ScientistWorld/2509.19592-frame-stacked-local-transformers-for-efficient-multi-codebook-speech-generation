@@ -2,7 +2,7 @@
   "experiments": {
     "libritts_unseen_quality": {
       "description": "Paper-reported LibriTTS unseen-speaker quality metrics from Figure 2(g).",
-      "weight": 0.65,
+      "weight": 0.5,
       "primary_metric": "fd",
       "metrics": {
         "wer_percent": {"higher_is_better": false, "coefficient": -0.2},
@@ -18,7 +18,7 @@
     },
     "libritts_unseen_frame_stacking": {
       "description": "Paper-reported LibriTTS unseen-speaker stack-factor-2 tradeoff from Figure 2(g) and Section 3.3.",
-      "weight": 0.35,
+      "weight": 0.3,
       "primary_metric": "fd",
       "metrics": {
         "ssim": {"higher_is_better": true, "coefficient": 0.4},
@@ -31,6 +31,44 @@
         "parallel_2x": {"type": "baseline", "ssim": 0.695, "fd": 0.144, "utmosv2": 3.46, "relative_throughput": 2.0},
         "maskgit_lt_2x": {"type": "proposed", "ssim": 0.741, "fd": 0.053, "utmosv2": 3.63, "relative_throughput": 3.1},
         "ar_lt_2x": {"type": "proposed", "ssim": 0.757, "fd": 0.056, "utmosv2": 3.7, "relative_throughput": 2.1}
+      }
+    },
+    "synthetic_codec_unseen": {
+      "description": "Reproduction-gym replacement for the unreleased Koel-TTS/NanoCodec setup. Targets reflect the expected behavior on the fixed synthetic multi-codebook codec task: local-transformer methods should produce valid dependent codebook tuples with fewer primary steps under frame stacking.",
+      "weight": 0.2,
+      "primary_metric": "dependency_validity",
+      "metrics": {
+        "token_accuracy": {"higher_is_better": true, "coefficient": 0.3},
+        "dependency_validity": {"higher_is_better": true, "coefficient": 1.0},
+        "codec_fd": {"higher_is_better": false, "coefficient": -0.7},
+        "nll": {"higher_is_better": false, "coefficient": -0.4},
+        "primary_steps_per_24_frames": {"higher_is_better": false, "coefficient": -0.3}
+      },
+      "results": {
+        "baseline_parallel_1x": {
+          "type": "baseline",
+          "token_accuracy": 0.03125,
+          "dependency_validity": 0.03125,
+          "codec_fd": 0.1,
+          "nll": 3.465,
+          "primary_steps_per_24_frames": 24.0
+        },
+        "ar_lt_2x": {
+          "type": "proposed",
+          "token_accuracy": 0.03125,
+          "dependency_validity": 0.95,
+          "codec_fd": 0.05,
+          "nll": 0.6,
+          "primary_steps_per_24_frames": 12.0
+        },
+        "maskgit_lt_2x": {
+          "type": "proposed",
+          "token_accuracy": 0.03125,
+          "dependency_validity": 0.75,
+          "codec_fd": 0.07,
+          "nll": 1.2,
+          "primary_steps_per_24_frames": 12.0
+        }
       }
     }
   }

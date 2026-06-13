@@ -3,14 +3,14 @@
 ## What Works
 
 - Official arXiv paper files are saved under `paper/`.
-- `scoring/reference.json` records paper-reported LibriTTS unseen-speaker metrics for the no-LT baseline and LT variants.
+- `scoring/reference.json` records paper-reported LibriTTS unseen-speaker metrics for the no-LT baseline and LT variants, plus a clearly labeled synthetic replacement target group used by this gym's evaluator.
 - `data/generate_synthetic.py` creates a reproducible multi-codebook token dataset with intra-frame residual-style dependencies.
 - `method/models.py` implements the paper's core algorithmic variants at reduced scale: parallel no-LT prediction, AR local transformer, MaskGIT local transformer, and frame stacking.
 - `eval/evaluate_predictions.py` scores saved prediction artifacts without importing method code.
 
 ## Results Achieved
 
-No compute job has completed yet. Current milestone remains `none`.
+Job `e194b6d3-0a8` generated the synthetic dataset, trained `baseline_parallel_1x` for 500 CPU test steps, and wrote `checkpoints/predictions/baseline_parallel_1x.pt`. It failed in evaluation before any LT model ran because `codec_features` had a feature/codebook broadcast bug. Current milestone remains `none`.
 
 ## Deviations From Paper
 
@@ -29,3 +29,4 @@ No compute job has completed yet. Current milestone remains `none`.
 
 - `/home/user/paper/2509.19592.md` and `.pdf` were not present initially; the official arXiv files were fetched instead.
 - No paper-specific code release was found.
+- Job `e194b6d3-0a8` exposed a tensor broadcasting bug in `data/codec_dataset.py`; fixed by giving the codebook index tensor an explicit feature singleton dimension.
