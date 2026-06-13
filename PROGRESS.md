@@ -4,6 +4,7 @@
 
 - Official arXiv paper files are saved under `paper/`.
 - `scoring/reference.json` records paper-reported LibriTTS unseen-speaker metrics for the no-LT baseline and LT variants, plus a clearly labeled synthetic replacement target group used by this gym's evaluator.
+- `scoring/EXPERIMENTS.md` documents which experiments are runnable in this gym and which are paper-reference-only.
 - `data/generate_synthetic.py` creates a reproducible multi-codebook token dataset with intra-frame residual-style dependencies.
 - `method/models.py` implements the paper's core algorithmic variants at reduced scale: parallel no-LT prediction, AR local transformer, MaskGIT local transformer, and frame stacking.
 - `eval/evaluate_predictions.py` scores saved prediction artifacts without importing method code.
@@ -35,7 +36,8 @@ The token accuracy remains near random by construction because the first two cod
 
 ## What Remains
 
-- Higher milestones would require expanding beyond the minimum core claim, for example training MaskGIT longer, testing additional stack factors, or adding a public real-codec speech-token dataset.
+- A continuing-agent CPU validation job is submitted to score the existing `maskgit_lt_2x` checkpoint and determine whether the current workspace supports `core_claim_plus`.
+- Higher milestones beyond that would require training MaskGIT longer, testing additional stack factors, or adding a public real-codec speech-token dataset.
 - Exact LibriTTS/WER/UTMOS reproduction remains blocked by the paper's unreleased training data, codec/tokenizer pipeline, and model checkpoints.
 
 ## Issues Encountered
