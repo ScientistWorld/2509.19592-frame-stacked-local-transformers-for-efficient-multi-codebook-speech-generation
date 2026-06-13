@@ -12,7 +12,7 @@ Speech generation systems that operate on neural audio codec tokens must predict
 
 The gym version of the problem uses a reproducible synthetic codec-token dataset because the paper's 18k-hour Koel-TTS training mixture, NanoCodec tokenizer, and trained models are not released. Each sequence contains a speaker id and 24 frames with 8 codebooks per frame. Later codebooks are deterministic residual-style functions of earlier codebooks, the speaker, and frame position. This creates the same evaluation pressure as multi-codebook audio generation: independent per-codebook sampling can match marginals while producing invalid joint codebook tuples.
 
-The task is to learn a conditional autoregressive codec-token generator that maps previous frames and speaker identity to future multi-codebook frames. A future method may change the model internals, but it must use the same train/validation/test splits and produce `checkpoints/predictions/*.pt` files containing generated tokens, references, speakers, and model metadata.
+The task is to learn a conditional codec-token generator that maps the available sequence context and speaker identity to future multi-codebook frames. A future method may change the model internals, but it must use the same train/validation/test splits and produce `checkpoints/predictions/*.pt` files containing generated tokens plus enough metadata for the evaluator to verify the data split, codebook count, vocabulary size, and number of generation steps.
 
 ---
 
@@ -40,6 +40,14 @@ Deviations from the paper:
 
 The evaluator reads prediction artifacts from `checkpoints/predictions/*.pt` and writes `scoring/scores.json`. It does not import or execute method code.
 
+Each prediction artifact is a PyTorch file with:
+
+- `pred_tokens`: integer tensor of shape `(num_examples, 24, 8)`.
+- `config`: dictionary containing at least `vocab_size`, `num_codebooks`, and `stack_factor`.
+- `split`: the evaluated split name, normally `test`.
+
+References and speaker ids are loaded by the evaluator from the fixed dataset, not trusted from method outputs.
+
 Primary metric:
 
 - `dependency_validity`: fraction of non-first codebook tokens that satisfy the held-out codec dependency rule. Higher is better.
@@ -48,6 +56,7 @@ Additional metrics:
 
 - `token_accuracy`: exact token accuracy against the test split. Higher is better.
 - `codec_fd`: diagonal Fréchet distance between deterministic 32-dimensional codec-frame embeddings of generated and reference frames. Lower is better.
+- `speaker_conditioned_codec_fd`: average per-speaker version of `codec_fd`, included to catch methods that match global token statistics while collapsing speaker-conditioned structure. Lower is better.
 - `primary_steps_per_24_frames`: number of primary decoder steps needed to produce 24 frames. Lower is better and replaces wall-clock speed as a hardware-independent efficiency metric.
 
 The paper's original audio metrics are WER, speaker similarity, codec-space FD, UTMOSv2, and relative throughput on LibriTTS. Those paper-reported numbers are preserved in `scoring/reference.json` under the `libritts_*` experiments. The reproduced synthetic experiment has its own `synthetic_codec_unseen` reference group for validator compatibility and is not numerically comparable to LibriTTS audio quality.
@@ -305,6 +314,48 @@ The paper's original audio metrics are WER, speaker similarity, codec-space FD, 
 - CPU validation job `c18a070a-58c` trained `ar_lt_4x` for 5000 steps and passed `python validate.py --compare`.
 - `ar_lt_4x` reached dependency validity 1.000 with 6 primary decoder steps per 24-frame sequence, extending the validated effect beyond the minimum 2x stack setting.
 - Updated `scripts/reproduce.sh` so the end-to-end reproduction includes the validated 4x expansion.
+
+</details>
+
+### Iteration 8: gpt-5.5 (verifier)
+- **Milestone**: `core_claim_plus` | **Status**: done
+- **Working time**: 6m | **GPU**: 0.0h
+- **Jobs**: 10 total (8 completed, 2 failed)
+
+<details>
+<summary>Progress Log</summary>
+
+### [2026-06-13 19:48] - core_claim
+- Verified the paper method/evaluation against the arXiv HTML/source files and confirmed no official code release is available.
+- Audited the existing gym implementation: the evaluator scores saved prediction artifacts and does not import or rerun `method/`.
+- Existing reproduced scores support the central claim on the fixed synthetic codec task: `ar_lt_2x` reaches dependency validity 1.000 versus 0.038 for `baseline_parallel_1x`, while using 12 rather than 24 primary decoder steps per 24 frames.
+- Patched script portability and evaluator failure behavior before submitting a CPU container validation job.
+
+### [2026-06-13 19:48] - method_runs
+- Continuing audit found that prediction used ground-truth previous frames for temporal context and that evaluation trusted reference/speaker tensors from prediction artifacts.
+- Fixed generation to roll out primary steps from model-generated previous frames.
+- Fixed evaluation to load the fixed test split from `data/downloads/synthetic_codec` and ignore artifact-provided references/speakers; removed artifact-reported NLL from official scoring.
+- Submitting a CPU validation job to regenerate prediction artifacts and scores before restoring `core_claim`.
+
+### [2026-06-13 19:59] - method_runs
+- CPU validation job `e966ac72-db7` regenerated free-running prediction artifacts for baseline, AR LT, and MaskGIT, then failed inside the evaluator before writing fresh scores.
+- Root cause: evaluator variable shadowing replaced the reference token tensor with the parsed `reference.json` dictionary.
+- Fixed evaluator reference handling and split checking; resubmitting CPU validation before restoring `core_claim`.
+
+### [2026-06-13 20:03] - core_claim
+- CPU validation job `b04cfee6-16a` passed under the corrected free-running protocol and `python validate.py --compare`.
+- Reproduced core synthetic claim: `ar_lt_2x` reached dependency validity 1.000 versus 0.045 for `baseline_parallel_1x`, while reducing primary decoder steps from 24 to 12 per 24-frame sequence.
+- Added `ar_lt_4x` as a runnable synthetic stretch target and prepared a follow-up job to test whether the same local-transformer mechanism holds at 4x frame stacking.
+
+### [2026-06-13 20:57] - core_claim_plus
+- CPU validation job `c18a070a-58c` trained `ar_lt_4x` for 5000 steps and passed `python validate.py --compare`.
+- `ar_lt_4x` reached dependency validity 1.000 with 6 primary decoder steps per 24-frame sequence, extending the validated effect beyond the minimum 2x stack setting.
+- Updated `scripts/reproduce.sh` so the end-to-end reproduction includes the validated 4x expansion.
+
+### [2026-06-13 21:24] - core_claim_plus
+- Final verification job `856c925d-a5f` passed in the packaged CPU environment.
+- Regenerated `scores.json`, `scores_train.json`, and `scores_test.json`; validation confirmed import separation, artifact-based evaluation, shared-path portability, and train/test evaluator independence.
+- Cleaned method-agnostic guidance and moved the small synthetic dataset to tracked `data/synthetic_codec`.
 
 </details>
 
