@@ -2,6 +2,7 @@
 set -euo pipefail
 
 cd "$(dirname "$0")/.."
+scripts/download.sh
 
 MODEL_NAME="${MODEL_NAME:-ar_lt_2x}"
 VARIANT="${VARIANT:-ar}"

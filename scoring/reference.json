@@ -17,7 +17,7 @@
       }
     },
     "libritts_unseen_frame_stacking": {
-      "description": "Paper-reported LibriTTS unseen-speaker stack-factor-2 tradeoff from Figure 2(g) and Section 3.3.",
+      "description": "Paper-reported LibriTTS unseen-speaker stack-factor-2 tradeoff from Figure 2(g) and Section 3.3. The parallel_2x throughput proxy is inferred from stack factor because the paper reports relative throughput for LT variants but not for the degraded parallel-stacked diagnostic.",
       "weight": 0.3,
       "primary_metric": "fd",
       "metrics": {

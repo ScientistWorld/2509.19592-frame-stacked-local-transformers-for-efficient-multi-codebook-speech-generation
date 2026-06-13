@@ -62,12 +62,18 @@ def main():
         ref = json.loads(reference.read_text())
         allowed = set(ref["experiments"]["synthetic_codec_unseen"]["results"])
     results = {}
+    skipped = []
     for path in sorted(pred_dir.glob("*.pt")):
         method = path.stem
         if allowed is not None and method not in allowed:
-            print(f"skipping unreferenced prediction artifact: {path}")
+            skipped.append(str(path))
             continue
         results[method] = score_file(path)
+    if not results:
+        detail = f" skipped unreferenced artifacts: {', '.join(skipped)}" if skipped else ""
+        raise SystemExit(f"no scoreable prediction artifacts found in {pred_dir}.{detail}")
+    for path in skipped:
+        print(f"skipping unreferenced prediction artifact: {path}")
     output = {
         "experiments": {
             "synthetic_codec_unseen": {

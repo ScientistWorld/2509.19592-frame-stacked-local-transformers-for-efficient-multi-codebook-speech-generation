@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-cd /home/user
+cd "$(dirname "$0")/.."
 scripts/download.sh
 
 mkdir -p checkpoints/predictions

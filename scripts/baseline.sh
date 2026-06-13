@@ -2,6 +2,7 @@
 set -euo pipefail
 
 cd "$(dirname "$0")/.."
+scripts/download.sh
 
 MODEL_NAME="${MODEL_NAME:-baseline_parallel_1x}"
 STACK_FACTOR="${STACK_FACTOR:-1}"
