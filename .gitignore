@@ -1,0 +1,11 @@
+data/downloads/
+checkpoints/
+logs/
+tmp/
+scoring/scores.json
+.codex/
+.git-shims/
+shared/
+*.pyc
+__pycache__/
+.pytest_cache/

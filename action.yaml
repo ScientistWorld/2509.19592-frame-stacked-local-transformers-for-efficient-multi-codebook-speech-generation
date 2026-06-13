@@ -1,0 +1,5 @@
+action: submit
+gpus: 0
+test: true
+milestone: none
+notes: "CPU test job to install dependencies and run the end-to-end synthetic multi-codebook reproduction."

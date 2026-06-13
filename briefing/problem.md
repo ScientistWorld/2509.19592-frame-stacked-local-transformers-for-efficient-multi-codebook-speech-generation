@@ -1,0 +1,7 @@
+# Problem Definition
+
+Speech generation systems that operate on neural audio codec tokens must predict a matrix of discrete tokens with shape `(time, codebook)`. At each acoustic frame, multiple codebooks jointly describe the same audio frame. A successful generator should produce codebook combinations that are accurate and internally consistent, not just plausible marginal tokens.
+
+The gym version of the problem uses a reproducible synthetic codec-token dataset because the paper's 18k-hour Koel-TTS training mixture, NanoCodec tokenizer, and trained models are not released. Each sequence contains a speaker id and 24 frames with 8 codebooks per frame. Later codebooks are deterministic residual-style functions of earlier codebooks, the speaker, and frame position. This creates the same evaluation pressure as multi-codebook audio generation: independent per-codebook sampling can match marginals while producing invalid joint codebook tuples.
+
+The task is to learn a conditional autoregressive codec-token generator that maps previous frames and speaker identity to future multi-codebook frames. A future method may change the model internals, but it must use the same train/validation/test splits and produce `checkpoints/predictions/*.pt` files containing generated tokens, references, speakers, and model metadata.
