@@ -58,4 +58,5 @@ python3() {
   fi
 }
 export -f python3
-source /scratch/projects/researchgym/workspaces/workspaces/2509.19592/environment/setup.sh
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/setup.sh"

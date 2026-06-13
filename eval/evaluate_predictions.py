@@ -5,7 +5,7 @@ from pathlib import Path
 
 import torch
 
-from data.codec_dataset import codec_features, dependency_validity
+from data.codec_dataset import CodecTokenDataset, codec_features, dependency_validity
 
 
 def frechet_distance(x, y):
@@ -22,13 +22,17 @@ def frechet_distance(x, y):
     return float(((mx - my) ** 2).sum() + (vx + vy - 2 * torch.sqrt(vx * vy)).sum())
 
 
-def score_file(path):
+def score_file(path, ref, speaker):
     item = torch.load(path, map_location="cpu")
     pred = item["pred_tokens"].long()
-    ref = item["ref_tokens"].long()
-    speaker = item["speaker"].long()
     cfg = item["config"]
     vocab = int(cfg["vocab_size"])
+    if pred.shape != ref.shape:
+        raise ValueError(f"{path} predicted shape {tuple(pred.shape)} but expected {tuple(ref.shape)}")
+    if int(cfg["num_codebooks"]) != ref.shape[-1]:
+        raise ValueError(f"{path} config num_codebooks does not match test split")
+    if item.get("split") not in (None, "test"):
+        raise ValueError(f"{path} was generated for split={item.get('split')!r}, expected 'test'")
     acc = float((pred == ref).float().mean())
     validity = dependency_validity(pred, speaker, vocab)
     pred_feat = codec_features(pred, speaker, vocab)
@@ -39,7 +43,6 @@ def score_file(path):
         "token_accuracy": acc,
         "dependency_validity": validity,
         "codec_fd": fd,
-        "nll": float(item["nll"]),
         "primary_steps_per_24_frames": steps_per_24_frames,
     }
 
@@ -47,6 +50,8 @@ def score_file(path):
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("--pred-dir", default="checkpoints/predictions")
+    p.add_argument("--data", default="data/downloads/synthetic_codec")
+    p.add_argument("--split", default="test")
     p.add_argument("--out", default="scoring/scores.json")
     p.add_argument("--reference", default="scoring/reference.json")
     p.add_argument(
@@ -56,6 +61,9 @@ def main():
     )
     args = p.parse_args()
     pred_dir = Path(args.pred_dir)
+    dataset = CodecTokenDataset(args.data, args.split)
+    ref = dataset.tokens
+    speaker = dataset.speaker
     allowed = None
     reference = Path(args.reference)
     if reference.exists() and not args.include_unreferenced:
@@ -68,7 +76,7 @@ def main():
         if allowed is not None and method not in allowed:
             skipped.append(str(path))
             continue
-        results[method] = score_file(path)
+        results[method] = score_file(path, ref, speaker)
     if not results:
         detail = f" skipped unreferenced artifacts: {', '.join(skipped)}" if skipped else ""
         raise SystemExit(f"no scoreable prediction artifacts found in {pred_dir}.{detail}")

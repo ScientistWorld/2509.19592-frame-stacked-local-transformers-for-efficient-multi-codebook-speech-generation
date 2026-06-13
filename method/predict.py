@@ -53,10 +53,9 @@ def main():
     torch.save(
         {
             "pred_tokens": torch.cat(preds),
-            "ref_tokens": torch.cat(refs),
-            "speaker": torch.cat(speakers),
             "nll": total_loss / total_items,
             "config": cfg,
+            "split": args.split,
         },
         out,
     )

@@ -9,8 +9,9 @@
 - `data/generate_synthetic.py` creates a reproducible multi-codebook token dataset with intra-frame residual-style dependencies.
 - `method/models.py` implements the paper's core algorithmic variants at reduced scale: parallel no-LT prediction, AR local transformer, MaskGIT local transformer, and frame stacking.
 - `eval/evaluate_predictions.py` scores saved prediction artifacts without importing method code.
-- The core AR LT experiment reproduces the claimed effect on the fixed synthetic replacement task.
+- The core AR LT experiment previously reproduced the claimed effect on the fixed synthetic replacement task; it is being revalidated after switching prediction to free-running temporal generation.
 - `scripts/run.sh`, `scripts/method.sh`, and `scripts/baseline.sh` now resolve paths from the script location; method/baseline scripts also prepare the synthetic dataset before training.
+- `environment/.setup_wrapper.sh` now sources `setup.sh` relative to its own path instead of a machine-specific `/scratch/...` path.
 
 ## Results Achieved
 
@@ -39,7 +40,7 @@ Continuing-agent job `b1c16b09-c5c` regenerated baseline, AR LT, and MaskGIT pre
 
 The MaskGIT checkpoint is a documented negative exploratory result at the current training scale. It does not support a higher milestone, but it verifies that the evaluator can score the second local-transformer variant independently. Because this synthetic MaskGIT target was not a paper-reported number and the available checkpoint did not reproduce the expected effect, `scoring/reference.json` only treats the validated baseline and AR LT as synthetic reference targets.
 
-Current-turn audit rechecked `scoring/scores.json` and `python validate.py --compare`; validation passed from the saved score artifacts. A direct host-side rerun of `scripts/evaluate.sh` failed because the login Python lacks `torch`, so a CPU container validation job is being submitted to rerun artifact scoring in the packaged environment.
+Current-turn audit found two issues in the previous `core_claim` state: prediction used ground-truth previous frames for the primary decoder context, and the evaluator trusted references/speakers from prediction artifacts. Both have been fixed. `scoring/scores.json` is now intentionally stale until the submitted CPU job regenerates predictions and evaluator outputs under the corrected protocol.
 
 ## Deviations From Paper
 
@@ -52,7 +53,7 @@ Current-turn audit rechecked `scoring/scores.json` and `python validate.py --com
 
 - Higher milestones would require training MaskGIT longer, testing additional stack factors, or adding a public real-codec speech-token dataset.
 - Exact LibriTTS/WER/UTMOS reproduction remains blocked by the paper's unreleased training data, codec/tokenizer pipeline, and model checkpoints.
-- Higher confidence packaging validation: rerun `scripts/evaluate.sh && python validate.py --compare` inside the container after the latest script portability patches.
+- Restore `core_claim` after the CPU validation job regenerates corrected free-running prediction artifacts and `python validate.py --compare` passes.
 
 ## Issues Encountered
 
@@ -61,5 +62,6 @@ Current-turn audit rechecked `scoring/scores.json` and `python validate.py --com
 - Job `e194b6d3-0a8` exposed a tensor broadcasting bug in `data/codec_dataset.py`; fixed by giving the codebook index tensor an explicit feature singleton dimension.
 - Job `27ab7f98-e2c` exposed an AR local-transformer sampling bug: generated previous slots were not shifted into the same positions used during teacher-forced training.
 - Job `30c8fb22-0d5` showed the fixed 500-step AR checkpoint was undertrained; next job retrains only AR LT for more steps while reusing the baseline.
-- The deterministic codec FD is not the primary success metric for the synthetic task: it compares coarse frame embeddings and does not strongly penalize invalid tuples. Dependency validity and NLL are the intended checks for the local-transformer claim.
+- The deterministic codec FD is not the primary success metric for the synthetic task: it compares coarse frame embeddings and does not strongly penalize invalid tuples. Dependency validity is the intended check for the local-transformer claim.
 - The root `README.md` and `manifest.json` paths are currently busy device nodes in this workspace; they were already modified before this turn and could not be replaced from the agent process. Reproduction code, scripts, briefing, and scoring files are unaffected.
+- Previous prediction artifacts were generated with teacher-forced temporal context. They must be regenerated before claiming `core_claim` under the corrected free-running protocol.

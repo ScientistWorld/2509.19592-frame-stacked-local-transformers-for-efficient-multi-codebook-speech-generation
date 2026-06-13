@@ -41,7 +41,6 @@
         "token_accuracy": {"higher_is_better": true, "coefficient": 0.3},
         "dependency_validity": {"higher_is_better": true, "coefficient": 1.0},
         "codec_fd": {"higher_is_better": false, "coefficient": -0.7},
-        "nll": {"higher_is_better": false, "coefficient": -0.4},
         "primary_steps_per_24_frames": {"higher_is_better": false, "coefficient": -0.3}
       },
       "results": {
@@ -50,7 +49,6 @@
           "token_accuracy": 0.03125,
           "dependency_validity": 0.03125,
           "codec_fd": 0.1,
-          "nll": 3.465,
           "primary_steps_per_24_frames": 24.0
         },
         "ar_lt_2x": {
@@ -58,7 +56,6 @@
           "token_accuracy": 0.03125,
           "dependency_validity": 0.95,
           "codec_fd": 0.05,
-          "nll": 0.6,
           "primary_steps_per_24_frames": 12.0
         }
       }

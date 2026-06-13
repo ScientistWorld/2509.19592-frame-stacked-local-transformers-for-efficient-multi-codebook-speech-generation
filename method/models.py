@@ -118,34 +118,55 @@ class FrameStackedModel(nn.Module):
 
     @torch.no_grad()
     def generate(self, prompt_tokens, speaker):
+        """Generate tokens with autoregressive temporal context.
+
+        `prompt_tokens` is used only for batch/sequence shape. At generation
+        time, each primary step conditions on the model's own previously
+        generated stacked frames, matching the paper's autoregressive decoder
+        structure at reduced scale.
+        """
         self.eval()
-        packed_prompt = self._pack(prompt_tokens)
-        h = self._main_hidden(packed_prompt, speaker)
-        b, steps, slots = packed_prompt.shape
+        template = self._pack(prompt_tokens)
+        b, steps, slots = template.shape
+        out = torch.full((b, steps, slots), self.vocab_size, device=prompt_tokens.device, dtype=torch.long)
+        for step_idx in range(steps):
+            context = out.clone()
+            if step_idx + 1 < steps:
+                context[:, step_idx + 1 :] = self.vocab_size
+            h_step = self._main_hidden(context, speaker)[:, step_idx]
+            out[:, step_idx] = self._generate_slots(h_step)
+        return out.reshape(prompt_tokens.shape[0], prompt_tokens.shape[1], self.num_codebooks)
+
+    def _generate_slots(self, h_step):
+        b = h_step.shape[0]
+        slots = self.tokens_per_step
         if self.variant == "none":
-            preds = [head(h).argmax(dim=-1) for head in self.parallel_heads]
-            out = torch.stack(preds, dim=-1)
+            preds = [head(h_step).argmax(dim=-1) for head in self.parallel_heads]
+            return torch.stack(preds, dim=-1)
         elif self.variant == "ar":
-            out = torch.full((b, steps, slots), self.vocab_size, device=prompt_tokens.device, dtype=torch.long)
+            out = torch.full((b, slots), self.vocab_size, device=h_step.device, dtype=torch.long)
+            slot_ids = torch.arange(slots, device=h_step.device)
             for i in range(slots):
-                prev = torch.full((b, steps, slots), self.vocab_size, device=prompt_tokens.device, dtype=torch.long)
+                prev = torch.full((b, slots), self.vocab_size, device=h_step.device, dtype=torch.long)
                 if i > 0:
                     # Training predicts slot i from a shifted sequence:
                     # [BOS, token_0, ..., token_{i-1}]. Keep the same
                     # alignment at sampling time.
-                    prev[..., 1 : i + 1] = out[..., :i]
-                x = self.token_embed(prev) + self.slot_embed(torch.arange(slots, device=prompt_tokens.device)).view(1, 1, slots, -1)
-                x = torch.cat([h.unsqueeze(2) + self.slot_embed.weight[slots].view(1, 1, 1, -1), x], dim=2)
-                y = self.lt(x.reshape(b * steps, slots + 1, self.dim))[:, 1 + i]
-                out[..., i] = self.lt_head(y).reshape(b, steps, self.vocab_size).argmax(dim=-1)
+                    prev[:, 1 : i + 1] = out[:, :i]
+                x = self.token_embed(prev) + self.slot_embed(slot_ids).view(1, slots, -1)
+                x = torch.cat([h_step.unsqueeze(1) + self.slot_embed.weight[slots].view(1, 1, -1), x], dim=1)
+                y = self.lt(x)[:, 1 + i]
+                out[:, i] = self.lt_head(y).argmax(dim=-1)
+            return out
         elif self.variant == "maskgit":
-            out = torch.full((b, steps, slots), self.vocab_size, device=prompt_tokens.device, dtype=torch.long)
+            out = torch.full((b, slots), self.vocab_size, device=h_step.device, dtype=torch.long)
             remaining = torch.ones_like(out, dtype=torch.bool)
+            slot_ids = torch.arange(slots, device=h_step.device)
             for step in range(self.maskgit_steps):
-                x = self.token_embed(out) + self.slot_embed(torch.arange(slots, device=prompt_tokens.device)).view(1, 1, slots, -1)
-                x = torch.cat([h.unsqueeze(2) + self.slot_embed.weight[slots].view(1, 1, 1, -1), x], dim=2)
-                y = self.lt(x.reshape(b * steps, slots + 1, self.dim))[:, 1:]
-                logits = self.lt_head(y).reshape(b, steps, slots, self.vocab_size)
+                x = self.token_embed(out) + self.slot_embed(slot_ids).view(1, slots, -1)
+                x = torch.cat([h_step.unsqueeze(1) + self.slot_embed.weight[slots].view(1, 1, -1), x], dim=1)
+                y = self.lt(x)[:, 1:]
+                logits = self.lt_head(y)
                 probs = logits.softmax(dim=-1)
                 conf, pred = probs.max(dim=-1)
                 quota = math.ceil(slots * (step + 1) / self.maskgit_steps)
@@ -156,6 +177,6 @@ class FrameStackedModel(nn.Module):
                 out[fill] = pred[fill]
                 remaining = out.eq(self.mask_id)
             out[out.eq(self.mask_id)] = pred[out.eq(self.mask_id)]
+            return out
         else:
             raise ValueError(self.variant)
-        return out.reshape(prompt_tokens.shape[0], prompt_tokens.shape[1], self.num_codebooks)

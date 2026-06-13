@@ -1,6 +1,6 @@
 # Reproduction Milestones
 
-**Current: core_claim**
+**Current: method_runs**
 
 ## Progress Log
 
@@ -9,3 +9,9 @@
 - Audited the existing gym implementation: the evaluator scores saved prediction artifacts and does not import or rerun `method/`.
 - Existing reproduced scores support the central claim on the fixed synthetic codec task: `ar_lt_2x` reaches dependency validity 1.000 versus 0.038 for `baseline_parallel_1x`, while using 12 rather than 24 primary decoder steps per 24 frames.
 - Patched script portability and evaluator failure behavior before submitting a CPU container validation job.
+
+### [2026-06-13 19:48] - method_runs
+- Continuing audit found that prediction used ground-truth previous frames for temporal context and that evaluation trusted reference/speaker tensors from prediction artifacts.
+- Fixed generation to roll out primary steps from model-generated previous frames.
+- Fixed evaluation to load the fixed test split from `data/downloads/synthetic_codec` and ignore artifact-provided references/speakers; removed artifact-reported NLL from official scoring.
+- Submitting a CPU validation job to regenerate prediction artifacts and scores before restoring `core_claim`.

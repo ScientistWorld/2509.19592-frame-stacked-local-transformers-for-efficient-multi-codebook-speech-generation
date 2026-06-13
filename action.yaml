@@ -4,5 +4,5 @@
 action: submit
 gpus: 0
 test: true
-milestone: core_claim
-notes: "CPU container validation: regenerate prediction artifacts from existing checkpoints, run scripts/evaluate.sh, and validate scores after script hardening."
+milestone: method_runs
+notes: "CPU validation after audit fixes: regenerate free-running prediction artifacts from existing checkpoints, run the independent evaluator, and validate updated scores."
