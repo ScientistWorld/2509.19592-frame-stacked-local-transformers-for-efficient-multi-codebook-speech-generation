@@ -129,7 +129,11 @@ class FrameStackedModel(nn.Module):
             out = torch.full((b, steps, slots), self.vocab_size, device=prompt_tokens.device, dtype=torch.long)
             for i in range(slots):
                 prev = torch.full((b, steps, slots), self.vocab_size, device=prompt_tokens.device, dtype=torch.long)
-                prev[..., :i] = out[..., :i]
+                if i > 0:
+                    # Training predicts slot i from a shifted sequence:
+                    # [BOS, token_0, ..., token_{i-1}]. Keep the same
+                    # alignment at sampling time.
+                    prev[..., 1 : i + 1] = out[..., :i]
                 x = self.token_embed(prev) + self.slot_embed(torch.arange(slots, device=prompt_tokens.device)).view(1, 1, slots, -1)
                 x = torch.cat([h.unsqueeze(2) + self.slot_embed.weight[slots].view(1, 1, 1, -1), x], dim=2)
                 y = self.lt(x.reshape(b * steps, slots + 1, self.dim))[:, 1 + i]

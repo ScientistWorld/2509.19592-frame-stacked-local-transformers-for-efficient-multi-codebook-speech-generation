@@ -8,5 +8,5 @@
 - [x] Baseline and local-transformer methods implemented
 - [x] Evaluator implemented
 - [x] Environment and scripts written
-- [ ] End-to-end job completed
+- [x] End-to-end job completed
 - [ ] Core claim reproduced and documented

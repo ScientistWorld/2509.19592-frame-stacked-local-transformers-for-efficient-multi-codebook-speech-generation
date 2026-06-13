@@ -1,5 +1,5 @@
 action: submit
 gpus: 0
 test: true
-milestone: none
-notes: "Retry CPU smoke reproduction after fixing codec feature broadcasting and aligning scores.json with reference.json."
+milestone: method_runs
+notes: "Re-evaluate existing checkpoints after fixing AR local-transformer sampling alignment."

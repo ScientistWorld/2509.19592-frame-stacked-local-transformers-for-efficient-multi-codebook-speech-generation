@@ -10,7 +10,9 @@
 
 ## Results Achieved
 
-Job `e194b6d3-0a8` generated the synthetic dataset, trained `baseline_parallel_1x` for 500 CPU test steps, and wrote `checkpoints/predictions/baseline_parallel_1x.pt`. It failed in evaluation before any LT model ran because `codec_features` had a feature/codebook broadcast bug. Current milestone remains `none`.
+Job `e194b6d3-0a8` generated the synthetic dataset, trained `baseline_parallel_1x` for 500 CPU test steps, and wrote `checkpoints/predictions/baseline_parallel_1x.pt`. It failed in evaluation before any LT model ran because `codec_features` had a feature/codebook broadcast bug.
+
+Job `27ab7f98-e2c` completed the full CPU smoke run. It trained and evaluated `baseline_parallel_1x`, `ar_lt_2x`, and `maskgit_lt_2x`. This reaches `method_runs`, but not `core_claim`: AR LT dependency validity was 0.032 versus baseline 0.038, indicating broken sampling. The AR sampling alignment is now fixed and will be re-evaluated from the existing checkpoints.
 
 ## Deviations From Paper
 
@@ -30,3 +32,4 @@ Job `e194b6d3-0a8` generated the synthetic dataset, trained `baseline_parallel_1
 - `/home/user/paper/2509.19592.md` and `.pdf` were not present initially; the official arXiv files were fetched instead.
 - No paper-specific code release was found.
 - Job `e194b6d3-0a8` exposed a tensor broadcasting bug in `data/codec_dataset.py`; fixed by giving the codebook index tensor an explicit feature singleton dimension.
+- Job `27ab7f98-e2c` exposed an AR local-transformer sampling bug: generated previous slots were not shifted into the same positions used during teacher-forced training.
