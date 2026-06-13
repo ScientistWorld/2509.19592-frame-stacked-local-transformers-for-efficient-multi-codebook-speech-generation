@@ -1,7 +1,4 @@
-# This iteration writes files only — do NOT submit compute jobs.
-# Once you set action to 'done', STOP immediately.
-# Do NOT sleep, poll, or wait. The system reads this file
-# only after your turn ends.
-action: done
-milestone: none
-notes: "Evaluation design improved and validation passed: added speaker-conditioned codec FD, aligned active scoring to computed synthetic split, removed stale train-score dependency from held-out test, fixed reference weights, and wrote DESIGN_NOTES.md."
+action: submit
+gpus: 0
+test: false
+notes: "Run evaluate_{train,test}.sh against existing checkpoints/predictions and validate split scores."

@@ -68,6 +68,10 @@
           "codec_fd": 0.06,
           "speaker_conditioned_codec_fd": 0.06,
           "primary_steps_per_24_frames": 6.0
+        },
+        "maskgit_lt_2x": {
+          "type": "proposed",
+          "dependency_validity": 0.03
         }
       }
     }
