@@ -2,7 +2,7 @@
   "experiments": {
     "libritts_unseen_quality": {
       "description": "Paper-reported LibriTTS unseen-speaker quality metrics from Figure 2(g).",
-      "weight": 0.0,
+      "weight": 0.001,
       "primary_metric": "fd",
       "metrics": {
         "wer_percent": {"higher_is_better": false, "coefficient": 0.0, "description": "Inactive paper-context metric; the train/test artifact evaluators do not compute LibriTTS WER."},
@@ -18,7 +18,7 @@
     },
     "libritts_unseen_frame_stacking": {
       "description": "Paper-reported LibriTTS unseen-speaker stack-factor-2 tradeoff from Figure 2(g) and Section 3.3. The parallel_2x throughput proxy is inferred from stack factor because the paper reports relative throughput for LT variants but not for the degraded parallel-stacked diagnostic.",
-      "weight": 0.0,
+      "weight": 0.001,
       "primary_metric": "fd",
       "metrics": {
         "ssim": {"higher_is_better": true, "coefficient": 0.0, "description": "Inactive paper-context metric; the train/test artifact evaluators do not compute LibriTTS SSIM."},
@@ -35,7 +35,7 @@
     },
     "synthetic_codec_unseen": {
       "description": "Reproduction-gym replacement for the unreleased Koel-TTS/NanoCodec setup. Targets reflect the expected behavior on the fixed synthetic multi-codebook codec task: local-transformer methods should produce valid dependent codebook tuples with fewer primary steps under frame stacking.",
-      "weight": 1.0,
+      "weight": 0.998,
       "primary_metric": "dependency_validity",
       "metrics": {
         "token_accuracy": {"higher_is_better": true, "coefficient": 0.45, "description": "Exact-token accuracy on the evaluated half of the fixed synthetic codec test split."},

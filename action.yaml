@@ -2,8 +2,6 @@
 # Once you set action to 'done', STOP immediately.
 # Do NOT sleep, poll, or wait. The system reads this file
 # only after your turn ends.
-action: pending
-gpus: 0
-test: false
-milestone: core_claim_plus
-notes: ""
+action: done
+milestone: none
+notes: "Evaluation design improved and validation passed: added speaker-conditioned codec FD, aligned active scoring to computed synthetic split, removed stale train-score dependency from held-out test, fixed reference weights, and wrote DESIGN_NOTES.md."

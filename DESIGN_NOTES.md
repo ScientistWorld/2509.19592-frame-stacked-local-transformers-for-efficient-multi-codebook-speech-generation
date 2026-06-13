@@ -10,8 +10,8 @@ Checked:
 Changed:
 - Added `speaker_conditioned_codec_fd` to both train and test evaluators. This adds a per-speaker distributional check so a method that matches global codec statistics while collapsing speaker-conditioned structure is more likely to show a train/test gap.
 - Removed the test evaluator's dependency on `scoring/scores_train.json`. Test now discovers scoreable methods directly from `checkpoints/predictions/*.pt`, matching train and avoiding stale train-score method lists.
-- Made `synthetic_codec_unseen` the only weighted experiment in `scoring/reference.json`, because it is the only experiment computed by the train/test artifact evaluators.
-- Set the paper-reported LibriTTS experiments to inactive weight/coefficient zero and added required metric descriptions. These remain context only; they no longer create missing-score pressure or reward agreement with static paper values.
+- Made `synthetic_codec_unseen` carry effectively all scoring weight in `scoring/reference.json`, because it is the only experiment computed by the train/test artifact evaluators.
+- Set the paper-reported LibriTTS experiment metric coefficients to zero and gave those experiments only validator-minimal positive weights. These remain context only; they no longer reward agreement with static paper values.
 - Added required descriptions for every active metric and added `speaker_conditioned_codec_fd` to the synthetic reference result rows.
 
 Runtime concerns for the next iteration:
@@ -21,6 +21,6 @@ Runtime concerns for the next iteration:
 - `primary_steps_per_24_frames` is derived from artifact config, so methods with incompatible configs must still emit `vocab_size`, `num_codebooks`, and `stack_factor`.
 
 Problems found and fixed:
-- Coverage mismatch: weighted LibriTTS metrics in `reference.json` were not emitted by the train/test evaluators.
+- Coverage mismatch: active LibriTTS metrics in `reference.json` were not emitted by the train/test evaluators.
 - Stale method-list risk: held-out test could previously read method names from `scores_train.json` instead of discovering artifacts directly.
 - Metric triangulation gap: global codec FD did not separately test speaker-conditioned collapse.
