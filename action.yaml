@@ -1,3 +1,4 @@
 action: done
 gpus: 0
-notes: "Fixed half/half synthetic codec split; 20 train metrics, 20 test metrics; train/test gaps small and non-identical; caveat: dependency_validity is ceilinged for AR variants but FD/speaker-FD/steps still discriminate."
+milestone: core_claim
+notes: "core_claim reached: AR LT variants score dependency_validity=1.0 on train/test versus baseline ~0.044-0.045 while reducing primary steps from 24 to 12/6; split has 20 train and 20 test metrics with small non-identical gaps."
