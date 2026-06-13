@@ -27,6 +27,16 @@ Job `0f9f2e6f-d80` retrained `ar_lt_2x` for 5000 steps and reached `core_claim` 
 
 The token accuracy remains near random by construction because the first two codebook slots per stacked frame are sampled uniformly. The meaningful signal is whether later codebooks satisfy the residual dependency rule; AR LT learns that structure while the parallel baseline cannot condition within a frame.
 
+Continuing-agent job `b1c16b09-c5c` regenerated baseline, AR LT, and MaskGIT prediction artifacts in the packaged container and passed `python validate.py --compare`. Results:
+
+| Method | dependency_validity | NLL | token_accuracy | codec_fd | primary_steps_per_24_frames |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| `baseline_parallel_1x` | 0.038 | 3.470 | 0.031 | 0.035 | 24 |
+| `ar_lt_2x` | 1.000 | 0.435 | 0.030 | 0.039 | 12 |
+| `maskgit_lt_2x` | 0.030 | 1.617 | 0.031 | 1.424 | 12 |
+
+The MaskGIT checkpoint is a documented negative exploratory result at the current training scale. It does not support a higher milestone, but it verifies that the evaluator can score the second local-transformer variant independently. Because this synthetic MaskGIT target was not a paper-reported number and the available checkpoint did not reproduce the expected effect, `scoring/reference.json` only treats the validated baseline and AR LT as synthetic reference targets.
+
 ## Deviations From Paper
 
 - Original training data: 18k hours from Koel-TTS. Replacement: synthetic codec-token sequences generated locally.
@@ -36,8 +46,7 @@ The token accuracy remains near random by construction because the first two cod
 
 ## What Remains
 
-- A continuing-agent CPU validation job is submitted to score the existing `maskgit_lt_2x` checkpoint and determine whether the current workspace supports `core_claim_plus`.
-- Higher milestones beyond that would require training MaskGIT longer, testing additional stack factors, or adding a public real-codec speech-token dataset.
+- Higher milestones would require training MaskGIT longer, testing additional stack factors, or adding a public real-codec speech-token dataset.
 - Exact LibriTTS/WER/UTMOS reproduction remains blocked by the paper's unreleased training data, codec/tokenizer pipeline, and model checkpoints.
 
 ## Issues Encountered

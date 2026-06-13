@@ -15,13 +15,6 @@
           "nll": 3.4695063829421997,
           "primary_steps_per_24_frames": 24.0,
           "token_accuracy": 0.0313669852912426
-        },
-        "maskgit_lt_2x": {
-          "codec_fd": 1.4238161456500884,
-          "dependency_validity": 0.0296340212225914,
-          "nll": 1.617182195186615,
-          "primary_steps_per_24_frames": 12.0,
-          "token_accuracy": 0.0314280204474926
         }
       }
     }

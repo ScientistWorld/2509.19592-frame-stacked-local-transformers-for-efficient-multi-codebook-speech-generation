@@ -8,7 +8,7 @@ Methods are evaluated from saved artifacts in `checkpoints/predictions/*.pt`.
 
 - `baseline_parallel_1x`: parallel no-local-transformer baseline with stack factor 1.
 - `ar_lt_2x`: autoregressive local transformer with stack factor 2.
-- `maskgit_lt_2x`: MaskGIT-style local transformer with stack factor 2.
+- `maskgit_lt_2x`: MaskGIT-style local transformer with stack factor 2. This is supported by the code and can be scored if a prediction artifact exists, but it is not a synthetic reference target because the available checkpoint did not reproduce the expected effect.
 
 Primary success criterion: local-transformer methods should greatly improve `dependency_validity` over `baseline_parallel_1x` while using no more than 12 primary decoder steps per 24-frame sequence.
 

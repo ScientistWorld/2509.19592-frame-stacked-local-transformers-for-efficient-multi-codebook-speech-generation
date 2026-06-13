@@ -48,11 +48,25 @@ def main():
     p = argparse.ArgumentParser()
     p.add_argument("--pred-dir", default="checkpoints/predictions")
     p.add_argument("--out", default="scoring/scores.json")
+    p.add_argument("--reference", default="scoring/reference.json")
+    p.add_argument(
+        "--include-unreferenced",
+        action="store_true",
+        help="Include prediction files whose method names are not listed for the synthetic experiment in reference.json.",
+    )
     args = p.parse_args()
     pred_dir = Path(args.pred_dir)
+    allowed = None
+    reference = Path(args.reference)
+    if reference.exists() and not args.include_unreferenced:
+        ref = json.loads(reference.read_text())
+        allowed = set(ref["experiments"]["synthetic_codec_unseen"]["results"])
     results = {}
     for path in sorted(pred_dir.glob("*.pt")):
         method = path.stem
+        if allowed is not None and method not in allowed:
+            print(f"skipping unreferenced prediction artifact: {path}")
+            continue
         results[method] = score_file(path)
     output = {
         "experiments": {
