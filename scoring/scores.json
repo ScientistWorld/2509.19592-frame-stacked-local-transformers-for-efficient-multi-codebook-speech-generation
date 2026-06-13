@@ -3,18 +3,16 @@
     "synthetic_codec_unseen": {
       "results": {
         "ar_lt_2x": {
-          "codec_fd": 0.03875586264836099,
+          "codec_fd": 0.040421665986082135,
           "dependency_validity": 1.0,
-          "nll": 0.4351593926548958,
           "primary_steps_per_24_frames": 12.0,
-          "token_accuracy": 0.0303955078125
+          "token_accuracy": 0.03035481832921505
         },
         "baseline_parallel_1x": {
-          "codec_fd": 0.03541416648245945,
-          "dependency_validity": 0.0380510613322258,
-          "nll": 3.4695063829421997,
+          "codec_fd": 0.03897335761778095,
+          "dependency_validity": 0.0445672906935215,
           "primary_steps_per_24_frames": 24.0,
-          "token_accuracy": 0.0313669852912426
+          "token_accuracy": 0.03082275390625
         }
       }
     }
