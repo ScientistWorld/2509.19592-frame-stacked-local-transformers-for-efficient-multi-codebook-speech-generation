@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
-
-cd "$(dirname "$0")/.."
-scripts/evaluate.sh
-bash scripts/evaluate_train.sh checkpoints
-bash scripts/evaluate_test.sh checkpoints
-python validate.py --compare
+cd /home/user
+export OMP_NUM_THREADS=4
+export MKL_NUM_THREADS=4
+python redteam/audit.py all 2>&1 | tee redteam/job.log
+python redteam/analyze.py | tee redteam/analysis.log
