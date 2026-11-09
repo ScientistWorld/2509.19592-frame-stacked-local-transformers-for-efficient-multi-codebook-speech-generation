@@ -18,10 +18,12 @@ def parse_args():
     p.add_argument("--stack-factor", type=int, default=1)
     p.add_argument("--steps", type=int, default=1500)
     p.add_argument("--batch-size", type=int, default=128)
-    p.add_argument("--lr", type=float, default=3e-4)
+    p.add_argument("--lr", type=float, default=1e-3)
     p.add_argument("--dim", type=int, default=96)
     p.add_argument("--main-layers", type=int, default=2)
     p.add_argument("--lt-layers", type=int, default=1)
+    p.add_argument("--heads", type=int, default=4)
+    p.add_argument("--maskgit-steps", type=int, default=3)
     p.add_argument("--seed", type=int, default=7)
     return p.parse_args()
 
@@ -40,8 +42,10 @@ def main():
         stack_factor=args.stack_factor,
         variant=args.variant,
         dim=args.dim,
+        heads=args.heads,
         main_layers=args.main_layers,
         lt_layers=args.lt_layers,
+        maskgit_steps=args.maskgit_steps,
     ).to(device)
     opt = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=0.01)
     out = Path(args.out)
@@ -70,8 +74,13 @@ def main():
             "variant": args.variant,
             "stack_factor": args.stack_factor,
             "dim": args.dim,
+            "heads": args.heads,
             "main_layers": args.main_layers,
             "lt_layers": args.lt_layers,
+            "maskgit_steps": args.maskgit_steps,
+            "seed": args.seed,
+            "train_steps": args.steps,
+            "lr": args.lr,
             **meta,
         },
         "history": history,

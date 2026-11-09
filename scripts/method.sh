@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
+# Train one local-transformer model and write its evaluation predictions.
 set -euo pipefail
 
 cd "$(dirname "$0")/.."
 scripts/download.sh
 
-MODEL_NAME="${MODEL_NAME:-ar_lt_2x}"
+MODEL_NAME="${MODEL_NAME:-generator_2x}"
 VARIANT="${VARIANT:-ar}"
 STACK_FACTOR="${STACK_FACTOR:-2}"
-STEPS="${STEPS:-1500}"
+STEPS="${STEPS:-10000}"
 
 python -m method.train \
   --data data/synthetic_codec \
@@ -21,5 +22,3 @@ python -m method.predict \
   --data data/synthetic_codec \
   --checkpoint "checkpoints/${MODEL_NAME}/model.pt" \
   --out "checkpoints/predictions/${MODEL_NAME}.pt"
-
-scripts/evaluate.sh

@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# Hidden test: scores every prediction artifact in checkpoints/predictions
+# (plus the evaluator's fixed comparison rows) and writes scoring/scores_test.json.
 set -euo pipefail
 
 cd "$(dirname "$0")/.."

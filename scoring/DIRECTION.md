@@ -1,7 +1,14 @@
 # Direction
 
-Future work should stay within the paper's problem family: multi-codebook token generation with explicit modeling of within-frame codebook dependencies and reduced primary generation steps.
+Work within the paper's problem family: learned generation of multi-codebook codec tokens that models the dependencies between codebooks inside a frame and between frames, at a reduced number of primary (coarse) generation steps.
 
-Acceptable changes include better sequence models, dependency-modeling mechanisms, sampling strategies, and training objectives that preserve the same multi-codebook conditional generation setup.
+The gym ranks generators at two fixed operating points: 12 and 6 primary steps per 24-frame utterance (2x and 4x frame stacking). The 6-step point is where the paper's own method loses quality, and it carries the larger weight. Quality there depends on how well a single coarse step can produce several mutually consistent, temporally coherent frames and carry utterance-level properties across coarse steps.
 
-Out-of-scope changes include replacing the task with a classifier, bypassing generation by applying the known codec rule as a post-processing repair, or changing the dataset so independent codebook prediction becomes trivial.
+Acceptable directions: better primary or local sequence models, better ways to pass information between coarse steps, iterative or hybrid decoding inside a coarse step, better training objectives and schedules, better sampling procedures, scaling the model or the training budget, regularization and data use within the provided splits.
+
+Out of scope (treated as shortcuts by the grader):
+
+- generating outputs from, or repairing/filtering outputs with, the dataset's known generating rule or `data/generate_synthetic.py`;
+- copying, splicing or lightly perturbing visible utterances;
+- declaring a larger `stack_factor` than the generator actually uses;
+- changing the data, the conditions, the evaluators or the comparison rows.
