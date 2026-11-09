@@ -1,43 +1,131 @@
 {
+  "_failures": {
+    "baseline_maskgit_2x": "dependency_validity 0.179 < 0.5",
+    "baseline_maskgit_4x": "dependency_validity 0.124 < 0.5",
+    "baseline_parallel_1x": "dependency_validity 0.160 < 0.5",
+    "baseline_parallel_2x": "dependency_validity 0.141 < 0.5",
+    "baseline_parallel_4x": "dependency_validity 0.122 < 0.5"
+  },
   "_metadata": {
-    "data_split": "test",
+    "caps": {
+      "codec_fd": 2.0571459528335936,
+      "speaker_conditioned_codec_fd": 3.082220755639902
+    },
     "method_source": "checkpoints/predictions",
-    "num_examples": 512,
-    "partition_seed": 250919592,
-    "slice": "test"
+    "num_examples": 2048,
+    "references_per_row": 4,
+    "slice": "test",
+    "validity_threshold": 0.5
+  },
+  "_raw": {
+    "baseline_maskgit_2x": {
+      "coarse_transition_validity": 0.92650306224823,
+      "codec_fd": 0.5387937889411774,
+      "copied_fraction": 0.0,
+      "dependency_validity": 0.17939095222513088,
+      "intra_frame_validity": 0.0771077498793602,
+      "residual_persistence": 0.01127899345010519,
+      "speaker_conditioned_codec_fd": 1.6088694056931594
+    },
+    "baseline_maskgit_4x": {
+      "coarse_transition_validity": 0.44486668705940247,
+      "codec_fd": 0.9871104065966279,
+      "copied_fraction": 0.0,
+      "dependency_validity": 0.12428930791884817,
+      "intra_frame_validity": 0.0804007425904274,
+      "residual_persistence": 0.0061656879261136055,
+      "speaker_conditioned_codec_fd": 2.0237251740720588
+    },
+    "baseline_parallel_1x": {
+      "coarse_transition_validity": 0.86623215675354,
+      "codec_fd": 0.3791039468785016,
+      "copied_fraction": 0.0,
+      "dependency_validity": 0.15986481511780104,
+      "intra_frame_validity": 0.0631597638130188,
+      "residual_persistence": 0.015439999289810658,
+      "speaker_conditioned_codec_fd": 1.5999373572513598
+    },
+    "baseline_parallel_2x": {
+      "coarse_transition_validity": 0.7103642821311951,
+      "codec_fd": 0.43688861895566333,
+      "copied_fraction": 0.0,
+      "dependency_validity": 0.14112350703534032,
+      "intra_frame_validity": 0.0631917342543602,
+      "residual_persistence": 0.01453015860170126,
+      "speaker_conditioned_codec_fd": 1.5736266445156417
+    },
+    "baseline_parallel_4x": {
+      "coarse_transition_validity": 0.32215946912765503,
+      "codec_fd": 1.4010131734739844,
+      "copied_fraction": 0.0,
+      "dependency_validity": 0.12175842604712042,
+      "intra_frame_validity": 0.094322569668293,
+      "residual_persistence": 0.008479716256260872,
+      "speaker_conditioned_codec_fd": 2.463792238021643
+    },
+    "generator_2x": {
+      "coarse_transition_validity": 0.98949134349823,
+      "codec_fd": 0.2784562417055554,
+      "copied_fraction": 0.0,
+      "dependency_validity": 0.9742974885471204,
+      "intra_frame_validity": 0.9722173810005188,
+      "residual_persistence": 0.855596125125885,
+      "speaker_conditioned_codec_fd": 1.272048693873817
+    },
+    "generator_4x": {
+      "coarse_transition_validity": 0.956649124622345,
+      "codec_fd": 0.3176904906054574,
+      "copied_fraction": 0.0,
+      "dependency_validity": 0.9332869764397905,
+      "intra_frame_validity": 0.9300885796546936,
+      "residual_persistence": 0.7941576242446899,
+      "speaker_conditioned_codec_fd": 1.2849797512862402
+    }
   },
   "experiments": {
-    "synthetic_codec_unseen": {
-      "num_examples": 512,
-      "partition_seed": 250919592,
+    "codec_stack2": {
+      "num_examples": 2048,
       "results": {
-        "ar_lt_2x": {
-          "codec_fd": 0.04304657725505889,
-          "dependency_validity": 1.0,
-          "primary_steps_per_24_frames": 12.0,
-          "speaker_conditioned_codec_fd": 0.276995878331279,
-          "token_accuracy": 0.030029296875
-        },
-        "ar_lt_4x": {
-          "codec_fd": 0.04698989300390112,
-          "dependency_validity": 1.0,
-          "primary_steps_per_24_frames": 6.0,
-          "speaker_conditioned_codec_fd": 0.304055291720928,
-          "token_accuracy": 0.02701822854578495
+        "baseline_maskgit_2x": {
+          "codec_fd": 2.0571459528335936,
+          "dependency_validity": 0.0,
+          "speaker_conditioned_codec_fd": 3.082220755639902
         },
         "baseline_parallel_1x": {
-          "codec_fd": 0.04232508545997019,
-          "dependency_validity": 0.043677918612957,
-          "primary_steps_per_24_frames": 24.0,
-          "speaker_conditioned_codec_fd": 0.495096007143862,
-          "token_accuracy": 0.03086344338953495
+          "codec_fd": 2.0571459528335936,
+          "dependency_validity": 0.0,
+          "speaker_conditioned_codec_fd": 3.082220755639902
         },
-        "maskgit_lt_2x": {
-          "codec_fd": 1.3971933304297774,
-          "dependency_validity": 0.03043619729578495,
-          "primary_steps_per_24_frames": 12.0,
-          "speaker_conditioned_codec_fd": 3.3490817099578156,
-          "token_accuracy": 0.030975341796875
+        "baseline_parallel_2x": {
+          "codec_fd": 2.0571459528335936,
+          "dependency_validity": 0.0,
+          "speaker_conditioned_codec_fd": 3.082220755639902
+        },
+        "generator_2x": {
+          "codec_fd": 0.2784562417055554,
+          "dependency_validity": 0.9742974885471204,
+          "speaker_conditioned_codec_fd": 1.272048693873817
+        }
+      },
+      "slice": "test"
+    },
+    "codec_stack4": {
+      "num_examples": 2048,
+      "results": {
+        "baseline_maskgit_4x": {
+          "codec_fd": 2.0571459528335936,
+          "dependency_validity": 0.0,
+          "speaker_conditioned_codec_fd": 3.082220755639902
+        },
+        "baseline_parallel_4x": {
+          "codec_fd": 2.0571459528335936,
+          "dependency_validity": 0.0,
+          "speaker_conditioned_codec_fd": 3.082220755639902
+        },
+        "generator_4x": {
+          "codec_fd": 0.3176904906054574,
+          "dependency_validity": 0.9332869764397905,
+          "speaker_conditioned_codec_fd": 1.2849797512862402
         }
       },
       "slice": "test"

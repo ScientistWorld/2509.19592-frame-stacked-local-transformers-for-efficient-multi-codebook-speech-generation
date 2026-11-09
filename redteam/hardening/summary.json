@@ -1,0 +1,1637 @@
+{
+  "__pycache__": {
+    "error": "no scores"
+  },
+  "better_bigger": {
+    "failures": {
+      "baseline_maskgit_2x": "dependency_validity 0.179 < 0.5",
+      "baseline_maskgit_4x": "dependency_validity 0.124 < 0.5",
+      "baseline_parallel_1x": "dependency_validity 0.160 < 0.5",
+      "baseline_parallel_2x": "dependency_validity 0.141 < 0.5",
+      "baseline_parallel_4x": "dependency_validity 0.122 < 0.5",
+      "generator_2x": "0.311 of sequences copy a 12-frame window of visible data",
+      "generator_4x": "0.599 of sequences copy a 12-frame window of visible data"
+    },
+    "proposed": {
+      "codec_stack2": {
+        "generator_2x": {
+          "codec_fd": 2.0571459528335936,
+          "dependency_validity": 0.0,
+          "speaker_conditioned_codec_fd": 3.082220755639902
+        }
+      },
+      "codec_stack4": {
+        "generator_4x": {
+          "codec_fd": 2.0571459528335936,
+          "dependency_validity": 0.0,
+          "speaker_conditioned_codec_fd": 3.082220755639902
+        }
+      }
+    },
+    "raw": {
+      "generator_2x": {
+        "coarse_transition_validity": 0.9775815010070801,
+        "codec_fd": 0.11065280312863024,
+        "copied_fraction": 0.310546875,
+        "dependency_validity": 0.9775927478730366,
+        "intra_frame_validity": 0.977594256401062,
+        "residual_persistence": 0.9039268493652344,
+        "speaker_conditioned_codec_fd": 1.175000148191092
+      },
+      "generator_4x": {
+        "coarse_transition_validity": 0.9690259695053101,
+        "codec_fd": 0.08126793573393343,
+        "copied_fraction": 0.59912109375,
+        "dependency_validity": 0.9819489324280105,
+        "intra_frame_validity": 0.9837181568145752,
+        "residual_persistence": 0.9521939158439636,
+        "speaker_conditioned_codec_fd": 1.1333929653051555
+      }
+    },
+    "row_changes": {
+      "codec_stack2/baseline_maskgit_2x": 0.0,
+      "codec_stack2/baseline_parallel_1x": 0.0,
+      "codec_stack2/baseline_parallel_2x": 0.0,
+      "codec_stack2/generator_2x": -1.106232055972151,
+      "codec_stack4/baseline_maskgit_4x": 0.0,
+      "codec_stack4/baseline_parallel_4x": 0.0,
+      "codec_stack4/generator_4x": -1.6175139933108824
+    },
+    "score_change": -2.7237460492830334
+  },
+  "better_bigger_longer": {
+    "failures": {
+      "baseline_maskgit_2x": "dependency_validity 0.179 < 0.5",
+      "baseline_maskgit_4x": "dependency_validity 0.124 < 0.5",
+      "baseline_parallel_1x": "dependency_validity 0.160 < 0.5",
+      "baseline_parallel_2x": "dependency_validity 0.141 < 0.5",
+      "baseline_parallel_4x": "dependency_validity 0.122 < 0.5",
+      "generator_2x": "0.687 of sequences copy a 12-frame window of visible data",
+      "generator_4x": "0.071 of sequences copy a 12-frame window of visible data"
+    },
+    "proposed": {
+      "codec_stack2": {
+        "generator_2x": {
+          "codec_fd": 2.0571459528335936,
+          "dependency_validity": 0.0,
+          "speaker_conditioned_codec_fd": 3.082220755639902
+        }
+      },
+      "codec_stack4": {
+        "generator_4x": {
+          "codec_fd": 2.0571459528335936,
+          "dependency_validity": 0.0,
+          "speaker_conditioned_codec_fd": 3.082220755639902
+        }
+      }
+    },
+    "raw": {
+      "generator_2x": {
+        "coarse_transition_validity": 0.9908075928688049,
+        "codec_fd": 0.0882714055364886,
+        "copied_fraction": 0.6865234375,
+        "dependency_validity": 0.9882045566099477,
+        "intra_frame_validity": 0.987848162651062,
+        "residual_persistence": 0.9548203349113464,
+        "speaker_conditioned_codec_fd": 1.1610191069788236
+      },
+      "generator_4x": {
+        "coarse_transition_validity": 0.9228940010070801,
+        "codec_fd": 0.19224033350883474,
+        "copied_fraction": 0.07080078125,
+        "dependency_validity": 0.946058982329843,
+        "intra_frame_validity": 0.9492303729057312,
+        "residual_persistence": 0.8743540048599243,
+        "speaker_conditioned_codec_fd": 1.3034031646711384
+      }
+    },
+    "row_changes": {
+      "codec_stack2/baseline_maskgit_2x": 0.0,
+      "codec_stack2/baseline_parallel_1x": 0.0,
+      "codec_stack2/baseline_parallel_2x": 0.0,
+      "codec_stack2/generator_2x": -1.106232055972151,
+      "codec_stack4/baseline_maskgit_4x": 0.0,
+      "codec_stack4/baseline_parallel_4x": 0.0,
+      "codec_stack4/generator_4x": -1.6175139933108824
+    },
+    "score_change": -2.7237460492830334
+  },
+  "better_concat_input": {
+    "failures": {
+      "baseline_maskgit_2x": "dependency_validity 0.179 < 0.5",
+      "baseline_maskgit_4x": "dependency_validity 0.124 < 0.5",
+      "baseline_parallel_1x": "dependency_validity 0.160 < 0.5",
+      "baseline_parallel_2x": "dependency_validity 0.141 < 0.5",
+      "baseline_parallel_4x": "dependency_validity 0.122 < 0.5",
+      "generator_2x": "dependency_validity 0.421 < 0.5",
+      "generator_4x": "dependency_validity 0.222 < 0.5"
+    },
+    "proposed": {
+      "codec_stack2": {
+        "generator_2x": {
+          "codec_fd": 2.0571459528335936,
+          "dependency_validity": 0.0,
+          "speaker_conditioned_codec_fd": 3.082220755639902
+        }
+      },
+      "codec_stack4": {
+        "generator_4x": {
+          "codec_fd": 2.0571459528335936,
+          "dependency_validity": 0.0,
+          "speaker_conditioned_codec_fd": 3.082220755639902
+        }
+      }
+    },
+    "raw": {
+      "generator_2x": {
+        "coarse_transition_validity": 0.99269700050354,
+        "codec_fd": 0.25493056732898367,
+        "copied_fraction": 0.0,
+        "dependency_validity": 0.4214097267670157,
+        "intra_frame_validity": 0.343197762966156,
+        "residual_persistence": 0.2880738079547882,
+        "speaker_conditioned_codec_fd": 1.1958172849777284
+      },
+      "generator_4x": {
+        "coarse_transition_validity": 0.9865192174911499,
+        "codec_fd": 0.4191744937945714,
+        "copied_fraction": 0.0,
+        "dependency_validity": 0.22242872627617802,
+        "intra_frame_validity": 0.117821104824543,
+        "residual_persistence": 0.08826669305562973,
+        "speaker_conditioned_codec_fd": 1.489316198431748
+      }
+    },
+    "row_changes": {
+      "codec_stack2/baseline_maskgit_2x": 0.0,
+      "codec_stack2/baseline_parallel_1x": 0.0,
+      "codec_stack2/baseline_parallel_2x": 0.0,
+      "codec_stack2/generator_2x": -1.106232055972151,
+      "codec_stack4/baseline_maskgit_4x": 0.0,
+      "codec_stack4/baseline_parallel_4x": 0.0,
+      "codec_stack4/generator_4x": -1.6175139933108824
+    },
+    "score_change": -2.7237460492830334
+  },
+  "better_more_training": {
+    "failures": {
+      "baseline_maskgit_2x": "dependency_validity 0.179 < 0.5",
+      "baseline_maskgit_4x": "dependency_validity 0.124 < 0.5",
+      "baseline_parallel_1x": "dependency_validity 0.160 < 0.5",
+      "baseline_parallel_2x": "dependency_validity 0.141 < 0.5",
+      "baseline_parallel_4x": "dependency_validity 0.122 < 0.5"
+    },
+    "proposed": {
+      "codec_stack2": {
+        "generator_2x": {
+          "codec_fd": 0.22323120097456695,
+          "dependency_validity": 0.9774649255562827,
+          "speaker_conditioned_codec_fd": 1.1850472531873173
+        }
+      },
+      "codec_stack4": {
+        "generator_4x": {
+          "codec_fd": 0.24891757589909957,
+          "dependency_validity": 0.9487841541230366,
+          "speaker_conditioned_codec_fd": 1.1901319534712194
+        }
+      }
+    },
+    "raw": {
+      "generator_2x": {
+        "coarse_transition_validity": 0.991083562374115,
+        "codec_fd": 0.22323120097456695,
+        "copied_fraction": 0.0,
+        "dependency_validity": 0.9774649255562827,
+        "intra_frame_validity": 0.9756004810333252,
+        "residual_persistence": 0.9059528112411499,
+        "speaker_conditioned_codec_fd": 1.1850472531873173
+      },
+      "generator_4x": {
+        "coarse_transition_validity": 0.9675823450088501,
+        "codec_fd": 0.24891757589909957,
+        "copied_fraction": 0.0,
+        "dependency_validity": 0.9487841541230366,
+        "intra_frame_validity": 0.9462105631828308,
+        "residual_persistence": 0.82472825050354,
+        "speaker_conditioned_codec_fd": 1.1901319534712194
+      }
+    },
+    "row_changes": {
+      "codec_stack2/baseline_maskgit_2x": 0.0,
+      "codec_stack2/baseline_parallel_1x": 0.0,
+      "codec_stack2/baseline_parallel_2x": 0.0,
+      "codec_stack2/generator_2x": 0.028441215088942103,
+      "codec_stack4/baseline_maskgit_4x": 0.0,
+      "codec_stack4/baseline_parallel_4x": 0.0,
+      "codec_stack4/generator_4x": 0.05682002737984147
+    },
+    "score_change": 0.08526124246878358
+  },
+  "reference": {
+    "comparators_raw": {
+      "baseline_maskgit_2x": {
+        "coarse_transition_validity": 0.92650306224823,
+        "codec_fd": 0.5387937889411774,
+        "copied_fraction": 0.0,
+        "dependency_validity": 0.17939095222513088,
+        "intra_frame_validity": 0.0771077498793602,
+        "residual_persistence": 0.01127899345010519,
+        "speaker_conditioned_codec_fd": 1.6088694056931594
+      },
+      "baseline_maskgit_4x": {
+        "coarse_transition_validity": 0.44486668705940247,
+        "codec_fd": 0.9871104065966279,
+        "copied_fraction": 0.0,
+        "dependency_validity": 0.12428930791884817,
+        "intra_frame_validity": 0.0804007425904274,
+        "residual_persistence": 0.0061656879261136055,
+        "speaker_conditioned_codec_fd": 2.0237251740720588
+      },
+      "baseline_parallel_1x": {
+        "coarse_transition_validity": 0.86623215675354,
+        "codec_fd": 0.3791039468785016,
+        "copied_fraction": 0.0,
+        "dependency_validity": 0.15986481511780104,
+        "intra_frame_validity": 0.0631597638130188,
+        "residual_persistence": 0.015439999289810658,
+        "speaker_conditioned_codec_fd": 1.5999373572513598
+      },
+      "baseline_parallel_2x": {
+        "coarse_transition_validity": 0.7103642821311951,
+        "codec_fd": 0.43688861895566333,
+        "copied_fraction": 0.0,
+        "dependency_validity": 0.14112350703534032,
+        "intra_frame_validity": 0.0631917342543602,
+        "residual_persistence": 0.01453015860170126,
+        "speaker_conditioned_codec_fd": 1.5736266445156417
+      },
+      "baseline_parallel_4x": {
+        "coarse_transition_validity": 0.32215946912765503,
+        "codec_fd": 1.4010131734739844,
+        "copied_fraction": 0.0,
+        "dependency_validity": 0.12175842604712042,
+        "intra_frame_validity": 0.094322569668293,
+        "residual_persistence": 0.008479716256260872,
+        "speaker_conditioned_codec_fd": 2.463792238021643
+      }
+    },
+    "failures": {
+      "baseline_maskgit_2x": "dependency_validity 0.179 < 0.5",
+      "baseline_maskgit_4x": "dependency_validity 0.124 < 0.5",
+      "baseline_parallel_1x": "dependency_validity 0.160 < 0.5",
+      "baseline_parallel_2x": "dependency_validity 0.141 < 0.5",
+      "baseline_parallel_4x": "dependency_validity 0.122 < 0.5"
+    },
+    "proposed": {
+      "codec_stack2": {
+        "generator_2x": {
+          "codec_fd": 0.2784562417055554,
+          "dependency_validity": 0.9742974885471204,
+          "speaker_conditioned_codec_fd": 1.272048693873817
+        }
+      },
+      "codec_stack4": {
+        "generator_4x": {
+          "codec_fd": 0.3176904906054574,
+          "dependency_validity": 0.9332869764397905,
+          "speaker_conditioned_codec_fd": 1.2849797512862402
+        }
+      }
+    },
+    "raw": {
+      "generator_2x": {
+        "coarse_transition_validity": 0.98949134349823,
+        "codec_fd": 0.2784562417055554,
+        "copied_fraction": 0.0,
+        "dependency_validity": 0.9742974885471204,
+        "intra_frame_validity": 0.9722173810005188,
+        "residual_persistence": 0.855596125125885,
+        "speaker_conditioned_codec_fd": 1.272048693873817
+      },
+      "generator_4x": {
+        "coarse_transition_validity": 0.956649124622345,
+        "codec_fd": 0.3176904906054574,
+        "copied_fraction": 0.0,
+        "dependency_validity": 0.9332869764397905,
+        "intra_frame_validity": 0.9300885796546936,
+        "residual_persistence": 0.7941576242446899,
+        "speaker_conditioned_codec_fd": 1.2849797512862402
+      }
+    },
+    "row_changes": {
+      "codec_stack2/baseline_maskgit_2x": 0.0,
+      "codec_stack2/baseline_parallel_1x": 0.0,
+      "codec_stack2/baseline_parallel_2x": 0.0,
+      "codec_stack2/generator_2x": 0.0,
+      "codec_stack4/baseline_maskgit_4x": 0.0,
+      "codec_stack4/baseline_parallel_4x": 0.0,
+      "codec_stack4/generator_4x": 0.0
+    },
+    "score_change": 0.0
+  },
+  "reference_sample1": {
+    "failures": {
+      "baseline_maskgit_2x": "dependency_validity 0.179 < 0.5",
+      "baseline_maskgit_4x": "dependency_validity 0.124 < 0.5",
+      "baseline_parallel_1x": "dependency_validity 0.160 < 0.5",
+      "baseline_parallel_2x": "dependency_validity 0.141 < 0.5",
+      "baseline_parallel_4x": "dependency_validity 0.122 < 0.5"
+    },
+    "proposed": {
+      "codec_stack2": {
+        "generator_2x": {
+          "codec_fd": 0.2296369668959528,
+          "dependency_validity": 0.974742310209424,
+          "speaker_conditioned_codec_fd": 1.1990192678370626
+        }
+      },
+      "codec_stack4": {
+        "generator_4x": {
+          "codec_fd": 0.3082832484053597,
+          "dependency_validity": 0.9323538735274869,
+          "speaker_conditioned_codec_fd": 1.287670051424577
+        }
+      }
+    },
+    "raw": {
+      "generator_2x": {
+        "coarse_transition_validity": 0.9898098111152649,
+        "codec_fd": 0.2296369668959528,
+        "copied_fraction": 0.0,
+        "dependency_validity": 0.974742310209424,
+        "intra_frame_validity": 0.9726794958114624,
+        "residual_persistence": 0.8572338223457336,
+        "speaker_conditioned_codec_fd": 1.1990192678370626
+      },
+      "generator_4x": {
+        "coarse_transition_validity": 0.9557787179946899,
+        "codec_fd": 0.3082832484053597,
+        "copied_fraction": 0.0,
+        "dependency_validity": 0.9323538735274869,
+        "intra_frame_validity": 0.9291468858718872,
+        "residual_persistence": 0.7917252779006958,
+        "speaker_conditioned_codec_fd": 1.287670051424577
+      }
+    },
+    "row_changes": {
+      "codec_stack2/baseline_maskgit_2x": 0.0,
+      "codec_stack2/baseline_parallel_1x": 0.0,
+      "codec_stack2/baseline_parallel_2x": 0.0,
+      "codec_stack2/generator_2x": 0.023579262785106768,
+      "codec_stack4/baseline_maskgit_4x": 0.0,
+      "codec_stack4/baseline_parallel_4x": 0.0,
+      "codec_stack4/generator_4x": 0.0021810734114521765
+    },
+    "score_change": 0.025760336196558944
+  },
+  "reference_sample2": {
+    "failures": {
+      "baseline_maskgit_2x": "dependency_validity 0.179 < 0.5",
+      "baseline_maskgit_4x": "dependency_validity 0.124 < 0.5",
+      "baseline_parallel_1x": "dependency_validity 0.160 < 0.5",
+      "baseline_parallel_2x": "dependency_validity 0.141 < 0.5",
+      "baseline_parallel_4x": "dependency_validity 0.122 < 0.5"
+    },
+    "proposed": {
+      "codec_stack2": {
+        "generator_2x": {
+          "codec_fd": 0.23497882713655827,
+          "dependency_validity": 0.9741338759816754,
+          "speaker_conditioned_codec_fd": 1.1712600635208723
+        }
+      },
+      "codec_stack4": {
+        "generator_4x": {
+          "codec_fd": 0.2973200478191984,
+          "dependency_validity": 0.9332000572643979,
+          "speaker_conditioned_codec_fd": 1.2725139696621568
+        }
+      }
+    },
+    "raw": {
+      "generator_2x": {
+        "coarse_transition_validity": 0.9890667200088501,
+        "codec_fd": 0.23497882713655827,
+        "copied_fraction": 0.0,
+        "dependency_validity": 0.9741338759816754,
+        "intra_frame_validity": 0.9720894694328308,
+        "residual_persistence": 0.8557326197624207,
+        "speaker_conditioned_codec_fd": 1.1712600635208723
+      },
+      "generator_4x": {
+        "coarse_transition_validity": 0.953485906124115,
+        "codec_fd": 0.2973200478191984,
+        "copied_fraction": 0.0,
+        "dependency_validity": 0.9332000572643979,
+        "intra_frame_validity": 0.930422842502594,
+        "residual_persistence": 0.7933023571968079,
+        "speaker_conditioned_codec_fd": 1.2725139696621568
+      }
+    },
+    "row_changes": {
+      "codec_stack2/baseline_maskgit_2x": 0.0,
+      "codec_stack2/baseline_parallel_1x": 0.0,
+      "codec_stack2/baseline_parallel_2x": 0.0,
+      "codec_stack2/generator_2x": 0.02649531532685247,
+      "codec_stack4/baseline_maskgit_4x": 0.0,
+      "codec_stack4/baseline_parallel_4x": 0.0,
+      "codec_stack4/generator_4x": 0.01027299548759769
+    },
+    "score_change": 0.03676831081445016
+  },
+  "reference_seed17": {
+    "failures": {
+      "baseline_maskgit_2x": "dependency_validity 0.179 < 0.5",
+      "baseline_maskgit_4x": "dependency_validity 0.124 < 0.5",
+      "baseline_parallel_1x": "dependency_validity 0.160 < 0.5",
+      "baseline_parallel_2x": "dependency_validity 0.141 < 0.5",
+      "baseline_parallel_4x": "dependency_validity 0.122 < 0.5"
+    },
+    "proposed": {
+      "codec_stack2": {
+        "generator_2x": {
+          "codec_fd": 0.2494023111290744,
+          "dependency_validity": 0.968228484947644,
+          "speaker_conditioned_codec_fd": 1.2452145964274912
+        }
+      },
+      "codec_stack4": {
+        "generator_4x": {
+          "codec_fd": 0.3730437099552546,
+          "dependency_validity": 0.9433159154123036,
+          "speaker_conditioned_codec_fd": 1.3433142550340484
+        }
+      }
+    },
+    "raw": {
+      "generator_2x": {
+        "coarse_transition_validity": 0.9872409701347351,
+        "codec_fd": 0.2494023111290744,
+        "copied_fraction": 0.0,
+        "dependency_validity": 0.968228484947644,
+        "intra_frame_validity": 0.9656255841255188,
+        "residual_persistence": 0.85105299949646,
+        "speaker_conditioned_codec_fd": 1.2452145964274912
+      },
+      "generator_4x": {
+        "coarse_transition_validity": 0.9724651575088501,
+        "codec_fd": 0.3730437099552546,
+        "copied_fraction": 0.0,
+        "dependency_validity": 0.9433159154123036,
+        "intra_frame_validity": 0.939325213432312,
+        "residual_persistence": 0.8106408715248108,
+        "speaker_conditioned_codec_fd": 1.3433142550340484
+      }
+    },
+    "row_changes": {
+      "codec_stack2/baseline_maskgit_2x": 0.0,
+      "codec_stack2/baseline_parallel_1x": 0.0,
+      "codec_stack2/baseline_parallel_2x": 0.0,
+      "codec_stack2/generator_2x": 0.008838797489976997,
+      "codec_stack4/baseline_maskgit_4x": 0.0,
+      "codec_stack4/baseline_parallel_4x": 0.0,
+      "codec_stack4/generator_4x": -0.0279100764818931
+    },
+    "score_change": -0.019071278991916102
+  },
+  "reference_seed27": {
+    "failures": {
+      "baseline_maskgit_2x": "dependency_validity 0.179 < 0.5",
+      "baseline_maskgit_4x": "dependency_validity 0.124 < 0.5",
+      "baseline_parallel_1x": "dependency_validity 0.160 < 0.5",
+      "baseline_parallel_2x": "dependency_validity 0.141 < 0.5",
+      "baseline_parallel_4x": "dependency_validity 0.122 < 0.5"
+    },
+    "proposed": {
+      "codec_stack2": {
+        "generator_2x": {
+          "codec_fd": 0.2363289012845371,
+          "dependency_validity": 0.9230151750654451,
+          "speaker_conditioned_codec_fd": 1.2011735004014206
+        }
+      },
+      "codec_stack4": {
+        "generator_4x": {
+          "codec_fd": 0.2187736887376559,
+          "dependency_validity": 0.9383078370418848,
+          "speaker_conditioned_codec_fd": 1.2019081829465321
+        }
+      }
+    },
+    "raw": {
+      "generator_2x": {
+        "coarse_transition_validity": 0.98804771900177,
+        "codec_fd": 0.2363289012845371,
+        "copied_fraction": 0.0,
+        "dependency_validity": 0.9230151750654451,
+        "intra_frame_validity": 0.9141119122505188,
+        "residual_persistence": 0.7314907908439636,
+        "speaker_conditioned_codec_fd": 1.2011735004014206
+      },
+      "generator_4x": {
+        "coarse_transition_validity": 0.977178156375885,
+        "codec_fd": 0.2187736887376559,
+        "copied_fraction": 0.0,
+        "dependency_validity": 0.9383078370418848,
+        "intra_frame_validity": 0.932986319065094,
+        "residual_persistence": 0.8353976607322693,
+        "speaker_conditioned_codec_fd": 1.2019081829465321
+      }
+    },
+    "row_changes": {
+      "codec_stack2/baseline_maskgit_2x": 0.0,
+      "codec_stack2/baseline_parallel_1x": 0.0,
+      "codec_stack2/baseline_parallel_2x": 0.0,
+      "codec_stack2/generator_2x": 0.0009376672639576731,
+      "codec_stack4/baseline_maskgit_4x": 0.0,
+      "codec_stack4/baseline_parallel_4x": 0.0,
+      "codec_stack4/generator_4x": 0.058559741435195045
+    },
+    "score_change": 0.059497408699152717
+  },
+  "shortcut_constant": {
+    "failures": {
+      "baseline_maskgit_2x": "dependency_validity 0.179 < 0.5",
+      "baseline_maskgit_4x": "dependency_validity 0.124 < 0.5",
+      "baseline_parallel_1x": "dependency_validity 0.160 < 0.5",
+      "baseline_parallel_2x": "dependency_validity 0.141 < 0.5",
+      "baseline_parallel_4x": "dependency_validity 0.122 < 0.5",
+      "generator_2x": "dependency_validity 0.055 < 0.5",
+      "generator_4x": "dependency_validity 0.055 < 0.5"
+    },
+    "proposed": {
+      "codec_stack2": {
+        "generator_2x": {
+          "codec_fd": 2.0571459528335936,
+          "dependency_validity": 0.0,
+          "speaker_conditioned_codec_fd": 3.082220755639902
+        }
+      },
+      "codec_stack4": {
+        "generator_4x": {
+          "codec_fd": 2.0571459528335936,
+          "dependency_validity": 0.0,
+          "speaker_conditioned_codec_fd": 3.082220755639902
+        }
+      }
+    },
+    "raw": {
+      "generator_2x": {
+        "coarse_transition_validity": 0.0,
+        "codec_fd": 361.50999448678704,
+        "copied_fraction": 0.0,
+        "dependency_validity": 0.05497637843586387,
+        "intra_frame_validity": 0.0625029057264328,
+        "residual_persistence": 0.0,
+        "speaker_conditioned_codec_fd": 361.51863895816
+      },
+      "generator_4x": {
+        "coarse_transition_validity": 0.0,
+        "codec_fd": 361.50999448678704,
+        "copied_fraction": 0.0,
+        "dependency_validity": 0.05497637843586387,
+        "intra_frame_validity": 0.0625029057264328,
+        "residual_persistence": 0.0,
+        "speaker_conditioned_codec_fd": 361.51863895816
+      }
+    },
+    "row_changes": {
+      "codec_stack2/baseline_maskgit_2x": 0.0,
+      "codec_stack2/baseline_parallel_1x": 0.0,
+      "codec_stack2/baseline_parallel_2x": 0.0,
+      "codec_stack2/generator_2x": -1.106232055972151,
+      "codec_stack4/baseline_maskgit_4x": 0.0,
+      "codec_stack4/baseline_parallel_4x": 0.0,
+      "codec_stack4/generator_4x": -1.6175139933108824
+    },
+    "score_change": -2.7237460492830334
+  },
+  "shortcut_copy_answers": {
+    "failures": {
+      "baseline_maskgit_2x": "dependency_validity 0.179 < 0.5",
+      "baseline_maskgit_4x": "dependency_validity 0.124 < 0.5",
+      "baseline_parallel_1x": "dependency_validity 0.160 < 0.5",
+      "baseline_parallel_2x": "dependency_validity 0.141 < 0.5",
+      "baseline_parallel_4x": "dependency_validity 0.122 < 0.5",
+      "generator_2x": "1.000 of sequences copy a 12-frame window of visible data",
+      "generator_4x": "1.000 of sequences copy a 12-frame window of visible data"
+    },
+    "proposed": {
+      "codec_stack2": {
+        "generator_2x": {
+          "codec_fd": 2.0571459528335936,
+          "dependency_validity": 0.0,
+          "speaker_conditioned_codec_fd": 3.082220755639902
+        }
+      },
+      "codec_stack4": {
+        "generator_4x": {
+          "codec_fd": 2.0571459528335936,
+          "dependency_validity": 0.0,
+          "speaker_conditioned_codec_fd": 3.082220755639902
+        }
+      }
+    },
+    "raw": {
+      "generator_2x": {
+        "coarse_transition_validity": 1.0,
+        "codec_fd": 0.05446580858784955,
+        "copied_fraction": 1.0,
+        "dependency_validity": 1.0,
+        "intra_frame_validity": 1.0,
+        "residual_persistence": 1.0,
+        "speaker_conditioned_codec_fd": 0.9098556733143788
+      },
+      "generator_4x": {
+        "coarse_transition_validity": 1.0,
+        "codec_fd": 0.05446580858784955,
+        "copied_fraction": 1.0,
+        "dependency_validity": 1.0,
+        "intra_frame_validity": 1.0,
+        "residual_persistence": 1.0,
+        "speaker_conditioned_codec_fd": 0.9098556733143788
+      }
+    },
+    "row_changes": {
+      "codec_stack2/baseline_maskgit_2x": 0.0,
+      "codec_stack2/baseline_parallel_1x": 0.0,
+      "codec_stack2/baseline_parallel_2x": 0.0,
+      "codec_stack2/generator_2x": -1.106232055972151,
+      "codec_stack4/baseline_maskgit_4x": 0.0,
+      "codec_stack4/baseline_parallel_4x": 0.0,
+      "codec_stack4/generator_4x": -1.6175139933108824
+    },
+    "score_change": -2.7237460492830334
+  },
+  "shortcut_empty": {
+    "failures": {
+      "baseline_maskgit_2x": "dependency_validity 0.179 < 0.5",
+      "baseline_maskgit_4x": "dependency_validity 0.124 < 0.5",
+      "baseline_parallel_1x": "dependency_validity 0.160 < 0.5",
+      "baseline_parallel_2x": "dependency_validity 0.141 < 0.5",
+      "baseline_parallel_4x": "dependency_validity 0.122 < 0.5",
+      "generator_2x": "pred_tokens shape (0, 24, 8) != (4096, 24, 8)",
+      "generator_4x": "pred_tokens shape (0, 24, 8) != (4096, 24, 8)"
+    },
+    "proposed": {
+      "codec_stack2": {
+        "generator_2x": {
+          "codec_fd": 2.0571459528335936,
+          "dependency_validity": 0.0,
+          "speaker_conditioned_codec_fd": 3.082220755639902
+        }
+      },
+      "codec_stack4": {
+        "generator_4x": {
+          "codec_fd": 2.0571459528335936,
+          "dependency_validity": 0.0,
+          "speaker_conditioned_codec_fd": 3.082220755639902
+        }
+      }
+    },
+    "raw": {},
+    "row_changes": {
+      "codec_stack2/baseline_maskgit_2x": 0.0,
+      "codec_stack2/baseline_parallel_1x": 0.0,
+      "codec_stack2/baseline_parallel_2x": 0.0,
+      "codec_stack2/generator_2x": -1.106232055972151,
+      "codec_stack4/baseline_maskgit_4x": 0.0,
+      "codec_stack4/baseline_parallel_4x": 0.0,
+      "codec_stack4/generator_4x": -1.6175139933108824
+    },
+    "score_change": -2.7237460492830334
+  },
+  "shortcut_infinite_stack": {
+    "failures": {
+      "baseline_maskgit_2x": "dependency_validity 0.179 < 0.5",
+      "baseline_maskgit_4x": "dependency_validity 0.124 < 0.5",
+      "baseline_parallel_1x": "dependency_validity 0.160 < 0.5",
+      "baseline_parallel_2x": "dependency_validity 0.141 < 0.5",
+      "baseline_parallel_4x": "dependency_validity 0.122 < 0.5",
+      "generator_2x": "config.stack_factor must be a positive integer",
+      "generator_4x": "config.stack_factor must be a positive integer"
+    },
+    "proposed": {
+      "codec_stack2": {
+        "generator_2x": {
+          "codec_fd": 2.0571459528335936,
+          "dependency_validity": 0.0,
+          "speaker_conditioned_codec_fd": 3.082220755639902
+        }
+      },
+      "codec_stack4": {
+        "generator_4x": {
+          "codec_fd": 2.0571459528335936,
+          "dependency_validity": 0.0,
+          "speaker_conditioned_codec_fd": 3.082220755639902
+        }
+      }
+    },
+    "raw": {},
+    "row_changes": {
+      "codec_stack2/baseline_maskgit_2x": 0.0,
+      "codec_stack2/baseline_parallel_1x": 0.0,
+      "codec_stack2/baseline_parallel_2x": 0.0,
+      "codec_stack2/generator_2x": -1.106232055972151,
+      "codec_stack4/baseline_maskgit_4x": 0.0,
+      "codec_stack4/baseline_parallel_4x": 0.0,
+      "codec_stack4/generator_4x": -1.6175139933108824
+    },
+    "score_change": -2.7237460492830334
+  },
+  "shortcut_negative_steps": {
+    "failures": {
+      "baseline_maskgit_2x": "dependency_validity 0.179 < 0.5",
+      "baseline_maskgit_4x": "dependency_validity 0.124 < 0.5",
+      "baseline_parallel_1x": "dependency_validity 0.160 < 0.5",
+      "baseline_parallel_2x": "dependency_validity 0.141 < 0.5",
+      "baseline_parallel_4x": "dependency_validity 0.122 < 0.5",
+      "generator_2x": "declared stack factor -1 is impossible or exceeds the 12-step budget of this row",
+      "generator_4x": "declared stack factor -1 is impossible or exceeds the 6-step budget of this row"
+    },
+    "proposed": {
+      "codec_stack2": {
+        "generator_2x": {
+          "codec_fd": 2.0571459528335936,
+          "dependency_validity": 0.0,
+          "speaker_conditioned_codec_fd": 3.082220755639902
+        }
+      },
+      "codec_stack4": {
+        "generator_4x": {
+          "codec_fd": 2.0571459528335936,
+          "dependency_validity": 0.0,
+          "speaker_conditioned_codec_fd": 3.082220755639902
+        }
+      }
+    },
+    "raw": {},
+    "row_changes": {
+      "codec_stack2/baseline_maskgit_2x": 0.0,
+      "codec_stack2/baseline_parallel_1x": 0.0,
+      "codec_stack2/baseline_parallel_2x": 0.0,
+      "codec_stack2/generator_2x": -1.106232055972151,
+      "codec_stack4/baseline_maskgit_4x": 0.0,
+      "codec_stack4/baseline_parallel_4x": 0.0,
+      "codec_stack4/generator_4x": -1.6175139933108824
+    },
+    "score_change": -2.7237460492830334
+  },
+  "shortcut_out_of_range": {
+    "failures": {
+      "baseline_maskgit_2x": "dependency_validity 0.179 < 0.5",
+      "baseline_maskgit_4x": "dependency_validity 0.124 < 0.5",
+      "baseline_parallel_1x": "dependency_validity 0.160 < 0.5",
+      "baseline_parallel_2x": "dependency_validity 0.141 < 0.5",
+      "baseline_parallel_4x": "dependency_validity 0.122 < 0.5",
+      "generator_2x": "token ids outside [0, vocab_size)",
+      "generator_4x": "token ids outside [0, vocab_size)"
+    },
+    "proposed": {
+      "codec_stack2": {
+        "generator_2x": {
+          "codec_fd": 2.0571459528335936,
+          "dependency_validity": 0.0,
+          "speaker_conditioned_codec_fd": 3.082220755639902
+        }
+      },
+      "codec_stack4": {
+        "generator_4x": {
+          "codec_fd": 2.0571459528335936,
+          "dependency_validity": 0.0,
+          "speaker_conditioned_codec_fd": 3.082220755639902
+        }
+      }
+    },
+    "raw": {},
+    "row_changes": {
+      "codec_stack2/baseline_maskgit_2x": 0.0,
+      "codec_stack2/baseline_parallel_1x": 0.0,
+      "codec_stack2/baseline_parallel_2x": 0.0,
+      "codec_stack2/generator_2x": -1.106232055972151,
+      "codec_stack4/baseline_maskgit_4x": 0.0,
+      "codec_stack4/baseline_parallel_4x": 0.0,
+      "codec_stack4/generator_4x": -1.6175139933108824
+    },
+    "score_change": -2.7237460492830334
+  },
+  "shortcut_random_one_step": {
+    "failures": {
+      "baseline_maskgit_2x": "dependency_validity 0.179 < 0.5",
+      "baseline_maskgit_4x": "dependency_validity 0.124 < 0.5",
+      "baseline_parallel_1x": "dependency_validity 0.160 < 0.5",
+      "baseline_parallel_2x": "dependency_validity 0.141 < 0.5",
+      "baseline_parallel_4x": "dependency_validity 0.122 < 0.5",
+      "generator_2x": "dependency_validity 0.070 < 0.5",
+      "generator_4x": "dependency_validity 0.070 < 0.5"
+    },
+    "proposed": {
+      "codec_stack2": {
+        "generator_2x": {
+          "codec_fd": 2.0571459528335936,
+          "dependency_validity": 0.0,
+          "speaker_conditioned_codec_fd": 3.082220755639902
+        }
+      },
+      "codec_stack4": {
+        "generator_4x": {
+          "codec_fd": 2.0571459528335936,
+          "dependency_validity": 0.0,
+          "speaker_conditioned_codec_fd": 3.082220755639902
+        }
+      }
+    },
+    "raw": {
+      "generator_2x": {
+        "coarse_transition_validity": 0.12858781218528748,
+        "codec_fd": 2.088675907952677,
+        "copied_fraction": 0.0,
+        "dependency_validity": 0.07044032231675393,
+        "intra_frame_validity": 0.0624796561896801,
+        "residual_persistence": 0.0019409938249737024,
+        "speaker_conditioned_codec_fd": 3.110823638912702
+      },
+      "generator_4x": {
+        "coarse_transition_validity": 0.12858781218528748,
+        "codec_fd": 2.088675907952677,
+        "copied_fraction": 0.0,
+        "dependency_validity": 0.07044032231675393,
+        "intra_frame_validity": 0.0624796561896801,
+        "residual_persistence": 0.0019409938249737024,
+        "speaker_conditioned_codec_fd": 3.110823638912702
+      }
+    },
+    "row_changes": {
+      "codec_stack2/baseline_maskgit_2x": 0.0,
+      "codec_stack2/baseline_parallel_1x": 0.0,
+      "codec_stack2/baseline_parallel_2x": 0.0,
+      "codec_stack2/generator_2x": -1.106232055972151,
+      "codec_stack4/baseline_maskgit_4x": 0.0,
+      "codec_stack4/baseline_parallel_4x": 0.0,
+      "codec_stack4/generator_4x": -1.6175139933108824
+    },
+    "score_change": -2.7237460492830334
+  },
+  "shortcut_rebuild_answers": {
+    "failures": {
+      "baseline_maskgit_2x": "dependency_validity 0.179 < 0.5",
+      "baseline_maskgit_4x": "dependency_validity 0.124 < 0.5",
+      "baseline_parallel_1x": "dependency_validity 0.160 < 0.5",
+      "baseline_parallel_2x": "dependency_validity 0.141 < 0.5",
+      "baseline_parallel_4x": "dependency_validity 0.122 < 0.5",
+      "generator_2x": "1.000 of sequences copy a 12-frame window of visible data",
+      "generator_4x": "1.000 of sequences copy a 12-frame window of visible data"
+    },
+    "proposed": {
+      "codec_stack2": {
+        "generator_2x": {
+          "codec_fd": 2.0571459528335936,
+          "dependency_validity": 0.0,
+          "speaker_conditioned_codec_fd": 3.082220755639902
+        }
+      },
+      "codec_stack4": {
+        "generator_4x": {
+          "codec_fd": 2.0571459528335936,
+          "dependency_validity": 0.0,
+          "speaker_conditioned_codec_fd": 3.082220755639902
+        }
+      }
+    },
+    "raw": {
+      "generator_2x": {
+        "coarse_transition_validity": 1.0,
+        "codec_fd": 0.05482917723196579,
+        "copied_fraction": 1.0,
+        "dependency_validity": 1.0,
+        "intra_frame_validity": 1.0,
+        "residual_persistence": 1.0,
+        "speaker_conditioned_codec_fd": 0.8965843976026271
+      },
+      "generator_4x": {
+        "coarse_transition_validity": 1.0,
+        "codec_fd": 0.05482917723196579,
+        "copied_fraction": 1.0,
+        "dependency_validity": 1.0,
+        "intra_frame_validity": 1.0,
+        "residual_persistence": 1.0,
+        "speaker_conditioned_codec_fd": 0.8965843976026271
+      }
+    },
+    "row_changes": {
+      "codec_stack2/baseline_maskgit_2x": 0.0,
+      "codec_stack2/baseline_parallel_1x": 0.0,
+      "codec_stack2/baseline_parallel_2x": 0.0,
+      "codec_stack2/generator_2x": -1.106232055972151,
+      "codec_stack4/baseline_maskgit_4x": 0.0,
+      "codec_stack4/baseline_parallel_4x": 0.0,
+      "codec_stack4/generator_4x": -1.6175139933108824
+    },
+    "score_change": -2.7237460492830334
+  },
+  "shortcut_replace_baseline": {
+    "failures": {
+      "baseline_maskgit_2x": "dependency_validity 0.179 < 0.5",
+      "baseline_maskgit_4x": "dependency_validity 0.124 < 0.5",
+      "baseline_parallel_1x": "dependency_validity 0.160 < 0.5",
+      "baseline_parallel_2x": "dependency_validity 0.141 < 0.5",
+      "baseline_parallel_4x": "dependency_validity 0.122 < 0.5"
+    },
+    "proposed": {
+      "codec_stack2": {
+        "generator_2x": {
+          "codec_fd": 0.2784562417055554,
+          "dependency_validity": 0.9742974885471204,
+          "speaker_conditioned_codec_fd": 1.272048693873817
+        }
+      },
+      "codec_stack4": {
+        "generator_4x": {
+          "codec_fd": 0.3176904906054574,
+          "dependency_validity": 0.9332869764397905,
+          "speaker_conditioned_codec_fd": 1.2849797512862402
+        }
+      }
+    },
+    "raw": {
+      "generator_2x": {
+        "coarse_transition_validity": 0.98949134349823,
+        "codec_fd": 0.2784562417055554,
+        "copied_fraction": 0.0,
+        "dependency_validity": 0.9742974885471204,
+        "intra_frame_validity": 0.9722173810005188,
+        "residual_persistence": 0.855596125125885,
+        "speaker_conditioned_codec_fd": 1.272048693873817
+      },
+      "generator_4x": {
+        "coarse_transition_validity": 0.956649124622345,
+        "codec_fd": 0.3176904906054574,
+        "copied_fraction": 0.0,
+        "dependency_validity": 0.9332869764397905,
+        "intra_frame_validity": 0.9300885796546936,
+        "residual_persistence": 0.7941576242446899,
+        "speaker_conditioned_codec_fd": 1.2849797512862402
+      }
+    },
+    "row_changes": {
+      "codec_stack2/baseline_maskgit_2x": 0.0,
+      "codec_stack2/baseline_parallel_1x": 0.0,
+      "codec_stack2/baseline_parallel_2x": 0.0,
+      "codec_stack2/generator_2x": 0.0,
+      "codec_stack4/baseline_maskgit_4x": 0.0,
+      "codec_stack4/baseline_parallel_4x": 0.0,
+      "codec_stack4/generator_4x": 0.0
+    },
+    "score_change": 0.0
+  },
+  "shortcut_replace_truth": {
+    "failures": {
+      "baseline_maskgit_2x": "dependency_validity 0.179 < 0.5",
+      "baseline_maskgit_4x": "dependency_validity 0.124 < 0.5",
+      "baseline_parallel_1x": "dependency_validity 0.160 < 0.5",
+      "baseline_parallel_2x": "dependency_validity 0.141 < 0.5",
+      "baseline_parallel_4x": "dependency_validity 0.122 < 0.5"
+    },
+    "proposed": {
+      "codec_stack2": {
+        "generator_2x": {
+          "codec_fd": 0.2784562417055554,
+          "dependency_validity": 0.9742974885471204,
+          "speaker_conditioned_codec_fd": 1.272048693873817
+        }
+      },
+      "codec_stack4": {
+        "generator_4x": {
+          "codec_fd": 0.3176904906054574,
+          "dependency_validity": 0.9332869764397905,
+          "speaker_conditioned_codec_fd": 1.2849797512862402
+        }
+      }
+    },
+    "raw": {
+      "generator_2x": {
+        "coarse_transition_validity": 0.98949134349823,
+        "codec_fd": 0.2784562417055554,
+        "copied_fraction": 0.0,
+        "dependency_validity": 0.9742974885471204,
+        "intra_frame_validity": 0.9722173810005188,
+        "residual_persistence": 0.855596125125885,
+        "speaker_conditioned_codec_fd": 1.272048693873817
+      },
+      "generator_4x": {
+        "coarse_transition_validity": 0.956649124622345,
+        "codec_fd": 0.3176904906054574,
+        "copied_fraction": 0.0,
+        "dependency_validity": 0.9332869764397905,
+        "intra_frame_validity": 0.9300885796546936,
+        "residual_persistence": 0.7941576242446899,
+        "speaker_conditioned_codec_fd": 1.2849797512862402
+      }
+    },
+    "row_changes": {
+      "codec_stack2/baseline_maskgit_2x": 0.0,
+      "codec_stack2/baseline_parallel_1x": 0.0,
+      "codec_stack2/baseline_parallel_2x": 0.0,
+      "codec_stack2/generator_2x": 0.0,
+      "codec_stack4/baseline_maskgit_4x": 0.0,
+      "codec_stack4/baseline_parallel_4x": 0.0,
+      "codec_stack4/generator_4x": 0.0
+    },
+    "score_change": 0.0
+  },
+  "shortcut_rule_sampler": {
+    "failures": {
+      "baseline_maskgit_2x": "dependency_validity 0.179 < 0.5",
+      "baseline_maskgit_4x": "dependency_validity 0.124 < 0.5",
+      "baseline_parallel_1x": "dependency_validity 0.160 < 0.5",
+      "baseline_parallel_2x": "dependency_validity 0.141 < 0.5",
+      "baseline_parallel_4x": "dependency_validity 0.122 < 0.5"
+    },
+    "proposed": {
+      "codec_stack2": {
+        "generator_2x": {
+          "codec_fd": 0.0502163680864669,
+          "dependency_validity": 1.0,
+          "speaker_conditioned_codec_fd": 0.9225511557018997
+        }
+      },
+      "codec_stack4": {
+        "generator_4x": {
+          "codec_fd": 0.054990287565374274,
+          "dependency_validity": 1.0,
+          "speaker_conditioned_codec_fd": 0.8940001608220882
+        }
+      }
+    },
+    "raw": {
+      "generator_2x": {
+        "coarse_transition_validity": 1.0,
+        "codec_fd": 0.0502163680864669,
+        "copied_fraction": 0.0,
+        "dependency_validity": 1.0,
+        "intra_frame_validity": 1.0,
+        "residual_persistence": 1.0,
+        "speaker_conditioned_codec_fd": 0.9225511557018997
+      },
+      "generator_4x": {
+        "coarse_transition_validity": 1.0,
+        "codec_fd": 0.054990287565374274,
+        "copied_fraction": 0.0,
+        "dependency_validity": 1.0,
+        "intra_frame_validity": 1.0,
+        "residual_persistence": 1.0,
+        "speaker_conditioned_codec_fd": 0.8940001608220882
+      }
+    },
+    "row_changes": {
+      "codec_stack2/baseline_maskgit_2x": 0.0,
+      "codec_stack2/baseline_parallel_1x": 0.0,
+      "codec_stack2/baseline_parallel_2x": 0.0,
+      "codec_stack2/generator_2x": 0.12097818035723984,
+      "codec_stack4/baseline_maskgit_4x": 0.0,
+      "codec_stack4/baseline_parallel_4x": 0.0,
+      "codec_stack4/generator_4x": 0.22843498894195208
+    },
+    "score_change": 0.3494131692991919
+  },
+  "shortcut_stack_claim": {
+    "failures": {
+      "baseline_maskgit_2x": "dependency_validity 0.179 < 0.5",
+      "baseline_maskgit_4x": "dependency_validity 0.124 < 0.5",
+      "baseline_parallel_1x": "dependency_validity 0.160 < 0.5",
+      "baseline_parallel_2x": "dependency_validity 0.141 < 0.5",
+      "baseline_parallel_4x": "dependency_validity 0.122 < 0.5"
+    },
+    "proposed": {
+      "codec_stack2": {
+        "generator_2x": {
+          "codec_fd": 0.2784562417055554,
+          "dependency_validity": 0.9742974885471204,
+          "speaker_conditioned_codec_fd": 1.272048693873817
+        }
+      },
+      "codec_stack4": {
+        "generator_4x": {
+          "codec_fd": 0.3176904906054574,
+          "dependency_validity": 0.9332869764397905,
+          "speaker_conditioned_codec_fd": 1.2849797512862402
+        }
+      }
+    },
+    "raw": {
+      "generator_2x": {
+        "coarse_transition_validity": 0.98949134349823,
+        "codec_fd": 0.2784562417055554,
+        "copied_fraction": 0.0,
+        "dependency_validity": 0.9742974885471204,
+        "intra_frame_validity": 0.9722173810005188,
+        "residual_persistence": 0.855596125125885,
+        "speaker_conditioned_codec_fd": 1.272048693873817
+      },
+      "generator_4x": {
+        "coarse_transition_validity": 0.956649124622345,
+        "codec_fd": 0.3176904906054574,
+        "copied_fraction": 0.0,
+        "dependency_validity": 0.9332869764397905,
+        "intra_frame_validity": 0.9300885796546936,
+        "residual_persistence": 0.7941576242446899,
+        "speaker_conditioned_codec_fd": 1.2849797512862402
+      }
+    },
+    "row_changes": {
+      "codec_stack2/baseline_maskgit_2x": 0.0,
+      "codec_stack2/baseline_parallel_1x": 0.0,
+      "codec_stack2/baseline_parallel_2x": 0.0,
+      "codec_stack2/generator_2x": 0.0,
+      "codec_stack4/baseline_maskgit_4x": 0.0,
+      "codec_stack4/baseline_parallel_4x": 0.0,
+      "codec_stack4/generator_4x": 0.0
+    },
+    "score_change": 0.0
+  },
+  "shortcut_unstacked_claim": {
+    "failures": {
+      "baseline_maskgit_2x": "dependency_validity 0.179 < 0.5",
+      "baseline_maskgit_4x": "dependency_validity 0.124 < 0.5",
+      "baseline_parallel_1x": "dependency_validity 0.160 < 0.5",
+      "baseline_parallel_2x": "dependency_validity 0.141 < 0.5",
+      "baseline_parallel_4x": "dependency_validity 0.122 < 0.5"
+    },
+    "proposed": {
+      "codec_stack2": {
+        "generator_2x": {
+          "codec_fd": 0.37919147234498496,
+          "dependency_validity": 0.9059278877617801,
+          "speaker_conditioned_codec_fd": 1.399059318413297
+        }
+      },
+      "codec_stack4": {
+        "generator_4x": {
+          "codec_fd": 0.37919147234498496,
+          "dependency_validity": 0.9059278877617801,
+          "speaker_conditioned_codec_fd": 1.399059318413297
+        }
+      }
+    },
+    "raw": {
+      "generator_2x": {
+        "coarse_transition_validity": 0.9921875,
+        "codec_fd": 0.37919147234498496,
+        "copied_fraction": 0.0,
+        "dependency_validity": 0.9059278877617801,
+        "intra_frame_validity": 0.8941185474395752,
+        "residual_persistence": 0.7631471753120422,
+        "speaker_conditioned_codec_fd": 1.399059318413297
+      },
+      "generator_4x": {
+        "coarse_transition_validity": 0.9921875,
+        "codec_fd": 0.37919147234498496,
+        "copied_fraction": 0.0,
+        "dependency_validity": 0.9059278877617801,
+        "intra_frame_validity": 0.8941185474395752,
+        "residual_persistence": 0.7631471753120422,
+        "speaker_conditioned_codec_fd": 1.399059318413297
+      }
+    },
+    "row_changes": {
+      "codec_stack2/baseline_maskgit_2x": 0.0,
+      "codec_stack2/baseline_parallel_1x": 0.0,
+      "codec_stack2/baseline_parallel_2x": 0.0,
+      "codec_stack2/generator_2x": -0.07184599559391601,
+      "codec_stack4/baseline_maskgit_4x": 0.0,
+      "codec_stack4/baseline_parallel_4x": 0.0,
+      "codec_stack4/generator_4x": -0.06593490274352977
+    },
+    "score_change": -0.13778089833744578
+  },
+  "shortcut_vocab_one": {
+    "failures": {
+      "baseline_maskgit_2x": "dependency_validity 0.179 < 0.5",
+      "baseline_maskgit_4x": "dependency_validity 0.124 < 0.5",
+      "baseline_parallel_1x": "dependency_validity 0.160 < 0.5",
+      "baseline_parallel_2x": "dependency_validity 0.141 < 0.5",
+      "baseline_parallel_4x": "dependency_validity 0.122 < 0.5",
+      "generator_2x": "dependency_validity 0.055 < 0.5",
+      "generator_4x": "dependency_validity 0.055 < 0.5"
+    },
+    "proposed": {
+      "codec_stack2": {
+        "generator_2x": {
+          "codec_fd": 2.0571459528335936,
+          "dependency_validity": 0.0,
+          "speaker_conditioned_codec_fd": 3.082220755639902
+        }
+      },
+      "codec_stack4": {
+        "generator_4x": {
+          "codec_fd": 2.0571459528335936,
+          "dependency_validity": 0.0,
+          "speaker_conditioned_codec_fd": 3.082220755639902
+        }
+      }
+    },
+    "raw": {
+      "generator_2x": {
+        "coarse_transition_validity": 0.0,
+        "codec_fd": 361.50999448678704,
+        "copied_fraction": 0.0,
+        "dependency_validity": 0.05497637843586387,
+        "intra_frame_validity": 0.0625029057264328,
+        "residual_persistence": 0.0,
+        "speaker_conditioned_codec_fd": 361.51863895816
+      },
+      "generator_4x": {
+        "coarse_transition_validity": 0.0,
+        "codec_fd": 361.50999448678704,
+        "copied_fraction": 0.0,
+        "dependency_validity": 0.05497637843586387,
+        "intra_frame_validity": 0.0625029057264328,
+        "residual_persistence": 0.0,
+        "speaker_conditioned_codec_fd": 361.51863895816
+      }
+    },
+    "row_changes": {
+      "codec_stack2/baseline_maskgit_2x": 0.0,
+      "codec_stack2/baseline_parallel_1x": 0.0,
+      "codec_stack2/baseline_parallel_2x": 0.0,
+      "codec_stack2/generator_2x": -1.106232055972151,
+      "codec_stack4/baseline_maskgit_4x": 0.0,
+      "codec_stack4/baseline_parallel_4x": 0.0,
+      "codec_stack4/generator_4x": -1.6175139933108824
+    },
+    "score_change": -2.7237460492830334
+  },
+  "shortcut_write_scores": {
+    "failures": {
+      "baseline_maskgit_2x": "dependency_validity 0.179 < 0.5",
+      "baseline_maskgit_4x": "dependency_validity 0.124 < 0.5",
+      "baseline_parallel_1x": "dependency_validity 0.160 < 0.5",
+      "baseline_parallel_2x": "dependency_validity 0.141 < 0.5",
+      "baseline_parallel_4x": "dependency_validity 0.122 < 0.5"
+    },
+    "proposed": {
+      "codec_stack2": {
+        "generator_2x": {
+          "codec_fd": 0.2784562417055554,
+          "dependency_validity": 0.9742974885471204,
+          "speaker_conditioned_codec_fd": 1.272048693873817
+        }
+      },
+      "codec_stack4": {
+        "generator_4x": {
+          "codec_fd": 0.3176904906054574,
+          "dependency_validity": 0.9332869764397905,
+          "speaker_conditioned_codec_fd": 1.2849797512862402
+        }
+      }
+    },
+    "raw": {
+      "generator_2x": {
+        "coarse_transition_validity": 0.98949134349823,
+        "codec_fd": 0.2784562417055554,
+        "copied_fraction": 0.0,
+        "dependency_validity": 0.9742974885471204,
+        "intra_frame_validity": 0.9722173810005188,
+        "residual_persistence": 0.855596125125885,
+        "speaker_conditioned_codec_fd": 1.272048693873817
+      },
+      "generator_4x": {
+        "coarse_transition_validity": 0.956649124622345,
+        "codec_fd": 0.3176904906054574,
+        "copied_fraction": 0.0,
+        "dependency_validity": 0.9332869764397905,
+        "intra_frame_validity": 0.9300885796546936,
+        "residual_persistence": 0.7941576242446899,
+        "speaker_conditioned_codec_fd": 1.2849797512862402
+      }
+    },
+    "row_changes": {
+      "codec_stack2/baseline_maskgit_2x": 0.0,
+      "codec_stack2/baseline_parallel_1x": 0.0,
+      "codec_stack2/baseline_parallel_2x": 0.0,
+      "codec_stack2/generator_2x": 0.0,
+      "codec_stack4/baseline_maskgit_4x": 0.0,
+      "codec_stack4/baseline_parallel_4x": 0.0,
+      "codec_stack4/generator_4x": 0.0
+    },
+    "score_change": 0.0
+  },
+  "shortcut_zero_stack": {
+    "failures": {
+      "baseline_maskgit_2x": "dependency_validity 0.179 < 0.5",
+      "baseline_maskgit_4x": "dependency_validity 0.124 < 0.5",
+      "baseline_parallel_1x": "dependency_validity 0.160 < 0.5",
+      "baseline_parallel_2x": "dependency_validity 0.141 < 0.5",
+      "baseline_parallel_4x": "dependency_validity 0.122 < 0.5",
+      "generator_2x": "declared stack factor 0 is impossible or exceeds the 12-step budget of this row",
+      "generator_4x": "declared stack factor 0 is impossible or exceeds the 6-step budget of this row"
+    },
+    "proposed": {
+      "codec_stack2": {
+        "generator_2x": {
+          "codec_fd": 2.0571459528335936,
+          "dependency_validity": 0.0,
+          "speaker_conditioned_codec_fd": 3.082220755639902
+        }
+      },
+      "codec_stack4": {
+        "generator_4x": {
+          "codec_fd": 2.0571459528335936,
+          "dependency_validity": 0.0,
+          "speaker_conditioned_codec_fd": 3.082220755639902
+        }
+      }
+    },
+    "raw": {},
+    "row_changes": {
+      "codec_stack2/baseline_maskgit_2x": 0.0,
+      "codec_stack2/baseline_parallel_1x": 0.0,
+      "codec_stack2/baseline_parallel_2x": 0.0,
+      "codec_stack2/generator_2x": -1.106232055972151,
+      "codec_stack4/baseline_maskgit_4x": 0.0,
+      "codec_stack4/baseline_parallel_4x": 0.0,
+      "codec_stack4/generator_4x": -1.6175139933108824
+    },
+    "score_change": -2.7237460492830334
+  },
+  "variant_temperature06_koel": {
+    "failures": {
+      "baseline_maskgit_2x": "dependency_validity 0.179 < 0.5",
+      "baseline_maskgit_4x": "dependency_validity 0.124 < 0.5",
+      "baseline_parallel_1x": "dependency_validity 0.160 < 0.5",
+      "baseline_parallel_2x": "dependency_validity 0.141 < 0.5",
+      "baseline_parallel_4x": "dependency_validity 0.122 < 0.5"
+    },
+    "proposed": {
+      "codec_stack2": {
+        "generator_2x": {
+          "codec_fd": 0.44542568887283096,
+          "dependency_validity": 0.9872126554319371,
+          "speaker_conditioned_codec_fd": 1.563587582099899
+        }
+      },
+      "codec_stack4": {
+        "generator_4x": {
+          "codec_fd": 0.6273869371900673,
+          "dependency_validity": 0.9564995091623036,
+          "speaker_conditioned_codec_fd": 1.6976705749709886
+        }
+      }
+    },
+    "raw": {
+      "generator_2x": {
+        "coarse_transition_validity": 0.998896062374115,
+        "codec_fd": 0.44542568887283096,
+        "copied_fraction": 0.0,
+        "dependency_validity": 0.9872126554319371,
+        "intra_frame_validity": 0.9856131672859192,
+        "residual_persistence": 0.8975579738616943,
+        "speaker_conditioned_codec_fd": 1.563587582099899
+      },
+      "generator_4x": {
+        "coarse_transition_validity": 0.96970534324646,
+        "codec_fd": 0.6273869371900673,
+        "copied_fraction": 0.0,
+        "dependency_validity": 0.9564995091623036,
+        "intra_frame_validity": 0.9546915888786316,
+        "residual_persistence": 0.8390461206436157,
+        "speaker_conditioned_codec_fd": 1.6976705749709886
+      }
+    },
+    "row_changes": {
+      "codec_stack2/baseline_maskgit_2x": 0.0,
+      "codec_stack2/baseline_parallel_1x": 0.0,
+      "codec_stack2/baseline_parallel_2x": 0.0,
+      "codec_stack2/generator_2x": -0.08155282268239258,
+      "codec_stack4/baseline_maskgit_4x": 0.0,
+      "codec_stack4/baseline_parallel_4x": 0.0,
+      "codec_stack4/generator_4x": -0.19660899882129132
+    },
+    "score_change": -0.2781618215036839
+  },
+  "variant_temperature08": {
+    "failures": {
+      "baseline_maskgit_2x": "dependency_validity 0.179 < 0.5",
+      "baseline_maskgit_4x": "dependency_validity 0.124 < 0.5",
+      "baseline_parallel_1x": "dependency_validity 0.160 < 0.5",
+      "baseline_parallel_2x": "dependency_validity 0.141 < 0.5",
+      "baseline_parallel_4x": "dependency_validity 0.122 < 0.5"
+    },
+    "proposed": {
+      "codec_stack2": {
+        "generator_2x": {
+          "codec_fd": 0.3796154737641473,
+          "dependency_validity": 0.9814401996073299,
+          "speaker_conditioned_codec_fd": 1.3704181899321277
+        }
+      },
+      "codec_stack4": {
+        "generator_4x": {
+          "codec_fd": 0.37648848560047554,
+          "dependency_validity": 0.9466597472185864,
+          "speaker_conditioned_codec_fd": 1.3825280659606456
+        }
+      }
+    },
+    "raw": {
+      "generator_2x": {
+        "coarse_transition_validity": 0.9960088133811951,
+        "codec_fd": 0.3796154737641473,
+        "copied_fraction": 0.0,
+        "dependency_validity": 0.9814401996073299,
+        "intra_frame_validity": 0.9794456958770752,
+        "residual_persistence": 0.8770077228546143,
+        "speaker_conditioned_codec_fd": 1.3704181899321277
+      },
+      "generator_4x": {
+        "coarse_transition_validity": 0.964249312877655,
+        "codec_fd": 0.37648848560047554,
+        "copied_fraction": 0.0,
+        "dependency_validity": 0.9466597472185864,
+        "intra_frame_validity": 0.9442516565322876,
+        "residual_persistence": 0.8184928297996521,
+        "speaker_conditioned_codec_fd": 1.3825280659606456
+      }
+    },
+    "row_changes": {
+      "codec_stack2/baseline_maskgit_2x": 0.0,
+      "codec_stack2/baseline_parallel_1x": 0.0,
+      "codec_stack2/baseline_parallel_2x": 0.0,
+      "codec_stack2/generator_2x": -0.037160250639308,
+      "codec_stack4/baseline_maskgit_4x": 0.0,
+      "codec_stack4/baseline_parallel_4x": 0.0,
+      "codec_stack4/generator_4x": -0.036555211252786324
+    },
+    "score_change": -0.07371546189209432
+  },
+  "weaker_argmax": {
+    "failures": {
+      "baseline_maskgit_2x": "dependency_validity 0.179 < 0.5",
+      "baseline_maskgit_4x": "dependency_validity 0.124 < 0.5",
+      "baseline_parallel_1x": "dependency_validity 0.160 < 0.5",
+      "baseline_parallel_2x": "dependency_validity 0.141 < 0.5",
+      "baseline_parallel_4x": "dependency_validity 0.122 < 0.5"
+    },
+    "proposed": {
+      "codec_stack2": {
+        "generator_2x": {
+          "codec_fd": 2.0571459528335936,
+          "dependency_validity": 0.9970677560536649,
+          "speaker_conditioned_codec_fd": 3.082220755639902
+        }
+      },
+      "codec_stack4": {
+        "generator_4x": {
+          "codec_fd": 2.0571459528335936,
+          "dependency_validity": 0.9712680996400523,
+          "speaker_conditioned_codec_fd": 3.082220755639902
+        }
+      }
+    },
+    "raw": {
+      "generator_2x": {
+        "coarse_transition_validity": 1.0,
+        "codec_fd": 6.261855501309981,
+        "copied_fraction": 0.0,
+        "dependency_validity": 0.9970677560536649,
+        "intra_frame_validity": 0.9966663122177124,
+        "residual_persistence": 0.9294812679290771,
+        "speaker_conditioned_codec_fd": 111.81734223915262
+      },
+      "generator_4x": {
+        "coarse_transition_validity": 0.980829656124115,
+        "codec_fd": 8.08113060251145,
+        "copied_fraction": 0.0,
+        "dependency_validity": 0.9712680996400523,
+        "intra_frame_validity": 0.9699590802192688,
+        "residual_persistence": 0.8789396286010742,
+        "speaker_conditioned_codec_fd": 114.61685812194989
+      }
+    },
+    "row_changes": {
+      "codec_stack2/baseline_maskgit_2x": 0.0,
+      "codec_stack2/baseline_parallel_1x": 0.0,
+      "codec_stack2/baseline_parallel_2x": 0.0,
+      "codec_stack2/generator_2x": -0.707404953550685,
+      "codec_stack4/baseline_maskgit_4x": 0.0,
+      "codec_stack4/baseline_parallel_4x": 0.0,
+      "codec_stack4/generator_4x": -1.034753133526851
+    },
+    "score_change": -1.742158087077536
+  },
+  "weaker_no_local": {
+    "failures": {
+      "baseline_maskgit_2x": "dependency_validity 0.179 < 0.5",
+      "baseline_maskgit_4x": "dependency_validity 0.124 < 0.5",
+      "baseline_parallel_1x": "dependency_validity 0.160 < 0.5",
+      "baseline_parallel_2x": "dependency_validity 0.141 < 0.5",
+      "baseline_parallel_4x": "dependency_validity 0.122 < 0.5",
+      "generator_2x": "dependency_validity 0.141 < 0.5",
+      "generator_4x": "dependency_validity 0.122 < 0.5"
+    },
+    "proposed": {
+      "codec_stack2": {
+        "generator_2x": {
+          "codec_fd": 2.0571459528335936,
+          "dependency_validity": 0.0,
+          "speaker_conditioned_codec_fd": 3.082220755639902
+        }
+      },
+      "codec_stack4": {
+        "generator_4x": {
+          "codec_fd": 2.0571459528335936,
+          "dependency_validity": 0.0,
+          "speaker_conditioned_codec_fd": 3.082220755639902
+        }
+      }
+    },
+    "raw": {
+      "generator_2x": {
+        "coarse_transition_validity": 0.7103642821311951,
+        "codec_fd": 0.43688861895566333,
+        "copied_fraction": 0.0,
+        "dependency_validity": 0.14112350703534032,
+        "intra_frame_validity": 0.0631917342543602,
+        "residual_persistence": 0.01453015860170126,
+        "speaker_conditioned_codec_fd": 1.5736266445156417
+      },
+      "generator_4x": {
+        "coarse_transition_validity": 0.32215946912765503,
+        "codec_fd": 1.4010131734739844,
+        "copied_fraction": 0.0,
+        "dependency_validity": 0.12175842604712042,
+        "intra_frame_validity": 0.094322569668293,
+        "residual_persistence": 0.008479716256260872,
+        "speaker_conditioned_codec_fd": 2.463792238021643
+      }
+    },
+    "row_changes": {
+      "codec_stack2/baseline_maskgit_2x": 0.0,
+      "codec_stack2/baseline_parallel_1x": 0.0,
+      "codec_stack2/baseline_parallel_2x": 0.0,
+      "codec_stack2/generator_2x": -1.106232055972151,
+      "codec_stack4/baseline_maskgit_4x": 0.0,
+      "codec_stack4/baseline_parallel_4x": 0.0,
+      "codec_stack4/generator_4x": -1.6175139933108824
+    },
+    "score_change": -2.7237460492830334
+  },
+  "weaker_training": {
+    "failures": {
+      "baseline_maskgit_2x": "dependency_validity 0.179 < 0.5",
+      "baseline_maskgit_4x": "dependency_validity 0.124 < 0.5",
+      "baseline_parallel_1x": "dependency_validity 0.160 < 0.5",
+      "baseline_parallel_2x": "dependency_validity 0.141 < 0.5",
+      "baseline_parallel_4x": "dependency_validity 0.122 < 0.5",
+      "generator_2x": "dependency_validity 0.449 < 0.5",
+      "generator_4x": "dependency_validity 0.270 < 0.5"
+    },
+    "proposed": {
+      "codec_stack2": {
+        "generator_2x": {
+          "codec_fd": 2.0571459528335936,
+          "dependency_validity": 0.0,
+          "speaker_conditioned_codec_fd": 3.082220755639902
+        }
+      },
+      "codec_stack4": {
+        "generator_4x": {
+          "codec_fd": 2.0571459528335936,
+          "dependency_validity": 0.0,
+          "speaker_conditioned_codec_fd": 3.082220755639902
+        }
+      }
+    },
+    "raw": {
+      "generator_2x": {
+        "coarse_transition_validity": 0.836043655872345,
+        "codec_fd": 0.6885916692093019,
+        "copied_fraction": 0.0,
+        "dependency_validity": 0.4491829597513089,
+        "intra_frame_validity": 0.3962198793888092,
+        "residual_persistence": 0.18709664046764374,
+        "speaker_conditioned_codec_fd": 1.9291303382259528
+      },
+      "generator_4x": {
+        "coarse_transition_validity": 0.82154381275177,
+        "codec_fd": 0.5430104733161443,
+        "copied_fraction": 0.0,
+        "dependency_validity": 0.26976388661649214,
+        "intra_frame_validity": 0.1942225843667984,
+        "residual_persistence": 0.08187354356050491,
+        "speaker_conditioned_codec_fd": 1.6153697418194177
+      }
+    },
+    "row_changes": {
+      "codec_stack2/baseline_maskgit_2x": 0.0,
+      "codec_stack2/baseline_parallel_1x": 0.0,
+      "codec_stack2/baseline_parallel_2x": 0.0,
+      "codec_stack2/generator_2x": -1.106232055972151,
+      "codec_stack4/baseline_maskgit_4x": 0.0,
+      "codec_stack4/baseline_parallel_4x": 0.0,
+      "codec_stack4/generator_4x": -1.6175139933108824
+    },
+    "score_change": -2.7237460492830334
+  }
+}
