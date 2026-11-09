@@ -1,4 +1,2 @@
-action: submit
-gpus: 1
-test: false
-notes: "One bundled verification: regenerate enlarged paired outputs from saved reference, baseline and variant weights; rescore raw outputs, replay fixed shortcuts, and bootstrap headroom."
+action: done
+notes: "Verified learned headroom above seed noise, failed shortcut replays, and reference-only scores; remaining analytic-sampling and MaskGIT limits documented in HARDENING.md."
