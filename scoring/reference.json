@@ -312,16 +312,27 @@
       "results": {
         "generator_2x": {
           "type": "proposed",
-          "dependency_validity": 0.0
+          "dependency_validity": 0.9742910974312827,
+          "codec_fd": 0.1849770164481015,
+          "speaker_conditioned_codec_fd": 0.5026589485900139
         },
         "baseline_parallel_1x": {
-          "type": "baseline"
+          "type": "baseline",
+          "codec_fd": 0.30726740414922915,
+          "dependency_validity": 0.15979898662467276,
+          "speaker_conditioned_codec_fd": 0.8707904246543379
         },
         "baseline_parallel_2x": {
-          "type": "baseline"
+          "type": "baseline",
+          "codec_fd": 0.40657049222829755,
+          "dependency_validity": 0.1408224854793848,
+          "speaker_conditioned_codec_fd": 0.8915317881935785
         },
         "baseline_maskgit_2x": {
-          "type": "baseline"
+          "type": "baseline",
+          "codec_fd": 0.5111311204324807,
+          "dependency_validity": 0.178613792539267,
+          "speaker_conditioned_codec_fd": 0.9526961957546121
         }
       }
     },
@@ -349,13 +360,21 @@
       "results": {
         "generator_4x": {
           "type": "proposed",
-          "dependency_validity": 0.0
+          "dependency_validity": 0.9330172713514397,
+          "codec_fd": 0.26808556106846027,
+          "speaker_conditioned_codec_fd": 0.6028814086313439
         },
         "baseline_parallel_4x": {
-          "type": "baseline"
+          "type": "baseline",
+          "codec_fd": 1.3274698506430695,
+          "dependency_validity": 0.12210098985602094,
+          "speaker_conditioned_codec_fd": 1.7477046499661135
         },
         "baseline_maskgit_4x": {
-          "type": "baseline"
+          "type": "baseline",
+          "codec_fd": 0.938013104727986,
+          "dependency_validity": 0.12513996543684555,
+          "speaker_conditioned_codec_fd": 1.330383762593911
         }
       }
     }

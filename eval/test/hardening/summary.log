@@ -1,0 +1,58 @@
+better_more_training: feasible=True improvement=+0.047042
+current: feasible=True improvement=+0.000000
+reference_sample2: feasible=True improvement=-0.002806
+reference_sample1: feasible=True improvement=-0.005162
+reference_seed27: feasible=True improvement=-0.010704
+reference_seed17: feasible=True improvement=-0.022101
+weaker_argmax: feasible=True improvement=-4.711476
+shortcut_copy_answers: feasible=False improvement=+0.197089
+better_bigger: feasible=False improvement=+0.132836
+shortcut_replace_baseline: feasible=False improvement=+0.000000
+shortcut_rule_sampler: feasible=False improvement=-1.058027
+weaker_training: feasible=False improvement=-1.476989
+weaker_no_local: feasible=False improvement=-2.065545
+shortcut_random_one_step: feasible=False improvement=-2.660213
+shortcut_empty: feasible=False improvement=-2.806780
+shortcut_infinite_stack: feasible=False improvement=-2.806780
+shortcut_negative_steps: feasible=False improvement=-2.806780
+shortcut_out_of_range: feasible=False improvement=-2.806780
+shortcut_rebuild_answers: feasible=False improvement=-2.806780
+shortcut_stack_claim: feasible=False improvement=-2.806780
+shortcut_vocab_one: feasible=False improvement=-2.806780
+shortcut_write_scores: feasible=False improvement=-2.806780
+shortcut_zero_stack: feasible=False improvement=-2.806780
+{
+  "better_more_training": {
+    "normalized_improvement": 0.047041555143810275,
+    "feasible": true,
+    "paired_bootstrap_95_percent": [
+      0.04118288438488567,
+      0.05801140926247521
+    ],
+    "replicates": 100,
+    "blocks": 16,
+    "note": "Unconditional scientific metric difference; feasibility reported separately. Standard deviations fixed to the ranked cohort."
+  },
+  "better_bigger": {
+    "normalized_improvement": 0.1328362239125044,
+    "feasible": false,
+    "paired_bootstrap_95_percent": [
+      0.1272360125413413,
+      0.140563183021605
+    ],
+    "replicates": 100,
+    "blocks": 16,
+    "note": "Unconditional scientific metric difference; feasibility reported separately. Standard deviations fixed to the ranked cohort."
+  },
+  "weaker_training": {
+    "normalized_improvement": -1.4769887769181171,
+    "feasible": false,
+    "paired_bootstrap_95_percent": [
+      -1.485244784013927,
+      -1.4661540750255553
+    ],
+    "replicates": 100,
+    "blocks": 16,
+    "note": "Unconditional scientific metric difference; feasibility reported separately. Standard deviations fixed to the ranked cohort."
+  }
+}

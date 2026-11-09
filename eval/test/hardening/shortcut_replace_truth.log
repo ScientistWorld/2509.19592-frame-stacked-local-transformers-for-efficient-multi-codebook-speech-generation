@@ -1,0 +1,326 @@
+{
+  "failures": {
+    "baseline_maskgit_2x": "dependency_validity 0.179 < 0.5",
+    "baseline_maskgit_4x": "dependency_validity 0.125 < 0.5",
+    "baseline_parallel_1x": "dependency_validity 0.160 < 0.5",
+    "baseline_parallel_2x": "dependency_validity 0.141 < 0.5",
+    "baseline_parallel_4x": "dependency_validity 0.122 < 0.5",
+    "generator_2x": "fixed training data changed",
+    "generator_4x": "fixed training data changed"
+  },
+  "ranking": {
+    "attempts": {
+      "better_bigger": {
+        "contributions": {
+          "codec_stack2/generator_2x/codec_fd": 0.017659995796056056,
+          "codec_stack2/generator_2x/dependency_validity": 0.003557926546753567,
+          "codec_stack2/generator_2x/speaker_conditioned_codec_fd": -0.00019028590572234838,
+          "codec_stack4/generator_4x/codec_fd": 0.04796190197251181,
+          "codec_stack4/generator_4x/dependency_validity": 0.06242537392989751,
+          "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 0.001421311573007803
+        },
+        "feasible": false,
+        "improvement": 0.1328362239125044
+      },
+      "better_more_training": {
+        "contributions": {
+          "codec_stack2/generator_2x/codec_fd": 0.004936200143689352,
+          "codec_stack2/generator_2x/dependency_validity": 0.0022367564172516966,
+          "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 0.0001877500933115625,
+          "codec_stack4/generator_4x/codec_fd": 0.016676473242383034,
+          "codec_stack4/generator_4x/dependency_validity": 0.021900123457444402,
+          "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 0.0011042517897302275
+        },
+        "feasible": false,
+        "improvement": 0.047041555143810275
+      },
+      "current": {
+        "contributions": {
+          "codec_stack2/generator_2x/codec_fd": -0.0,
+          "codec_stack2/generator_2x/dependency_validity": 0.0,
+          "codec_stack2/generator_2x/speaker_conditioned_codec_fd": -0.0,
+          "codec_stack4/generator_4x/codec_fd": -0.0,
+          "codec_stack4/generator_4x/dependency_validity": 0.0,
+          "codec_stack4/generator_4x/speaker_conditioned_codec_fd": -0.0
+        },
+        "feasible": false,
+        "improvement": 0.0
+      },
+      "reference_sample1": {
+        "contributions": {
+          "codec_stack2/generator_2x/codec_fd": -0.00272344898093735,
+          "codec_stack2/generator_2x/dependency_validity": -0.00019454834685675218,
+          "codec_stack2/generator_2x/speaker_conditioned_codec_fd": -0.00017477064070272927,
+          "codec_stack4/generator_4x/codec_fd": -0.0018169875303296725,
+          "codec_stack4/generator_4x/dependency_validity": -0.00013670279644477506,
+          "codec_stack4/generator_4x/speaker_conditioned_codec_fd": -0.0001152571600897301
+        },
+        "feasible": false,
+        "improvement": -0.005161715455361009
+      },
+      "reference_sample2": {
+        "contributions": {
+          "codec_stack2/generator_2x/codec_fd": -0.0011195901532145194,
+          "codec_stack2/generator_2x/dependency_validity": -0.0005358323112581195,
+          "codec_stack2/generator_2x/speaker_conditioned_codec_fd": -0.00019100823602702117,
+          "codec_stack4/generator_4x/codec_fd": -0.0009131532750536576,
+          "codec_stack4/generator_4x/dependency_validity": 6.7093397029281335e-06,
+          "codec_stack4/generator_4x/speaker_conditioned_codec_fd": -5.349916812020013e-05
+        },
+        "feasible": false,
+        "improvement": -0.0028063738039705898
+      },
+      "reference_seed17": {
+        "contributions": {
+          "codec_stack2/generator_2x/codec_fd": -0.005425845926323593,
+          "codec_stack2/generator_2x/dependency_validity": -0.005883713563414274,
+          "codec_stack2/generator_2x/speaker_conditioned_codec_fd": -0.00026310373403553336,
+          "codec_stack4/generator_4x/codec_fd": -0.021388615779188814,
+          "codec_stack4/generator_4x/dependency_validity": 0.012031523422069399,
+          "codec_stack4/generator_4x/speaker_conditioned_codec_fd": -0.0011707921050604963
+        },
+        "feasible": false,
+        "improvement": -0.02210054768595331
+      },
+      "reference_seed27": {
+        "contributions": {
+          "codec_stack2/generator_2x/codec_fd": -0.0037525745856235855,
+          "codec_stack2/generator_2x/dependency_validity": -0.04500826543087436,
+          "codec_stack2/generator_2x/speaker_conditioned_codec_fd": -0.0002690647527512509,
+          "codec_stack4/generator_4x/codec_fd": 0.026960473448620403,
+          "codec_stack4/generator_4x/dependency_validity": 0.009749509255650176,
+          "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 0.0016158105753813694
+        },
+        "feasible": false,
+        "improvement": -0.010704111489597247
+      },
+      "shortcut_copy_answers": {
+        "contributions": {
+          "codec_stack2/generator_2x/codec_fd": 0.02898789682781359,
+          "codec_stack2/generator_2x/dependency_validity": 0.022107067233504907,
+          "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 0.0012464653613862883,
+          "codec_stack4/generator_4x/codec_fd": 0.05396264395375098,
+          "codec_stack4/generator_4x/dependency_validity": 0.0878973821116269,
+          "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 0.0028875754534498305
+        },
+        "feasible": false,
+        "improvement": 0.1970890309415325
+      },
+      "shortcut_empty": {
+        "contributions": {
+          "codec_stack2/generator_2x/codec_fd": -0.325985191161585,
+          "codec_stack2/generator_2x/dependency_validity": -0.8377922293006421,
+          "codec_stack2/generator_2x/speaker_conditioned_codec_fd": -0.01402672816448972,
+          "codec_stack4/generator_4x/codec_fd": -0.38517502767561496,
+          "codec_stack4/generator_4x/dependency_validity": -1.2243421143233424,
+          "codec_stack4/generator_4x/speaker_conditioned_codec_fd": -0.01945905765049176
+        },
+        "feasible": false,
+        "improvement": -2.806780348276166
+      },
+      "shortcut_infinite_stack": {
+        "contributions": {
+          "codec_stack2/generator_2x/codec_fd": -0.325985191161585,
+          "codec_stack2/generator_2x/dependency_validity": -0.8377922293006421,
+          "codec_stack2/generator_2x/speaker_conditioned_codec_fd": -0.01402672816448972,
+          "codec_stack4/generator_4x/codec_fd": -0.38517502767561496,
+          "codec_stack4/generator_4x/dependency_validity": -1.2243421143233424,
+          "codec_stack4/generator_4x/speaker_conditioned_codec_fd": -0.01945905765049176
+        },
+        "feasible": false,
+        "improvement": -2.806780348276166
+      },
+      "shortcut_negative_steps": {
+        "contributions": {
+          "codec_stack2/generator_2x/codec_fd": -0.325985191161585,
+          "codec_stack2/generator_2x/dependency_validity": -0.8377922293006421,
+          "codec_stack2/generator_2x/speaker_conditioned_codec_fd": -0.01402672816448972,
+          "codec_stack4/generator_4x/codec_fd": -0.38517502767561496,
+          "codec_stack4/generator_4x/dependency_validity": -1.2243421143233424,
+          "codec_stack4/generator_4x/speaker_conditioned_codec_fd": -0.01945905765049176
+        },
+        "feasible": false,
+        "improvement": -2.806780348276166
+      },
+      "shortcut_out_of_range": {
+        "contributions": {
+          "codec_stack2/generator_2x/codec_fd": -0.325985191161585,
+          "codec_stack2/generator_2x/dependency_validity": -0.8377922293006421,
+          "codec_stack2/generator_2x/speaker_conditioned_codec_fd": -0.01402672816448972,
+          "codec_stack4/generator_4x/codec_fd": -0.38517502767561496,
+          "codec_stack4/generator_4x/dependency_validity": -1.2243421143233424,
+          "codec_stack4/generator_4x/speaker_conditioned_codec_fd": -0.01945905765049176
+        },
+        "feasible": false,
+        "improvement": -2.806780348276166
+      },
+      "shortcut_random_one_step": {
+        "contributions": {
+          "codec_stack2/generator_2x/codec_fd": -0.3283934801823289,
+          "codec_stack2/generator_2x/dependency_validity": -0.7775229100735365,
+          "codec_stack2/generator_2x/speaker_conditioned_codec_fd": -0.014143686562993097,
+          "codec_stack4/generator_4x/codec_fd": -0.3881543251743923,
+          "codec_stack4/generator_4x/dependency_validity": -1.1323688083422567,
+          "codec_stack4/generator_4x/speaker_conditioned_codec_fd": -0.019630182727598356
+        },
+        "feasible": false,
+        "improvement": -2.660213393063106
+      },
+      "shortcut_rebuild_answers": {
+        "contributions": {
+          "codec_stack2/generator_2x/codec_fd": -0.325985191161585,
+          "codec_stack2/generator_2x/dependency_validity": -0.8377922293006421,
+          "codec_stack2/generator_2x/speaker_conditioned_codec_fd": -0.01402672816448972,
+          "codec_stack4/generator_4x/codec_fd": -0.38517502767561496,
+          "codec_stack4/generator_4x/dependency_validity": -1.2243421143233424,
+          "codec_stack4/generator_4x/speaker_conditioned_codec_fd": -0.01945905765049176
+        },
+        "feasible": false,
+        "improvement": -2.806780348276166
+      },
+      "shortcut_replace_baseline": {
+        "contributions": {
+          "codec_stack2/generator_2x/codec_fd": -0.0,
+          "codec_stack2/generator_2x/dependency_validity": 0.0,
+          "codec_stack2/generator_2x/speaker_conditioned_codec_fd": -0.0,
+          "codec_stack4/generator_4x/codec_fd": -0.0,
+          "codec_stack4/generator_4x/dependency_validity": 0.0,
+          "codec_stack4/generator_4x/speaker_conditioned_codec_fd": -0.0
+        },
+        "feasible": false,
+        "improvement": 0.0
+      },
+      "shortcut_rule_sampler": {
+        "contributions": {
+          "codec_stack2/generator_2x/codec_fd": -0.40956542754901376,
+          "codec_stack2/generator_2x/dependency_validity": -0.06856730083498831,
+          "codec_stack2/generator_2x/speaker_conditioned_codec_fd": -0.017015320505698064,
+          "codec_stack4/generator_4x/codec_fd": -0.4885722474741584,
+          "codec_stack4/generator_4x/dependency_validity": -0.050475201251724645,
+          "codec_stack4/generator_4x/speaker_conditioned_codec_fd": -0.023831750004129838
+        },
+        "feasible": false,
+        "improvement": -1.058027247619713
+      },
+      "shortcut_stack_claim": {
+        "contributions": {
+          "codec_stack2/generator_2x/codec_fd": -0.325985191161585,
+          "codec_stack2/generator_2x/dependency_validity": -0.8377922293006421,
+          "codec_stack2/generator_2x/speaker_conditioned_codec_fd": -0.01402672816448972,
+          "codec_stack4/generator_4x/codec_fd": -0.38517502767561496,
+          "codec_stack4/generator_4x/dependency_validity": -1.2243421143233424,
+          "codec_stack4/generator_4x/speaker_conditioned_codec_fd": -0.01945905765049176
+        },
+        "feasible": false,
+        "improvement": -2.806780348276166
+      },
+      "shortcut_vocab_one": {
+        "contributions": {
+          "codec_stack2/generator_2x/codec_fd": -0.325985191161585,
+          "codec_stack2/generator_2x/dependency_validity": -0.8377922293006421,
+          "codec_stack2/generator_2x/speaker_conditioned_codec_fd": -0.01402672816448972,
+          "codec_stack4/generator_4x/codec_fd": -0.38517502767561496,
+          "codec_stack4/generator_4x/dependency_validity": -1.2243421143233424,
+          "codec_stack4/generator_4x/speaker_conditioned_codec_fd": -0.01945905765049176
+        },
+        "feasible": false,
+        "improvement": -2.806780348276166
+      },
+      "shortcut_write_scores": {
+        "contributions": {
+          "codec_stack2/generator_2x/codec_fd": -0.325985191161585,
+          "codec_stack2/generator_2x/dependency_validity": -0.8377922293006421,
+          "codec_stack2/generator_2x/speaker_conditioned_codec_fd": -0.01402672816448972,
+          "codec_stack4/generator_4x/codec_fd": -0.38517502767561496,
+          "codec_stack4/generator_4x/dependency_validity": -1.2243421143233424,
+          "codec_stack4/generator_4x/speaker_conditioned_codec_fd": -0.01945905765049176
+        },
+        "feasible": false,
+        "improvement": -2.806780348276166
+      },
+      "shortcut_zero_stack": {
+        "contributions": {
+          "codec_stack2/generator_2x/codec_fd": -0.325985191161585,
+          "codec_stack2/generator_2x/dependency_validity": -0.8377922293006421,
+          "codec_stack2/generator_2x/speaker_conditioned_codec_fd": -0.01402672816448972,
+          "codec_stack4/generator_4x/codec_fd": -0.38517502767561496,
+          "codec_stack4/generator_4x/dependency_validity": -1.2243421143233424,
+          "codec_stack4/generator_4x/speaker_conditioned_codec_fd": -0.01945905765049176
+        },
+        "feasible": false,
+        "improvement": -2.806780348276166
+      },
+      "weaker_argmax": {
+        "contributions": {
+          "codec_stack2/generator_2x/codec_fd": -1.0510353417461424,
+          "codec_stack2/generator_2x/dependency_validity": 0.019591128442797753,
+          "codec_stack2/generator_2x/speaker_conditioned_codec_fd": -0.8071654387359141,
+          "codec_stack4/generator_4x/codec_fd": -1.713202932836705,
+          "codec_stack4/generator_4x/dependency_validity": 0.05033430511796578,
+          "codec_stack4/generator_4x/speaker_conditioned_codec_fd": -1.2099976053916088
+        },
+        "feasible": false,
+        "improvement": -4.711475885149607
+      },
+      "weaker_no_local": {
+        "contributions": {
+          "codec_stack2/generator_2x/codec_fd": -0.03901439548571715,
+          "codec_stack2/generator_2x/dependency_validity": -0.716699073100729,
+          "codec_stack2/generator_2x/speaker_conditioned_codec_fd": -0.0028212109857877576,
+          "codec_stack4/generator_4x/codec_fd": -0.2307420288064451,
+          "codec_stack4/generator_4x/dependency_validity": -1.0641163728804661,
+          "codec_stack4/generator_4x/speaker_conditioned_codec_fd": -0.012152024498814558
+        },
+        "feasible": false,
+        "improvement": -2.0655451057579595
+      },
+      "weaker_training": {
+        "contributions": {
+          "codec_stack2/generator_2x/codec_fd": -0.08899531844723862,
+          "codec_stack2/generator_2x/dependency_validity": -0.45283875588921463,
+          "codec_stack2/generator_2x/speaker_conditioned_codec_fd": -0.005594701841813572,
+          "codec_stack4/generator_4x/codec_fd": -0.05446552019960362,
+          "codec_stack4/generator_4x/dependency_validity": -0.8715558074073457,
+          "codec_stack4/generator_4x/speaker_conditioned_codec_fd": -0.0035386731329010482
+        },
+        "feasible": false,
+        "improvement": -1.4769887769181171
+      }
+    },
+    "order": [
+      "shortcut_copy_answers",
+      "better_bigger",
+      "better_more_training",
+      "current",
+      "shortcut_replace_baseline",
+      "reference_sample2",
+      "reference_sample1",
+      "reference_seed27",
+      "reference_seed17",
+      "shortcut_rule_sampler",
+      "weaker_training",
+      "weaker_no_local",
+      "shortcut_random_one_step",
+      "shortcut_empty",
+      "shortcut_infinite_stack",
+      "shortcut_negative_steps",
+      "shortcut_out_of_range",
+      "shortcut_rebuild_answers",
+      "shortcut_stack_claim",
+      "shortcut_vocab_one",
+      "shortcut_write_scores",
+      "shortcut_zero_stack",
+      "weaker_argmax"
+    ],
+    "sort_key": "(feasible, improvement), descending; a failed run never outranks a feasible run",
+    "standard_deviations": {
+      "codec_stack2/generator_2x/codec_fd": 1.3631489998792037,
+      "codec_stack2/generator_2x/dependency_validity": 0.46517074919378754,
+      "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 22.054236514039715,
+      "codec_stack4/generator_4x/codec_fd": 1.65283431986625,
+      "codec_stack4/generator_4x/dependency_validity": 0.4572336083695483,
+      "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 22.610025016584487
+    }
+  },
+  "slice": "test"
+}
