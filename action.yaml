@@ -1,2 +1,8 @@
-action: done
-notes: "Audit complete: honest improvements exceed 0.013511 seed spread, but random outputs gain +0.424047 and multiple artifact shortcuts pay; report and 23 replayable cases committed."
+# Once you set action to 'submit' or 'done', STOP immediately.
+# Do NOT sleep, poll, or wait for jobs. The system reads this file
+# only after your turn ends.
+action: pending
+gpus: 0
+test: false
+milestone: core_claim_plus
+notes: ""
