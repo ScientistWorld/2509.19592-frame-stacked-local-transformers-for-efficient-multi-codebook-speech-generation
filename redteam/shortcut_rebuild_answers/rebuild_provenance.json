@@ -1,0 +1,9 @@
+{
+  "seed": 1003,
+  "generator": "data.generate_synthetic.make_split",
+  "num_sequences": 1024,
+  "seq_len": 24,
+  "num_codebooks": 8,
+  "vocab_size": 32,
+  "num_speakers": 16
+}

@@ -1,0 +1,19 @@
+{
+  "command": [
+    "python",
+    "-m",
+    "method.train",
+    "--out",
+    "/home/user/redteam/weaker_training/trained",
+    "--variant",
+    "ar",
+    "--stack-factor",
+    "4",
+    "--steps",
+    "100",
+    "--seed",
+    "7"
+  ],
+  "exit_code": 0,
+  "seconds": 20.236303993035108
+}

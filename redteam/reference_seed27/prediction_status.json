@@ -1,0 +1,13 @@
+{
+  "command": [
+    "python",
+    "-m",
+    "method.predict",
+    "--checkpoint",
+    "/home/user/redteam/reference_seed27/trained/model.pt",
+    "--out",
+    "/home/user/checkpoints/predictions/ar_lt_4x.pt"
+  ],
+  "exit_code": 0,
+  "seconds": 17.40980318794027
+}

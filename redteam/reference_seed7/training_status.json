@@ -1,0 +1,19 @@
+{
+  "command": [
+    "python",
+    "-m",
+    "method.train",
+    "--out",
+    "/home/user/redteam/reference_seed7/trained",
+    "--variant",
+    "ar",
+    "--stack-factor",
+    "4",
+    "--steps",
+    "5000",
+    "--seed",
+    "7"
+  ],
+  "exit_code": 0,
+  "seconds": 68.60084623307921
+}

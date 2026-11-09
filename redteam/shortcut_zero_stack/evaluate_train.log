@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/home/user/eval/train/evaluate.py", line 129, in <module>
+    main()
+  File "/home/user/eval/train/evaluate.py", line 104, in main
+    results[method] = score_file(pred_dir / f"{method}.pt", ref_tokens, speaker, args.data_split, indices)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/eval/train/evaluate.py", line 74, in score_file
+    steps_per_24_frames = 24.0 / float(cfg["stack_factor"])
+                          ~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ZeroDivisionError: float division by zero

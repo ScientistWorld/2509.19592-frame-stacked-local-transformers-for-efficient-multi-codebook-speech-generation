@@ -1,0 +1,8 @@
+{
+  "command": [
+    "bash",
+    "scripts/evaluate_train.sh"
+  ],
+  "exit_code": 0,
+  "seconds": 6.406466484069824
+}

@@ -1,0 +1,24 @@
+honest_sampling 0.14395863992569105
+more_training 0.031723687455243656
+reference 3.157807348941333e-16
+reference_seed17 0.0018551475273791017
+reference_seed27 -0.011655653077500177
+reference_seed7 0.0002513951389230709
+shortcut_constant -19.847760786722212
+shortcut_copy_answers 0.5864825339458186
+shortcut_empty {'command': ['bash', 'scripts/evaluate_test.sh'], 'exit_code': 1, 'seconds': 6.5073259100317955}
+shortcut_infinite_stack 1.497
+shortcut_negative_steps 7.485000000000001
+shortcut_out_of_range -32.76573782261002
+shortcut_random_one_step 0.4240474299223047
+shortcut_rebuild_answers 0.5864825339458186
+shortcut_replace_baseline 1.612635252023289
+shortcut_replace_truth 0.30053568137063863
+shortcut_rule_sampler 0.14618085557522198
+shortcut_stack_claim 1.2475000000000003
+shortcut_vocab_one -18.880855467135813
+shortcut_write_scores 3.157807348941333e-16
+shortcut_zero_stack {'command': ['bash', 'scripts/evaluate_test.sh'], 'exit_code': 1, 'seconds': 6.342933929990977}
+weaker_no_local -0.8836399631962869
+weaker_training -1.1278343454687054
+seed spread: 0.013510800604879279

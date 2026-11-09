@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "/home/user/eval/test/evaluate.py", line 131, in <module>
+    main()
+  File "/home/user/eval/test/evaluate.py", line 105, in main
+    results[method] = score_file(path, ref_tokens, speaker, args.data_split, indices)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/eval/test/evaluate.py", line 59, in score_file
+    raise ValueError(f"{path} predicted shape {tuple(pred.shape)} but expected {tuple(ref.shape)}")
+ValueError: checkpoints/predictions/ar_lt_4x.pt predicted shape (0, 24, 8) but expected (1024, 24, 8)

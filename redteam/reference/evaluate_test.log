@@ -1,0 +1,46 @@
+{
+  "_metadata": {
+    "data_split": "test",
+    "method_source": "checkpoints/predictions",
+    "num_examples": 512,
+    "partition_seed": 250919592,
+    "slice": "test"
+  },
+  "experiments": {
+    "synthetic_codec_unseen": {
+      "num_examples": 512,
+      "partition_seed": 250919592,
+      "results": {
+        "ar_lt_2x": {
+          "codec_fd": 0.04304657725505928,
+          "dependency_validity": 1.0,
+          "primary_steps_per_24_frames": 12.0,
+          "speaker_conditioned_codec_fd": 0.27699587833127903,
+          "token_accuracy": 0.030029296875
+        },
+        "ar_lt_4x": {
+          "codec_fd": 0.04698989300390087,
+          "dependency_validity": 1.0,
+          "primary_steps_per_24_frames": 6.0,
+          "speaker_conditioned_codec_fd": 0.30405529172092793,
+          "token_accuracy": 0.02701822854578495
+        },
+        "baseline_parallel_1x": {
+          "codec_fd": 0.042325085459970525,
+          "dependency_validity": 0.043677918612957,
+          "primary_steps_per_24_frames": 24.0,
+          "speaker_conditioned_codec_fd": 0.4950960071438618,
+          "token_accuracy": 0.03086344338953495
+        },
+        "maskgit_lt_2x": {
+          "codec_fd": 1.3971933304297766,
+          "dependency_validity": 0.03043619729578495,
+          "primary_steps_per_24_frames": 12.0,
+          "speaker_conditioned_codec_fd": 3.3490817099578156,
+          "token_accuracy": 0.030975341796875
+        }
+      },
+      "slice": "test"
+    }
+  }
+}

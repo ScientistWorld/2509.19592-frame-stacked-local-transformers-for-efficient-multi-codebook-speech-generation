@@ -1,0 +1,13 @@
+{
+  "command": [
+    "python",
+    "-m",
+    "method.predict",
+    "--checkpoint",
+    "/home/user/redteam/weaker_no_local/trained/model.pt",
+    "--out",
+    "/home/user/checkpoints/predictions/ar_lt_4x.pt"
+  ],
+  "exit_code": 0,
+  "seconds": 7.1413953001610935
+}

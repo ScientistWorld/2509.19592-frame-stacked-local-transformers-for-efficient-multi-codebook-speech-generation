@@ -1,0 +1,12 @@
+{
+  "base_commit": "fe21a4d1d96f69e18e34999877989513a2b9ca63",
+  "hidden_test_command": [
+    "bash",
+    "scripts/evaluate_test.sh"
+  ],
+  "hidden_test_in_new_subprocess": true,
+  "test_exit_code": 0,
+  "evaluation_entry_sha256": "79d8b4315dbf45cc9d28632a1a4b654471d191bc3c9205d0de21153a7e4de705",
+  "hidden_evaluator_sha256": "ea88a9f570c60ff329b35d52560180c8f1363a555ff047eea8250a665eafc67b",
+  "scores_test_changed": true
+}
