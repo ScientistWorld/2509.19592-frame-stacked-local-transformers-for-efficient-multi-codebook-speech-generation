@@ -11,6 +11,7 @@ Attempts are the saved raw outputs of the previous verification job
 * `tier`: the evaluator's own (feasible, improvement) ordering.
 """
 import json
+import os
 import shutil
 import statistics
 import subprocess
@@ -23,6 +24,7 @@ ROOT = Path.cwd()
 HERE = Path(__file__).resolve().parent
 WORK = ROOT / 'tmp' / 'replay'
 SAVED = [HERE.parent / 'raw_predictions', HERE / 'raw_predictions']
+BEFORE_COMMIT = '205a717'
 ROWS = {'codec_stack2': 'generator_2x', 'codec_stack4': 'generator_4x'}
 
 
@@ -51,7 +53,7 @@ def run(evaluator, preds, out):
     with log.open('w') as handle:
         subprocess.run([sys.executable, evaluator, '--pred-dir', str(preds), '--out', str(out)],
                        check=True, stdout=handle, stderr=subprocess.STDOUT,
-                       env={'PYTHONPATH': str(ROOT), 'PATH': '/usr/bin:/bin', 'OMP_NUM_THREADS': '2'})
+                       env={**os.environ, 'PYTHONPATH': str(ROOT)})
     return json.loads(out.read_text())
 
 
@@ -90,7 +92,8 @@ def main():
     spec = json.loads((ROOT / 'scoring' / 'reference.json').read_text())
     preds, names = build_cohort()
     before_eval = ROOT / 'eval' / 'test' / '_before_evaluate.py'
-    before_eval.write_text(subprocess.run(['git', 'show', 'HEAD:eval/test/evaluate.py'], check=True,
+    # The hidden evaluator as it stood at the end of the previous iteration.
+    before_eval.write_text(subprocess.run(['git', 'show', f'{BEFORE_COMMIT}:eval/test/evaluate.py'], check=True,
                                           capture_output=True, text=True).stdout)
     try:
         before = run(str(before_eval), preds, WORK / 'before.json')
@@ -114,17 +117,25 @@ def main():
         'training': max(after_lin[n] for n in ('reference', 'reference_seed17', 'reference_seed27'))
         - min(after_lin[n] for n in ('reference', 'reference_seed17', 'reference_seed27')),
     }
-    summary['paired_after'] = paired(summary['after']['sigma'], spec)
+    seeds = {'reference': ['reference', 'reference_seed17', 'reference_seed27'],
+             'better_more_training': ['better_more_training', 'better_more_training_seed17', 'better_more_training_seed27']}
+    if all(n in after_lin for group in seeds.values() for n in group):
+        means = {k: sum(after_lin[n] for n in v) / len(v) for k, v in seeds.items()}
+        summary['three_seed_means_after'] = {
+            'members': seeds, 'means': means,
+            'paired_by_seed': {s: after_lin[b] - after_lin[r] for s, r, b in zip((7, 17, 27), *seeds.values())},
+            'difference': means['better_more_training'] - means['reference']}
+    summary['paired_after'] = paired(summary['after']['sigma'], spec, [n for n in names if n.startswith(('better_more', 'reference_seed'))])
     (HERE / 'summary.json').write_text(json.dumps(summary, indent=2, sort_keys=True) + '\n')
     print(f"{'attempt':32s} {'before':>10s} {'after':>10s}  after-failure")
     for name in summary['cohort']:
         fail = summary['after']['failures'][name]
         print(f"{name:32s} {summary['before']['linear'][name]:+10.4f} {summary['after']['linear'][name]:+10.4f}  "
               f"{next(iter(fail.values()), 'feasible')[:70]}")
-    print(json.dumps({'seed_spread_after': summary['seed_spread_after'], 'paired_after': summary['paired_after']}, indent=2))
+    print(json.dumps({k: summary.get(k) for k in ('seed_spread_after', 'three_seed_means_after', 'paired_after')}, indent=2))
 
 
-def paired(sigma, spec):
+def paired(sigma, spec, names):
     """Paired block bootstrap of the better variant against the reference: same
     held-out rows and same hidden reference sample in every replicate; full FD
     is recomputed from resampled sufficient statistics."""
@@ -141,7 +152,7 @@ def paired(sigma, spec):
     draws = torch.randint(16, (200, 16), generator=torch.Generator().manual_seed(90381))
     out = {}
     load = lambda p: torch.load(p, weights_only=True)['pred_tokens'][rows].long()
-    for name in ('better_more_training', 'reference_seed17', 'reference_seed27'):
+    for name in names:
         improvement = torch.zeros(len(draws), dtype=torch.float64)
         for stack, exp in E.EXPERIMENTS.items():
             ref = load(ROOT / f'checkpoints/predictions/generator_{stack}x.pt')
