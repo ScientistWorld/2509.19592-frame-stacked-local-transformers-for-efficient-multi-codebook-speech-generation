@@ -18,3 +18,5 @@ Deviations from the paper:
 - Models are much smaller (width 96 instead of 768, 2+1 layers instead of 12+4) and trained for far fewer steps.
 - Sampling uses temperature 1 without top-k or classifier-free guidance. The paper uses Koel-TTS's speech-tuned sampling (temperature 0.6, top-k 80, CFG); top-k 80 is a no-op with 32 tokens, there is no text to guide, and on this distribution-matching task temperature 0.6 trades diversity (FD) for validity.
 - Evaluation uses dependency validity and codec-latent Fréchet distances instead of WER, TitaNet SSIM and UTMOSv2.
+
+The final AR reference beats the parallel comparisons on every scored quantity. The MaskGIT comparison improves over matched-stack parallel decoding at 4x but fails the validity threshold at both points and does not reproduce the full quality claim. This partial reproduction and the remaining synthetic-task shortcuts are documented in `HARDENING.md`.

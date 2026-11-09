@@ -1,28 +1,13 @@
-> Historical record from earlier iterations. The final protocol and verification supersede these entries; see `HARDENING.md`, `briefing/evaluation.md` and `scoring/EXPERIMENTS.md`.
+# Verification report
 
-# Verification Report
+Milestone: **core_claim_plus**. The scaled AR result and measurable learned headroom are verified; the full MaskGIT and real-speech claims are not reproduced. See [HARDENING.md](HARDENING.md) for before/after results, shortcut replays and remaining limitations.
 
-## Initial Assessment
+The final bundled GPU job `c0959cf3-667` exited 0. It regenerated reference and fixed comparison predictions for the final evaluation conditions from saved weights, evaluated stronger/weaker variants and seed controls, replayed changed shortcut families, and restored reference-only scoring artifacts. Training code and training tensors did not change in this final batch. The preceding bundled run trained those models on the final temporal data with the restored paper architecture details.
 
-The workspace started at `core_claim_plus`, and that milestone is justified. The reproduced gym result is based on saved prediction artifacts for the synthetic multi-codebook task: the independent baseline has low dependency validity, while the validated dependency-modeling variants reach dependency validity 1.0 at 2x and 4x generation-step reductions. The exact LibriTTS/NanoCodec results remain reference-only because the paper's training data, tokenizer pipeline, model checkpoints, and generated audio are unreleased.
+The 20k-step learned variant improves all six scored measurements over the 10k reference. Its normalized test gain is **+0.047042**, paired 95% bootstrap interval **[+0.041183, +0.058011]**, exceeding the observed training-seed range 0.022101 and generation-seed range 0.005162. Train gain is +0.044870. Weaker training fails validity; deterministic generation remains feasible but loses −4.711476 through distribution collapse. The larger model fails the complete-utterance novelty constraint and is not counted as headroom.
 
-## Issues Found
+All replayed shortcuts fail, including the former score-field and operating-point ties. Public test answers and exact generators are withheld; comparisons and test specifications are fixed by the evaluator. Every score is recomputed from raw outputs, failed attempts rank below all feasible ones, and metric improvements use absolute coefficients and cohort standardization. Inferred analytic samplers, partial splicing and unverifiable compute claims still need the separate shortcut review. Synthetic codec metrics do not establish real audio quality.
 
-- Minor: `scoring/EXPERIMENTS.md` documented reference-only LibriTTS experiments even though `scores.json` contains only the runnable `synthetic_codec_unseen` experiment. This could confuse from-scratch scientist agents about what is actually scored.
-- Minor: `briefing/evaluation.md` described `primary_steps_per_24_frames` as decoder-specific. The metric is valid, but the method-agnostic evaluation guide should frame it as a hardware-independent generation-effort proxy.
-- Cosmetic/pre-existing: `README.md` and `manifest.json` are modified special device nodes, and tracked `trajectory/turn_*.jsonl` files are deleted. These were present before this verification pass and are outside the reproduction gym files; I left them untouched.
+The job's `python validate.py --post-design` passed all scoring, method-interface, independent train/test, import-separation, split differentiation and tracked-dependency checks. Evidence is in [eval/test/hardening/summary.json](eval/test/hardening/summary.json) and [validation.log](eval/test/hardening/validation.log). Final packaging also passed [ranking property checks](eval/test/hardening/ranking_properties.log) and repeated [structural validation](eval/test/hardening/final_validation.log). The original paper results remain unchanged under `_paper_reported` in `scoring/reference.json`.
 
-## Fixes Applied
-
-- Narrowed `scoring/EXPERIMENTS.md` to the active `synthetic_codec_unseen` experiment and noted that LibriTTS rows are reference-only context in `reference.json`.
-- Reworded `briefing/evaluation.md` so `primary_steps_per_24_frames` is described as coarse generation steps declared by the artifact rather than a required architecture.
-- Re-ran `python validate.py --compare`; all scoring and structural checks passed.
-
-## Final Judgment
-
-The workspace is ready to serve as a research gym. Improve-mode agents can run the packaged method and evaluator, and from-scratch agents can use the method-agnostic problem, data, and evaluation interface without importing the paper method. Evaluation reads saved prediction artifacts, not method internals; train/test score artifacts exist and use independent slices; `scripts/evaluate.sh` works standalone for any method that writes the expected artifact format.
-
-- Milestone: core_claim_plus
-- Ready for gym use: yes
-- Confidence: high
-- Key limitation: synthetic replacement data only; exact LibriTTS/NanoCodec reproduction is blocked by unreleased resources.
+`scoring/scores_train.json` and `scores_test.json` contain reference runs alone. The final `scripts/run.sh` reproduces reference and comparison training, predictions, fixtures and both evaluations end to end. No-argument `scripts/evaluate_test.sh` scores every submitted attempt on disk without retraining.

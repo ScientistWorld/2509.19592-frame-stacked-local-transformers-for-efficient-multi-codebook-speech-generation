@@ -1,0 +1,6 @@
+eval.train.ranking: PASS direction, absolute coefficients, unit invariance, zero variance, nonfinite rejection, feasibility precedence
+eval.test.ranking: PASS direction, absolute coefficients, unit invariance, zero variance, nonfinite rejection, feasibility precedence
+Paper-reported values: unchanged from iteration start
+scores_train.json: PASS reference-only feasible rank zero
+scores_test.json: PASS reference-only feasible rank zero
+scores.json: PASS reference-only feasible rank zero

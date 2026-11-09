@@ -45,3 +45,10 @@
 - Completed final gym verification.
 - Tightened method-agnostic evaluation wording and aligned `scoring/EXPERIMENTS.md` with the active scored experiment.
 - Wrote `VERIFICATION.md`; `python validate.py --compare` passes.
+
+### [2026-11-09] - core_claim_plus, final hardening verified
+- Bundled GPU job `c0959cf3-667` completed with exit 0. Reference and comparison predictions were regenerated on 16,384 final evaluation conditions from weights trained on the final temporal data; no evaluator retrains.
+- AR reference validity is 0.974291 at 2x and 0.933017 at 4x; it improves every scored quantity over the parallel comparisons. Original validity-1 results above belong to the superseded independent-frame setup.
+- A feasible 20k-step variant beats the 10k reference by +0.047042, paired 95% interval [+0.041183, +0.058011], above measured seed variation. No scored reference metric is at its bound.
+- Replayed shortcuts fail; ranking now uses feasibility precedence and coefficient-weighted, cohort-standardized improvements from raw outputs. `python validate.py --post-design` passes; reference-only score artifacts are restored.
+- Milestone remains `core_claim_plus`: full MaskGIT and real-audio claims are not reproduced, and inferred analytic samplers, partial splicing and false compute claims remain limitations. See `HARDENING.md` and `VERIFICATION.md` for the current protocol and evidence.
