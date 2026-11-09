@@ -100,3 +100,6 @@ python_wheels/
 core.[0-9]*
 core.*
 .git-credentials
+
+.claude/
+.claude.json

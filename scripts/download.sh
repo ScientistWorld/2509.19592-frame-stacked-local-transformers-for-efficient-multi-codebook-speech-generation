@@ -1,17 +1,14 @@
 #!/usr/bin/env bash
 set -euo pipefail
-
-# Estimated download size: 0 bytes. Disk usage after generation: about 2 MB.
-# The paper's Koel-TTS training data and NanoCodec/Koel checkpoints are not
-# released. This script creates the documented synthetic codec-token
-# replacement dataset (train/validation token splits and the evaluation
-# conditioning speakers) with data/generate_synthetic.py. The dataset is small
-# and tracked under data/; it is regenerated only if missing.
-
 cd "$(dirname "$0")/.."
-
-if [ ! -e data/synthetic_codec/train.pt ] || [ ! -e data/synthetic_codec/test_conditions.pt ]; then
-  python data/generate_synthetic.py --out data/synthetic_codec
-else
-  echo "data/synthetic_codec already exists; skipping"
+# Synthetic train/val/meta artifacts are tracked original gym data, not external
+# checkpoints. The only external pre-existing artifact used is the paper.
+if [ ! -s paper/2509.19592.pdf ]; then
+  mkdir -p paper
+  curl --fail --location --retry 3 https://arxiv.org/pdf/2509.19592 -o paper/2509.19592.pdf
 fi
+for artifact in train.pt val.pt meta.pt; do
+  test -f "data/synthetic_codec/$artifact" || { echo "Missing tracked data artifact: $artifact" >&2; exit 1; }
+done
+# Speaker inputs only; no test labels or public reference-token sampler.
+python data/generate_synthetic.py --out data/synthetic_codec

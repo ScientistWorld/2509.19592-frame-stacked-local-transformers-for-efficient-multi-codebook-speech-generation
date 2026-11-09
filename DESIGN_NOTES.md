@@ -1,3 +1,5 @@
+> Historical record from earlier iterations. The final protocol and verification supersede these entries; see `HARDENING.md`, `briefing/evaluation.md` and `scoring/EXPERIMENTS.md`.
+
 Stage 2 evaluation-design handoff
 
 Checked:

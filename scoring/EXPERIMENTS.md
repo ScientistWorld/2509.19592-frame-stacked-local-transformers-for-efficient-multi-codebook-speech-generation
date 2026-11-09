@@ -1,19 +1,18 @@
 # Experiments
 
-Both scored experiments use the synthetic multi-codebook codec described in `briefing/problem.md` (16 speakers, 24 frames, 8 codebooks, vocabulary 32; within-frame residual chains, a coarse random walk across frames, and residual style bits drawn per speaker that persist through the utterance). A generator writes one utterance per conditioning speaker (4096 rows); the hidden test scores 2048 of them against 8192 reference utterances it draws itself, so every generator sees the same conditions and references.
+The fixed dataset contains 24-frame utterances with 8 codebooks, vocabulary 32, and 16 speakers. Training has 8192 utterances and validation 1024. Evaluation has 16384 conditioning rows, split into disjoint train and test halves of 8192; each half has four reference samples per row. Every candidate uses the same inputs and references. Both evaluation slices independently compute the same measurements from raw generated tensors.
 
-Metrics per row: `dependency_validity` (primary, higher is better), `codec_fd` and `speaker_conditioned_codec_fd` (lower is better); see `briefing/evaluation.md`. A row with validity below 0.5, copied visible data, an impossible or over-budget `stack_factor`, or a malformed artifact is failed and gets worst-case values on every metric (validity 0, distances at the random-token cap).
+| Experiment | Weight | Required output | Primary-step budget |
+|---|---:|---|---:|
+| `codec_stack2` | 0.4 | `generator_2x` | 12 per 24 frames |
+| `codec_stack4` | 0.6 | `generator_4x` | 6 per 24 frames |
 
-## codec_stack2 (weight 0.4)
+Both score dependency validity (coefficient 1.0), codec-space Fréchet distance (0.6), and speaker-conditioned codec-space Fréchet distance (0.4). Validity is better higher; both distances are better lower. Full covariance and consecutive-frame pairs measure joint distribution and temporal structure. No distance is clipped, and no metric measures agreement with published results or wall-clock time.
 
-Operating point: at most 12 primary (coarse) generation steps per 24-frame utterance, i.e. each coarse step emits 2 frames (16 tokens). Ranked row: `generator_2x`. Comparison rows (frozen in the hidden test): `baseline_parallel_1x` (one frame per coarse step, every codebook sampled independently; 24 steps), `baseline_parallel_2x`, `baseline_maskgit_2x`.
+Every feasible attempt outranks every failed attempt. Within each tier, coefficient-weighted improvements over the fixed reference are standardized by variation across the attempts being ranked, then summed with the experiment weights. See `briefing/evaluation.md` for the precise interface and failure conditions.
 
-## codec_stack4 (weight 0.6)
+The harder 4x point receives more weight because the scientific problem is preserving quality at aggressive compression of the primary generation schedule. The temporal and utterance-level variation keeps this point below its quality ceiling. The final hardening evidence compares genuinely learned stronger and weaker variants on identical test inputs, including paired bootstrap uncertainty.
 
-Operating point: at most 6 coarse steps per utterance, i.e. 4 frames (32 tokens) per coarse step. Ranked row: `generator_4x`. Comparison rows: `baseline_parallel_4x`, `baseline_maskgit_4x`.
+Comparison rows at 1x, 2x and 4x are frozen by each evaluator. Their raw metrics remain visible even when they fail the task; methods cannot change them. The reference has room above it on every scored metric. This scaled experiment establishes token-generation results, not real-speech intelligibility or perceptual quality.
 
-Weighting: the 4x point is weighted higher because it is where the efficiency gain is largest and where the paper reports its own method losing quality, so improvements there are the most informative.
-
-## Paper context
-
-`scoring/reference.json` keeps the paper's LibriTTS numbers (WER, SSIM, FD, UTMOSv2 with 95% CIs at stack factors 1/2/4, and relative throughput) under `_paper_reported`. They are not on this gym's scale and are not targets.
+Paper-reported WER, SSIM, FD, UTMOSv2, confidence intervals and throughput are preserved unchanged under `_paper_reported` in `reference.json` and are not active targets on this scale.

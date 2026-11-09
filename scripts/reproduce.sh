@@ -22,6 +22,3 @@ MODEL_NAME=baseline_maskgit_4x VARIANT=maskgit STACK_FACTOR=4 scripts/method.sh
 MODEL_NAME=baseline_parallel_1x STACK_FACTOR=1 scripts/baseline.sh
 MODEL_NAME=baseline_parallel_2x STACK_FACTOR=2 scripts/baseline.sh
 MODEL_NAME=baseline_parallel_4x STACK_FACTOR=4 scripts/baseline.sh
-
-scripts/evaluate.sh
-bash scripts/evaluate_train.sh

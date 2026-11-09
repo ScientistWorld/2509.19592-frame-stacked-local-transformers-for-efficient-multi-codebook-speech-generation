@@ -1,20 +1,9 @@
-# Problem Definition
+# Problem
 
-Speech generation systems that operate on neural audio codec tokens must predict a matrix of discrete tokens with shape `(time, codebook)`. At every acoustic frame, several codebooks jointly describe the same audio frame, and they are not independent of each other. A generator must produce codebook combinations that are internally consistent within each frame, coherent from frame to frame, faithful to the conditioning speaker, and as diverse as real speech, not just plausible marginal tokens.
+Learn to generate joint multi-codebook codec sequences conditioned on a speaker. Each utterance contains 24 frames, 8 codebooks per frame, vocabulary 32, and one of 16 training speakers. Good outputs preserve within-frame codebook dependencies, transitions between frames, speaker characteristics, utterance-level consistency, and diversity.
 
-Generation cost matters as much as quality. A generator that runs a large sequence model once per frame is slow; the gym therefore fixes **operating points**: the number of coarse (primary) sequential generation steps the generator may spend per 24-frame utterance. The scored operating points are **12 steps** and **6 steps** per 24 frames, i.e. every coarse step has to produce 2 or 4 complete frames (16 or 32 codebook tokens). Any additional per-step computation inside a coarse step is allowed. Quality is compared at a fixed operating point.
+The fixed synthetic training and validation artifacts contain 8192 and 1024 utterances. They substitute for the paper's unavailable speech mixture and codec. The distribution includes stochastic temporal transitions and persistent speaker-dependent residual variation. There is no text or audio in this scaled task, and no exact-token target for a generated utterance.
 
-The gym uses a reproducible synthetic codec because the paper's 18k-hour training mixture, codec tokenizer and trained models are not released. Each utterance has a speaker id (16 speakers, all seen in training) and 24 frames of 8 codebooks with vocabulary 32. Its structure (implemented in `data/generate_synthetic.py`):
+Generate one new utterance for each of the 16384 speaker IDs in `data/synthetic_codec/test_conditions.pt`, at each of two fixed operating points: at most 12 primary sequential steps per utterance (2 frames per step), and at most 6 (4 frames per step). Computation within a primary step is unrestricted. The scientific question is how well quality can be preserved when the primary sequence model runs less often.
 
-- Within a frame, each residual codebook is determined by the previous codebook, the speaker, the codebook index, the frame position and one residual "style" bit.
-- Across frames, the coarse (first) codebook follows a random walk with four allowed increments, and the seven residual style bits are fixed for the whole utterance (drawn with speaker-specific probabilities).
-
-So within-frame codebooks are strongly dependent, frames depend on the previous frame, utterance-level style must be carried through the whole utterance, and a coarse step that produces several frames must keep them mutually consistent. Producing every codebook independently matches the marginals but breaks the joint structure.
-
-**Task.** Learn a generator from the training split (`data/synthetic_codec/train.pt`, optionally `val.pt`: 8192 and 1024 utterances with speaker ids) that samples new utterances conditioned on a speaker id. For each of the 4096 conditioning speakers in `data/synthetic_codec/test_conditions.pt`, generate one 24-frame utterance at each operating point. Generated utterances are compared, as a distribution, against reference utterances of the same speakers that the evaluator draws itself; there is no per-example target to predict.
-
-Hard requirements:
-
-- Generate; do not copy. Outputs that reproduce long stretches of visible utterances are failed.
-- The generator must be learned from data. Writing the dataset's generating rule (or calling the data generator) into the method to produce outputs is out of scope (see `scoring/DIRECTION.md`).
-- Respect the operating point you declare (`stack_factor` in the artifact): the number of coarse sequential steps per 24 frames must not exceed 24 / `stack_factor`.
+Use the provided training data to learn the generator. Complete copies of visible utterances, evaluator-side reference generators, and false computation declarations are outside the task. See `scoring/CONSTRAINTS.md`.

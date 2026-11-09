@@ -296,17 +296,17 @@
         "dependency_validity": {
           "higher_is_better": true,
           "coefficient": 1.0,
-          "description": "Fraction of the codec's hard dependency checks satisfied by the generated utterances (7 within-frame residual-codebook constraints per frame and 23 coarse-codebook frame-to-frame transitions per utterance). Rows below the evaluator's validity threshold (0.5), with copied visible data, or with malformed or over-budget artifacts are failed and receive worst-case values on every metric."
+          "description": "Fraction of within-frame and temporal dependency checks satisfied. Separate feasibility requirements on each component, duplicate utterances, and artifact validity dominate ranking."
         },
         "codec_fd": {
           "higher_is_better": false,
           "coefficient": 0.6,
-          "description": "Full-covariance Frechet distance between consecutive-frame pairs of generated and hidden reference utterances in a fixed RVQ-style codec latent space (within-frame structure, dynamics, persistence of the utterance style, diversity). Capped at the value of uniformly random tokens."
+          "description": "Full-covariance Frechet distance of consecutive-frame pairs in a fixed 32-dimensional RVQ-style codec latent space; no clipping."
         },
         "speaker_conditioned_codec_fd": {
           "higher_is_better": false,
           "coefficient": 0.4,
-          "description": "Mean over speakers of the same Frechet distance computed per conditioning speaker (speaker adherence, the gym's analogue of speaker similarity). Capped at the value of uniformly random tokens."
+          "description": "Mean full-covariance codec Frechet distance per conditioning speaker; no clipping."
         }
       },
       "results": {
@@ -333,17 +333,17 @@
         "dependency_validity": {
           "higher_is_better": true,
           "coefficient": 1.0,
-          "description": "Fraction of the codec's hard dependency checks satisfied by the generated utterances (7 within-frame residual-codebook constraints per frame and 23 coarse-codebook frame-to-frame transitions per utterance). Rows below the evaluator's validity threshold (0.5), with copied visible data, or with malformed or over-budget artifacts are failed and receive worst-case values on every metric."
+          "description": "Fraction of within-frame and temporal dependency checks satisfied. Separate feasibility requirements on each component, duplicate utterances, and artifact validity dominate ranking."
         },
         "codec_fd": {
           "higher_is_better": false,
           "coefficient": 0.6,
-          "description": "Full-covariance Frechet distance between consecutive-frame pairs of generated and hidden reference utterances in a fixed RVQ-style codec latent space (within-frame structure, dynamics, persistence of the utterance style, diversity). Capped at the value of uniformly random tokens."
+          "description": "Full-covariance Frechet distance of consecutive-frame pairs in a fixed 32-dimensional RVQ-style codec latent space; no clipping."
         },
         "speaker_conditioned_codec_fd": {
           "higher_is_better": false,
           "coefficient": 0.4,
-          "description": "Mean over speakers of the same Frechet distance computed per conditioning speaker (speaker adherence, the gym's analogue of speaker similarity). Capped at the value of uniformly random tokens."
+          "description": "Mean full-covariance codec Frechet distance per conditioning speaker; no clipping."
         }
       },
       "results": {
@@ -359,5 +359,6 @@
         }
       }
     }
-  }
+  },
+  "_ranking": "Feasibility first. Within each tier: sum experiment weight times absolute metric coefficient times improvement in higher_is_better direction over the frozen raw-output reference, divided by population standard deviation across the currently ranked attempts plus reference (zero variance contributes zero)."
 }
