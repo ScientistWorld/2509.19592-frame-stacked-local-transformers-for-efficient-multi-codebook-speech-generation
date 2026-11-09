@@ -171,7 +171,7 @@ def prepare(case, folder):
         save(baseline, 'baseline_parallel_1x')
         return
     elif case == 'shortcut_replace_truth':
-        # Shortcut: replace the fixed ground truth with our rule-valid output.
+        # Shortcut: replace fixed ground truth with unchanged reference predictions.
         path = ROOT / 'data/synthetic_codec/test.pt'
         data = load(path)
         data['tokens'] = item['pred_tokens'].clone()

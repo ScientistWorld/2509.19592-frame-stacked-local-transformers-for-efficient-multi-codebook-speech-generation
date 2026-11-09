@@ -1,0 +1,18 @@
+{
+  "base_commit": "fe21a4d1d96f69e18e34999877989513a2b9ca63",
+  "final_index_changes_outside_redteam_and_report": [],
+  "original_checkpoint_predictions_restored": true,
+  "restored_tracked_inputs": [
+    "baseline/",
+    "data/",
+    "eval/",
+    "method/",
+    "scoring/",
+    "scripts/"
+  ],
+  "preexisting_tool_view_masks": [
+    "README.md and manifest.json are busy null-device mounts",
+    "trajectory/ is a read-only masked directory"
+  ],
+  "note": "Preexisting tool-view masks prevented worktree restoration of those paths; their original Git index entries are restored, and no audit changes to them are committed."
+}

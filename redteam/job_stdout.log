@@ -1,0 +1,95 @@
+[hive] This stdout log is managed by Hive.
+[hive] job_id: 856d8bbf
+[hive] host: node
+[hive] node_id: a3066a3b993c45732d91d1810270caddbc5198c37aefe87124ac7d95
+[hive] user: nexus/user (remote)
+[hive] resource: gpu-2
+[hive] gpus: 1
+[hive] cpus: 1
+[hive] workdir: /home/user
+[hive] timeout_sec: 21600
+[hive] started_at: 2026-11-09 09:00:33 EST
+[hive] command: apptainer exec --nv --containall --cleanenv --env HF_HOME=/home/user/shared/hf_cache --env TRANSFORMERS_CACHE=/home/user/shared/hf_cache --env HF_DATASETS_CACHE=/home/user/shared/hf_cache/datasets --env TORCH_HOME=/home/user/shared/hf_cache/torch --bind /home/user/scratch/AgentWorkspaces/workspaces/2509.19592:/home/user --overlay /home/user/scratch/AgentWorkspaces/workspaces/2509.19592/environment/overlay.img:ro --bind /home/user/scratch/AgentWorkspaces/shared/datasets:/home/user/shared/datasets:ro --bind /home/user/scratch/AgentWorkspaces/shared/models:/home/user/shared/models:ro --bind /home/user/scratch/AgentWorkspaces/shared/hf_cache:/home/user/shared/hf_cache /home/user/scratch/AgentWorkspaces/workspaces/2509.19592/environment/container.sif bash -c 'cd /home/user && bash /home/user/scripts/run.sh'
+reference: evaluate_train: exit=0, 13.8s
+reference: evaluate_test: exit=0, 6.4s
+shortcut_copy_answers: evaluate_train: exit=0, 6.4s
+shortcut_copy_answers: evaluate_test: exit=0, 6.4s
+shortcut_rebuild_answers: evaluate_train: exit=0, 6.3s
+shortcut_rebuild_answers: evaluate_test: exit=0, 6.4s
+shortcut_rule_sampler: evaluate_train: exit=0, 6.4s
+shortcut_rule_sampler: evaluate_test: exit=0, 6.3s
+shortcut_stack_claim: evaluate_train: exit=0, 6.4s
+shortcut_stack_claim: evaluate_test: exit=0, 6.6s
+shortcut_negative_steps: evaluate_train: exit=0, 6.4s
+shortcut_negative_steps: evaluate_test: exit=0, 6.4s
+shortcut_infinite_stack: evaluate_train: exit=0, 6.4s
+shortcut_infinite_stack: evaluate_test: exit=0, 6.4s
+shortcut_zero_stack: evaluate_train: exit=1, 6.3s
+shortcut_zero_stack: evaluate_test: exit=1, 6.3s
+shortcut_write_scores: evaluate_train: exit=0, 6.4s
+shortcut_write_scores: evaluate_test: exit=0, 6.4s
+shortcut_replace_baseline: evaluate_train: exit=0, 6.4s
+shortcut_replace_baseline: evaluate_test: exit=0, 6.4s
+shortcut_replace_truth: evaluate_train: exit=0, 6.4s
+shortcut_replace_truth: evaluate_test: exit=0, 6.4s
+shortcut_random_one_step: evaluate_train: exit=0, 6.4s
+shortcut_random_one_step: evaluate_test: exit=0, 6.5s
+shortcut_constant: evaluate_train: exit=0, 6.7s
+shortcut_constant: evaluate_test: exit=0, 6.6s
+shortcut_vocab_one: evaluate_train: exit=0, 6.4s
+shortcut_vocab_one: evaluate_test: exit=0, 6.4s
+shortcut_empty: evaluate_train: exit=1, 6.3s
+shortcut_empty: evaluate_test: exit=1, 6.5s
+shortcut_out_of_range: evaluate_train: exit=0, 6.4s
+shortcut_out_of_range: evaluate_test: exit=0, 6.4s
+honest_sampling: prediction: exit=0, 11.3s
+honest_sampling: evaluate_train: exit=0, 7.5s
+honest_sampling: evaluate_test: exit=0, 6.6s
+weaker_training: training: exit=0, 20.2s
+weaker_training: prediction: exit=0, 8.1s
+weaker_training: evaluate_train: exit=0, 6.7s
+weaker_training: evaluate_test: exit=0, 6.7s
+weaker_no_local: training: exit=0, 113.3s
+weaker_no_local: prediction: exit=0, 7.1s
+weaker_no_local: evaluate_train: exit=0, 6.6s
+weaker_no_local: evaluate_test: exit=0, 6.5s
+reference_seed7: training: exit=0, 68.6s
+reference_seed7: prediction: exit=0, 8.0s
+reference_seed7: evaluate_train: exit=0, 6.5s
+reference_seed7: evaluate_test: exit=0, 6.6s
+reference_seed17: training: exit=0, 72.8s
+reference_seed17: prediction: exit=0, 8.1s
+reference_seed17: evaluate_train: exit=0, 6.5s
+reference_seed17: evaluate_test: exit=0, 11.9s
+reference_seed27: training: exit=0, 74.8s
+reference_seed27: prediction: exit=0, 17.4s
+reference_seed27: evaluate_train: exit=0, 15.1s
+reference_seed27: evaluate_test: exit=0, 15.1s
+more_training: training: exit=0, 190.0s
+more_training: prediction: exit=0, 18.5s
+more_training: evaluate_train: exit=0, 22.7s
+more_training: evaluate_test: exit=0, 7.8s
+honest_sampling 0.14395863992569105
+more_training 0.031723687455243656
+reference 3.157807348941333e-16
+reference_seed17 0.0018551475273791017
+reference_seed27 -0.011655653077500177
+reference_seed7 0.0002513951389230709
+shortcut_constant -19.847760786722212
+shortcut_copy_answers 0.5864825339458186
+shortcut_empty {'command': ['bash', 'scripts/evaluate_test.sh'], 'exit_code': 1, 'seconds': 6.5073259100317955}
+shortcut_infinite_stack 1.497
+shortcut_negative_steps 7.485000000000001
+shortcut_out_of_range -32.76573782261002
+shortcut_random_one_step 0.4240474299223047
+shortcut_rebuild_answers 0.5864825339458186
+shortcut_replace_baseline 1.612635252023289
+shortcut_replace_truth 0.30053568137063863
+shortcut_rule_sampler 0.14618085557522198
+shortcut_stack_claim 1.2475000000000003
+shortcut_vocab_one -18.880855467135813
+shortcut_write_scores 3.157807348941333e-16
+shortcut_zero_stack {'command': ['bash', 'scripts/evaluate_test.sh'], 'exit_code': 1, 'seconds': 6.342933929990977}
+weaker_no_local -0.8836399631962869
+weaker_training -1.1278343454687054
+seed spread: 0.013510800604879279
