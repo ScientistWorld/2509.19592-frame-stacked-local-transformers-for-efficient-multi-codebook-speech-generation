@@ -29,7 +29,7 @@ EMBED_SEED = 4242
 # train-slice reference sample. Copying any of them is not generation.
 VISIBLE_SPLITS = ((8192, 1001), (1024, 1002))
 TRAIN_SLICE_REFERENCE_SEED = 20_250_919
-COPY_WINDOW = SEQ_LEN
+COPY_WINDOW = SEQ_LEN // 2  # aligned 12-frame halves, all 8 codebooks
 MAX_COPIED_FRACTION = 0.01
 VALIDITY_THRESHOLD = 0.5
 COARSE_THRESHOLD = 0.5
@@ -44,7 +44,6 @@ FIXED_ROWS = {
     "baseline_maskgit_2x": 2,
     "baseline_maskgit_4x": 4,
 }
-WORST = {"dependency_validity": 0.0}
 
 
 # ----------------------------------------------------------------- codec process
@@ -161,15 +160,30 @@ def distribution_metrics(tokens, speakers, ref_moments):
     return distances[-1], sum(distances[:-1]) / NUM_SPEAKERS
 
 
-def copied_fraction(tokens, visible_windows):
-    flat = tokens.to(torch.uint8).reshape(tokens.shape[0], -1).numpy()
-    return sum(row.tobytes() in visible_windows for row in flat) / len(flat)
+def window_keys(tokens):
+    """Per utterance, byte keys of its aligned 12-frame halves (all codebooks)."""
+    halves = tokens.to(torch.uint8).reshape(tokens.shape[0], SEQ_LEN // COPY_WINDOW, -1).numpy()
+    return [[bytes([h]) + half.tobytes() for h, half in enumerate(row)] for row in halves]
+
+
+def copied_fraction(tokens, windows):
+    """Fraction of utterances with at least one half identical to a half in `windows`.
+
+    Independent learned samples essentially never repeat a 12-frame half of a
+    visible utterance (reference and seed controls: at most 1 in 8192), so this
+    flags complete copies, copies with edits in one half and spliced halves.
+    """
+    return sum(any(key in windows for key in keys) for keys in window_keys(tokens)) / len(tokens)
+
+
+def window_set(tokens):
+    return {key for keys in window_keys(tokens) for key in keys}
 
 
 def build_visible_windows():
     # Frozen canonical visible examples, never mutable method-side data.
     item = torch.load(FIXED_DIR / 'visible.pt', map_location='cpu', weights_only=True)
-    return {row.tobytes() for row in item['tokens'].reshape(-1, SEQ_LEN * NUM_CODEBOOKS).numpy()}
+    return window_set(item['tokens'].reshape(-1, SEQ_LEN, NUM_CODEBOOKS))
 
 
 # --------------------------------------------------------------------- scoring
@@ -224,15 +238,17 @@ def score_tokens(tokens, speakers, ref_moments, caps, visible_windows):
     if any(not math.isfinite(v) for v in raw.values()):
         failure = 'nonfinite metric'
     elif raw['copied_fraction'] > MAX_COPIED_FRACTION:
-        failure = f"{raw['copied_fraction']:.3f} of sequences duplicate a complete visible utterance"
+        failure = f"{raw['copied_fraction']:.3f} of sequences repeat a 12-frame half of a visible utterance"
     elif raw['dependency_validity'] < VALIDITY_THRESHOLD:
         failure = f"dependency_validity {raw['dependency_validity']:.3f} < {VALIDITY_THRESHOLD}"
     elif raw['coarse_transition_validity'] < COARSE_THRESHOLD:
         failure = 'coarse transition validity below 0.5'
     elif raw['intra_frame_validity'] < INTRA_THRESHOLD:
         failure = 'within-frame validity below 0.5'
-    # Keep scientific measurements for diagnostics and baseline comparisons.
-    # Failure is a separate rank tier, so good marginals can never hide failure.
+    elif raw['codec_fd'] >= caps['codec_fd'] or raw['speaker_conditioned_codec_fd'] >= caps['speaker_conditioned_codec_fd']:
+        failure = 'generated distribution is no closer to the reference than uniform random tokens'
+    # Raw measurements are returned here; evaluate_directory replaces every
+    # scored value of a failed run by its worst value.
     scored = {key: raw[key] for key in ('dependency_validity', 'codec_fd', 'speaker_conditioned_codec_fd')}
     return scored, raw, failure
 
@@ -240,29 +256,40 @@ def score_tokens(tokens, speakers, ref_moments, caps, visible_windows):
 _FIXED_CACHE = {}
 
 
-def evaluate_directory(pred_dir, rows, speakers, ref_moments, caps, visible_windows):
+def run_groups(names):
+    """Rows of one run: `<prefix>_2x` and `<prefix>_4x` belong together."""
+    groups = {}
+    for name in names:
+        prefix, _, point = name.rpartition('_')
+        groups.setdefault(prefix if point in ('2x', '4x') else name, []).append(name)
+    return groups
+
+
+def evaluate_directory(pred_dir, rows, speakers, ref_moments, caps, visible_windows, check_integrity=True):
+    worst = {'dependency_validity': 0.0, **caps}
     candidates = {path.stem: path for path in sorted(pred_dir.glob('*.pt'))}
     for name in FIXED_ROWS:
         candidates[name] = FIXED_DIR / f'{name}.pt'
     for name in REQUIRED_ROWS:
         candidates.setdefault(name, None)
     experiments = {name: {'slice': SLICE, 'num_examples': int(rows.numel()), 'results': {}} for name in EXPERIMENTS.values()}
-    failures, raw_all = {}, {}
+    failures, raw_all, comparison_status, generated = {}, {}, {}, {}
     integrity_failure = None
-    expected_hashes = json.loads((FIXED_DIR / 'data_hashes.json').read_text())
-    for relative, expected in expected_hashes.items():
-        path = Path(relative)
-        if not path.is_file() or hashlib.sha256(path.read_bytes()).hexdigest() != expected:
-            integrity_failure = 'fixed training data changed'
-    if Path('data/synthetic_codec/test.pt').exists():
-        integrity_failure = 'forbidden method-side target file'
-    for name, stack in FIXED_ROWS.items():
-        submitted = pred_dir / f'{name}.pt'
-        if submitted.exists():
-            got, reason = load_tokens(submitted, stack)
-            fixed, _ = load_tokens(FIXED_DIR / f'{name}.pt', stack)
-            if reason or not torch.equal(got[rows], fixed[rows]):
-                integrity_failure = 'reserved fixed comparison output changed'
+    if check_integrity:
+        expected_hashes = json.loads((FIXED_DIR / 'data_hashes.json').read_text())
+        for relative, expected in expected_hashes.items():
+            path = Path(relative)
+            if not path.is_file() or hashlib.sha256(path.read_bytes()).hexdigest() != expected:
+                integrity_failure = 'fixed training data changed'
+        if Path('data/synthetic_codec/test.pt').exists():
+            integrity_failure = 'forbidden method-side target file'
+        for name, stack in FIXED_ROWS.items():
+            submitted = pred_dir / f'{name}.pt'
+            if submitted.exists():
+                got, reason = load_tokens(submitted, stack)
+                fixed, _ = load_tokens(FIXED_DIR / f'{name}.pt', stack)
+                if reason or not torch.equal(got[rows], fixed[rows]):
+                    integrity_failure = 'reserved fixed comparison output changed'
 
     for name, path in sorted(candidates.items()):
         stack = operating_point(name)
@@ -270,28 +297,53 @@ def evaluate_directory(pred_dir, rows, speakers, ref_moments, caps, visible_wind
             failures[name] = 'file must identify a fixed 1x, 2x or 4x operating point'
             continue
         experiment = EXPERIMENTS[4] if stack == 4 else EXPERIMENTS[2]
-        if name in _FIXED_CACHE:
-            scored, raw_all[name], failure = _FIXED_CACHE[name]
-            experiments[experiment]['results'][name] = scored
-            if failure:
-                failures[name] = failure
+        if name in FIXED_ROWS:
+            # Evaluator-frozen comparison rows: raw measurements are shown, and
+            # falling below a threshold is a comparison outcome, not a run failure.
+            if name not in _FIXED_CACHE:
+                tokens, reason = load_tokens(path, stack)
+                if tokens is None:
+                    raise RuntimeError(f'frozen comparison {name} is unreadable: {reason}')
+                _FIXED_CACHE[name] = score_tokens(tokens[rows], speakers, ref_moments, caps, visible_windows)
+            scored, raw_all[name], status = _FIXED_CACHE[name]
+            experiments[experiment]['results'][name] = dict(scored)
+            if status:
+                comparison_status[name] = status
             continue
         if path is None or not path.exists():
             tokens, failure = None, 'missing prediction artifact'
         else:
             tokens, failure = load_tokens(path, stack)
-        if tokens is None:
-            scored = {'dependency_validity': 0.0, **caps}
-        else:
-            scored, raw_all[name], failure = score_tokens(tokens[rows], speakers, ref_moments, caps, visible_windows)
-        if name in FIXED_ROWS and name in raw_all:
-            _FIXED_CACHE[name] = (scored, raw_all[name], failure)
-        if integrity_failure and name not in FIXED_ROWS:
-            failure = integrity_failure
+        scored = dict(worst)
+        if tokens is not None:
+            generated[name] = tokens[rows]
+            scored, raw_all[name], failure = score_tokens(generated[name], speakers, ref_moments, caps, visible_windows)
+        failure = integrity_failure or failure
         if failure:
             failures[name] = failure
         experiments[experiment]['results'][name] = scored
-    return {'_failures': failures, '_raw': raw_all, 'experiments': experiments}
+
+    groups = run_groups([n for exp in experiments.values() for n in exp['results'] if n not in FIXED_ROWS])
+    for names in groups.values():
+        # The two operating points must be separately generated samples.
+        present = [n for n in sorted(names) if n in generated]
+        for i, a in enumerate(present):
+            reused = window_set(generated[a])
+            for b in present[i + 1:]:
+                fraction = copied_fraction(generated[b], reused)
+                if fraction > MAX_COPIED_FRACTION:
+                    for n in (a, b):
+                        failures.setdefault(n, f'{fraction:.3f} of {b} sequences repeat a 12-frame half of {a}')
+        # A failed run gets the worst value of every scored metric in every
+        # experiment: no failed row can carry a good measurement into a rank.
+        failed = [failures[n] for n in sorted(names) if n in failures]
+        if failed:
+            for n in names:
+                failures.setdefault(n, f'run failed: {failed[0]}')
+                for exp in experiments.values():
+                    if n in exp['results']:
+                        exp['results'][n] = dict(worst)
+    return {'_failures': failures, '_comparison_status': comparison_status, '_raw': raw_all, 'experiments': experiments}
 
 
 def main():
@@ -313,10 +365,14 @@ def main():
     output = evaluate_directory(pred_dir, rows, speakers, ref_moments, caps, visible_windows)
     output['_metadata'] = {'slice': SLICE, 'num_examples': int(rows.numel()),
                            'references_per_row': REFERENCES_PER_ROW, 'validity_threshold': VALIDITY_THRESHOLD,
-                           'method_source': str(pred_dir), 'invalid_artifact_defaults': caps}
+                           'method_source': str(pred_dir),
+                           'failed_run_values': {'dependency_validity': 0.0, **caps},
+                           'failed_run_values_note': 'worst value of each scored metric; distances equal those of uniform random tokens, '
+                                                     'and a run whose distance is not below them fails'}
     # Rank every saved attempt from its raw predictions, never submitted scores.
     from eval.test.ranking import rank_attempts
-    reference = evaluate_directory(FIXED_DIR / 'reference_predictions', rows, speakers, ref_moments, caps, visible_windows)
+    reference = evaluate_directory(FIXED_DIR / 'reference_predictions', rows, speakers, ref_moments, caps, visible_windows,
+                                   check_integrity=False)
     attempts = {'current': output}
     # Additional flat files use the same interface, grouped by their prefix.
     all_rows = {name for exp in output['experiments'].values() for name in exp['results']}
@@ -327,7 +383,8 @@ def main():
         for stack, exp in EXPERIMENTS.items():
             actual, canonical = f'{prefix}_{stack}x', f'generator_{stack}x'
             values = output['experiments'][exp]['results'].get(actual)
-            view['experiments'][exp] = {'results': {canonical: values or {'dependency_validity': 0.0, **caps}}}
+            failed = values is None or actual in output['_failures']
+            view['experiments'][exp] = {'results': {canonical: {'dependency_validity': 0.0, **caps} if failed else values}}
             if values is None or actual in output['_failures']:
                 view['_failures'][canonical] = output['_failures'].get(actual, 'missing operating point')
         attempts[f'files:{prefix}'] = view
