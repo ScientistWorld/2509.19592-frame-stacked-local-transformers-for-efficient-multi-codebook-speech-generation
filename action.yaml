@@ -1,8 +1,8 @@
 # Once you set action to 'submit' or 'done', STOP immediately.
 # Do NOT sleep, poll, or wait for jobs. The system reads this file
 # only after your turn ends.
-action: submit
-gpus: 1
+action: pending
+gpus: 0
 test: false
 milestone: core_claim_plus
-notes: "Hardening check job: rebuild data and retrain reference/comparison models at 10000 steps, freeze comparators, score hidden test, then rerun seeds, better/weaker variants and shortcuts through the no-argument hidden test (resumable)."
+notes: ""
