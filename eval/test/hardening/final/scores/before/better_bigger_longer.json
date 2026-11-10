@@ -1,0 +1,37 @@
+{
+ "failures": {
+  "generator_2x": "0.509 of sequences duplicate a complete visible utterance"
+ },
+ "raw": {
+  "generator_2x": {
+   "coarse_transition_validity": 0.990260899066925,
+   "codec_fd": 0.04929090263840408,
+   "copied_fraction": 0.5087890625,
+   "dependency_validity": 0.9879207910667539,
+   "intra_frame_validity": 0.9876004457473755,
+   "residual_persistence": 0.9540098309516907,
+   "speaker_conditioned_codec_fd": 0.47915829389428666
+  },
+  "generator_4x": {
+   "coarse_transition_validity": 0.9213548898696899,
+   "codec_fd": 0.14992594690249916,
+   "copied_fraction": 0.0054931640625,
+   "dependency_validity": 0.942102881626309,
+   "intra_frame_validity": 0.944943368434906,
+   "residual_persistence": 0.8692050576210022,
+   "speaker_conditioned_codec_fd": 0.6140764844108162
+  }
+ },
+ "results": {
+  "codec_stack2": {
+   "codec_fd": 0.04929090263840408,
+   "dependency_validity": 0.9879207910667539,
+   "speaker_conditioned_codec_fd": 0.47915829389428666
+  },
+  "codec_stack4": {
+   "codec_fd": 0.14992594690249916,
+   "dependency_validity": 0.942102881626309,
+   "speaker_conditioned_codec_fd": 0.6140764844108162
+  }
+ }
+}

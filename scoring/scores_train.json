@@ -1,17 +1,20 @@
 {
   "_attempts": {},
-  "_failures": {
+  "_comparison_status": {
     "baseline_maskgit_2x": "dependency_validity 0.178 < 0.5",
     "baseline_maskgit_4x": "dependency_validity 0.124 < 0.5",
     "baseline_parallel_1x": "dependency_validity 0.159 < 0.5",
     "baseline_parallel_2x": "dependency_validity 0.141 < 0.5",
     "baseline_parallel_4x": "dependency_validity 0.122 < 0.5"
   },
+  "_failures": {},
   "_metadata": {
-    "invalid_artifact_defaults": {
+    "failed_run_values": {
       "codec_fd": 2.0367940778197067,
+      "dependency_validity": 0.0,
       "speaker_conditioned_codec_fd": 2.4427078330090843
     },
+    "failed_run_values_note": "worst value of each scored metric; distances equal those of uniform random tokens, and a run whose distance is not below them fails",
     "method_source": "checkpoints/predictions",
     "num_examples": 8192,
     "references_per_row": 4,
@@ -58,7 +61,7 @@
     },
     "baseline_maskgit_4x": {
       "coarse_transition_validity": 0.443964421749115,
-      "codec_fd": 0.9473605344633711,
+      "codec_fd": 0.9473605344634848,
       "copied_fraction": 0.0,
       "dependency_validity": 0.12445803337696335,
       "intra_frame_validity": 0.0807160884141922,
@@ -76,7 +79,7 @@
     },
     "baseline_parallel_2x": {
       "coarse_transition_validity": 0.710841953754425,
-      "codec_fd": 0.3974076359875198,
+      "codec_fd": 0.39740763598740614,
       "copied_fraction": 0.0,
       "dependency_validity": 0.1405809013007199,
       "intra_frame_validity": 0.0625094473361969,
@@ -94,7 +97,7 @@
     },
     "generator_2x": {
       "coarse_transition_validity": 0.98899245262146,
-      "codec_fd": 0.18552465332459178,
+      "codec_fd": 0.18552465332464863,
       "copied_fraction": 0.0,
       "dependency_validity": 0.9737401832460733,
       "intra_frame_validity": 0.971652090549469,
@@ -126,12 +129,12 @@
           "speaker_conditioned_codec_fd": 0.8670666157157427
         },
         "baseline_parallel_2x": {
-          "codec_fd": 0.3974076359875198,
+          "codec_fd": 0.39740763598740614,
           "dependency_validity": 0.1405809013007199,
           "speaker_conditioned_codec_fd": 0.875131152898625
         },
         "generator_2x": {
-          "codec_fd": 0.18552465332459178,
+          "codec_fd": 0.18552465332464863,
           "dependency_validity": 0.9737401832460733,
           "speaker_conditioned_codec_fd": 0.5159564764621472
         }
@@ -142,7 +145,7 @@
       "num_examples": 8192,
       "results": {
         "baseline_maskgit_4x": {
-          "codec_fd": 0.9473605344633711,
+          "codec_fd": 0.9473605344634848,
           "dependency_validity": 0.12445803337696335,
           "speaker_conditioned_codec_fd": 1.3589604182716002
         },

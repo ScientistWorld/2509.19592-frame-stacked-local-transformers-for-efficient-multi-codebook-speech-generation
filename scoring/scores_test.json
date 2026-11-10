@@ -1,17 +1,20 @@
 {
   "_attempts": {},
-  "_failures": {
+  "_comparison_status": {
     "baseline_maskgit_2x": "dependency_validity 0.179 < 0.5",
     "baseline_maskgit_4x": "dependency_validity 0.125 < 0.5",
     "baseline_parallel_1x": "dependency_validity 0.160 < 0.5",
     "baseline_parallel_2x": "dependency_validity 0.141 < 0.5",
     "baseline_parallel_4x": "dependency_validity 0.122 < 0.5"
   },
+  "_failures": {},
   "_metadata": {
-    "invalid_artifact_defaults": {
+    "failed_run_values": {
       "codec_fd": 2.036503630228708,
+      "dependency_validity": 0.0,
       "speaker_conditioned_codec_fd": 2.436088826451254
     },
+    "failed_run_values_note": "worst value of each scored metric; distances equal those of uniform random tokens, and a run whose distance is not below them fails",
     "method_source": "checkpoints/predictions",
     "num_examples": 8192,
     "references_per_row": 4,

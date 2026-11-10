@@ -1,0 +1,22 @@
+{
+ "failures": {
+  "generator_2x": "config.stack_factor must be a positive integer",
+  "generator_4x": "config.stack_factor must be a positive integer"
+ },
+ "raw": {
+  "generator_2x": null,
+  "generator_4x": null
+ },
+ "results": {
+  "codec_stack2": {
+   "codec_fd": 2.036503630228708,
+   "dependency_validity": 0.0,
+   "speaker_conditioned_codec_fd": 2.436088826451254
+  },
+  "codec_stack4": {
+   "codec_fd": 2.036503630228708,
+   "dependency_validity": 0.0,
+   "speaker_conditioned_codec_fd": 2.436088826451254
+  }
+ }
+}

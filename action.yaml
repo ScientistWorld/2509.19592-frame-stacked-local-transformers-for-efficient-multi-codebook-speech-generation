@@ -1,2 +1,4 @@
-action: done
-notes: "Verified learned headroom above seed noise, failed shortcut replays, and reference-only scores; remaining analytic-sampling and MaskGIT limits documented in HARDENING.md."
+action: submit
+gpus: 1
+test: false
+notes: "Final hardening check (one job): train the 20k-step variant at reference seeds 17/27, cosine-LR variants (10k and 20k) at seeds 7/17/27 and the train-on-formerly-public-references shortcut; replay every saved case through the no-argument hidden test before (205a717) and after the fixes; paired bootstrap; restore reference-only scores; validate.py."

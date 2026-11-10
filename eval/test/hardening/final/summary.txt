@@ -1,0 +1,44 @@
+case                                     before      after  after outcome
+reference                               +0.0000    +0.0000  feasible
+better_bigger                           +0.0747    -3.9858  FAILED: 0.297 of sequences repeat a 12-frame half of a visible utterance
+better_more_training                    +0.0276    +0.0915  feasible
+reference_sample1                       -0.0006    -0.0142  feasible
+reference_sample2                       -0.0007    -0.0093  feasible
+reference_seed17                        +0.0054    -0.0736  feasible
+reference_seed27                        -0.0373    +0.0407  feasible
+shortcut_copy_answers                   +0.1245    -3.9858  FAILED: 1.000 of sequences repeat a 12-frame half of a visible utterance
+shortcut_empty                          -2.2910    -3.9858  FAILED: pred_tokens shape (0, 24, 8) != (16384, 24, 8)
+shortcut_infinite_stack                 -2.2910    -3.9858  FAILED: config.stack_factor must be a positive integer
+shortcut_negative_steps                 -2.2910    -3.9858  FAILED: declared stack factor -1 does not match the fixed 12-step budget of this row
+shortcut_out_of_range                   -2.2910    -3.9858  FAILED: token ids outside [0, vocab_size)
+shortcut_random_one_step                -2.1245    -3.9858  FAILED: dependency_validity 0.070 < 0.5
+shortcut_rebuild_answers                -2.2910    -3.9858  FAILED: pred_tokens shape (0, 24, 8) != (16384, 24, 8)
+shortcut_replace_baseline               +0.0000    -3.9858  FAILED: reserved fixed comparison output changed
+shortcut_rule_sampler                   -0.1716    -3.9858  FAILED: coarse transition validity below 0.5
+shortcut_stack_claim                    -2.2910    -3.9858  FAILED: declared stack factor 24 does not match the fixed 12-step budget of this row
+shortcut_vocab_one                      -2.2910    -3.9858  FAILED: config.vocab_size conflicts with the fixed task
+shortcut_write_scores                   -2.2910    -3.9858  FAILED: unsupported artifact fields (submitted metrics and verdicts are not accepted)
+shortcut_zero_stack                     -2.2910    -3.9858  FAILED: declared stack factor 0 does not match the fixed 12-step budget of this row
+weaker_argmax                           -0.8009    -3.9858  FAILED: generated distribution is no closer to the reference than uniform random tokens
+weaker_no_local                         -1.9638    -3.9858  FAILED: dependency_validity 0.141 < 0.5
+weaker_training                         -1.4577    -3.9858  FAILED: dependency_validity 0.448 < 0.5
+better_bigger_longer                    +0.0273    -3.9858  FAILED: 0.667 of sequences repeat a 12-frame half of a visible utterance
+better_cosine                           -0.1556    +0.0515  feasible
+better_cosine_20k                       +0.0168    +0.2472  feasible
+better_cosine_20k_seed17                +0.0048    +0.2312  feasible
+better_cosine_20k_seed27                -0.0897    +0.1449  feasible
+better_cosine_seed17                    -0.3505    -0.1225  feasible
+better_cosine_seed27                    -0.0937    +0.1281  feasible
+better_more_training_seed17             +0.0235    +0.0295  feasible
+better_more_training_seed27             -0.0491    +0.0329  feasible
+paper_sampling_t06                      +0.0413    -0.2621  feasible
+shortcut_analytic_sampler               +0.1253    +0.3917  feasible
+shortcut_constant                       -8.6679    -3.9858  FAILED: dependency_validity 0.055 < 0.5
+shortcut_copy_edit                      +0.1238    -3.9858  FAILED: 1.000 of sequences repeat a 12-frame half of a visible utterance
+shortcut_resample_2x_as_4x              +0.0598    +0.0994  feasible
+shortcut_reuse_2x_as_4x                 +0.0603    -3.9858  FAILED: 1.000 of generator_4x sequences repeat a 12-frame half of generator_2x
+shortcut_splice_halves                  +0.1129    -3.9858  FAILED: 1.000 of sequences repeat a 12-frame half of a visible utterance
+shortcut_train_on_eval_refs             +0.0093    -0.0578  feasible
+shortcut_train_rows_2x_as_4x            +0.0594    -3.9858  FAILED: 1.000 of generator_4x sequences repeat a 12-frame half of generator_2x
+shortcut_replace_truth_testfile         +0.0000    -3.9858  FAILED: forbidden method-side target file
+shortcut_replace_truth_valfile          +0.0000    -3.9858  FAILED: fixed training data changed

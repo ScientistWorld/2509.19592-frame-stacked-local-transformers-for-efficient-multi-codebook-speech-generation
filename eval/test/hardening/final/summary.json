@@ -1,993 +1,1678 @@
 {
-  "after": {
-    "failures": {
-      "better_bigger": {
-        "generator_2x": "0.297 of sequences repeat a 12-frame half of a visible utterance",
-        "generator_4x": "0.588 of sequences repeat a 12-frame half of a visible utterance"
-      },
-      "better_more_training": {},
-      "reference": {},
-      "reference_sample1": {},
-      "reference_sample2": {},
-      "reference_seed17": {},
-      "reference_seed27": {},
-      "shortcut_analytic_sampler": {},
-      "shortcut_copy_answers": {
-        "generator_2x": "1.000 of sequences repeat a 12-frame half of a visible utterance",
-        "generator_4x": "1.000 of sequences repeat a 12-frame half of a visible utterance"
-      },
-      "shortcut_copy_edit": {
-        "generator_2x": "1.000 of sequences repeat a 12-frame half of a visible utterance",
-        "generator_4x": "1.000 of sequences repeat a 12-frame half of a visible utterance"
-      },
-      "shortcut_empty": {
-        "generator_2x": "pred_tokens shape (0, 24, 8) != (16384, 24, 8)",
-        "generator_4x": "pred_tokens shape (0, 24, 8) != (16384, 24, 8)"
-      },
-      "shortcut_infinite_stack": {
-        "generator_2x": "config.stack_factor must be a positive integer",
-        "generator_4x": "config.stack_factor must be a positive integer"
-      },
-      "shortcut_negative_steps": {
-        "generator_2x": "declared stack factor -1 does not match the fixed 12-step budget of this row",
-        "generator_4x": "declared stack factor -1 does not match the fixed 6-step budget of this row"
-      },
-      "shortcut_out_of_range": {
-        "generator_2x": "token ids outside [0, vocab_size)",
-        "generator_4x": "token ids outside [0, vocab_size)"
-      },
-      "shortcut_random_one_step": {
-        "generator_2x": "dependency_validity 0.070 < 0.5",
-        "generator_4x": "dependency_validity 0.070 < 0.5"
-      },
-      "shortcut_rebuild_answers": {
-        "generator_2x": "pred_tokens shape (0, 24, 8) != (16384, 24, 8)",
-        "generator_4x": "pred_tokens shape (0, 24, 8) != (16384, 24, 8)"
-      },
-      "shortcut_replace_baseline": {
-        "generator_2x": "reserved fixed comparison output changed",
-        "generator_4x": "reserved fixed comparison output changed"
-      },
-      "shortcut_resample_2x_as_4x": {},
-      "shortcut_reuse_2x_as_4x": {
-        "generator_2x": "1.000 of generator_4x sequences repeat a 12-frame half of generator_2x",
-        "generator_4x": "1.000 of generator_4x sequences repeat a 12-frame half of generator_2x"
-      },
-      "shortcut_rule_sampler": {
-        "generator_2x": "coarse transition validity below 0.5",
-        "generator_4x": "coarse transition validity below 0.5"
-      },
-      "shortcut_splice_halves": {
-        "generator_2x": "1.000 of sequences repeat a 12-frame half of a visible utterance",
-        "generator_4x": "1.000 of sequences repeat a 12-frame half of a visible utterance"
-      },
-      "shortcut_stack_claim": {
-        "generator_2x": "declared stack factor 24 does not match the fixed 12-step budget of this row",
-        "generator_4x": "declared stack factor 24 does not match the fixed 6-step budget of this row"
-      },
-      "shortcut_vocab_one": {
-        "generator_2x": "config.vocab_size conflicts with the fixed task",
-        "generator_4x": "config.vocab_size conflicts with the fixed task"
-      },
-      "shortcut_write_scores": {
-        "generator_2x": "unsupported artifact fields (submitted metrics and verdicts are not accepted)",
-        "generator_4x": "unsupported artifact fields (submitted metrics and verdicts are not accepted)"
-      },
-      "shortcut_zero_stack": {
-        "generator_2x": "declared stack factor 0 does not match the fixed 12-step budget of this row",
-        "generator_4x": "declared stack factor 0 does not match the fixed 6-step budget of this row"
-      },
-      "weaker_argmax": {
-        "generator_2x": "generated distribution is no closer to the reference than uniform random tokens",
-        "generator_4x": "generated distribution is no closer to the reference than uniform random tokens"
-      },
-      "weaker_no_local": {
-        "generator_2x": "dependency_validity 0.141 < 0.5",
-        "generator_4x": "dependency_validity 0.122 < 0.5"
-      },
-      "weaker_training": {
-        "generator_2x": "dependency_validity 0.448 < 0.5",
-        "generator_4x": "dependency_validity 0.269 < 0.5"
-      }
-    },
-    "linear": {
-      "better_bigger": -4.349624863158218,
-      "better_more_training": 0.10068246848197271,
-      "reference": 0.0,
-      "reference_sample1": -0.0157658528092402,
-      "reference_sample2": -0.010360602995415072,
-      "reference_seed17": -0.08230349828180392,
-      "reference_seed27": 0.046237054035089084,
-      "shortcut_analytic_sampler": 0.4308822193277353,
-      "shortcut_copy_answers": -4.349624863158218,
-      "shortcut_copy_edit": -4.349624863158218,
-      "shortcut_empty": -4.349624863158218,
-      "shortcut_infinite_stack": -4.349624863158218,
-      "shortcut_negative_steps": -4.349624863158218,
-      "shortcut_out_of_range": -4.349624863158218,
-      "shortcut_random_one_step": -4.349624863158218,
-      "shortcut_rebuild_answers": -4.349624863158218,
-      "shortcut_replace_baseline": -4.349624863158218,
-      "shortcut_resample_2x_as_4x": 0.10802825234500993,
-      "shortcut_reuse_2x_as_4x": -4.349624863158218,
-      "shortcut_rule_sampler": -4.349624863158218,
-      "shortcut_splice_halves": -4.349624863158218,
-      "shortcut_stack_claim": -4.349624863158218,
-      "shortcut_vocab_one": -4.349624863158218,
-      "shortcut_write_scores": -4.349624863158218,
-      "shortcut_zero_stack": -4.349624863158218,
-      "weaker_argmax": -4.349624863158218,
-      "weaker_no_local": -4.349624863158218,
-      "weaker_training": -4.349624863158218
-    },
-    "sigma": {
-      "codec_stack2/generator_2x/codec_fd": 0.8441818264706383,
-      "codec_stack2/generator_2x/dependency_validity": 0.43848406762902764,
-      "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 0.8850940095639923,
-      "codec_stack4/generator_4x/codec_fd": 0.8238622716183043,
-      "codec_stack4/generator_4x/dependency_validity": 0.4296390535079739,
-      "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 0.8639908167294881
-    },
-    "tier": {
-      "better_bigger": {
-        "feasible": false,
-        "improvement": -4.2552126660642715
-      },
-      "better_more_training": {
-        "feasible": true,
-        "improvement": 0.09860495025724933
-      },
-      "reference": {
-        "feasible": true,
-        "improvement": 0.0
-      },
-      "reference_sample1": {
-        "feasible": true,
-        "improvement": -0.015429972945911967
-      },
-      "reference_sample2": {
-        "feasible": true,
-        "improvement": -0.010136745582171668
-      },
-      "reference_seed17": {
-        "feasible": true,
-        "improvement": -0.08062432428991806
-      },
-      "reference_seed27": {
-        "feasible": true,
-        "improvement": 0.04552873579942294
-      },
-      "shortcut_analytic_sampler": {
-        "feasible": true,
-        "improvement": 0.42184153356331683
-      },
-      "shortcut_copy_answers": {
-        "feasible": false,
-        "improvement": -4.2552126660642715
-      },
-      "shortcut_copy_edit": {
-        "feasible": false,
-        "improvement": -4.2552126660642715
-      },
-      "shortcut_empty": {
-        "feasible": false,
-        "improvement": -4.2552126660642715
-      },
-      "shortcut_infinite_stack": {
-        "feasible": false,
-        "improvement": -4.2552126660642715
-      },
-      "shortcut_negative_steps": {
-        "feasible": false,
-        "improvement": -4.2552126660642715
-      },
-      "shortcut_out_of_range": {
-        "feasible": false,
-        "improvement": -4.2552126660642715
-      },
-      "shortcut_random_one_step": {
-        "feasible": false,
-        "improvement": -4.2552126660642715
-      },
-      "shortcut_rebuild_answers": {
-        "feasible": false,
-        "improvement": -4.2552126660642715
-      },
-      "shortcut_replace_baseline": {
-        "feasible": false,
-        "improvement": -4.2552126660642715
-      },
-      "shortcut_resample_2x_as_4x": {
-        "feasible": true,
-        "improvement": 0.10578807213934804
-      },
-      "shortcut_reuse_2x_as_4x": {
-        "feasible": false,
-        "improvement": -4.2552126660642715
-      },
-      "shortcut_rule_sampler": {
-        "feasible": false,
-        "improvement": -4.2552126660642715
-      },
-      "shortcut_splice_halves": {
-        "feasible": false,
-        "improvement": -4.2552126660642715
-      },
-      "shortcut_stack_claim": {
-        "feasible": false,
-        "improvement": -4.2552126660642715
-      },
-      "shortcut_vocab_one": {
-        "feasible": false,
-        "improvement": -4.2552126660642715
-      },
-      "shortcut_write_scores": {
-        "feasible": false,
-        "improvement": -4.2552126660642715
-      },
-      "shortcut_zero_stack": {
-        "feasible": false,
-        "improvement": -4.2552126660642715
-      },
-      "weaker_argmax": {
-        "feasible": false,
-        "improvement": -4.2552126660642715
-      },
-      "weaker_no_local": {
-        "feasible": false,
-        "improvement": -4.2552126660642715
-      },
-      "weaker_training": {
-        "feasible": false,
-        "improvement": -4.2552126660642715
-      }
-    },
-    "values": {
-      "better_bigger": {
-        "codec_stack2/generator_2x/codec_fd": 2.036503630228651,
-        "codec_stack2/generator_2x/dependency_validity": 0.0,
-        "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 2.436088826451254,
-        "codec_stack4/generator_4x/codec_fd": 2.036503630228651,
-        "codec_stack4/generator_4x/dependency_validity": 0.0,
-        "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 2.436088826451254
-      },
-      "better_more_training": {
-        "codec_stack2/generator_2x/codec_fd": 0.156940448576961,
-        "codec_stack2/generator_2x/dependency_validity": 0.9768922815772252,
-        "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 0.4767796675686,
-        "codec_stack4/generator_4x/codec_fd": 0.19152042965339433,
-        "codec_stack4/generator_4x/dependency_validity": 0.9497063921384162,
-        "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 0.49885157283797454
-      },
-      "reference": {
-        "codec_stack2/generator_2x/codec_fd": 0.18497701644827202,
-        "codec_stack2/generator_2x/dependency_validity": 0.9742910974312827,
-        "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 0.5026589485900139,
-        "codec_stack4/generator_4x/codec_fd": 0.26808556106857395,
-        "codec_stack4/generator_4x/dependency_validity": 0.9330172713514397,
-        "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 0.6028814086313439
-      },
-      "reference_sample1": {
-        "codec_stack2/generator_2x/codec_fd": 0.20044562792554643,
-        "codec_stack2/generator_2x/dependency_validity": 0.9740648519306283,
-        "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 0.5267491551260655,
-        "codec_stack4/generator_4x/codec_fd": 0.2764277259263963,
-        "codec_stack4/generator_4x/dependency_validity": 0.9329130961632853,
-        "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 0.6137396056020492
-      },
-      "reference_sample2": {
-        "codec_stack2/generator_2x/codec_fd": 0.19133605060494574,
-        "codec_stack2/generator_2x/dependency_validity": 0.9736679636371073,
-        "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 0.528987328674198,
-        "codec_stack4/generator_4x/codec_fd": 0.27227803626925606,
-        "codec_stack4/generator_4x/dependency_validity": 0.93302238424411,
-        "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 0.6079214816711946
-      },
-      "reference_seed17": {
-        "codec_stack2/generator_2x/codec_fd": 0.21579466831462923,
-        "codec_stack2/generator_2x/dependency_validity": 0.9674487688154451,
-        "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 0.5389248984534305,
-        "codec_stack4/generator_4x/codec_fd": 0.3662851116636716,
-        "codec_stack4/generator_4x/dependency_validity": 0.942185966132199,
-        "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 0.7131799035673332
-      },
-      "reference_seed27": {
-        "codec_stack2/generator_2x/codec_fd": 0.2062908426706258,
-        "codec_stack2/generator_2x/dependency_validity": 0.921949776055301,
-        "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 0.5397465591823121,
-        "codec_stack4/generator_4x/codec_fd": 0.14430446163595434,
-        "codec_stack4/generator_4x/dependency_validity": 0.9404469435127618,
-        "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 0.4506584189170333
-      },
-      "shortcut_analytic_sampler": {
-        "codec_stack2/generator_2x/codec_fd": 0.013109935771012715,
-        "codec_stack2/generator_2x/dependency_validity": 1.0,
-        "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 0.2259080701539915,
-        "codec_stack4/generator_4x/codec_fd": 0.013500763246099723,
-        "codec_stack4/generator_4x/dependency_validity": 1.0,
-        "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 0.22937975801727006
-      },
-      "shortcut_copy_answers": {
-        "codec_stack2/generator_2x/codec_fd": 2.036503630228651,
-        "codec_stack2/generator_2x/dependency_validity": 0.0,
-        "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 2.436088826451254,
-        "codec_stack4/generator_4x/codec_fd": 2.036503630228651,
-        "codec_stack4/generator_4x/dependency_validity": 0.0,
-        "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 2.436088826451254
-      },
-      "shortcut_copy_edit": {
-        "codec_stack2/generator_2x/codec_fd": 2.036503630228651,
-        "codec_stack2/generator_2x/dependency_validity": 0.0,
-        "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 2.436088826451254,
-        "codec_stack4/generator_4x/codec_fd": 2.036503630228651,
-        "codec_stack4/generator_4x/dependency_validity": 0.0,
-        "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 2.436088826451254
-      },
-      "shortcut_empty": {
-        "codec_stack2/generator_2x/codec_fd": 2.036503630228651,
-        "codec_stack2/generator_2x/dependency_validity": 0.0,
-        "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 2.436088826451254,
-        "codec_stack4/generator_4x/codec_fd": 2.036503630228651,
-        "codec_stack4/generator_4x/dependency_validity": 0.0,
-        "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 2.436088826451254
-      },
-      "shortcut_infinite_stack": {
-        "codec_stack2/generator_2x/codec_fd": 2.036503630228651,
-        "codec_stack2/generator_2x/dependency_validity": 0.0,
-        "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 2.436088826451254,
-        "codec_stack4/generator_4x/codec_fd": 2.036503630228651,
-        "codec_stack4/generator_4x/dependency_validity": 0.0,
-        "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 2.436088826451254
-      },
-      "shortcut_negative_steps": {
-        "codec_stack2/generator_2x/codec_fd": 2.036503630228651,
-        "codec_stack2/generator_2x/dependency_validity": 0.0,
-        "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 2.436088826451254,
-        "codec_stack4/generator_4x/codec_fd": 2.036503630228651,
-        "codec_stack4/generator_4x/dependency_validity": 0.0,
-        "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 2.436088826451254
-      },
-      "shortcut_out_of_range": {
-        "codec_stack2/generator_2x/codec_fd": 2.036503630228651,
-        "codec_stack2/generator_2x/dependency_validity": 0.0,
-        "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 2.436088826451254,
-        "codec_stack4/generator_4x/codec_fd": 2.036503630228651,
-        "codec_stack4/generator_4x/dependency_validity": 0.0,
-        "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 2.436088826451254
-      },
-      "shortcut_random_one_step": {
-        "codec_stack2/generator_2x/codec_fd": 2.036503630228651,
-        "codec_stack2/generator_2x/dependency_validity": 0.0,
-        "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 2.436088826451254,
-        "codec_stack4/generator_4x/codec_fd": 2.036503630228651,
-        "codec_stack4/generator_4x/dependency_validity": 0.0,
-        "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 2.436088826451254
-      },
-      "shortcut_rebuild_answers": {
-        "codec_stack2/generator_2x/codec_fd": 2.036503630228651,
-        "codec_stack2/generator_2x/dependency_validity": 0.0,
-        "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 2.436088826451254,
-        "codec_stack4/generator_4x/codec_fd": 2.036503630228651,
-        "codec_stack4/generator_4x/dependency_validity": 0.0,
-        "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 2.436088826451254
-      },
-      "shortcut_replace_baseline": {
-        "codec_stack2/generator_2x/codec_fd": 2.036503630228651,
-        "codec_stack2/generator_2x/dependency_validity": 0.0,
-        "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 2.436088826451254,
-        "codec_stack4/generator_4x/codec_fd": 2.036503630228651,
-        "codec_stack4/generator_4x/dependency_validity": 0.0,
-        "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 2.436088826451254
-      },
-      "shortcut_resample_2x_as_4x": {
-        "codec_stack2/generator_2x/codec_fd": 0.18497701644827202,
-        "codec_stack2/generator_2x/dependency_validity": 0.9742910974312827,
-        "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 0.5026589485900139,
-        "codec_stack4/generator_4x/codec_fd": 0.20044562792554643,
-        "codec_stack4/generator_4x/dependency_validity": 0.9740648519306283,
-        "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 0.5267491551260655
-      },
-      "shortcut_reuse_2x_as_4x": {
-        "codec_stack2/generator_2x/codec_fd": 2.036503630228651,
-        "codec_stack2/generator_2x/dependency_validity": 0.0,
-        "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 2.436088826451254,
-        "codec_stack4/generator_4x/codec_fd": 2.036503630228651,
-        "codec_stack4/generator_4x/dependency_validity": 0.0,
-        "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 2.436088826451254
-      },
-      "shortcut_rule_sampler": {
-        "codec_stack2/generator_2x/codec_fd": 2.036503630228651,
-        "codec_stack2/generator_2x/dependency_validity": 0.0,
-        "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 2.436088826451254,
-        "codec_stack4/generator_4x/codec_fd": 2.036503630228651,
-        "codec_stack4/generator_4x/dependency_validity": 0.0,
-        "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 2.436088826451254
-      },
-      "shortcut_splice_halves": {
-        "codec_stack2/generator_2x/codec_fd": 2.036503630228651,
-        "codec_stack2/generator_2x/dependency_validity": 0.0,
-        "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 2.436088826451254,
-        "codec_stack4/generator_4x/codec_fd": 2.036503630228651,
-        "codec_stack4/generator_4x/dependency_validity": 0.0,
-        "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 2.436088826451254
-      },
-      "shortcut_stack_claim": {
-        "codec_stack2/generator_2x/codec_fd": 2.036503630228651,
-        "codec_stack2/generator_2x/dependency_validity": 0.0,
-        "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 2.436088826451254,
-        "codec_stack4/generator_4x/codec_fd": 2.036503630228651,
-        "codec_stack4/generator_4x/dependency_validity": 0.0,
-        "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 2.436088826451254
-      },
-      "shortcut_vocab_one": {
-        "codec_stack2/generator_2x/codec_fd": 2.036503630228651,
-        "codec_stack2/generator_2x/dependency_validity": 0.0,
-        "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 2.436088826451254,
-        "codec_stack4/generator_4x/codec_fd": 2.036503630228651,
-        "codec_stack4/generator_4x/dependency_validity": 0.0,
-        "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 2.436088826451254
-      },
-      "shortcut_write_scores": {
-        "codec_stack2/generator_2x/codec_fd": 2.036503630228651,
-        "codec_stack2/generator_2x/dependency_validity": 0.0,
-        "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 2.436088826451254,
-        "codec_stack4/generator_4x/codec_fd": 2.036503630228651,
-        "codec_stack4/generator_4x/dependency_validity": 0.0,
-        "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 2.436088826451254
-      },
-      "shortcut_zero_stack": {
-        "codec_stack2/generator_2x/codec_fd": 2.036503630228651,
-        "codec_stack2/generator_2x/dependency_validity": 0.0,
-        "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 2.436088826451254,
-        "codec_stack4/generator_4x/codec_fd": 2.036503630228651,
-        "codec_stack4/generator_4x/dependency_validity": 0.0,
-        "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 2.436088826451254
-      },
-      "weaker_argmax": {
-        "codec_stack2/generator_2x/codec_fd": 2.036503630228651,
-        "codec_stack2/generator_2x/dependency_validity": 0.0,
-        "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 2.436088826451254,
-        "codec_stack4/generator_4x/codec_fd": 2.036503630228651,
-        "codec_stack4/generator_4x/dependency_validity": 0.0,
-        "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 2.436088826451254
-      },
-      "weaker_no_local": {
-        "codec_stack2/generator_2x/codec_fd": 2.036503630228651,
-        "codec_stack2/generator_2x/dependency_validity": 0.0,
-        "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 2.436088826451254,
-        "codec_stack4/generator_4x/codec_fd": 2.036503630228651,
-        "codec_stack4/generator_4x/dependency_validity": 0.0,
-        "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 2.436088826451254
-      },
-      "weaker_training": {
-        "codec_stack2/generator_2x/codec_fd": 2.036503630228651,
-        "codec_stack2/generator_2x/dependency_validity": 0.0,
-        "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 2.436088826451254,
-        "codec_stack4/generator_4x/codec_fd": 2.036503630228651,
-        "codec_stack4/generator_4x/dependency_validity": 0.0,
-        "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 2.436088826451254
-      }
-    }
+ "after": {
+  "failures": {
+   "better_bigger": {
+    "generator_2x": "0.297 of sequences repeat a 12-frame half of a visible utterance",
+    "generator_4x": "0.588 of sequences repeat a 12-frame half of a visible utterance"
+   },
+   "better_bigger_longer": {
+    "generator_2x": "0.667 of sequences repeat a 12-frame half of a visible utterance",
+    "generator_4x": "0.068 of sequences repeat a 12-frame half of a visible utterance"
+   },
+   "better_cosine": {},
+   "better_cosine_20k": {},
+   "better_cosine_20k_seed17": {},
+   "better_cosine_20k_seed27": {},
+   "better_cosine_seed17": {},
+   "better_cosine_seed27": {},
+   "better_more_training": {},
+   "better_more_training_seed17": {},
+   "better_more_training_seed27": {},
+   "paper_sampling_t06": {},
+   "reference": {},
+   "reference_sample1": {},
+   "reference_sample2": {},
+   "reference_seed17": {},
+   "reference_seed27": {},
+   "shortcut_analytic_sampler": {},
+   "shortcut_constant": {
+    "generator_2x": "dependency_validity 0.055 < 0.5",
+    "generator_4x": "dependency_validity 0.055 < 0.5"
+   },
+   "shortcut_copy_answers": {
+    "generator_2x": "1.000 of sequences repeat a 12-frame half of a visible utterance",
+    "generator_4x": "1.000 of sequences repeat a 12-frame half of a visible utterance"
+   },
+   "shortcut_copy_edit": {
+    "generator_2x": "1.000 of sequences repeat a 12-frame half of a visible utterance",
+    "generator_4x": "1.000 of sequences repeat a 12-frame half of a visible utterance"
+   },
+   "shortcut_empty": {
+    "generator_2x": "pred_tokens shape (0, 24, 8) != (16384, 24, 8)",
+    "generator_4x": "pred_tokens shape (0, 24, 8) != (16384, 24, 8)"
+   },
+   "shortcut_infinite_stack": {
+    "generator_2x": "config.stack_factor must be a positive integer",
+    "generator_4x": "config.stack_factor must be a positive integer"
+   },
+   "shortcut_negative_steps": {
+    "generator_2x": "declared stack factor -1 does not match the fixed 12-step budget of this row",
+    "generator_4x": "declared stack factor -1 does not match the fixed 6-step budget of this row"
+   },
+   "shortcut_out_of_range": {
+    "generator_2x": "token ids outside [0, vocab_size)",
+    "generator_4x": "token ids outside [0, vocab_size)"
+   },
+   "shortcut_random_one_step": {
+    "generator_2x": "dependency_validity 0.070 < 0.5",
+    "generator_4x": "dependency_validity 0.070 < 0.5"
+   },
+   "shortcut_rebuild_answers": {
+    "generator_2x": "pred_tokens shape (0, 24, 8) != (16384, 24, 8)",
+    "generator_4x": "pred_tokens shape (0, 24, 8) != (16384, 24, 8)"
+   },
+   "shortcut_replace_baseline": {
+    "generator_2x": "reserved fixed comparison output changed",
+    "generator_4x": "reserved fixed comparison output changed"
+   },
+   "shortcut_replace_truth_testfile": {
+    "generator_2x": "forbidden method-side target file",
+    "generator_4x": "forbidden method-side target file"
+   },
+   "shortcut_replace_truth_valfile": {
+    "generator_2x": "fixed training data changed",
+    "generator_4x": "fixed training data changed"
+   },
+   "shortcut_resample_2x_as_4x": {},
+   "shortcut_reuse_2x_as_4x": {
+    "generator_2x": "1.000 of generator_4x sequences repeat a 12-frame half of generator_2x",
+    "generator_4x": "1.000 of generator_4x sequences repeat a 12-frame half of generator_2x"
+   },
+   "shortcut_rule_sampler": {
+    "generator_2x": "coarse transition validity below 0.5",
+    "generator_4x": "coarse transition validity below 0.5"
+   },
+   "shortcut_splice_halves": {
+    "generator_2x": "1.000 of sequences repeat a 12-frame half of a visible utterance",
+    "generator_4x": "1.000 of sequences repeat a 12-frame half of a visible utterance"
+   },
+   "shortcut_stack_claim": {
+    "generator_2x": "declared stack factor 24 does not match the fixed 12-step budget of this row",
+    "generator_4x": "declared stack factor 24 does not match the fixed 6-step budget of this row"
+   },
+   "shortcut_train_on_eval_refs": {},
+   "shortcut_train_rows_2x_as_4x": {
+    "generator_2x": "1.000 of generator_4x sequences repeat a 12-frame half of generator_2x",
+    "generator_4x": "1.000 of generator_4x sequences repeat a 12-frame half of generator_2x"
+   },
+   "shortcut_vocab_one": {
+    "generator_2x": "config.vocab_size conflicts with the fixed task",
+    "generator_4x": "config.vocab_size conflicts with the fixed task"
+   },
+   "shortcut_write_scores": {
+    "generator_2x": "unsupported artifact fields (submitted metrics and verdicts are not accepted)",
+    "generator_4x": "unsupported artifact fields (submitted metrics and verdicts are not accepted)"
+   },
+   "shortcut_zero_stack": {
+    "generator_2x": "declared stack factor 0 does not match the fixed 12-step budget of this row",
+    "generator_4x": "declared stack factor 0 does not match the fixed 6-step budget of this row"
+   },
+   "weaker_argmax": {
+    "generator_2x": "generated distribution is no closer to the reference than uniform random tokens",
+    "generator_4x": "generated distribution is no closer to the reference than uniform random tokens"
+   },
+   "weaker_no_local": {
+    "generator_2x": "dependency_validity 0.141 < 0.5",
+    "generator_4x": "dependency_validity 0.122 < 0.5"
+   },
+   "weaker_training": {
+    "generator_2x": "dependency_validity 0.448 < 0.5",
+    "generator_4x": "dependency_validity 0.269 < 0.5"
+   }
   },
-  "before": {
-    "failures": {
-      "better_bigger": {
-        "generator_2x": "0.143 of sequences duplicate a complete visible utterance",
-        "generator_4x": "0.537 of sequences duplicate a complete visible utterance"
-      },
-      "better_more_training": {},
-      "reference": {},
-      "reference_sample1": {},
-      "reference_sample2": {},
-      "reference_seed17": {},
-      "reference_seed27": {},
-      "shortcut_analytic_sampler": {},
-      "shortcut_copy_answers": {
-        "generator_2x": "1.000 of sequences duplicate a complete visible utterance",
-        "generator_4x": "1.000 of sequences duplicate a complete visible utterance"
-      },
-      "shortcut_copy_edit": {},
-      "shortcut_empty": {
-        "generator_2x": "pred_tokens shape (0, 24, 8) != (16384, 24, 8)",
-        "generator_4x": "pred_tokens shape (0, 24, 8) != (16384, 24, 8)"
-      },
-      "shortcut_infinite_stack": {
-        "generator_2x": "config.stack_factor must be a positive integer",
-        "generator_4x": "config.stack_factor must be a positive integer"
-      },
-      "shortcut_negative_steps": {
-        "generator_2x": "declared stack factor -1 does not match the fixed 12-step budget of this row",
-        "generator_4x": "declared stack factor -1 does not match the fixed 6-step budget of this row"
-      },
-      "shortcut_out_of_range": {
-        "generator_2x": "token ids outside [0, vocab_size)",
-        "generator_4x": "token ids outside [0, vocab_size)"
-      },
-      "shortcut_random_one_step": {
-        "generator_2x": "dependency_validity 0.070 < 0.5",
-        "generator_4x": "dependency_validity 0.070 < 0.5"
-      },
-      "shortcut_rebuild_answers": {
-        "generator_2x": "pred_tokens shape (0, 24, 8) != (16384, 24, 8)",
-        "generator_4x": "pred_tokens shape (0, 24, 8) != (16384, 24, 8)"
-      },
-      "shortcut_replace_baseline": {
-        "generator_2x": "reserved fixed comparison output changed",
-        "generator_4x": "reserved fixed comparison output changed"
-      },
-      "shortcut_resample_2x_as_4x": {},
-      "shortcut_reuse_2x_as_4x": {},
-      "shortcut_rule_sampler": {
-        "generator_2x": "coarse transition validity below 0.5",
-        "generator_4x": "coarse transition validity below 0.5"
-      },
-      "shortcut_splice_halves": {},
-      "shortcut_stack_claim": {
-        "generator_2x": "declared stack factor 24 does not match the fixed 12-step budget of this row",
-        "generator_4x": "declared stack factor 24 does not match the fixed 6-step budget of this row"
-      },
-      "shortcut_vocab_one": {
-        "generator_2x": "config.vocab_size conflicts with the fixed task",
-        "generator_4x": "config.vocab_size conflicts with the fixed task"
-      },
-      "shortcut_write_scores": {
-        "generator_2x": "unsupported artifact fields (submitted metrics and verdicts are not accepted)",
-        "generator_4x": "unsupported artifact fields (submitted metrics and verdicts are not accepted)"
-      },
-      "shortcut_zero_stack": {
-        "generator_2x": "declared stack factor 0 does not match the fixed 12-step budget of this row",
-        "generator_4x": "declared stack factor 0 does not match the fixed 6-step budget of this row"
-      },
-      "weaker_argmax": {},
-      "weaker_no_local": {
-        "generator_2x": "dependency_validity 0.141 < 0.5",
-        "generator_4x": "dependency_validity 0.122 < 0.5"
-      },
-      "weaker_training": {
-        "generator_2x": "dependency_validity 0.448 < 0.5",
-        "generator_4x": "dependency_validity 0.269 < 0.5"
-      }
-    },
-    "linear": {
-      "better_bigger": 0.13434143391799094,
-      "better_more_training": 0.04761128882952817,
-      "reference": 0.0,
-      "reference_sample1": -0.005287654313858734,
-      "reference_sample2": -0.002875169009414622,
-      "reference_seed17": -0.023002746770907908,
-      "reference_seed27": -0.010232146209445602,
-      "shortcut_analytic_sampler": 0.20399126248047933,
-      "shortcut_copy_answers": 0.19918935209921493,
-      "shortcut_copy_edit": 0.19536909636877425,
-      "shortcut_empty": -2.8255833573180285,
-      "shortcut_infinite_stack": -2.8255833573180285,
-      "shortcut_negative_steps": -2.8255833573180285,
-      "shortcut_out_of_range": -2.8255833573180285,
-      "shortcut_random_one_step": -2.6792446379073604,
-      "shortcut_rebuild_answers": -2.8255833573180285,
-      "shortcut_replace_baseline": 0.0,
-      "shortcut_resample_2x_as_4x": 0.06962518388267394,
-      "shortcut_reuse_2x_as_4x": 0.07365900484249983,
-      "shortcut_rule_sampler": -1.0828739690268234,
-      "shortcut_splice_halves": 0.18352411035534608,
-      "shortcut_stack_claim": -2.8255833573180285,
-      "shortcut_vocab_one": -2.8255833573180285,
-      "shortcut_write_scores": -2.8255833573180285,
-      "shortcut_zero_stack": -2.8255833573180285,
-      "weaker_argmax": -4.931158731257446,
-      "weaker_no_local": -2.0731088655678906,
-      "weaker_training": -1.4795033950808276
-    },
-    "sigma": {
-      "codec_stack2/generator_2x/codec_fd": 1.3371991980440316,
-      "codec_stack2/generator_2x/dependency_validity": 0.4624504753699231,
-      "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 20.515468317309317,
-      "codec_stack4/generator_4x/codec_fd": 1.6078494094968911,
-      "codec_stack4/generator_4x/dependency_validity": 0.4593867014514223,
-      "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 21.03352430353236
-    },
-    "tier": {
-      "better_bigger": {
-        "feasible": false,
-        "improvement": 0.13550044483785956
-      },
-      "better_more_training": {
-        "feasible": true,
-        "improvement": 0.04802553814401368
-      },
-      "reference": {
-        "feasible": true,
-        "improvement": 0.0
-      },
-      "reference_sample1": {
-        "feasible": true,
-        "improvement": -0.00534001685111264
-      },
-      "reference_sample2": {
-        "feasible": true,
-        "improvement": -0.002902809722076604
-      },
-      "reference_seed17": {
-        "feasible": true,
-        "improvement": -0.02327346993060783
-      },
-      "reference_seed27": {
-        "feasible": true,
-        "improvement": -0.010102770763725037
-      },
-      "shortcut_analytic_sampler": {
-        "feasible": true,
-        "improvement": 0.20569860063832182
-      },
-      "shortcut_copy_answers": {
-        "feasible": false,
-        "improvement": 0.20083511200324344
-      },
-      "shortcut_copy_edit": {
-        "feasible": true,
-        "improvement": 0.1969643151125706
-      },
-      "shortcut_empty": {
-        "feasible": false,
-        "improvement": -2.8459356135591998
-      },
-      "shortcut_infinite_stack": {
-        "feasible": false,
-        "improvement": -2.8459356135591998
-      },
-      "shortcut_negative_steps": {
-        "feasible": false,
-        "improvement": -2.8459356135591998
-      },
-      "shortcut_out_of_range": {
-        "feasible": false,
-        "improvement": -2.8459356135591998
-      },
-      "shortcut_random_one_step": {
-        "feasible": false,
-        "improvement": -2.6987389437137463
-      },
-      "shortcut_rebuild_answers": {
-        "feasible": false,
-        "improvement": -2.8459356135591998
-      },
-      "shortcut_replace_baseline": {
-        "feasible": false,
-        "improvement": 0.0
-      },
-      "shortcut_resample_2x_as_4x": {
-        "feasible": true,
-        "improvement": 0.07016297352497061
-      },
-      "shortcut_reuse_2x_as_4x": {
-        "feasible": true,
-        "improvement": 0.07424192468020503
-      },
-      "shortcut_rule_sampler": {
-        "feasible": false,
-        "improvement": -1.0935647075711281
-      },
-      "shortcut_splice_halves": {
-        "feasible": true,
-        "improvement": 0.18504040173374595
-      },
-      "shortcut_stack_claim": {
-        "feasible": false,
-        "improvement": -2.8459356135591998
-      },
-      "shortcut_vocab_one": {
-        "feasible": false,
-        "improvement": -2.8459356135591998
-      },
-      "shortcut_write_scores": {
-        "feasible": false,
-        "improvement": -2.8459356135591998
-      },
-      "shortcut_zero_stack": {
-        "feasible": false,
-        "improvement": -2.8459356135591998
-      },
-      "weaker_argmax": {
-        "feasible": true,
-        "improvement": -4.996129408604399
-      },
-      "weaker_no_local": {
-        "feasible": false,
-        "improvement": -2.0871015481787323
-      },
-      "weaker_training": {
-        "feasible": false,
-        "improvement": -1.4891817083080177
-      }
-    },
-    "values": {
-      "better_bigger": {
-        "codec_stack2/generator_2x/codec_fd": 0.08467199308444151,
-        "codec_stack2/generator_2x/dependency_validity": 0.9784287058246073,
-        "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 0.5288877634030698,
-        "codec_stack4/generator_4x/codec_fd": 0.04788256766209997,
-        "codec_stack4/generator_4x/dependency_validity": 0.9805889029777487,
-        "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 0.46898186603939607
-      },
-      "better_more_training": {
-        "codec_stack2/generator_2x/codec_fd": 0.156940448576961,
-        "codec_stack2/generator_2x/dependency_validity": 0.9768922815772252,
-        "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 0.4767796675686,
-        "codec_stack4/generator_4x/codec_fd": 0.19152042965339433,
-        "codec_stack4/generator_4x/dependency_validity": 0.9497063921384162,
-        "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 0.49885157283797454
-      },
-      "reference": {
-        "codec_stack2/generator_2x/codec_fd": 0.18497701644827202,
-        "codec_stack2/generator_2x/dependency_validity": 0.9742910974312827,
-        "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 0.5026589485900139,
-        "codec_stack4/generator_4x/codec_fd": 0.26808556106857395,
-        "codec_stack4/generator_4x/dependency_validity": 0.9330172713514397,
-        "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 0.6028814086313439
-      },
-      "reference_sample1": {
-        "codec_stack2/generator_2x/codec_fd": 0.20044562792554643,
-        "codec_stack2/generator_2x/dependency_validity": 0.9740648519306283,
-        "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 0.5267491551260655,
-        "codec_stack4/generator_4x/codec_fd": 0.2764277259263963,
-        "codec_stack4/generator_4x/dependency_validity": 0.9329130961632853,
-        "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 0.6137396056020492
-      },
-      "reference_sample2": {
-        "codec_stack2/generator_2x/codec_fd": 0.19133605060494574,
-        "codec_stack2/generator_2x/dependency_validity": 0.9736679636371073,
-        "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 0.528987328674198,
-        "codec_stack4/generator_4x/codec_fd": 0.27227803626925606,
-        "codec_stack4/generator_4x/dependency_validity": 0.93302238424411,
-        "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 0.6079214816711946
-      },
-      "reference_seed17": {
-        "codec_stack2/generator_2x/codec_fd": 0.21579466831462923,
-        "codec_stack2/generator_2x/dependency_validity": 0.9674487688154451,
-        "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 0.5389248984534305,
-        "codec_stack4/generator_4x/codec_fd": 0.3662851116636716,
-        "codec_stack4/generator_4x/dependency_validity": 0.942185966132199,
-        "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 0.7131799035673332
-      },
-      "reference_seed27": {
-        "codec_stack2/generator_2x/codec_fd": 0.2062908426706258,
-        "codec_stack2/generator_2x/dependency_validity": 0.921949776055301,
-        "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 0.5397465591823121,
-        "codec_stack4/generator_4x/codec_fd": 0.14430446163595434,
-        "codec_stack4/generator_4x/dependency_validity": 0.9404469435127618,
-        "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 0.4506584189170333
-      },
-      "shortcut_analytic_sampler": {
-        "codec_stack2/generator_2x/codec_fd": 0.013109935771012715,
-        "codec_stack2/generator_2x/dependency_validity": 1.0,
-        "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 0.2259080701539915,
-        "codec_stack4/generator_4x/codec_fd": 0.013500763246099723,
-        "codec_stack4/generator_4x/dependency_validity": 1.0,
-        "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 0.22937975801727006
-      },
-      "shortcut_copy_answers": {
-        "codec_stack2/generator_2x/codec_fd": 0.02033192240878634,
-        "codec_stack2/generator_2x/dependency_validity": 1.0,
-        "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 0.330847436798944,
-        "codec_stack4/generator_4x/codec_fd": 0.02033192240878634,
-        "codec_stack4/generator_4x/dependency_validity": 1.0,
-        "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 0.330847436798944
-      },
-      "shortcut_copy_edit": {
-        "codec_stack2/generator_2x/codec_fd": 0.024121718669107395,
-        "codec_stack2/generator_2x/dependency_validity": 1.0,
-        "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 0.4135214380478942,
-        "codec_stack4/generator_4x/codec_fd": 0.026756316400280866,
-        "codec_stack4/generator_4x/dependency_validity": 1.0,
-        "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 0.4234701994318826
-      },
-      "shortcut_empty": {
-        "codec_stack2/generator_2x/codec_fd": 2.036503630228651,
-        "codec_stack2/generator_2x/dependency_validity": 0.0,
-        "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 2.436088826451254,
-        "codec_stack4/generator_4x/codec_fd": 2.036503630228651,
-        "codec_stack4/generator_4x/dependency_validity": 0.0,
-        "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 2.436088826451254
-      },
-      "shortcut_infinite_stack": {
-        "codec_stack2/generator_2x/codec_fd": 2.036503630228651,
-        "codec_stack2/generator_2x/dependency_validity": 0.0,
-        "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 2.436088826451254,
-        "codec_stack4/generator_4x/codec_fd": 2.036503630228651,
-        "codec_stack4/generator_4x/dependency_validity": 0.0,
-        "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 2.436088826451254
-      },
-      "shortcut_negative_steps": {
-        "codec_stack2/generator_2x/codec_fd": 2.036503630228651,
-        "codec_stack2/generator_2x/dependency_validity": 0.0,
-        "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 2.436088826451254,
-        "codec_stack4/generator_4x/codec_fd": 2.036503630228651,
-        "codec_stack4/generator_4x/dependency_validity": 0.0,
-        "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 2.436088826451254
-      },
-      "shortcut_out_of_range": {
-        "codec_stack2/generator_2x/codec_fd": 2.036503630228651,
-        "codec_stack2/generator_2x/dependency_validity": 0.0,
-        "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 2.436088826451254,
-        "codec_stack4/generator_4x/codec_fd": 2.036503630228651,
-        "codec_stack4/generator_4x/dependency_validity": 0.0,
-        "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 2.436088826451254
-      },
-      "shortcut_random_one_step": {
-        "codec_stack2/generator_2x/codec_fd": 2.050182200103734,
-        "codec_stack2/generator_2x/dependency_validity": 0.07008881094568063,
-        "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 2.4522102525943588,
-        "codec_stack4/generator_4x/codec_fd": 2.050182200103734,
-        "codec_stack4/generator_4x/dependency_validity": 0.07008881094568063,
-        "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 2.4522102525943588
-      },
-      "shortcut_rebuild_answers": {
-        "codec_stack2/generator_2x/codec_fd": 2.036503630228651,
-        "codec_stack2/generator_2x/dependency_validity": 0.0,
-        "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 2.436088826451254,
-        "codec_stack4/generator_4x/codec_fd": 2.036503630228651,
-        "codec_stack4/generator_4x/dependency_validity": 0.0,
-        "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 2.436088826451254
-      },
-      "shortcut_replace_baseline": {
-        "codec_stack2/generator_2x/codec_fd": 0.18497701644827202,
-        "codec_stack2/generator_2x/dependency_validity": 0.9742910974312827,
-        "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 0.5026589485900139,
-        "codec_stack4/generator_4x/codec_fd": 0.26808556106857395,
-        "codec_stack4/generator_4x/dependency_validity": 0.9330172713514397,
-        "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 0.6028814086313439
-      },
-      "shortcut_resample_2x_as_4x": {
-        "codec_stack2/generator_2x/codec_fd": 0.18497701644827202,
-        "codec_stack2/generator_2x/dependency_validity": 0.9742910974312827,
-        "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 0.5026589485900139,
-        "codec_stack4/generator_4x/codec_fd": 0.20044562792554643,
-        "codec_stack4/generator_4x/dependency_validity": 0.9740648519306283,
-        "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 0.5267491551260655
-      },
-      "shortcut_reuse_2x_as_4x": {
-        "codec_stack2/generator_2x/codec_fd": 0.18497701644827202,
-        "codec_stack2/generator_2x/dependency_validity": 0.9742910974312827,
-        "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 0.5026589485900139,
-        "codec_stack4/generator_4x/codec_fd": 0.18497701644827202,
-        "codec_stack4/generator_4x/dependency_validity": 0.9742910974312827,
-        "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 0.5026589485900139
-      },
-      "shortcut_rule_sampler": {
-        "codec_stack2/generator_2x/codec_fd": 2.5112216120669473,
-        "codec_stack2/generator_2x/dependency_validity": 0.8945523406822644,
-        "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 2.8480333410578567,
-        "codec_stack4/generator_4x/codec_fd": 2.5112216120669473,
-        "codec_stack4/generator_4x/dependency_validity": 0.8945523406822644,
-        "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 2.8480333410578567
-      },
-      "shortcut_splice_halves": {
-        "codec_stack2/generator_2x/codec_fd": 0.02972948913838991,
-        "codec_stack2/generator_2x/dependency_validity": 0.9954079832706152,
-        "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 0.41459236576272573,
-        "codec_stack4/generator_4x/codec_fd": 0.03097904613451874,
-        "codec_stack4/generator_4x/dependency_validity": 0.9954552775278142,
-        "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 0.4214514609447342
-      },
-      "shortcut_stack_claim": {
-        "codec_stack2/generator_2x/codec_fd": 2.036503630228651,
-        "codec_stack2/generator_2x/dependency_validity": 0.0,
-        "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 2.436088826451254,
-        "codec_stack4/generator_4x/codec_fd": 2.036503630228651,
-        "codec_stack4/generator_4x/dependency_validity": 0.0,
-        "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 2.436088826451254
-      },
-      "shortcut_vocab_one": {
-        "codec_stack2/generator_2x/codec_fd": 2.036503630228651,
-        "codec_stack2/generator_2x/dependency_validity": 0.0,
-        "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 2.436088826451254,
-        "codec_stack4/generator_4x/codec_fd": 2.036503630228651,
-        "codec_stack4/generator_4x/dependency_validity": 0.0,
-        "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 2.436088826451254
-      },
-      "shortcut_write_scores": {
-        "codec_stack2/generator_2x/codec_fd": 2.036503630228651,
-        "codec_stack2/generator_2x/dependency_validity": 0.0,
-        "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 2.436088826451254,
-        "codec_stack4/generator_4x/codec_fd": 2.036503630228651,
-        "codec_stack4/generator_4x/dependency_validity": 0.0,
-        "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 2.436088826451254
-      },
-      "shortcut_zero_stack": {
-        "codec_stack2/generator_2x/codec_fd": 2.036503630228651,
-        "codec_stack2/generator_2x/dependency_validity": 0.0,
-        "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 2.436088826451254,
-        "codec_stack4/generator_4x/codec_fd": 2.036503630228651,
-        "codec_stack4/generator_4x/dependency_validity": 0.0,
-        "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 2.436088826451254
-      },
-      "weaker_argmax": {
-        "codec_stack2/generator_2x/codec_fd": 6.1546344120271215,
-        "codec_stack2/generator_2x/dependency_validity": 0.9970741471695026,
-        "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 111.76151827259301,
-        "codec_stack4/generator_4x/codec_fd": 8.133753906312904,
-        "codec_stack4/generator_4x/dependency_validity": 0.9713748312745419,
-        "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 114.59486527492969
-      },
-      "weaker_no_local": {
-        "codec_stack2/generator_2x/codec_fd": 0.4065704922285249,
-        "codec_stack2/generator_2x/dependency_validity": 0.1408224854793848,
-        "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 0.8915317881935785,
-        "codec_stack4/generator_4x/codec_fd": 1.3274698506430127,
-        "codec_stack4/generator_4x/dependency_validity": 0.12210098985602094,
-        "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 1.7477046499661135
-      },
-      "weaker_training": {
-        "codec_stack2/generator_2x/codec_fd": 0.6904515136784539,
-        "codec_stack2/generator_2x/dependency_validity": 0.44767273907886124,
-        "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 1.273826933870577,
-        "codec_stack4/generator_4x/codec_fd": 0.5181480083886072,
-        "codec_stack4/generator_4x/dependency_validity": 0.2688429268242801,
-        "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 0.936254275549711
-      }
-    }
+  "feasible": {
+   "better_bigger": false,
+   "better_bigger_longer": false,
+   "better_cosine": true,
+   "better_cosine_20k": true,
+   "better_cosine_20k_seed17": true,
+   "better_cosine_20k_seed27": true,
+   "better_cosine_seed17": true,
+   "better_cosine_seed27": true,
+   "better_more_training": true,
+   "better_more_training_seed17": true,
+   "better_more_training_seed27": true,
+   "paper_sampling_t06": true,
+   "reference": true,
+   "reference_sample1": true,
+   "reference_sample2": true,
+   "reference_seed17": true,
+   "reference_seed27": true,
+   "shortcut_analytic_sampler": true,
+   "shortcut_constant": false,
+   "shortcut_copy_answers": false,
+   "shortcut_copy_edit": false,
+   "shortcut_empty": false,
+   "shortcut_infinite_stack": false,
+   "shortcut_negative_steps": false,
+   "shortcut_out_of_range": false,
+   "shortcut_random_one_step": false,
+   "shortcut_rebuild_answers": false,
+   "shortcut_replace_baseline": false,
+   "shortcut_replace_truth_testfile": false,
+   "shortcut_replace_truth_valfile": false,
+   "shortcut_resample_2x_as_4x": true,
+   "shortcut_reuse_2x_as_4x": false,
+   "shortcut_rule_sampler": false,
+   "shortcut_splice_halves": false,
+   "shortcut_stack_claim": false,
+   "shortcut_train_on_eval_refs": true,
+   "shortcut_train_rows_2x_as_4x": false,
+   "shortcut_vocab_one": false,
+   "shortcut_write_scores": false,
+   "shortcut_zero_stack": false,
+   "weaker_argmax": false,
+   "weaker_no_local": false,
+   "weaker_training": false
   },
-  "cohort": [
-    "reference",
-    "better_bigger",
-    "better_more_training",
-    "reference_sample1",
-    "reference_sample2",
-    "reference_seed17",
-    "reference_seed27",
-    "shortcut_copy_answers",
-    "shortcut_empty",
-    "shortcut_infinite_stack",
-    "shortcut_negative_steps",
-    "shortcut_out_of_range",
-    "shortcut_random_one_step",
-    "shortcut_rebuild_answers",
-    "shortcut_replace_baseline",
-    "shortcut_rule_sampler",
-    "shortcut_stack_claim",
-    "shortcut_vocab_one",
-    "shortcut_write_scores",
-    "shortcut_zero_stack",
-    "weaker_argmax",
-    "weaker_no_local",
-    "weaker_training",
-    "shortcut_analytic_sampler",
-    "shortcut_copy_edit",
-    "shortcut_resample_2x_as_4x",
-    "shortcut_reuse_2x_as_4x",
-    "shortcut_splice_halves"
-  ],
-  "paired_after": {
-    "better_more_training": {
-      "blocks": 16,
-      "bootstrap_mean": 0.10299453133739825,
-      "paired_bootstrap_95_percent": [
-        0.07777932016202019,
-        0.1328831180748864
-      ],
-      "replicates": 200
-    },
-    "reference_seed17": {
-      "blocks": 16,
-      "bootstrap_mean": -0.08059181942871993,
-      "paired_bootstrap_95_percent": [
-        -0.11080181010202224,
-        -0.05237546297460442
-      ],
-      "replicates": 200
-    },
-    "reference_seed27": {
-      "blocks": 16,
-      "bootstrap_mean": 0.04763570950684719,
-      "paired_bootstrap_95_percent": [
-        0.02259677349488459,
-        0.07576327788677419
-      ],
-      "replicates": 200
-    }
+  "normalized": {
+   "better_bigger": -3.985768435029052,
+   "better_bigger_longer": -3.985768435029052,
+   "better_cosine": 0.051494498949375245,
+   "better_cosine_20k": 0.2472031650787969,
+   "better_cosine_20k_seed17": 0.23122156014012724,
+   "better_cosine_20k_seed27": 0.1448946392584579,
+   "better_cosine_seed17": -0.12252128951002991,
+   "better_cosine_seed27": 0.1280834009361776,
+   "better_more_training": 0.09149753697357552,
+   "better_more_training_seed17": 0.029512045836224403,
+   "better_more_training_seed27": 0.03288242596040791,
+   "paper_sampling_t06": -0.2621207961783669,
+   "reference": 0.0,
+   "reference_sample1": -0.014187004815429241,
+   "reference_sample2": -0.009326814896104882,
+   "reference_seed17": -0.07358190870334178,
+   "reference_seed27": 0.040746871828740226,
+   "shortcut_analytic_sampler": 0.3916935697981001,
+   "shortcut_constant": -3.985768435029052,
+   "shortcut_copy_answers": -3.985768435029052,
+   "shortcut_copy_edit": -3.985768435029052,
+   "shortcut_empty": -3.985768435029052,
+   "shortcut_infinite_stack": -3.985768435029052,
+   "shortcut_negative_steps": -3.985768435029052,
+   "shortcut_out_of_range": -3.985768435029052,
+   "shortcut_random_one_step": -3.985768435029052,
+   "shortcut_rebuild_answers": -3.985768435029052,
+   "shortcut_replace_baseline": -3.985768435029052,
+   "shortcut_replace_truth_testfile": -3.985768435029052,
+   "shortcut_replace_truth_valfile": -3.985768435029052,
+   "shortcut_resample_2x_as_4x": 0.09943986539220839,
+   "shortcut_reuse_2x_as_4x": -3.985768435029052,
+   "shortcut_rule_sampler": -3.985768435029052,
+   "shortcut_splice_halves": -3.985768435029052,
+   "shortcut_stack_claim": -3.985768435029052,
+   "shortcut_train_on_eval_refs": -0.05784502210223482,
+   "shortcut_train_rows_2x_as_4x": -3.985768435029052,
+   "shortcut_vocab_one": -3.985768435029052,
+   "shortcut_write_scores": -3.985768435029052,
+   "shortcut_zero_stack": -3.985768435029052,
+   "weaker_argmax": -3.985768435029052,
+   "weaker_no_local": -3.985768435029052,
+   "weaker_training": -3.985768435029052
   },
-  "seed_spread_after": {
-    "sampling": 0.0157658528092402,
-    "training": 0.128540552316893
+  "sigma": {
+   "codec_stack2/codec_fd": 0.9366536561097831,
+   "codec_stack2/dependency_validity": 0.4748394669859496,
+   "codec_stack2/speaker_conditioned_codec_fd": 0.9851644317634181,
+   "codec_stack4/codec_fd": 0.916434558027299,
+   "codec_stack4/dependency_validity": 0.4570002462957539,
+   "codec_stack4/speaker_conditioned_codec_fd": 0.9628194016003204
+  },
+  "values": {
+   "better_bigger": {
+    "codec_stack2": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    },
+    "codec_stack4": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    }
+   },
+   "better_bigger_longer": {
+    "codec_stack2": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    },
+    "codec_stack4": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    }
+   },
+   "better_cosine": {
+    "codec_stack2": {
+     "codec_fd": 0.0376713519070222,
+     "dependency_validity": 0.9761055352176047,
+     "speaker_conditioned_codec_fd": 0.3071952561859135
+    },
+    "codec_stack4": {
+     "codec_fd": 0.09221160276217688,
+     "dependency_validity": 0.8212468811354712,
+     "speaker_conditioned_codec_fd": 0.36966655405879223
+    }
+   },
+   "better_cosine_20k": {
+    "codec_stack2": {
+     "codec_fd": 0.028534928790747927,
+     "dependency_validity": 0.9872829577061518,
+     "speaker_conditioned_codec_fd": 0.30118559035541637
+    },
+    "codec_stack4": {
+     "codec_fd": 0.03882305169918254,
+     "dependency_validity": 0.9334390849967278,
+     "speaker_conditioned_codec_fd": 0.3106730684457659
+    }
+   },
+   "better_cosine_20k_seed17": {
+    "codec_stack2": {
+     "codec_fd": 0.0427253224779065,
+     "dependency_validity": 0.9522270482248036,
+     "speaker_conditioned_codec_fd": 0.31399425158508976
+    },
+    "codec_stack4": {
+     "codec_fd": 0.034831903501753914,
+     "dependency_validity": 0.9480415064626964,
+     "speaker_conditioned_codec_fd": 0.31658669210359847
+    }
+   },
+   "better_cosine_20k_seed27": {
+    "codec_stack2": {
+     "codec_fd": 0.05047699164390451,
+     "dependency_validity": 0.8913555045402487,
+     "speaker_conditioned_codec_fd": 0.33639496565112736
+    },
+    "codec_stack4": {
+     "codec_fd": 0.0321458431380961,
+     "dependency_validity": 0.9221555699852748,
+     "speaker_conditioned_codec_fd": 0.30252270191174446
+    }
+   },
+   "better_cosine_seed17": {
+    "codec_stack2": {
+     "codec_fd": 0.036250836858528146,
+     "dependency_validity": 0.9650591306037304,
+     "speaker_conditioned_codec_fd": 0.3047398127438008
+    },
+    "codec_stack4": {
+     "codec_fd": 0.08183308457563498,
+     "dependency_validity": 0.6928921844322644,
+     "speaker_conditioned_codec_fd": 0.37380677643000837
+    }
+   },
+   "better_cosine_seed27": {
+    "codec_stack2": {
+     "codec_fd": 0.048055839116841526,
+     "dependency_validity": 0.9254354906331806,
+     "speaker_conditioned_codec_fd": 0.3289970191783951
+    },
+    "codec_stack4": {
+     "codec_fd": 0.0543264844073974,
+     "dependency_validity": 0.8972449177846858,
+     "speaker_conditioned_codec_fd": 0.3262849445114391
+    }
+   },
+   "better_more_training": {
+    "codec_stack2": {
+     "codec_fd": 0.156940448576961,
+     "dependency_validity": 0.9768922815772252,
+     "speaker_conditioned_codec_fd": 0.4767796675686
+    },
+    "codec_stack4": {
+     "codec_fd": 0.1915204296536217,
+     "dependency_validity": 0.9497063921384162,
+     "speaker_conditioned_codec_fd": 0.49885157283797454
+    }
+   },
+   "better_more_training_seed17": {
+    "codec_stack2": {
+     "codec_fd": 0.1417699192627424,
+     "dependency_validity": 0.9662172007935209,
+     "speaker_conditioned_codec_fd": 0.4507918501361168
+    },
+    "codec_stack4": {
+     "codec_fd": 0.28614402519411897,
+     "dependency_validity": 0.9545252934800392,
+     "speaker_conditioned_codec_fd": 0.6202343948610469
+    }
+   },
+   "better_more_training_seed27": {
+    "codec_stack2": {
+     "codec_fd": 0.17430148429298242,
+     "dependency_validity": 0.9163895052765052,
+     "speaker_conditioned_codec_fd": 0.4838997009990713
+    },
+    "codec_stack4": {
+     "codec_fd": 0.15065921997904752,
+     "dependency_validity": 0.9358357534358639,
+     "speaker_conditioned_codec_fd": 0.4983856460589209
+    }
+   },
+   "paper_sampling_t06": {
+    "codec_stack2": {
+     "codec_fd": 0.35678110271885544,
+     "dependency_validity": 0.9870305086305629,
+     "speaker_conditioned_codec_fd": 0.8341020197375926
+    },
+    "codec_stack4": {
+     "codec_fd": 0.5465445759436989,
+     "dependency_validity": 0.9569890686354712,
+     "speaker_conditioned_codec_fd": 0.9923736848677436
+    }
+   },
+   "reference": {
+    "codec_stack2": {
+     "codec_fd": 0.1849770164481015,
+     "dependency_validity": 0.9742910974312827,
+     "speaker_conditioned_codec_fd": 0.5026589485900139
+    },
+    "codec_stack4": {
+     "codec_fd": 0.26808556106846027,
+     "dependency_validity": 0.9330172713514397,
+     "speaker_conditioned_codec_fd": 0.6028814086313439
+    }
+   },
+   "reference_sample1": {
+    "codec_stack2": {
+     "codec_fd": 0.20044562792554643,
+     "dependency_validity": 0.9740648519306283,
+     "speaker_conditioned_codec_fd": 0.5267491551260655
+    },
+    "codec_stack4": {
+     "codec_fd": 0.27642772592651,
+     "dependency_validity": 0.9329130961632853,
+     "speaker_conditioned_codec_fd": 0.6137396056020492
+    }
+   },
+   "reference_sample2": {
+    "codec_stack2": {
+     "codec_fd": 0.1913360506048889,
+     "dependency_validity": 0.9736679636371073,
+     "speaker_conditioned_codec_fd": 0.528987328674198
+    },
+    "codec_stack4": {
+     "codec_fd": 0.2722780362693129,
+     "dependency_validity": 0.93302238424411,
+     "speaker_conditioned_codec_fd": 0.6079214816711946
+    }
+   },
+   "reference_seed17": {
+    "codec_stack2": {
+     "codec_fd": 0.21579466831462923,
+     "dependency_validity": 0.9674487688154451,
+     "speaker_conditioned_codec_fd": 0.5389248984534305
+    },
+    "codec_stack4": {
+     "codec_fd": 0.3662851116636716,
+     "dependency_validity": 0.942185966132199,
+     "speaker_conditioned_codec_fd": 0.7131799035673332
+    }
+   },
+   "reference_seed27": {
+    "codec_stack2": {
+     "codec_fd": 0.20629084267045528,
+     "dependency_validity": 0.921949776055301,
+     "speaker_conditioned_codec_fd": 0.5397465591823121
+    },
+    "codec_stack4": {
+     "codec_fd": 0.1443044616358975,
+     "dependency_validity": 0.9404469435127618,
+     "speaker_conditioned_codec_fd": 0.4506584189170333
+    }
+   },
+   "shortcut_analytic_sampler": {
+    "codec_stack2": {
+     "codec_fd": 0.013109935771069559,
+     "dependency_validity": 1.0,
+     "speaker_conditioned_codec_fd": 0.2259080701539915
+    },
+    "codec_stack4": {
+     "codec_fd": 0.013500763246156566,
+     "dependency_validity": 1.0,
+     "speaker_conditioned_codec_fd": 0.22937975801727006
+    }
+   },
+   "shortcut_constant": {
+    "codec_stack2": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    },
+    "codec_stack4": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    }
+   },
+   "shortcut_copy_answers": {
+    "codec_stack2": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    },
+    "codec_stack4": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    }
+   },
+   "shortcut_copy_edit": {
+    "codec_stack2": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    },
+    "codec_stack4": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    }
+   },
+   "shortcut_empty": {
+    "codec_stack2": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    },
+    "codec_stack4": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    }
+   },
+   "shortcut_infinite_stack": {
+    "codec_stack2": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    },
+    "codec_stack4": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    }
+   },
+   "shortcut_negative_steps": {
+    "codec_stack2": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    },
+    "codec_stack4": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    }
+   },
+   "shortcut_out_of_range": {
+    "codec_stack2": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    },
+    "codec_stack4": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    }
+   },
+   "shortcut_random_one_step": {
+    "codec_stack2": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    },
+    "codec_stack4": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    }
+   },
+   "shortcut_rebuild_answers": {
+    "codec_stack2": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    },
+    "codec_stack4": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    }
+   },
+   "shortcut_replace_baseline": {
+    "codec_stack2": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    },
+    "codec_stack4": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    }
+   },
+   "shortcut_replace_truth_testfile": {
+    "codec_stack2": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    },
+    "codec_stack4": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    }
+   },
+   "shortcut_replace_truth_valfile": {
+    "codec_stack2": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    },
+    "codec_stack4": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    }
+   },
+   "shortcut_resample_2x_as_4x": {
+    "codec_stack2": {
+     "codec_fd": 0.1849770164481015,
+     "dependency_validity": 0.9742910974312827,
+     "speaker_conditioned_codec_fd": 0.5026589485900139
+    },
+    "codec_stack4": {
+     "codec_fd": 0.20044562792554643,
+     "dependency_validity": 0.9740648519306283,
+     "speaker_conditioned_codec_fd": 0.5267491551260655
+    }
+   },
+   "shortcut_reuse_2x_as_4x": {
+    "codec_stack2": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    },
+    "codec_stack4": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    }
+   },
+   "shortcut_rule_sampler": {
+    "codec_stack2": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    },
+    "codec_stack4": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    }
+   },
+   "shortcut_splice_halves": {
+    "codec_stack2": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    },
+    "codec_stack4": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    }
+   },
+   "shortcut_stack_claim": {
+    "codec_stack2": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    },
+    "codec_stack4": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    }
+   },
+   "shortcut_train_on_eval_refs": {
+    "codec_stack2": {
+     "codec_fd": 0.28649446686347346,
+     "dependency_validity": 0.9828289890788613,
+     "speaker_conditioned_codec_fd": 0.5530133334656142
+    },
+    "codec_stack4": {
+     "codec_fd": 0.33366053500918724,
+     "dependency_validity": 0.9347262557264397,
+     "speaker_conditioned_codec_fd": 0.6322932054024726
+    }
+   },
+   "shortcut_train_rows_2x_as_4x": {
+    "codec_stack2": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    },
+    "codec_stack4": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    }
+   },
+   "shortcut_vocab_one": {
+    "codec_stack2": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    },
+    "codec_stack4": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    }
+   },
+   "shortcut_write_scores": {
+    "codec_stack2": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    },
+    "codec_stack4": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    }
+   },
+   "shortcut_zero_stack": {
+    "codec_stack2": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    },
+    "codec_stack4": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    }
+   },
+   "weaker_argmax": {
+    "codec_stack2": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    },
+    "codec_stack4": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    }
+   },
+   "weaker_no_local": {
+    "codec_stack2": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    },
+    "codec_stack4": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    }
+   },
+   "weaker_training": {
+    "codec_stack2": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    },
+    "codec_stack4": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    }
+   }
   }
+ },
+ "before": {
+  "failures": {
+   "better_bigger": {
+    "generator_2x": "0.143 of sequences duplicate a complete visible utterance",
+    "generator_4x": "0.537 of sequences duplicate a complete visible utterance"
+   },
+   "better_bigger_longer": {
+    "generator_2x": "0.509 of sequences duplicate a complete visible utterance"
+   },
+   "better_cosine": {},
+   "better_cosine_20k": {},
+   "better_cosine_20k_seed17": {},
+   "better_cosine_20k_seed27": {},
+   "better_cosine_seed17": {},
+   "better_cosine_seed27": {},
+   "better_more_training": {},
+   "better_more_training_seed17": {},
+   "better_more_training_seed27": {},
+   "paper_sampling_t06": {},
+   "reference": {},
+   "reference_sample1": {},
+   "reference_sample2": {},
+   "reference_seed17": {},
+   "reference_seed27": {},
+   "shortcut_analytic_sampler": {},
+   "shortcut_constant": {
+    "generator_2x": "dependency_validity 0.055 < 0.5",
+    "generator_4x": "dependency_validity 0.055 < 0.5"
+   },
+   "shortcut_copy_answers": {
+    "generator_2x": "1.000 of sequences duplicate a complete visible utterance",
+    "generator_4x": "1.000 of sequences duplicate a complete visible utterance"
+   },
+   "shortcut_copy_edit": {},
+   "shortcut_empty": {
+    "generator_2x": "pred_tokens shape (0, 24, 8) != (16384, 24, 8)",
+    "generator_4x": "pred_tokens shape (0, 24, 8) != (16384, 24, 8)"
+   },
+   "shortcut_infinite_stack": {
+    "generator_2x": "config.stack_factor must be a positive integer",
+    "generator_4x": "config.stack_factor must be a positive integer"
+   },
+   "shortcut_negative_steps": {
+    "generator_2x": "declared stack factor -1 does not match the fixed 12-step budget of this row",
+    "generator_4x": "declared stack factor -1 does not match the fixed 6-step budget of this row"
+   },
+   "shortcut_out_of_range": {
+    "generator_2x": "token ids outside [0, vocab_size)",
+    "generator_4x": "token ids outside [0, vocab_size)"
+   },
+   "shortcut_random_one_step": {
+    "generator_2x": "dependency_validity 0.070 < 0.5",
+    "generator_4x": "dependency_validity 0.070 < 0.5"
+   },
+   "shortcut_rebuild_answers": {
+    "generator_2x": "pred_tokens shape (0, 24, 8) != (16384, 24, 8)",
+    "generator_4x": "pred_tokens shape (0, 24, 8) != (16384, 24, 8)"
+   },
+   "shortcut_replace_baseline": {
+    "generator_2x": "reserved fixed comparison output changed",
+    "generator_4x": "reserved fixed comparison output changed"
+   },
+   "shortcut_replace_truth_testfile": {
+    "generator_2x": "forbidden method-side target file",
+    "generator_4x": "forbidden method-side target file"
+   },
+   "shortcut_replace_truth_valfile": {
+    "generator_2x": "fixed training data changed",
+    "generator_4x": "fixed training data changed"
+   },
+   "shortcut_resample_2x_as_4x": {},
+   "shortcut_reuse_2x_as_4x": {},
+   "shortcut_rule_sampler": {
+    "generator_2x": "coarse transition validity below 0.5",
+    "generator_4x": "coarse transition validity below 0.5"
+   },
+   "shortcut_splice_halves": {},
+   "shortcut_stack_claim": {
+    "generator_2x": "declared stack factor 24 does not match the fixed 12-step budget of this row",
+    "generator_4x": "declared stack factor 24 does not match the fixed 6-step budget of this row"
+   },
+   "shortcut_train_on_eval_refs": {},
+   "shortcut_train_rows_2x_as_4x": {},
+   "shortcut_vocab_one": {
+    "generator_2x": "config.vocab_size conflicts with the fixed task",
+    "generator_4x": "config.vocab_size conflicts with the fixed task"
+   },
+   "shortcut_write_scores": {
+    "generator_2x": "unsupported artifact fields (submitted metrics and verdicts are not accepted)",
+    "generator_4x": "unsupported artifact fields (submitted metrics and verdicts are not accepted)"
+   },
+   "shortcut_zero_stack": {
+    "generator_2x": "declared stack factor 0 does not match the fixed 12-step budget of this row",
+    "generator_4x": "declared stack factor 0 does not match the fixed 6-step budget of this row"
+   },
+   "weaker_argmax": {},
+   "weaker_no_local": {
+    "generator_2x": "dependency_validity 0.141 < 0.5",
+    "generator_4x": "dependency_validity 0.122 < 0.5"
+   },
+   "weaker_training": {
+    "generator_2x": "dependency_validity 0.448 < 0.5",
+    "generator_4x": "dependency_validity 0.269 < 0.5"
+   }
+  },
+  "feasible": {
+   "better_bigger": false,
+   "better_bigger_longer": false,
+   "better_cosine": true,
+   "better_cosine_20k": true,
+   "better_cosine_20k_seed17": true,
+   "better_cosine_20k_seed27": true,
+   "better_cosine_seed17": true,
+   "better_cosine_seed27": true,
+   "better_more_training": true,
+   "better_more_training_seed17": true,
+   "better_more_training_seed27": true,
+   "paper_sampling_t06": true,
+   "reference": true,
+   "reference_sample1": true,
+   "reference_sample2": true,
+   "reference_seed17": true,
+   "reference_seed27": true,
+   "shortcut_analytic_sampler": true,
+   "shortcut_constant": false,
+   "shortcut_copy_answers": false,
+   "shortcut_copy_edit": true,
+   "shortcut_empty": false,
+   "shortcut_infinite_stack": false,
+   "shortcut_negative_steps": false,
+   "shortcut_out_of_range": false,
+   "shortcut_random_one_step": false,
+   "shortcut_rebuild_answers": false,
+   "shortcut_replace_baseline": false,
+   "shortcut_replace_truth_testfile": false,
+   "shortcut_replace_truth_valfile": false,
+   "shortcut_resample_2x_as_4x": true,
+   "shortcut_reuse_2x_as_4x": true,
+   "shortcut_rule_sampler": false,
+   "shortcut_splice_halves": true,
+   "shortcut_stack_claim": false,
+   "shortcut_train_on_eval_refs": true,
+   "shortcut_train_rows_2x_as_4x": true,
+   "shortcut_vocab_one": false,
+   "shortcut_write_scores": false,
+   "shortcut_zero_stack": false,
+   "weaker_argmax": true,
+   "weaker_no_local": false,
+   "weaker_training": false
+  },
+  "normalized": {
+   "better_bigger": 0.07467584669308722,
+   "better_bigger_longer": 0.027283819735969442,
+   "better_cosine": -0.15561423539441396,
+   "better_cosine_20k": 0.016848153764786242,
+   "better_cosine_20k_seed17": 0.00476494396653505,
+   "better_cosine_20k_seed27": -0.0897318520757199,
+   "better_cosine_seed17": -0.3504627008099892,
+   "better_cosine_seed27": -0.09369939797111917,
+   "better_more_training": 0.0275847308888248,
+   "better_more_training_seed17": 0.023468912565730846,
+   "better_more_training_seed27": -0.0490960761031249,
+   "paper_sampling_t06": 0.041250977150131485,
+   "reference": 0.0,
+   "reference_sample1": -0.0006004887810872438,
+   "reference_sample2": -0.0007306955852171504,
+   "reference_seed17": 0.005386831362541008,
+   "reference_seed27": -0.037291312764828714,
+   "shortcut_analytic_sampler": 0.1252927009199091,
+   "shortcut_constant": -8.667906657164037,
+   "shortcut_copy_answers": 0.1244875852371567,
+   "shortcut_copy_edit": 0.12380095456797563,
+   "shortcut_empty": -2.2909775361183344,
+   "shortcut_infinite_stack": -2.2909775361183344,
+   "shortcut_negative_steps": -2.2909775361183344,
+   "shortcut_out_of_range": -2.2909775361183344,
+   "shortcut_random_one_step": -2.1245496227789404,
+   "shortcut_rebuild_answers": -2.2909775361183344,
+   "shortcut_replace_baseline": 0.0,
+   "shortcut_replace_truth_testfile": 0.0,
+   "shortcut_replace_truth_valfile": 0.0,
+   "shortcut_resample_2x_as_4x": 0.05978057421310866,
+   "shortcut_reuse_2x_as_4x": 0.06031049350371412,
+   "shortcut_rule_sampler": -0.17160919502535374,
+   "shortcut_splice_halves": 0.1129005069486684,
+   "shortcut_stack_claim": -2.2909775361183344,
+   "shortcut_train_on_eval_refs": 0.009338605971202635,
+   "shortcut_train_rows_2x_as_4x": 0.05943171641142613,
+   "shortcut_vocab_one": -2.2909775361183344,
+   "shortcut_write_scores": -2.2909775361183344,
+   "shortcut_zero_stack": -2.2909775361183344,
+   "weaker_argmax": -0.8009195655518353,
+   "weaker_no_local": -1.9637812924769542,
+   "weaker_training": -1.4576992301831406
+  },
+  "sigma": {
+   "codec_stack2/codec_fd": 54.36436054964918,
+   "codec_stack2/dependency_validity": 0.4252051690506275,
+   "codec_stack2/speaker_conditioned_codec_fd": 56.45061603350423,
+   "codec_stack4/codec_fd": 54.35548127781146,
+   "codec_stack4/dependency_validity": 0.4173655411329631,
+   "codec_stack4/speaker_conditioned_codec_fd": 56.55992871592738
+  },
+  "values": {
+   "better_bigger": {
+    "codec_stack2": {
+     "codec_fd": 0.08467199308449835,
+     "dependency_validity": 0.9784287058246073,
+     "speaker_conditioned_codec_fd": 0.5288877634030698
+    },
+    "codec_stack4": {
+     "codec_fd": 0.0478825676622705,
+     "dependency_validity": 0.9805889029777487,
+     "speaker_conditioned_codec_fd": 0.46898186603939607
+    }
+   },
+   "better_bigger_longer": {
+    "codec_stack2": {
+     "codec_fd": 0.04929090263840408,
+     "dependency_validity": 0.9879207910667539,
+     "speaker_conditioned_codec_fd": 0.47915829389428666
+    },
+    "codec_stack4": {
+     "codec_fd": 0.14992594690249916,
+     "dependency_validity": 0.942102881626309,
+     "speaker_conditioned_codec_fd": 0.6140764844108162
+    }
+   },
+   "better_cosine": {
+    "codec_stack2": {
+     "codec_fd": 0.0376713519070222,
+     "dependency_validity": 0.9761055352176047,
+     "speaker_conditioned_codec_fd": 0.3071952561859135
+    },
+    "codec_stack4": {
+     "codec_fd": 0.09221160276217688,
+     "dependency_validity": 0.8212468811354712,
+     "speaker_conditioned_codec_fd": 0.36966655405879223
+    }
+   },
+   "better_cosine_20k": {
+    "codec_stack2": {
+     "codec_fd": 0.028534928790747927,
+     "dependency_validity": 0.9872829577061518,
+     "speaker_conditioned_codec_fd": 0.30118559035541637
+    },
+    "codec_stack4": {
+     "codec_fd": 0.03882305169918254,
+     "dependency_validity": 0.9334390849967278,
+     "speaker_conditioned_codec_fd": 0.3106730684457659
+    }
+   },
+   "better_cosine_20k_seed17": {
+    "codec_stack2": {
+     "codec_fd": 0.0427253224779065,
+     "dependency_validity": 0.9522270482248036,
+     "speaker_conditioned_codec_fd": 0.31399425158508976
+    },
+    "codec_stack4": {
+     "codec_fd": 0.034831903501753914,
+     "dependency_validity": 0.9480415064626964,
+     "speaker_conditioned_codec_fd": 0.31658669210359847
+    }
+   },
+   "better_cosine_20k_seed27": {
+    "codec_stack2": {
+     "codec_fd": 0.05047699164390451,
+     "dependency_validity": 0.8913555045402487,
+     "speaker_conditioned_codec_fd": 0.33639496565112736
+    },
+    "codec_stack4": {
+     "codec_fd": 0.0321458431380961,
+     "dependency_validity": 0.9221555699852748,
+     "speaker_conditioned_codec_fd": 0.30252270191174446
+    }
+   },
+   "better_cosine_seed17": {
+    "codec_stack2": {
+     "codec_fd": 0.036250836858528146,
+     "dependency_validity": 0.9650591306037304,
+     "speaker_conditioned_codec_fd": 0.3047398127438008
+    },
+    "codec_stack4": {
+     "codec_fd": 0.08183308457563498,
+     "dependency_validity": 0.6928921844322644,
+     "speaker_conditioned_codec_fd": 0.37380677643000837
+    }
+   },
+   "better_cosine_seed27": {
+    "codec_stack2": {
+     "codec_fd": 0.048055839116841526,
+     "dependency_validity": 0.9254354906331806,
+     "speaker_conditioned_codec_fd": 0.3289970191783951
+    },
+    "codec_stack4": {
+     "codec_fd": 0.0543264844073974,
+     "dependency_validity": 0.8972449177846858,
+     "speaker_conditioned_codec_fd": 0.3262849445114391
+    }
+   },
+   "better_more_training": {
+    "codec_stack2": {
+     "codec_fd": 0.156940448576961,
+     "dependency_validity": 0.9768922815772252,
+     "speaker_conditioned_codec_fd": 0.4767796675686
+    },
+    "codec_stack4": {
+     "codec_fd": 0.1915204296536217,
+     "dependency_validity": 0.9497063921384162,
+     "speaker_conditioned_codec_fd": 0.49885157283797454
+    }
+   },
+   "better_more_training_seed17": {
+    "codec_stack2": {
+     "codec_fd": 0.1417699192627424,
+     "dependency_validity": 0.9662172007935209,
+     "speaker_conditioned_codec_fd": 0.4507918501361168
+    },
+    "codec_stack4": {
+     "codec_fd": 0.28614402519411897,
+     "dependency_validity": 0.9545252934800392,
+     "speaker_conditioned_codec_fd": 0.6202343948610469
+    }
+   },
+   "better_more_training_seed27": {
+    "codec_stack2": {
+     "codec_fd": 0.17430148429298242,
+     "dependency_validity": 0.9163895052765052,
+     "speaker_conditioned_codec_fd": 0.4838997009990713
+    },
+    "codec_stack4": {
+     "codec_fd": 0.15065921997904752,
+     "dependency_validity": 0.9358357534358639,
+     "speaker_conditioned_codec_fd": 0.4983856460589209
+    }
+   },
+   "paper_sampling_t06": {
+    "codec_stack2": {
+     "codec_fd": 0.35678110271885544,
+     "dependency_validity": 0.9870305086305629,
+     "speaker_conditioned_codec_fd": 0.8341020197375926
+    },
+    "codec_stack4": {
+     "codec_fd": 0.5465445759436989,
+     "dependency_validity": 0.9569890686354712,
+     "speaker_conditioned_codec_fd": 0.9923736848677436
+    }
+   },
+   "reference": {
+    "codec_stack2": {
+     "codec_fd": 0.1849770164481015,
+     "dependency_validity": 0.9742910974312827,
+     "speaker_conditioned_codec_fd": 0.5026589485900139
+    },
+    "codec_stack4": {
+     "codec_fd": 0.26808556106846027,
+     "dependency_validity": 0.9330172713514397,
+     "speaker_conditioned_codec_fd": 0.6028814086313439
+    }
+   },
+   "reference_sample1": {
+    "codec_stack2": {
+     "codec_fd": 0.20044562792554643,
+     "dependency_validity": 0.9740648519306283,
+     "speaker_conditioned_codec_fd": 0.5267491551260655
+    },
+    "codec_stack4": {
+     "codec_fd": 0.27642772592651,
+     "dependency_validity": 0.9329130961632853,
+     "speaker_conditioned_codec_fd": 0.6137396056020492
+    }
+   },
+   "reference_sample2": {
+    "codec_stack2": {
+     "codec_fd": 0.1913360506048889,
+     "dependency_validity": 0.9736679636371073,
+     "speaker_conditioned_codec_fd": 0.528987328674198
+    },
+    "codec_stack4": {
+     "codec_fd": 0.2722780362693129,
+     "dependency_validity": 0.93302238424411,
+     "speaker_conditioned_codec_fd": 0.6079214816711946
+    }
+   },
+   "reference_seed17": {
+    "codec_stack2": {
+     "codec_fd": 0.21579466831462923,
+     "dependency_validity": 0.9674487688154451,
+     "speaker_conditioned_codec_fd": 0.5389248984534305
+    },
+    "codec_stack4": {
+     "codec_fd": 0.3662851116636716,
+     "dependency_validity": 0.942185966132199,
+     "speaker_conditioned_codec_fd": 0.7131799035673332
+    }
+   },
+   "reference_seed27": {
+    "codec_stack2": {
+     "codec_fd": 0.20629084267045528,
+     "dependency_validity": 0.921949776055301,
+     "speaker_conditioned_codec_fd": 0.5397465591823121
+    },
+    "codec_stack4": {
+     "codec_fd": 0.1443044616358975,
+     "dependency_validity": 0.9404469435127618,
+     "speaker_conditioned_codec_fd": 0.4506584189170333
+    }
+   },
+   "shortcut_analytic_sampler": {
+    "codec_stack2": {
+     "codec_fd": 0.013109935771069559,
+     "dependency_validity": 1.0,
+     "speaker_conditioned_codec_fd": 0.2259080701539915
+    },
+    "codec_stack4": {
+     "codec_fd": 0.013500763246156566,
+     "dependency_validity": 1.0,
+     "speaker_conditioned_codec_fd": 0.22937975801727006
+    }
+   },
+   "shortcut_constant": {
+    "codec_stack2": {
+     "codec_fd": 361.4305401184392,
+     "dependency_validity": 0.05500897312663613,
+     "speaker_conditioned_codec_fd": 361.43592995416816
+    },
+    "codec_stack4": {
+     "codec_fd": 361.4305401184392,
+     "dependency_validity": 0.05500897312663613,
+     "speaker_conditioned_codec_fd": 361.43592995416816
+    }
+   },
+   "shortcut_copy_answers": {
+    "codec_stack2": {
+     "codec_fd": 0.02033192240878634,
+     "dependency_validity": 1.0,
+     "speaker_conditioned_codec_fd": 0.330847436798944
+    },
+    "codec_stack4": {
+     "codec_fd": 0.02033192240878634,
+     "dependency_validity": 1.0,
+     "speaker_conditioned_codec_fd": 0.330847436798944
+    }
+   },
+   "shortcut_copy_edit": {
+    "codec_stack2": {
+     "codec_fd": 0.02412171866905055,
+     "dependency_validity": 1.0,
+     "speaker_conditioned_codec_fd": 0.4135214380478942
+    },
+    "codec_stack4": {
+     "codec_fd": 0.026756316400394553,
+     "dependency_validity": 1.0,
+     "speaker_conditioned_codec_fd": 0.4234701994318826
+    }
+   },
+   "shortcut_empty": {
+    "codec_stack2": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    },
+    "codec_stack4": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    }
+   },
+   "shortcut_infinite_stack": {
+    "codec_stack2": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    },
+    "codec_stack4": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    }
+   },
+   "shortcut_negative_steps": {
+    "codec_stack2": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    },
+    "codec_stack4": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    }
+   },
+   "shortcut_out_of_range": {
+    "codec_stack2": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    },
+    "codec_stack4": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    }
+   },
+   "shortcut_random_one_step": {
+    "codec_stack2": {
+     "codec_fd": 2.0501822001039045,
+     "dependency_validity": 0.07008881094568063,
+     "speaker_conditioned_codec_fd": 2.4522102525943588
+    },
+    "codec_stack4": {
+     "codec_fd": 2.0501822001039045,
+     "dependency_validity": 0.07008881094568063,
+     "speaker_conditioned_codec_fd": 2.4522102525943588
+    }
+   },
+   "shortcut_rebuild_answers": {
+    "codec_stack2": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    },
+    "codec_stack4": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    }
+   },
+   "shortcut_replace_baseline": {
+    "codec_stack2": {
+     "codec_fd": 0.1849770164481015,
+     "dependency_validity": 0.9742910974312827,
+     "speaker_conditioned_codec_fd": 0.5026589485900139
+    },
+    "codec_stack4": {
+     "codec_fd": 0.26808556106846027,
+     "dependency_validity": 0.9330172713514397,
+     "speaker_conditioned_codec_fd": 0.6028814086313439
+    }
+   },
+   "shortcut_replace_truth_testfile": {
+    "codec_stack2": {
+     "codec_fd": 0.1849770164481015,
+     "dependency_validity": 0.9742910974312827,
+     "speaker_conditioned_codec_fd": 0.5026589485900139
+    },
+    "codec_stack4": {
+     "codec_fd": 0.26808556106846027,
+     "dependency_validity": 0.9330172713514397,
+     "speaker_conditioned_codec_fd": 0.6028814086313439
+    }
+   },
+   "shortcut_replace_truth_valfile": {
+    "codec_stack2": {
+     "codec_fd": 0.1849770164481015,
+     "dependency_validity": 0.9742910974312827,
+     "speaker_conditioned_codec_fd": 0.5026589485900139
+    },
+    "codec_stack4": {
+     "codec_fd": 0.26808556106846027,
+     "dependency_validity": 0.9330172713514397,
+     "speaker_conditioned_codec_fd": 0.6028814086313439
+    }
+   },
+   "shortcut_resample_2x_as_4x": {
+    "codec_stack2": {
+     "codec_fd": 0.1849770164481015,
+     "dependency_validity": 0.9742910974312827,
+     "speaker_conditioned_codec_fd": 0.5026589485900139
+    },
+    "codec_stack4": {
+     "codec_fd": 0.20044562792554643,
+     "dependency_validity": 0.9740648519306283,
+     "speaker_conditioned_codec_fd": 0.5267491551260655
+    }
+   },
+   "shortcut_reuse_2x_as_4x": {
+    "codec_stack2": {
+     "codec_fd": 0.1849770164481015,
+     "dependency_validity": 0.9742910974312827,
+     "speaker_conditioned_codec_fd": 0.5026589485900139
+    },
+    "codec_stack4": {
+     "codec_fd": 0.1849770164481015,
+     "dependency_validity": 0.9742910974312827,
+     "speaker_conditioned_codec_fd": 0.5026589485900139
+    }
+   },
+   "shortcut_rule_sampler": {
+    "codec_stack2": {
+     "codec_fd": 2.511221612067004,
+     "dependency_validity": 0.8945523406822644,
+     "speaker_conditioned_codec_fd": 2.8480333410578567
+    },
+    "codec_stack4": {
+     "codec_fd": 2.511221612067004,
+     "dependency_validity": 0.8945523406822644,
+     "speaker_conditioned_codec_fd": 2.8480333410578567
+    }
+   },
+   "shortcut_splice_halves": {
+    "codec_stack2": {
+     "codec_fd": 0.029729489138333065,
+     "dependency_validity": 0.9954079832706152,
+     "speaker_conditioned_codec_fd": 0.41459236576272573
+    },
+    "codec_stack4": {
+     "codec_fd": 0.030979046134632426,
+     "dependency_validity": 0.9954552775278142,
+     "speaker_conditioned_codec_fd": 0.4214514609447342
+    }
+   },
+   "shortcut_stack_claim": {
+    "codec_stack2": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    },
+    "codec_stack4": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    }
+   },
+   "shortcut_train_on_eval_refs": {
+    "codec_stack2": {
+     "codec_fd": 0.28649446686347346,
+     "dependency_validity": 0.9828289890788613,
+     "speaker_conditioned_codec_fd": 0.5530133334656142
+    },
+    "codec_stack4": {
+     "codec_fd": 0.33366053500918724,
+     "dependency_validity": 0.9347262557264397,
+     "speaker_conditioned_codec_fd": 0.6322932054024726
+    }
+   },
+   "shortcut_train_rows_2x_as_4x": {
+    "codec_stack2": {
+     "codec_fd": 0.1849770164481015,
+     "dependency_validity": 0.9742910974312827,
+     "speaker_conditioned_codec_fd": 0.5026589485900139
+    },
+    "codec_stack4": {
+     "codec_fd": 0.19802431944378895,
+     "dependency_validity": 0.9738277415330497,
+     "speaker_conditioned_codec_fd": 0.5324115236929146
+    }
+   },
+   "shortcut_vocab_one": {
+    "codec_stack2": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    },
+    "codec_stack4": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    }
+   },
+   "shortcut_write_scores": {
+    "codec_stack2": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    },
+    "codec_stack4": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    }
+   },
+   "shortcut_zero_stack": {
+    "codec_stack2": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    },
+    "codec_stack4": {
+     "codec_fd": 2.036503630228708,
+     "dependency_validity": 0.0,
+     "speaker_conditioned_codec_fd": 2.436088826451254
+    }
+   },
+   "weaker_argmax": {
+    "codec_stack2": {
+     "codec_fd": 6.154634412027065,
+     "dependency_validity": 0.9970741471695026,
+     "speaker_conditioned_codec_fd": 111.76151827259301
+    },
+    "codec_stack4": {
+     "codec_fd": 8.133753906312961,
+     "dependency_validity": 0.9713748312745419,
+     "speaker_conditioned_codec_fd": 114.59486527492967
+    }
+   },
+   "weaker_no_local": {
+    "codec_stack2": {
+     "codec_fd": 0.40657049222829755,
+     "dependency_validity": 0.1408224854793848,
+     "speaker_conditioned_codec_fd": 0.8915317881935785
+    },
+    "codec_stack4": {
+     "codec_fd": 1.3274698506430695,
+     "dependency_validity": 0.12210098985602094,
+     "speaker_conditioned_codec_fd": 1.7477046499661135
+    }
+   },
+   "weaker_training": {
+    "codec_stack2": {
+     "codec_fd": 0.6904515136784539,
+     "dependency_validity": 0.44767273907886124,
+     "speaker_conditioned_codec_fd": 1.273826933870577
+    },
+    "codec_stack4": {
+     "codec_fd": 0.518148008388664,
+     "dependency_validity": 0.2688429268242801,
+     "speaker_conditioned_codec_fd": 0.936254275549711
+    }
+   }
+  }
+ },
+ "before_commit": "205a717",
+ "cohort": [
+  "reference",
+  "better_bigger",
+  "better_more_training",
+  "reference_sample1",
+  "reference_sample2",
+  "reference_seed17",
+  "reference_seed27",
+  "shortcut_copy_answers",
+  "shortcut_empty",
+  "shortcut_infinite_stack",
+  "shortcut_negative_steps",
+  "shortcut_out_of_range",
+  "shortcut_random_one_step",
+  "shortcut_rebuild_answers",
+  "shortcut_replace_baseline",
+  "shortcut_rule_sampler",
+  "shortcut_stack_claim",
+  "shortcut_vocab_one",
+  "shortcut_write_scores",
+  "shortcut_zero_stack",
+  "weaker_argmax",
+  "weaker_no_local",
+  "weaker_training",
+  "better_bigger_longer",
+  "better_cosine",
+  "better_cosine_20k",
+  "better_cosine_20k_seed17",
+  "better_cosine_20k_seed27",
+  "better_cosine_seed17",
+  "better_cosine_seed27",
+  "better_more_training_seed17",
+  "better_more_training_seed27",
+  "paper_sampling_t06",
+  "shortcut_analytic_sampler",
+  "shortcut_constant",
+  "shortcut_copy_edit",
+  "shortcut_resample_2x_as_4x",
+  "shortcut_reuse_2x_as_4x",
+  "shortcut_splice_halves",
+  "shortcut_train_on_eval_refs",
+  "shortcut_train_rows_2x_as_4x",
+  "shortcut_replace_truth_testfile",
+  "shortcut_replace_truth_valfile"
+ ],
+ "paired_after": {
+  "better_cosine": {
+   "blocks": 16,
+   "bootstrap_mean": 0.05171771466189571,
+   "paired_bootstrap_95_percent": [
+    0.028839593487487884,
+    0.0731447222212892
+   ],
+   "replicates": 200
+  },
+  "better_cosine_20k": {
+   "blocks": 16,
+   "bootstrap_mean": 0.24819492955467312,
+   "paired_bootstrap_95_percent": [
+    0.2295037852715763,
+    0.26642135640824655
+   ],
+   "replicates": 200
+  },
+  "better_cosine_20k_seed17": {
+   "blocks": 16,
+   "bootstrap_mean": 0.2317235829629525,
+   "paired_bootstrap_95_percent": [
+    0.21449076844450307,
+    0.2484755277214976
+   ],
+   "replicates": 200
+  },
+  "better_cosine_20k_seed27": {
+   "blocks": 16,
+   "bootstrap_mean": 0.14667457807143916,
+   "paired_bootstrap_95_percent": [
+    0.1251949374654684,
+    0.1668091401158649
+   ],
+   "replicates": 200
+  },
+  "better_cosine_seed17": {
+   "blocks": 16,
+   "bootstrap_mean": -0.12204711149512505,
+   "paired_bootstrap_95_percent": [
+    -0.14034794721394558,
+    -0.10245696008346065
+   ],
+   "replicates": 200
+  },
+  "better_cosine_seed27": {
+   "blocks": 16,
+   "bootstrap_mean": 0.12878811919691954,
+   "paired_bootstrap_95_percent": [
+    0.10859492682165324,
+    0.14935489564994664
+   ],
+   "replicates": 200
+  },
+  "better_more_training": {
+   "blocks": 16,
+   "bootstrap_mean": 0.09357583624467333,
+   "paired_bootstrap_95_percent": [
+    0.07089239035996735,
+    0.1205262863032008
+   ],
+   "replicates": 200
+  },
+  "better_more_training_seed17": {
+   "blocks": 16,
+   "bootstrap_mean": 0.0318074826513751,
+   "paired_bootstrap_95_percent": [
+    0.010895758022379872,
+    0.05614868198485915
+   ],
+   "replicates": 200
+  },
+  "better_more_training_seed27": {
+   "blocks": 16,
+   "bootstrap_mean": 0.03438449558687391,
+   "paired_bootstrap_95_percent": [
+    0.015614190688948633,
+    0.053765768591186605
+   ],
+   "replicates": 200
+  },
+  "reference_seed17": {
+   "blocks": 16,
+   "bootstrap_mean": -0.07204383771424999,
+   "paired_bootstrap_95_percent": [
+    -0.0991757950062954,
+    -0.04657087155911606
+   ],
+   "replicates": 200
+  },
+  "reference_seed27": {
+   "blocks": 16,
+   "bootstrap_mean": 0.04200636381506536,
+   "paired_bootstrap_95_percent": [
+    0.01950244514563109,
+    0.06729445860514098
+   ],
+   "replicates": 200
+  }
+ },
+ "sampling_spread_after": 0.014187004815429241,
+ "seed_groups_after": {
+  "better_cosine": {
+   "feasible": true,
+   "max": 0.1280834009361776,
+   "mean": 0.01901887012517431,
+   "mean_gain": 0.02996388241670816,
+   "members": {
+    "better_cosine": 0.051494498949375245,
+    "better_cosine_seed17": -0.12252128951002991,
+    "better_cosine_seed27": 0.1280834009361776
+   },
+   "min": -0.12252128951002991,
+   "min_minus_reference_max": -0.16326816133877015,
+   "paired_by_seed": {
+    "7": 0.051494498949375245,
+    "17": -0.04893938080668814,
+    "27": 0.08733652910743736
+   }
+  },
+  "better_cosine_20k": {
+   "feasible": true,
+   "max": 0.2472031650787969,
+   "mean": 0.20777312149246066,
+   "mean_gain": 0.21871813378399452,
+   "members": {
+    "better_cosine_20k": 0.2472031650787969,
+    "better_cosine_20k_seed17": 0.23122156014012724,
+    "better_cosine_20k_seed27": 0.1448946392584579
+   },
+   "min": 0.1448946392584579,
+   "min_minus_reference_max": 0.10414776742971768,
+   "paired_by_seed": {
+    "7": 0.2472031650787969,
+    "17": 0.304803468843469,
+    "27": 0.10414776742971768
+   }
+  },
+  "better_more_training": {
+   "feasible": true,
+   "max": 0.09149753697357552,
+   "mean": 0.051297336256735944,
+   "mean_gain": 0.062242348548269794,
+   "members": {
+    "better_more_training": 0.09149753697357552,
+    "better_more_training_seed17": 0.029512045836224403,
+    "better_more_training_seed27": 0.03288242596040791
+   },
+   "min": 0.029512045836224403,
+   "min_minus_reference_max": -0.011234825992515823,
+   "paired_by_seed": {
+    "7": 0.09149753697357552,
+    "17": 0.10309395453956618,
+    "27": -0.007864445868332313
+   }
+  },
+  "reference": {
+   "feasible": true,
+   "max": 0.040746871828740226,
+   "mean": -0.01094501229153385,
+   "members": {
+    "reference": 0.0,
+    "reference_seed17": -0.07358190870334178,
+    "reference_seed27": 0.040746871828740226
+   },
+   "min": -0.07358190870334178
+  }
+ },
+ "training_seed_spread_after": 0.11432878053208201
 }
