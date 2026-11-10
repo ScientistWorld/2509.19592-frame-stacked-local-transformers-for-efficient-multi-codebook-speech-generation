@@ -1,8 +1,6 @@
 # Once you set action to 'submit' or 'done', STOP immediately.
 # Do NOT sleep, poll, or wait for jobs. The system reads this file
 # only after your turn ends.
-action: submit
-gpus: 0
-test: false
+action: done
 milestone: core_claim_plus
-notes: "Final replay after the memorization (visible-minus-control 4-frame window) check: fixture reproduction incl. new train control hashes; build 6/4/3-frame and partial splice cases (CPU); replay all ~54 saved cases through no-arg evaluate_test.sh and evaluate_train.sh; paired bootstrap; restore reference-only scores; validate. No training."
+notes: "Final hardening: memorization check closes the new visible-splice shortcut (+0.271 -> FAILED); all REDTEAM shortcuts fail; cosine 20k variant +0.247 [+0.229,+0.266] over reference across seeds; analytic sampler, rule repair/filter and 2x-as-4x left to shortcut review (documented with scores); run.sh restored end to end; validate passes."
