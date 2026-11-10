@@ -2,7 +2,7 @@
 
 The paper studies local transformers (LTs) for multi-codebook speech generation. The baseline predicts all codebooks of a frame in parallel from the primary decoder state, assuming conditional independence across codebooks. The proposed models keep an autoregressive primary decoder over time and add a small LT that expands each primary hidden state into the frame's codebook tokens. With frame stacking, the primary decoder runs once per `S` frames and the LT decodes all `S x N` codebook tokens of the stack.
 
-Implementation (`method/models.py`, scaled down: width 96, 4 heads, 2 primary layers, 1 LT layer, 10000 AdamW steps at learning rate 1e-3, batch 128):
+Implementation (`method/models.py`, scaled down: width 96, 4 heads, 2 primary layers, 1 LT layer, 10000 AdamW steps at a constant learning rate of 1e-3, batch 128; the paper specifies AdamW but no schedule, and `method/train.py --lr-schedule cosine` is an optional variant that the reference does not use):
 
 - Every (frame-in-stack, codebook) slot has its own token embedding table, shared by the primary decoder and the LT; the primary decoder input averages the slot embeddings of the previous stack (as in the paper), plus speaker and step-position embeddings.
 - `ar` (the reference method): an autoregressive LT samples the stacked slots one by one, conditioned on the primary hidden state and the previously sampled slots.

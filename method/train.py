@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import argparse
 import json
+import math
 from pathlib import Path
 
 import torch
@@ -19,6 +20,9 @@ def parse_args():
     p.add_argument("--steps", type=int, default=1500)
     p.add_argument("--batch-size", type=int, default=128)
     p.add_argument("--lr", type=float, default=1e-3)
+    # The reference uses a constant learning rate; `cosine` decays it to zero
+    # over the run (a training-schedule variant, same step budget).
+    p.add_argument("--lr-schedule", choices=["constant", "cosine"], default="constant")
     p.add_argument("--dim", type=int, default=96)
     p.add_argument("--main-layers", type=int, default=2)
     p.add_argument("--lt-layers", type=int, default=1)
@@ -48,6 +52,9 @@ def main():
         maskgit_steps=args.maskgit_steps,
     ).to(device)
     opt = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=0.01)
+    sched = None
+    if args.lr_schedule == "cosine":
+        sched = torch.optim.lr_scheduler.LambdaLR(opt, lambda s: 0.5 * (1.0 + math.cos(math.pi * min(s, args.steps) / args.steps)))
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
     history = []
@@ -65,6 +72,8 @@ def main():
         loss.backward()
         torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
         opt.step()
+        if sched is not None:
+            sched.step()
         if step == 1 or step % 100 == 0:
             history.append({"step": step, "loss": float(loss.detach().cpu())})
             print(f"step={step} loss={history[-1]['loss']:.4f}", flush=True)
@@ -81,6 +90,7 @@ def main():
             "seed": args.seed,
             "train_steps": args.steps,
             "lr": args.lr,
+            "lr_schedule": args.lr_schedule,
             **meta,
         },
         "history": history,

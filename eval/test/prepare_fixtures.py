@@ -1,7 +1,14 @@
 #!/usr/bin/env python3
-"""Packaging-only: freeze public fixtures and both slices' comparison outputs."""
+"""Packaging-only: freeze public fixtures and both slices' comparison outputs.
+
+Public train fixtures hold the canonical visible data (train + validation
+splits), frozen sufficient statistics of the train slice's reference sample
+(never its utterances, which would be extra true-process training data), and
+comparison/reference outputs with every test-slice row redacted. The hidden
+test's fixtures additionally hold the train-slice reference utterances in its
+copy-check set.
+"""
 from pathlib import Path
-import shutil
 import hashlib
 import json
 import torch
@@ -12,16 +19,22 @@ from eval.test import build_data as data
 def main():
     rows = torch.randperm(test.NUM_CONDITIONS, generator=torch.Generator().manual_seed(test.PARTITION_SEED))[:test.NUM_CONDITIONS // 2].sort().values
     speakers = test.conditions()[rows].repeat_interleave(test.REFERENCES_PER_ROW)
-    public_ref = test.sample_tokens(speakers, test.TRAIN_SLICE_REFERENCE_SEED).to(torch.uint8)
-    public_tokens = torch.cat([data.make_split(n, 24, 8, 32, 16, seed)['tokens'].to(torch.uint8) for n, seed in test.VISIBLE_SPLITS] + [public_ref])
+    train_ref = test.sample_tokens(speakers, test.TRAIN_SLICE_REFERENCE_SEED)
+    public_tokens = torch.cat([data.make_split(n, 24, 8, 32, 16, seed)['tokens'].to(torch.uint8) for n, seed in test.VISIBLE_SPLITS])
     for split in ('train', 'test'):
         fixed = Path(f'eval/{split}/fixed')
         fixed.mkdir(exist_ok=True, parents=True)
-        torch.save({'tokens': public_tokens}, fixed / 'visible.pt')
+        visible = public_tokens if split == 'train' else torch.cat([public_tokens, train_ref.to(torch.uint8)])
+        torch.save({'tokens': visible}, fixed / 'visible.pt')
         hashes = {f'data/synthetic_codec/{name}.pt': hashlib.sha256(Path(f'data/synthetic_codec/{name}.pt').read_bytes()).hexdigest() for name in ('train', 'val')}
         (fixed / 'data_hashes.json').write_text(json.dumps(hashes, indent=2))
         if split == 'train':
-            torch.save({'tokens': public_ref, 'speaker': speakers}, fixed / 'reference.pt')
+            means, cov = test.feature_moments(train_ref, speakers)
+            torch.save({'means': means, 'cov': cov, 'num_utterances': int(train_ref.shape[0]),
+                        'references_per_row': test.REFERENCES_PER_ROW,
+                        'note': 'float64 sufficient statistics of 64-d consecutive-frame codec latents; index 16 is global'},
+                       fixed / 'reference_moments.pt')
+            (fixed / 'reference.pt').unlink(missing_ok=True)
         for name in test.FIXED_ROWS:
             item = torch.load(Path('checkpoints/predictions') / f'{name}.pt', map_location='cpu', weights_only=True)
             tokens = item['pred_tokens'].to(torch.uint8).clone()

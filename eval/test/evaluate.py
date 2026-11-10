@@ -273,7 +273,7 @@ def evaluate_directory(pred_dir, rows, speakers, ref_moments, caps, visible_wind
     for name in REQUIRED_ROWS:
         candidates.setdefault(name, None)
     experiments = {name: {'slice': SLICE, 'num_examples': int(rows.numel()), 'results': {}} for name in EXPERIMENTS.values()}
-    failures, raw_all, comparison_status, generated = {}, {}, {}, {}
+    failures, raw_all, comparison_status, generated, full = {}, {}, {}, {}, {}
     integrity_failure = None
     if check_integrity:
         expected_hashes = json.loads((FIXED_DIR / 'data_hashes.json').read_text())
@@ -316,6 +316,7 @@ def evaluate_directory(pred_dir, rows, speakers, ref_moments, caps, visible_wind
             tokens, failure = load_tokens(path, stack)
         scored = dict(worst)
         if tokens is not None:
+            full[name] = tokens
             generated[name] = tokens[rows]
             scored, raw_all[name], failure = score_tokens(generated[name], speakers, ref_moments, caps, visible_windows)
         failure = integrity_failure or failure
@@ -325,11 +326,15 @@ def evaluate_directory(pred_dir, rows, speakers, ref_moments, caps, visible_wind
 
     groups = run_groups([n for exp in experiments.values() for n in exp['results'] if n not in FIXED_ROWS])
     for names in groups.values():
-        # The two operating points must be separately generated samples.
+        # The two operating points must be separately generated samples: no
+        # scored row may repeat a 12-frame half found anywhere (any row, scored
+        # or not) in the sibling operating point's file.
         present = [n for n in sorted(names) if n in generated]
-        for i, a in enumerate(present):
-            reused = window_set(generated[a])
-            for b in present[i + 1:]:
+        for a in present:
+            reused = window_set(full[a])
+            for b in present:
+                if b == a:
+                    continue
                 fraction = copied_fraction(generated[b], reused)
                 if fraction > MAX_COPIED_FRACTION:
                     for n in (a, b):

@@ -12,7 +12,7 @@ The fixed synthetic training and validation artifacts contain 8192 and 1024 utte
 
 Generate one new utterance for each of the 16384 speaker IDs in `data/synthetic_codec/test_conditions.pt`, at each of two fixed operating points: at most 12 primary sequential steps per utterance (2 frames per step), and at most 6 (4 frames per step). Computation within a primary step is unrestricted. The scientific question is how well quality can be preserved when the primary sequence model runs less often.
 
-Use the provided training data to learn the generator. Complete copies of visible utterances, evaluator-side reference generators, and false computation declarations are outside the task. See `scoring/CONSTRAINTS.md`.
+Use the provided training data to learn the generator. Copies or splices of visible utterances, hand-written or evaluator-side samplers of the data process, and false computation declarations are outside the task. See `scoring/CONSTRAINTS.md`.
 
 ---
 
@@ -20,7 +20,7 @@ Use the provided training data to learn the generator. Complete copies of visibl
 
 The paper studies local transformers (LTs) for multi-codebook speech generation. The baseline predicts all codebooks of a frame in parallel from the primary decoder state, assuming conditional independence across codebooks. The proposed models keep an autoregressive primary decoder over time and add a small LT that expands each primary hidden state into the frame's codebook tokens. With frame stacking, the primary decoder runs once per `S` frames and the LT decodes all `S x N` codebook tokens of the stack.
 
-Implementation (`method/models.py`, scaled down: width 96, 4 heads, 2 primary layers, 1 LT layer, 10000 AdamW steps at learning rate 1e-3, batch 128):
+Implementation (`method/models.py`, scaled down: width 96, 4 heads, 2 primary layers, 1 LT layer, 10000 AdamW steps at a constant learning rate of 1e-3, batch 128; the paper specifies AdamW but no schedule, and `method/train.py --lr-schedule cosine` is an optional variant that the reference does not use):
 
 - Every (frame-in-stack, codebook) slot has its own token embedding table, shared by the primary decoder and the LT; the primary decoder input averages the slot embeddings of the previous stack (as in the paper), plus speaker and step-position embeddings.
 - `ar` (the reference method): an autoregressive LT samples the stacked slots one by one, conditioned on the primary hidden state and the previously sampled slots.
@@ -45,9 +45,9 @@ The final AR reference beats the parallel comparisons on every scored quantity. 
 
 Submit `checkpoints/predictions/generator_2x.pt` and `generator_4x.pt`. Each is a PyTorch dictionary containing `pred_tokens`, an integer tensor of shape `(16384, 24, 8)` with IDs from 0 through 31, and `config`, a dictionary containing the exact fixed `stack_factor` (2 or 4 respectively). Optional top-level `split` is accepted. Other top-level fields, including submitted metrics and verdicts, fail the artifact. Additional configuration fields are ignored except contradictory task dimensions, which fail. Generation uses speaker IDs only.
 
-Both scripts run without arguments and score all files in `checkpoints/predictions/`. Additional `<prefix>_2x.pt` / `<prefix>_4x.pt` pairs use the same interface and are ranked as additional attempts. Saved attempts may also be stored at `checkpoints/attempts/<attempt>/predictions/` with the two canonical filenames. Every attempt is rescored from raw tensors; saved scores are never ranking inputs. Baseline filenames are reserved for evaluator-frozen comparisons. Changing those outputs or the fixed train/validation data fails the proposed run.
+Both scripts run without arguments and score all files in `checkpoints/predictions/`. Additional `<prefix>_2x.pt` / `<prefix>_4x.pt` pairs use the same interface and are scored as additional attempts. Saved attempts may also be stored at `checkpoints/attempts/<attempt>/predictions/` with the two canonical filenames. Every attempt is rescored from raw tensors; saved scores are never inputs. Baseline filenames are reserved for evaluator-frozen comparisons. Changing those outputs or the fixed train/validation data fails the proposed run.
 
-The visible train evaluator scores one fixed half of the conditions (8192 utterances); the hidden test scores the other half. They have independent implementations, reference samples, and fixtures. Both compare against four reference utterances per conditioning row. The test reference sampler and seed are held only by `eval/test/`. All methods see the same speaker conditions and references. `scripts/evaluate_train.sh` writes `scoring/scores_train.json`; `scripts/evaluate_test.sh` writes `scoring/scores_test.json`.
+The visible train evaluator scores one fixed half of the conditions (8192 utterances); the hidden test scores the other half. They have independent implementations and fixtures. Both compare against four reference utterances per conditioning row, drawn from the data process. The train evaluator holds only frozen sufficient statistics (means and covariances) of its reference sample, not the utterances. The test reference sampler and seed are held only by `eval/test/`. All methods see the same speaker conditions and references. `scripts/evaluate_train.sh` writes `scoring/scores_train.json`; `scripts/evaluate_test.sh` writes `scoring/scores_test.json`, each under `experiments.<experiment>.results.<row>`.
 
 Each experiment measures:
 
@@ -55,11 +55,20 @@ Each experiment measures:
 - `codec_fd` ↓: full-covariance Fréchet distance between consecutive-frame pairs in a fixed 32-dimensional codec latent space (64 dimensions per pair).
 - `speaker_conditioned_codec_fd` ↓: the same Fréchet distance computed for each conditioning speaker and averaged. This measures conditional distribution quality; it is not TitaNet speaker cosine similarity.
 
-Distances are not clipped. Finite-sample reference distances need not be zero, even for a perfect distribution sampler. Raw diagnostic components remain available for failed runs, so comparisons still show their scientific behavior.
+Distances are not clipped. Finite-sample reference distances need not be zero, even for a perfect distribution sampler.
 
-A run fails if either required artifact is missing or malformed, contains invalid IDs or contradictory dimensions, claims a different operating point, duplicates more than 1% complete visible utterances, or scores below 0.5 on total dependency validity, within-frame validity, or temporal validity. Duplicate checks use frozen canonical visible data. The former 12-frame window rule was removed because it rejected stronger learned models. A method must still avoid copying or splicing training data; partial-copy detection is left to the separate shortcut review. A method-side `data/synthetic_codec/test.pt` is forbidden.
+A run fails if any of the following holds:
 
-Ranking is lexicographic: every feasible attempt ranks above every failed attempt. Within a tier, add each experiment weight times the absolute value of each metric's coefficient times its improvement over the reference, using `higher_is_better` for the direction, divided by that metric's population standard deviation across the attempts currently ranked and the reference. A zero-variance metric contributes zero. Standard deviations and per-metric contributions are emitted under `_ranking`. Thus scores change when the comparison cohort changes; compare attempts together. The reference measurements are recomputed from evaluator-frozen raw predictions each time. Invalid artifacts get finite default measurements and an explicit failure, never a high rank.
+- either required artifact is missing or malformed, contains invalid IDs or contradictory dimensions, or claims a different operating point;
+- more than 1% of scored utterances repeat an aligned 12-frame half (frames 0–11 or 12–23, all codebooks) of a frozen visible utterance. This covers complete copies, copies with local edits, and spliced halves; independently learned samples essentially never repeat a half;
+- more than 1% of one operating point's scored utterances repeat a 12-frame half found in any row of the other operating point's file. The two rows must be separate samples;
+- total dependency validity, within-frame validity, or temporal validity is below 0.5;
+- either distance is not below that of uniform random tokens;
+- the fixed training data or a reserved comparison output was changed, or a method-side `data/synthetic_codec/test.pt` exists.
+
+A failed run receives the worst value of every scored metric in both experiments: validity 0, and each distance equal to that of uniform random tokens (`_metadata.failed_run_values`). A failed or missing operating point fails the whole run. Raw diagnostics of the actual outputs remain under `_raw`, and the reason under `_failures`. Comparison rows are frozen by the evaluator. They keep their raw measurements, and when they fall below a threshold this is recorded under `_comparison_status`.
+
+The rank adds, for each experiment and metric, the experiment weight times the absolute value of the metric's coefficient times its improvement over the reference. Direction comes from `higher_is_better`, and each improvement is divided by that metric's variation across the ranked attempts. Thus scores depend on the comparison cohort; compare attempts together. The evaluator's own `_ranking` block is a diagnostic of the same quantity for the attempts on disk. The reference measurements are recomputed from evaluator-frozen raw predictions each time.
 
 The 2x experiment has weight 0.4; the 4x experiment has weight 0.6, emphasizing the harder aggressive operating point. Per metric, validity has coefficient 1.0, global FD 0.6, and conditional FD 0.4. Efficiency is a constraint, not a rewarded method-written number. Token artifacts cannot prove actual sequential compute; false declarations remain subject to shortcut review.
 

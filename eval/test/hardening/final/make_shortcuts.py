@@ -17,6 +17,8 @@ tok, spk = train['tokens'].long(), train['speaker'].long()
 
 def save(case, tensors):
     folder = OUT / case / 'predictions'
+    if all((folder / f'generator_{stack}x.pt').is_file() for stack in tensors):
+        return  # already built (outputs are committed evidence; do not rewrite)
     folder.mkdir(parents=True, exist_ok=True)
     for stack, tokens in tensors.items():
         torch.save({'pred_tokens': tokens.to(torch.uint8), 'config': {'stack_factor': stack}, 'split': 'test'},
@@ -84,4 +86,22 @@ def edit(seed):
 
 save('shortcut_splice_halves', {2: splice(21), 4: splice(23)})
 save('shortcut_copy_edit', {2: edit(31), 4: edit(33)})
+
+
+# 6. False 4x declaration that evades a scored-rows-only reuse check: the 4x
+#    file's scored rows hold the 2x model's outputs for *unscored* rows of the
+#    same speaker. The public train evaluator reveals which rows are unscored.
+def train_rows_as_4x():
+    order = torch.randperm(N, generator=torch.Generator().manual_seed(250919592))
+    train_rows, test_rows = order[:N // 2].sort().values, order[N // 2:].sort().values
+    two, four = reference(2), reference(4).clone()
+    for s in range(S):
+        dst, src = test_rows[speakers[test_rows] == s], train_rows[speakers[train_rows] == s]
+        four[dst] = two[src[torch.arange(len(dst)) % len(src)]]
+    return four
+
+
+save('shortcut_train_rows_2x_as_4x', {2: reference(2), 4: train_rows_as_4x()})
+# 7. REDTEAM constant output (all zeros) at both legal operating points.
+save('shortcut_constant', {2: torch.zeros(N, T, K, dtype=torch.long), 4: torch.zeros(N, T, K, dtype=torch.long)})
 print('built', sorted(p.name for p in OUT.iterdir()))

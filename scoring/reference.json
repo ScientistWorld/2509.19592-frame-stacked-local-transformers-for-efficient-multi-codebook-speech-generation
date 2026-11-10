@@ -296,17 +296,17 @@
         "dependency_validity": {
           "higher_is_better": true,
           "coefficient": 1.0,
-          "description": "Fraction of within-frame and temporal dependency checks satisfied. Separate feasibility requirements on each component, duplicate utterances, and artifact validity dominate ranking."
+          "description": "Fraction of within-frame and temporal dependency checks satisfied. A failed run (briefing/evaluation.md) receives 0 in both experiments."
         },
         "codec_fd": {
           "higher_is_better": false,
           "coefficient": 0.6,
-          "description": "Full-covariance Frechet distance of consecutive-frame pairs in a fixed 32-dimensional RVQ-style codec latent space; no clipping."
+          "description": "Full-covariance Frechet distance of consecutive-frame pairs in a fixed 32-dimensional RVQ-style codec latent space; no clipping. A failed run receives the distance of uniform random tokens."
         },
         "speaker_conditioned_codec_fd": {
           "higher_is_better": false,
           "coefficient": 0.4,
-          "description": "Mean full-covariance codec Frechet distance per conditioning speaker; no clipping."
+          "description": "Mean full-covariance codec Frechet distance per conditioning speaker; no clipping. A failed run receives the distance of uniform random tokens."
         }
       },
       "results": {
@@ -344,17 +344,17 @@
         "dependency_validity": {
           "higher_is_better": true,
           "coefficient": 1.0,
-          "description": "Fraction of within-frame and temporal dependency checks satisfied. Separate feasibility requirements on each component, duplicate utterances, and artifact validity dominate ranking."
+          "description": "Fraction of within-frame and temporal dependency checks satisfied. A failed run (briefing/evaluation.md) receives 0 in both experiments."
         },
         "codec_fd": {
           "higher_is_better": false,
           "coefficient": 0.6,
-          "description": "Full-covariance Frechet distance of consecutive-frame pairs in a fixed 32-dimensional RVQ-style codec latent space; no clipping."
+          "description": "Full-covariance Frechet distance of consecutive-frame pairs in a fixed 32-dimensional RVQ-style codec latent space; no clipping. A failed run receives the distance of uniform random tokens."
         },
         "speaker_conditioned_codec_fd": {
           "higher_is_better": false,
           "coefficient": 0.4,
-          "description": "Mean full-covariance codec Frechet distance per conditioning speaker; no clipping."
+          "description": "Mean full-covariance codec Frechet distance per conditioning speaker; no clipping. A failed run receives the distance of uniform random tokens."
         }
       },
       "results": {

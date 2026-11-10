@@ -6,4 +6,4 @@ The fixed synthetic training and validation artifacts contain 8192 and 1024 utte
 
 Generate one new utterance for each of the 16384 speaker IDs in `data/synthetic_codec/test_conditions.pt`, at each of two fixed operating points: at most 12 primary sequential steps per utterance (2 frames per step), and at most 6 (4 frames per step). Computation within a primary step is unrestricted. The scientific question is how well quality can be preserved when the primary sequence model runs less often.
 
-Use the provided training data to learn the generator. Complete copies of visible utterances, evaluator-side reference generators, and false computation declarations are outside the task. See `scoring/CONSTRAINTS.md`.
+Use the provided training data to learn the generator. Copies or splices of visible utterances, hand-written or evaluator-side samplers of the data process, and false computation declarations are outside the task. See `scoring/CONSTRAINTS.md`.
