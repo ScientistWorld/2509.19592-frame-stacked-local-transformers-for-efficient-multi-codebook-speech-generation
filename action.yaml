@@ -2,7 +2,7 @@
 # Do NOT sleep, poll, or wait for jobs. The system reads this file
 # only after your turn ends.
 action: submit
-gpus: 1
+gpus: 0
 test: false
 milestone: core_claim_plus
-notes: "Last hardening check: verify prepare_fixtures reproduces committed fixtures; build validity-rule best-of-8 filter, rule-repair and three-piece splice shortcut cases (GPU sampling from saved reference weights); replay all ~46 saved cases through no-arg evaluate_test.sh and evaluate_train.sh; paired bootstrap; restore reference-only scores; validate. No training."
+notes: "Final replay after the memorization (visible-minus-control 4-frame window) check: fixture reproduction incl. new train control hashes; build 6/4/3-frame and partial splice cases (CPU); replay all ~54 saved cases through no-arg evaluate_test.sh and evaluate_train.sh; paired bootstrap; restore reference-only scores; validate. No training."

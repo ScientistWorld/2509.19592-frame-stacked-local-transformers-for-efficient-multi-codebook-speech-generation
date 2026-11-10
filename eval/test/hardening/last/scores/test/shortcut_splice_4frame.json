@@ -1,0 +1,40 @@
+{
+ "failures": {
+  "generator_2x": "0.275 excess of 4-frame windows shared with visible utterances over a fresh data-process sample (copied or spliced segments)",
+  "generator_4x": "0.274 excess of 4-frame windows shared with visible utterances over a fresh data-process sample (copied or spliced segments)"
+ },
+ "raw": {
+  "generator_2x": {
+   "coarse_transition_validity": 0.8096340298652649,
+   "codec_fd": 0.12702337457761814,
+   "copied_fraction": 0.0,
+   "dependency_validity": 0.9770763457133508,
+   "intra_frame_validity": 1.0,
+   "residual_persistence": 0.9183524250984192,
+   "speaker_conditioned_codec_fd": 0.5198123733533961,
+   "visible_window_excess": 0.2745942615327381
+  },
+  "generator_4x": {
+   "coarse_transition_validity": 0.810562789440155,
+   "codec_fd": 0.12356003389027137,
+   "copied_fraction": 0.0,
+   "dependency_validity": 0.9771881902405105,
+   "intra_frame_validity": 1.0,
+   "residual_persistence": 0.9189324378967285,
+   "speaker_conditioned_codec_fd": 0.4988514816716858,
+   "visible_window_excess": 0.27424548921130953
+  }
+ },
+ "results": {
+  "codec_stack2": {
+   "codec_fd": 2.036503630228708,
+   "dependency_validity": 0.0,
+   "speaker_conditioned_codec_fd": 2.4360888264512184
+  },
+  "codec_stack4": {
+   "codec_fd": 2.036503630228708,
+   "dependency_validity": 0.0,
+   "speaker_conditioned_codec_fd": 2.4360888264512184
+  }
+ }
+}

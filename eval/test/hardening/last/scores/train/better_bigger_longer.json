@@ -1,0 +1,40 @@
+{
+ "failures": {
+  "generator_2x": "0.669 of sequences repeat a 12-frame half of a visible utterance",
+  "generator_4x": "0.068 of sequences repeat a 12-frame half of a visible utterance"
+ },
+ "raw": {
+  "generator_2x": {
+   "coarse_transition_validity": 0.9895921945571899,
+   "codec_fd": 0.04818999334156615,
+   "copied_fraction": 0.6689453125,
+   "dependency_validity": 0.9869959966050392,
+   "intra_frame_validity": 0.9866405725479126,
+   "residual_persistence": 0.9522666931152344,
+   "speaker_conditioned_codec_fd": 0.491506475156406,
+   "visible_window_excess": 0.6547444661458334
+  },
+  "generator_4x": {
+   "coarse_transition_validity": 0.923488438129425,
+   "codec_fd": 0.15181510801471632,
+   "copied_fraction": 0.067626953125,
+   "dependency_validity": 0.9431107605939136,
+   "intra_frame_validity": 0.9457971453666687,
+   "residual_persistence": 0.8705508708953857,
+   "speaker_conditioned_codec_fd": 0.6093874568969113,
+   "visible_window_excess": 0.09688313802083333
+  }
+ },
+ "results": {
+  "codec_stack2": {
+   "codec_fd": 2.0367940778197067,
+   "dependency_validity": 0.0,
+   "speaker_conditioned_codec_fd": 2.4427078330090417
+  },
+  "codec_stack4": {
+   "codec_fd": 2.0367940778197067,
+   "dependency_validity": 0.0,
+   "speaker_conditioned_codec_fd": 2.4427078330090417
+  }
+ }
+}

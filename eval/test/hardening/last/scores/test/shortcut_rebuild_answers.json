@@ -1,0 +1,22 @@
+{
+ "failures": {
+  "generator_2x": "pred_tokens shape (0, 24, 8) != (16384, 24, 8)",
+  "generator_4x": "pred_tokens shape (0, 24, 8) != (16384, 24, 8)"
+ },
+ "raw": {
+  "generator_2x": null,
+  "generator_4x": null
+ },
+ "results": {
+  "codec_stack2": {
+   "codec_fd": 2.036503630228708,
+   "dependency_validity": 0.0,
+   "speaker_conditioned_codec_fd": 2.4360888264512184
+  },
+  "codec_stack4": {
+   "codec_fd": 2.036503630228708,
+   "dependency_validity": 0.0,
+   "speaker_conditioned_codec_fd": 2.4360888264512184
+  }
+ }
+}

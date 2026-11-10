@@ -1,0 +1,40 @@
+{
+ "failures": {
+  "generator_2x": "generated distribution is no closer to the reference than uniform random tokens",
+  "generator_4x": "generated distribution is no closer to the reference than uniform random tokens"
+ },
+ "raw": {
+  "generator_2x": {
+   "coarse_transition_validity": 1.0,
+   "codec_fd": 6.154634412026951,
+   "copied_fraction": 0.0,
+   "dependency_validity": 0.9970741471695026,
+   "intra_frame_validity": 0.996673583984375,
+   "residual_persistence": 0.9292985200881958,
+   "speaker_conditioned_codec_fd": 111.76151792754762,
+   "visible_window_excess": 0.005888439360119048
+  },
+  "generator_4x": {
+   "coarse_transition_validity": 0.981063187122345,
+   "codec_fd": 8.13375390631279,
+   "copied_fraction": 0.0,
+   "dependency_validity": 0.9713748312745419,
+   "intra_frame_validity": 0.9700484275817871,
+   "residual_persistence": 0.8793354034423828,
+   "speaker_conditioned_codec_fd": 114.59486480921926,
+   "visible_window_excess": -0.00021507626488095238
+  }
+ },
+ "results": {
+  "codec_stack2": {
+   "codec_fd": 2.036503630228708,
+   "dependency_validity": 0.0,
+   "speaker_conditioned_codec_fd": 2.4360888264512184
+  },
+  "codec_stack4": {
+   "codec_fd": 2.036503630228708,
+   "dependency_validity": 0.0,
+   "speaker_conditioned_codec_fd": 2.4360888264512184
+  }
+ }
+}
