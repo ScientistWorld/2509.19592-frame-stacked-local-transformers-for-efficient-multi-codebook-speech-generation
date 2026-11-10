@@ -1,0 +1,38 @@
+{
+ "failures": {
+  "generator_2x": "generated distribution is no closer to the reference than uniform random tokens",
+  "generator_4x": "generated distribution is no closer to the reference than uniform random tokens"
+ },
+ "raw": {
+  "generator_2x": {
+   "coarse_transition_validity": 1.0,
+   "codec_fd": 6.1028786947106255,
+   "copied_fraction": 0.0,
+   "dependency_validity": 0.9970358004744765,
+   "intra_frame_validity": 0.9966300129890442,
+   "residual_persistence": 0.9293971061706543,
+   "speaker_conditioned_codec_fd": 111.73536454049011
+  },
+  "generator_4x": {
+   "coarse_transition_validity": 0.9808933138847351,
+   "codec_fd": 8.130774210949085,
+   "copied_fraction": 0.0,
+   "dependency_validity": 0.971033545688809,
+   "intra_frame_validity": 0.9696837067604065,
+   "residual_persistence": 0.87842857837677,
+   "speaker_conditioned_codec_fd": 114.60446376069139
+  }
+ },
+ "results": {
+  "codec_stack2": {
+   "codec_fd": 2.0367940778197067,
+   "dependency_validity": 0.0,
+   "speaker_conditioned_codec_fd": 2.4427078330090843
+  },
+  "codec_stack4": {
+   "codec_fd": 2.0367940778197067,
+   "dependency_validity": 0.0,
+   "speaker_conditioned_codec_fd": 2.4427078330090843
+  }
+ }
+}

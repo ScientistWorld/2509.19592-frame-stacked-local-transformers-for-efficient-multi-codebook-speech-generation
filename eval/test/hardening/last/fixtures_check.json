@@ -1,0 +1,22 @@
+{
+ "_all_identical": false,
+ "eval/test/fixed/baseline_maskgit_2x.pt": true,
+ "eval/test/fixed/baseline_maskgit_4x.pt": true,
+ "eval/test/fixed/baseline_parallel_1x.pt": true,
+ "eval/test/fixed/baseline_parallel_2x.pt": true,
+ "eval/test/fixed/baseline_parallel_4x.pt": true,
+ "eval/test/fixed/data_hashes.json": true,
+ "eval/test/fixed/reference_predictions/generator_2x.pt": true,
+ "eval/test/fixed/reference_predictions/generator_4x.pt": true,
+ "eval/test/fixed/visible.pt": true,
+ "eval/train/fixed/baseline_maskgit_2x.pt": true,
+ "eval/train/fixed/baseline_maskgit_4x.pt": true,
+ "eval/train/fixed/baseline_parallel_1x.pt": true,
+ "eval/train/fixed/baseline_parallel_2x.pt": true,
+ "eval/train/fixed/baseline_parallel_4x.pt": true,
+ "eval/train/fixed/data_hashes.json": true,
+ "eval/train/fixed/reference_moments.pt": false,
+ "eval/train/fixed/reference_predictions/generator_2x.pt": true,
+ "eval/train/fixed/reference_predictions/generator_4x.pt": true,
+ "eval/train/fixed/visible.pt": true
+}

@@ -1,0 +1,22 @@
+{
+ "failures": {
+  "generator_2x": "unsupported artifact fields (submitted metrics and verdicts are not accepted)",
+  "generator_4x": "unsupported artifact fields (submitted metrics and verdicts are not accepted)"
+ },
+ "raw": {
+  "generator_2x": null,
+  "generator_4x": null
+ },
+ "results": {
+  "codec_stack2": {
+   "codec_fd": 2.0367940778197067,
+   "dependency_validity": 0.0,
+   "speaker_conditioned_codec_fd": 2.4427078330090843
+  },
+  "codec_stack4": {
+   "codec_fd": 2.0367940778197067,
+   "dependency_validity": 0.0,
+   "speaker_conditioned_codec_fd": 2.4427078330090843
+  }
+ }
+}

@@ -1,0 +1,35 @@
+{
+ "failures": {},
+ "raw": {
+  "generator_2x": {
+   "coarse_transition_validity": 0.98924720287323,
+   "codec_fd": 0.2950124153731508,
+   "copied_fraction": 0.0,
+   "dependency_validity": 0.9830424523478403,
+   "intra_frame_validity": 0.9821929931640625,
+   "residual_persistence": 0.8831984400749207,
+   "speaker_conditioned_codec_fd": 0.5669487418344197
+  },
+  "generator_4x": {
+   "coarse_transition_validity": 0.9824855923652649,
+   "codec_fd": 0.29769087435937536,
+   "copied_fraction": 0.0,
+   "dependency_validity": 0.9339669911649214,
+   "intra_frame_validity": 0.9273245930671692,
+   "residual_persistence": 0.7941818833351135,
+   "speaker_conditioned_codec_fd": 0.5876788050921711
+  }
+ },
+ "results": {
+  "codec_stack2": {
+   "codec_fd": 0.2950124153731508,
+   "dependency_validity": 0.9830424523478403,
+   "speaker_conditioned_codec_fd": 0.5669487418344197
+  },
+  "codec_stack4": {
+   "codec_fd": 0.29769087435937536,
+   "dependency_validity": 0.9339669911649214,
+   "speaker_conditioned_codec_fd": 0.5876788050921711
+  }
+ }
+}
