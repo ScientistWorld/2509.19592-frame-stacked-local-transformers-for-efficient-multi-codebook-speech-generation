@@ -1,4 +1,8 @@
-action: submit
-gpus: 1
+# Once you set action to 'submit' or 'done', STOP immediately.
+# Do NOT sleep, poll, or wait for jobs. The system reads this file
+# only after your turn ends.
+action: pending
+gpus: 0
 test: false
-notes: "Final hardening check (one job): train the 20k-step variant at reference seeds 17/27, cosine-LR variants (10k and 20k) at seeds 7/17/27 and the train-on-formerly-public-references shortcut; replay every saved case through the no-argument hidden test before (205a717) and after the fixes; paired bootstrap; restore reference-only scores; validate.py."
+milestone: core_claim_plus
+notes: ""
