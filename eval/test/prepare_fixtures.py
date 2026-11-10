@@ -4,16 +4,35 @@
 Public train fixtures hold the canonical visible data (train + validation
 splits), frozen sufficient statistics of the train slice's reference sample
 (never its utterances, which would be extra true-process training data), and
-comparison/reference outputs with every test-slice row redacted. The hidden
-test's fixtures additionally hold the train-slice reference utterances in its
-copy-check set.
+comparison/reference outputs with every test-slice row redacted, and 64-bit
+hashes of the 4-frame windows of a fresh data-process sample with the
+train/validation speaker composition (the train evaluator's memorization
+control; its seed stays here). The hidden test's fixtures additionally hold the
+train-slice reference utterances in its copy-check set; it draws its own
+control sample at evaluation time.
 """
+from array import array
 from pathlib import Path
 import hashlib
 import json
+import sys
 import torch
 from eval.test import evaluate as test
 from eval.test import build_data as data
+
+
+TRAIN_CONTROL_SEED = 31_415_927
+EXCESS_WINDOW = 4
+
+
+def write_train_control(fixed):
+    speakers = torch.cat([data.make_split(n, 24, 8, 32, 16, seed)['speaker'] for n, seed in test.VISIBLE_SPLITS])
+    control = test.sample_tokens(speakers, TRAIN_CONTROL_SEED).to(torch.uint8).contiguous().numpy()
+    keys = {bytes([s]) + row[s:s + EXCESS_WINDOW].tobytes() for row in control for s in range(24 - EXCESS_WINDOW + 1)}
+    hashes = array('q', sorted(int.from_bytes(hashlib.blake2b(k, digest_size=8).digest(), 'little', signed=True) for k in keys))
+    if sys.byteorder != 'little':
+        hashes.byteswap()
+    (fixed / 'control_windows.bin').write_bytes(hashes.tobytes())
 
 
 def main():
@@ -35,6 +54,7 @@ def main():
                         'note': 'float64 sufficient statistics of 64-d consecutive-frame codec latents; index 16 is global'},
                        fixed / 'reference_moments.pt')
             (fixed / 'reference.pt').unlink(missing_ok=True)
+            write_train_control(fixed)
         for name in test.FIXED_ROWS:
             item = torch.load(Path('checkpoints/predictions') / f'{name}.pt', map_location='cpu', weights_only=True)
             tokens = item['pred_tokens'].to(torch.uint8).clone()

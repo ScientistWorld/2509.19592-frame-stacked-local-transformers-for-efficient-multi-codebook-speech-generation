@@ -1,0 +1,35 @@
+{
+  "failures": {
+    "generator_2x": "declared stack factor 0 does not match the fixed 12-step budget of this row",
+    "generator_4x": "declared stack factor 0 does not match the fixed 6-step budget of this row"
+  },
+  "ranking": {
+    "attempts": {
+      "current": {
+        "contributions": {
+          "codec_stack2/generator_2x/codec_fd": -0.48,
+          "codec_stack2/generator_2x/dependency_validity": -0.8,
+          "codec_stack2/generator_2x/speaker_conditioned_codec_fd": -0.32000000000000006,
+          "codec_stack4/generator_4x/codec_fd": -0.72,
+          "codec_stack4/generator_4x/dependency_validity": -1.2,
+          "codec_stack4/generator_4x/speaker_conditioned_codec_fd": -0.48
+        },
+        "feasible": false,
+        "improvement": -3.9999999999999996
+      }
+    },
+    "order": [
+      "current"
+    ],
+    "sort_key": "(feasible, improvement), descending; a failed run never outranks a feasible run",
+    "standard_deviations": {
+      "codec_stack2/generator_2x/codec_fd": 0.925634712247529,
+      "codec_stack2/generator_2x/dependency_validity": 0.4868700916230366,
+      "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 0.9633756782734686,
+      "codec_stack4/generator_4x/codec_fd": 0.878940704835685,
+      "codec_stack4/generator_4x/dependency_validity": 0.4664271489487893,
+      "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 0.9121227551735185
+    }
+  },
+  "slice": "train"
+}

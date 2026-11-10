@@ -1,0 +1,35 @@
+{
+  "failures": {
+    "generator_2x": "generated distribution is no closer to the reference than uniform random tokens",
+    "generator_4x": "generated distribution is no closer to the reference than uniform random tokens"
+  },
+  "ranking": {
+    "attempts": {
+      "current": {
+        "contributions": {
+          "codec_stack2/generator_2x/codec_fd": -0.48,
+          "codec_stack2/generator_2x/dependency_validity": -0.8,
+          "codec_stack2/generator_2x/speaker_conditioned_codec_fd": -0.32000000000000006,
+          "codec_stack4/generator_4x/codec_fd": -0.7199999999999999,
+          "codec_stack4/generator_4x/dependency_validity": -1.2,
+          "codec_stack4/generator_4x/speaker_conditioned_codec_fd": -0.48
+        },
+        "feasible": false,
+        "improvement": -3.9999999999999996
+      }
+    },
+    "order": [
+      "current"
+    ],
+    "sort_key": "(feasible, improvement), descending; a failed run never outranks a feasible run",
+    "standard_deviations": {
+      "codec_stack2/generator_2x/codec_fd": 0.9257633068903033,
+      "codec_stack2/generator_2x/dependency_validity": 0.48714554871564136,
+      "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 0.96671493893062,
+      "codec_stack4/generator_4x/codec_fd": 0.8842090345801239,
+      "codec_stack4/generator_4x/dependency_validity": 0.4665086356757199,
+      "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 0.916603708909955
+    }
+  },
+  "slice": "test"
+}

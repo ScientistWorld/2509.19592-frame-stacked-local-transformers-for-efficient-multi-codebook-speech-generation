@@ -9,10 +9,12 @@ the other half against hidden reference utterances. Method artifacts
 contribute generated tokens only.
 """
 import argparse
+import array
 import hashlib
 import json
 import math
 import re
+import sys
 from pathlib import Path
 
 import torch
@@ -28,6 +30,12 @@ EMBED_SEED = 4242
 # validation splits. Copying them is not generation.
 COPY_WINDOW = SEQ_LEN // 2  # aligned 12-frame halves, all 8 codebooks
 MAX_COPIED_FRACTION = 0.01
+# Memorization test: 4-frame windows (all codebooks, same frame position)
+# shared with the visible train/validation utterances, minus those shared with
+# an equally composed fresh sample of the data process. The fresh sample is
+# public only as 64-bit hashes of its windows (fixed/control_windows.bin).
+EXCESS_WINDOW = 4
+MAX_WINDOW_EXCESS = 0.05
 VALIDITY_THRESHOLD = 0.5
 COARSE_THRESHOLD = 0.5
 INTRA_THRESHOLD = 0.5
@@ -147,6 +155,39 @@ def build_visible_windows():
     return window_set(item['tokens'].reshape(-1, SEQ_LEN, NUM_CODEBOOKS))
 
 
+def hashed_windows(tokens):
+    """Per utterance, 64-bit hashes of every 4-frame window keyed by its start frame."""
+    t = tokens.to(torch.uint8).contiguous().numpy()
+    return [[int.from_bytes(hashlib.blake2b(bytes([s]) + row[s:s + EXCESS_WINDOW].tobytes(), digest_size=8).digest(),
+                            'little', signed=True) for s in range(SEQ_LEN - EXCESS_WINDOW + 1)] for row in t]
+
+
+_EXCESS_SETS = {}
+
+
+def excess_sets():
+    if not _EXCESS_SETS:
+        item = torch.load(FIXED_DIR / 'visible.pt', map_location='cpu', weights_only=True)
+        _EXCESS_SETS['visible'] = {h for row in hashed_windows(item['tokens'].reshape(-1, SEQ_LEN, NUM_CODEBOOKS)) for h in row}
+        control = array.array('q')
+        control.frombytes((FIXED_DIR / 'control_windows.bin').read_bytes())
+        if sys.byteorder != 'little':
+            control.byteswap()
+        _EXCESS_SETS['control'] = set(control)
+    return _EXCESS_SETS['visible'], _EXCESS_SETS['control']
+
+
+def window_excess(tokens):
+    """Mean over utterances of the fraction of 4-frame windows found at the same
+    position in a visible utterance, minus that fraction for the fresh control
+    sample. Independent learned samples sit near 0; copied or spliced visible
+    segments of 4 or more frames give 0.27 or more."""
+    visible, control = excess_sets()
+    rows = hashed_windows(tokens)
+    hits = sum((h in visible) - (h in control) for row in rows for h in row)
+    return hits / (len(rows) * (SEQ_LEN - EXCESS_WINDOW + 1))
+
+
 # --------------------------------------------------------------------- scoring
 def operating_point(name):
     match = re.search(r"_(\d+)x$", name)
@@ -193,11 +234,15 @@ def score_tokens(tokens, speakers, ref_moments, caps, visible_windows):
     raw = validity_parts(tokens, speakers)
     raw['codec_fd'], raw['speaker_conditioned_codec_fd'] = distribution_metrics(tokens, speakers, ref_moments)
     raw['copied_fraction'] = copied_fraction(tokens, visible_windows)
+    raw['visible_window_excess'] = window_excess(tokens)
     failure = None
     if any(not math.isfinite(v) for v in raw.values()):
         failure = 'nonfinite metric'
     elif raw['copied_fraction'] > MAX_COPIED_FRACTION:
         failure = f"{raw['copied_fraction']:.3f} of sequences repeat a 12-frame half of a visible utterance"
+    elif raw['visible_window_excess'] > MAX_WINDOW_EXCESS:
+        failure = (f"{raw['visible_window_excess']:.3f} excess of 4-frame windows shared with visible utterances "
+                   'over a fresh data-process sample (copied or spliced segments)')
     elif raw['dependency_validity'] < VALIDITY_THRESHOLD:
         failure = f"dependency_validity {raw['dependency_validity']:.3f} < {VALIDITY_THRESHOLD}"
     elif raw['coarse_transition_validity'] < COARSE_THRESHOLD:
@@ -332,6 +377,7 @@ def main():
     output = evaluate_directory(pred_dir, rows, speakers, ref_moments, caps, visible_windows)
     output['_metadata'] = {'slice': SLICE, 'num_examples': int(rows.numel()),
                            'references_per_row': REFERENCES_PER_ROW, 'validity_threshold': VALIDITY_THRESHOLD,
+                           'max_copied_half_fraction': MAX_COPIED_FRACTION, 'max_window_excess': MAX_WINDOW_EXCESS,
                            'method_source': str(pred_dir),
                            'failed_run_values': {'dependency_validity': 0.0, **caps},
                            'failed_run_values_note': 'worst value of each scored metric; distances equal those of uniform random tokens, '

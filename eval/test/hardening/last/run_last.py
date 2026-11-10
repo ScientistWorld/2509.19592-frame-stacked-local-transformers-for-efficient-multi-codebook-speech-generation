@@ -17,7 +17,10 @@ Phases:
              from the public rule, keeping the model's own style bits;
            - shortcut_splice_thirds: three same-speaker training utterances
              spliced at frames 8 and 16, so no piece covers a whole aligned
-             12-frame half.
+             12-frame half; shortcut_splice_{6,4,3}frame: the same with
+             shorter pieces; shortcut_splice_partial: the reference outputs
+             with 6% of rows replaced by 8-frame splices (sized to stay under
+             the 4-frame-window memorization threshold).
   replay   Every saved case (reference, learned variants, seed controls,
            shortcuts) is staged into checkpoints/predictions and scored by the
            no-argument entry points `scripts/evaluate_test.sh` and
@@ -81,21 +84,29 @@ def built(case):
 
 
 # ------------------------------------------------------------------ fixtures
-def equal(a, b):
+def equal(a, b, atol=0.0):
     if torch.is_tensor(a) or torch.is_tensor(b):
-        return bool(torch.is_tensor(a) and torch.is_tensor(b) and a.dtype == b.dtype and a.shape == b.shape and torch.equal(a, b))
+        if not (torch.is_tensor(a) and torch.is_tensor(b) and a.dtype == b.dtype and a.shape == b.shape):
+            return False
+        if atol and a.dtype.is_floating_point:
+            return bool(torch.allclose(a, b, rtol=0.0, atol=atol))
+        return bool(torch.equal(a, b))
     if isinstance(a, dict):
-        return isinstance(b, dict) and a.keys() == b.keys() and all(equal(a[k], b[k]) for k in a)
+        return isinstance(b, dict) and a.keys() == b.keys() and all(equal(a[k], b[k], atol) for k in a)
     if isinstance(a, (list, tuple)):
-        return type(a) is type(b) and len(a) == len(b) and all(equal(x, y) for x, y in zip(a, b))
+        return type(a) is type(b) and len(a) == len(b) and all(equal(x, y, atol) for x, y in zip(a, b))
     return a == b
 
 
 def same_file(old, new):
+    """True if identical; 'float64 within 1e-12' if only float accumulation
+    order differs (thread count); False otherwise."""
     if not new.is_file():
         return False
     if old.suffix == '.pt':
-        return equal(torch.load(old, map_location='cpu', weights_only=True), torch.load(new, map_location='cpu', weights_only=True))
+        a = torch.load(old, map_location='cpu', weights_only=True)
+        b = torch.load(new, map_location='cpu', weights_only=True)
+        return True if equal(a, b) else ('float64 within 1e-12' if equal(a, b, 1e-12) else False)
     return old.read_bytes() == new.read_bytes()
 
 
@@ -130,8 +141,9 @@ def fixtures():
             shutil.copytree(saved / split, ROOT / f'eval/{split}/fixed')
         shutil.rmtree(saved)
     report['_all_identical'] = all(v is True for k, v in report.items() if not k.startswith('_'))
+    report['_all_reproduced'] = all(v in (True, 'float64 within 1e-12') for k, v in report.items() if not k.startswith('_'))
     target.write_text(json.dumps(report, indent=1, sort_keys=True) + '\n')
-    print(f"fixtures reproduced identically: {report['_all_identical']}", flush=True)
+    print(f"fixtures reproduced: {report['_all_reproduced']} (bitwise: {report['_all_identical']})", flush=True)
 
 
 # --------------------------------------------------------------------- build
@@ -201,7 +213,9 @@ def rule_repair(tokens, speakers):
     return out
 
 
-def splice_thirds(seed):
+def splice(seed, piece=8):
+    """Each row: consecutive `piece`-frame segments copied, at their own frame
+    positions, from independently drawn same-speaker training utterances."""
     train = torch.load(ROOT / 'data/synthetic_codec/train.pt', weights_only=True)
     tok, spk = train['tokens'].long(), train['speaker'].long()
     speakers = conditions()
@@ -211,8 +225,18 @@ def splice_thirds(seed):
     def pick():
         return torch.stack([by_speaker[s][torch.randint(len(by_speaker[s]), (1,), generator=g)].squeeze()
                             for s in speakers.tolist()])
-    a, b, c = tok[pick()], tok[pick()], tok[pick()]
-    return torch.cat([a[:, :8], b[:, 8:16], c[:, 16:]], dim=1)
+    return torch.cat([tok[pick()][:, start:start + piece] for start in range(0, T, piece)], dim=1)
+
+
+def splice_thirds(seed):
+    return splice(seed, 8)
+
+
+def splice_partial(stack, seed, fraction=0.06):
+    out = reference_tokens(stack).clone()
+    chosen = torch.randperm(N, generator=torch.Generator().manual_seed(seed))[:int(fraction * N)]
+    out[chosen] = splice(seed + 1, 8)[chosen]
+    return out
 
 
 def build():
@@ -225,6 +249,11 @@ def build():
         save('shortcut_rule_repair', {s: rule_repair(reference_tokens(s), speakers) for s in STACKS})
     if not built('shortcut_splice_thirds'):
         save('shortcut_splice_thirds', {2: splice_thirds(41), 4: splice_thirds(43)})
+    for piece in (6, 4, 3):
+        if not built(f'shortcut_splice_{piece}frame'):
+            save(f'shortcut_splice_{piece}frame', {2: splice(50 + piece, piece), 4: splice(60 + piece, piece)})
+    if not built('shortcut_splice_partial'):
+        save('shortcut_splice_partial', {2: splice_partial(2, 71), 4: splice_partial(4, 73)})
 
 
 # -------------------------------------------------------------------- replay

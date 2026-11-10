@@ -31,6 +31,13 @@ VISIBLE_SPLITS = ((8192, 1001), (1024, 1002))
 TRAIN_SLICE_REFERENCE_SEED = 20_250_919
 COPY_WINDOW = SEQ_LEN // 2  # aligned 12-frame halves, all 8 codebooks
 MAX_COPIED_FRACTION = 0.01
+# Memorization test: 4-frame windows (all codebooks, same frame position)
+# shared with the visible utterances, minus those shared with a fresh sample
+# of the data process with the same speaker composition (hidden seed). Its
+# expectation is 0 for any generator that does not reproduce visible segments.
+EXCESS_WINDOW = 4
+MAX_WINDOW_EXCESS = 0.05
+CONTROL_SEED = 61_803_398
 VALIDITY_THRESHOLD = 0.5
 COARSE_THRESHOLD = 0.5
 INTRA_THRESHOLD = 0.5
@@ -186,6 +193,50 @@ def build_visible_windows():
     return window_set(item['tokens'].reshape(-1, SEQ_LEN, NUM_CODEBOOKS))
 
 
+def visible_speakers():
+    """Speakers of fixed/visible.pt in order: train split, validation split,
+    then the train slice's four reference utterances per conditioning row."""
+    parts = [torch.randint(NUM_SPEAKERS, (num,), generator=torch.Generator().manual_seed(seed + 7919))
+             for num, seed in VISIBLE_SPLITS]
+    order = torch.randperm(NUM_CONDITIONS, generator=torch.Generator().manual_seed(PARTITION_SEED))
+    parts.append(conditions()[order[:NUM_CONDITIONS // 2].sort().values].repeat_interleave(REFERENCES_PER_ROW))
+    return torch.cat(parts)
+
+
+def sliding_keys(tokens):
+    """Per utterance, byte keys of every EXCESS_WINDOW-frame window with its start frame."""
+    t = tokens.to(torch.uint8).contiguous().numpy()
+    return [[bytes([s]) + row[s:s + EXCESS_WINDOW].tobytes() for s in range(SEQ_LEN - EXCESS_WINDOW + 1)] for row in t]
+
+
+_EXCESS_SETS = {}
+
+
+def excess_sets():
+    if not _EXCESS_SETS:
+        item = torch.load(FIXED_DIR / 'visible.pt', map_location='cpu', weights_only=True)
+        visible = item['tokens'].reshape(-1, SEQ_LEN, NUM_CODEBOOKS)
+        speakers = visible_speakers()
+        if len(speakers) != len(visible):
+            raise RuntimeError('visible fixture does not match its speaker composition')
+        control = sample_tokens(speakers, CONTROL_SEED)
+        _EXCESS_SETS['visible'] = {k for keys in sliding_keys(visible) for k in keys}
+        _EXCESS_SETS['control'] = {k for keys in sliding_keys(control) for k in keys}
+    return _EXCESS_SETS['visible'], _EXCESS_SETS['control']
+
+
+def window_excess(tokens):
+    """Mean over utterances of the fraction of 4-frame windows found at the same
+    position in a visible utterance, minus the same fraction for an equally
+    composed fresh sample of the data process. Independent learned samples sit
+    near 0 (reference and learned variants: at most 0.012); spliced or copied
+    visible segments of 4 or more frames give 0.27 or more."""
+    visible, control = excess_sets()
+    keys = sliding_keys(tokens)
+    hits = sum((k in visible) - (k in control) for row in keys for k in row)
+    return hits / (len(keys) * (SEQ_LEN - EXCESS_WINDOW + 1))
+
+
 # --------------------------------------------------------------------- scoring
 def operating_point(name):
     if name in FIXED_ROWS:
@@ -234,11 +285,15 @@ def score_tokens(tokens, speakers, ref_moments, caps, visible_windows):
     raw = validity_parts(tokens, speakers)
     raw['codec_fd'], raw['speaker_conditioned_codec_fd'] = distribution_metrics(tokens, speakers, ref_moments)
     raw['copied_fraction'] = copied_fraction(tokens, visible_windows)
+    raw['visible_window_excess'] = window_excess(tokens)
     failure = None
     if any(not math.isfinite(v) for v in raw.values()):
         failure = 'nonfinite metric'
     elif raw['copied_fraction'] > MAX_COPIED_FRACTION:
         failure = f"{raw['copied_fraction']:.3f} of sequences repeat a 12-frame half of a visible utterance"
+    elif raw['visible_window_excess'] > MAX_WINDOW_EXCESS:
+        failure = (f"{raw['visible_window_excess']:.3f} excess of 4-frame windows shared with visible utterances "
+                   'over a fresh data-process sample (copied or spliced segments)')
     elif raw['dependency_validity'] < VALIDITY_THRESHOLD:
         failure = f"dependency_validity {raw['dependency_validity']:.3f} < {VALIDITY_THRESHOLD}"
     elif raw['coarse_transition_validity'] < COARSE_THRESHOLD:
@@ -370,6 +425,7 @@ def main():
     output = evaluate_directory(pred_dir, rows, speakers, ref_moments, caps, visible_windows)
     output['_metadata'] = {'slice': SLICE, 'num_examples': int(rows.numel()),
                            'references_per_row': REFERENCES_PER_ROW, 'validity_threshold': VALIDITY_THRESHOLD,
+                           'max_copied_half_fraction': MAX_COPIED_FRACTION, 'max_window_excess': MAX_WINDOW_EXCESS,
                            'method_source': str(pred_dir),
                            'failed_run_values': {'dependency_validity': 0.0, **caps},
                            'failed_run_values_note': 'worst value of each scored metric; distances equal those of uniform random tokens, '

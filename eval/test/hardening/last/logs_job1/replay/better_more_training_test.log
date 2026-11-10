@@ -1,0 +1,32 @@
+{
+  "failures": {},
+  "ranking": {
+    "attempts": {
+      "current": {
+        "contributions": {
+          "codec_stack2/generator_2x/codec_fd": 0.48,
+          "codec_stack2/generator_2x/dependency_validity": 0.8,
+          "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 0.32000000000000006,
+          "codec_stack4/generator_4x/codec_fd": 0.72,
+          "codec_stack4/generator_4x/dependency_validity": 1.2,
+          "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 0.48
+        },
+        "feasible": true,
+        "improvement": 3.9999999999999996
+      }
+    },
+    "order": [
+      "current"
+    ],
+    "sort_key": "(feasible, improvement), descending; a failed run never outranks a feasible run",
+    "standard_deviations": {
+      "codec_stack2/generator_2x/codec_fd": 0.014018283935570253,
+      "codec_stack2/generator_2x/dependency_validity": 0.0013005920729712295,
+      "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 0.012939640510706951,
+      "codec_stack4/generator_4x/codec_fd": 0.03828256570741928,
+      "codec_stack4/generator_4x/dependency_validity": 0.008344560393488243,
+      "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 0.052014917896684665
+    }
+  },
+  "slice": "test"
+}
