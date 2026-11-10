@@ -17,3 +17,5 @@
 - [x] Valid learned headroom exceeds measured seed variation
 - [x] Changed shortcut families replayed in one bundled verification job
 - [x] Reference-only scores regenerated; limitations documented in HARDENING.md
+- [x] Memorization (visible-minus-control window) check added; remaining shortcut families measured and documented
+- [x] End-to-end run.sh restored; final replay and validation passed

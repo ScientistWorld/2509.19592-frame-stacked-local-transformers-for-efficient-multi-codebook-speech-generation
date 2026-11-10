@@ -52,3 +52,10 @@
 - A feasible 20k-step variant beats the 10k reference by +0.047042, paired 95% interval [+0.041183, +0.058011], above measured seed variation. No scored reference metric is at its bound.
 - Replayed shortcuts fail; ranking now uses feasibility precedence and coefficient-weighted, cohort-standardized improvements from raw outputs. `python validate.py --post-design` passes; reference-only score artifacts are restored.
 - Milestone remains `core_claim_plus`: full MaskGIT and real-audio claims are not reproduced, and inferred analytic samplers, partial splicing and false compute claims remain limitations. See `HARDENING.md` and `VERIFICATION.md` for the current protocol and evidence.
+
+## 2026-11-10 — final hardening (claude-opus-5.5, last iteration)
+
+- Replayed all saved cases. The analytic sampler, rule repair, best-of-8 filtering and 2x-as-4x shortcuts pay, but tokens cannot reveal them, so they are left to the shortcut review.
+- A naive three-piece training splice paid +0.271 by evading the aligned-half copy rule. Both evaluators now fail runs whose 4-frame windows match visible utterances more often than a fresh data-process sample (excess > 0.05). Honest outputs stay at or below 0.012, and splices of 4-frame or longer pieces reach 0.27 or more.
+- Final cohort: the 20k cosine-LR variant scores +0.247 [+0.229, +0.266] and the reference 0. The reference is at no bound.
+- `scripts/run.sh` is restored to the end-to-end reproduction. Fixture packaging reproduces the committed fixtures.

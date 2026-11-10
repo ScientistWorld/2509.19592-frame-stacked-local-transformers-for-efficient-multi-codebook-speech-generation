@@ -18,6 +18,7 @@ A run fails if any of the following holds:
 
 - either required artifact is missing or malformed, contains invalid IDs or contradictory dimensions, or claims a different operating point;
 - more than 1% of scored utterances repeat an aligned 12-frame half (frames 0–11 or 12–23, all codebooks) of a frozen visible utterance. This covers complete copies, copies with local edits, and spliced halves; independently learned samples essentially never repeat a half;
+- the scored utterances share 4-frame windows (all codebooks, same frame positions) with the frozen visible utterances more often than with a fresh sample of the data process of the same size and speaker composition, by more than 0.05 of all windows (`visible_window_excess`). For a generator that does not reproduce visible segments this excess has expectation 0; the reference and every tested learned variant stay at or below 0.012, while copies, memorized utterances and splices of visible segments of 4 or more frames reach 0.27 or more. The test draws its control sample at evaluation time; the train evaluator holds only 64-bit hashes of its control windows;
 - more than 1% of one operating point's scored utterances repeat a 12-frame half found in any row of the other operating point's file. The two rows must be separate samples;
 - total dependency validity, within-frame validity, or temporal validity is below 0.5;
 - either distance is not below that of uniform random tokens;

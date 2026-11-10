@@ -1,13 +1,23 @@
 # Progress
 
-Current milestone: **core_claim_plus**, final hardening verified on 2026-11-09. The current evidence is [HARDENING.md](HARDENING.md) and [VERIFICATION.md](VERIFICATION.md); older stages are recorded in [MILESTONES.md](MILESTONES.md).
+Current milestone: **core_claim_plus**, final hardening verified on 2026-11-10. The current evidence is in [HARDENING.md](HARDENING.md) and [VERIFICATION.md](VERIFICATION.md). Older stages are recorded in [MILESTONES.md](MILESTONES.md).
 
-The paper's AR local-transformer mechanism is reproduced at reduced synthetic scale with slot-specific shared embeddings, averaged previous-stack inputs, free-running generation and matched-depth parallel comparisons. The final training data include temporal structure and persistent speaker-conditioned styles. The reference and comparisons were trained on these data before the final evaluator-only patch batch. That batch regenerated all outputs from saved weights for the enlarged paired evaluation rather than retraining.
+The paper's AR local-transformer claim is reproduced at reduced synthetic scale, in the paper's direction:
+- AR LT beats parallel prediction at 1x/2x/4x on dependency validity, codec-latent FD, and speaker-conditioned FD;
+- its quality degrades from 2x to 4x.
 
-Job `c0959cf3-667` exited 0 and passed `python validate.py --post-design`. The reference beats parallel comparisons on all scored measurements at 2x and 4x. A valid longer-trained variant improves all six scored cells and scores +0.047042 above the reference; its paired 95% interval [+0.041183, +0.058011] excludes zero and exceeds observed seed ranges. Weaker controls lose. No scored reference metric is saturated.
+The MaskGIT claim is not reproduced, and neither are real-speech metrics.
 
-Test answers, their generator, old shortcut outputs and test seeds are restricted to `eval/test/`. Public `data/generate_synthetic.py` creates only conditioning inputs; original training and validation tensors are tracked. Independent train/test evaluators freeze the comparison outputs, references, dimensions, operating points and thresholds. They recompute all measurements from raw tokens, fail invalid artifacts, and rank failed runs below feasible ones before adding standardized, direction-aware metric improvements. All replayed shortcut cases fail. Final score files contain reference runs alone; audit outputs are under `eval/test/hardening/`.
+The final replay job `9bb82593-d9d` exited 0 and passed `python validate.py --post-design`:
+- **Better variants score higher.** The same model trained 20k steps with cosine LR decay gains +0.247 over the reference (paired 95% interval [+0.229, +0.266]). Its worst training seed (+0.146) is above the best reference retraining (+0.041).
+- **Weaker variants fail.** Weaker training, no local transformer, argmax decoding, and memorizing larger models all fail.
+- **REDTEAM shortcuts fail.** Every shortcut REDTEAM.md reported fails.
+- **New fix this iteration.** A memorization check (4-frame windows shared with visible utterances, minus those shared with a fresh data-process sample, at most 0.05) closes splices of visible training segments of 4 or more frames. The three-piece splice scored +0.271 before this fix.
 
-The complete MaskGIT claim and real-speech evaluation remain unreproduced. Analytic inference of the synthetic distribution, partial splicing and false compute declarations cannot all be rejected from saved tensors and remain subject to the separate shortcut review. These limitations prevent a claim of universal scientific ordering.
+Four shortcut families still pay and are left to the shortcut review; see HARDENING.md section 4:
+- hand-written samplers of the data process;
+- repair or filtering with the public validity rule;
+- false 4x compute declarations;
+- 3-frame or sub-threshold partial splices.
 
-`scripts/run.sh` reproduces reference and comparison training, outputs, fixtures, both evaluations and structural validation. The paper's reported metrics remain unchanged under `_paper_reported` in `scoring/reference.json`. The container builds from `environment/`; no committed executable code references `shared/`.
+`scripts/run.sh` reproduces reference and comparison training, predictions, fixtures, both evaluations and validation, end to end. Score files contain the reference run alone.
