@@ -1,16 +1,12 @@
 #!/usr/bin/env bash
-# End-to-end reference reproduction: train the AR local-transformer reference
-# (2x and 4x frame stacking) and the comparison models (parallel heads at
-# 1x/2x/4x, MaskGIT local transformer at 2x/4x), write their predictions,
-# freeze the evaluator fixtures from them, score both slices and validate.
-# The hardening evidence is replayed by eval/test/hardening/last/run_last.py.
+# Rebuild job (this iteration's single check job): retrain the reference and
+# comparison models on the hidden-process data from the final code, freeze the
+# evaluator fixtures, train the learned variants, build the shortcut cases,
+# score every case through scripts/evaluate_{test,train}.sh, write the
+# summary, restore reference-only scores and validate. Resumable.
+# After the job this file is restored to the end-to-end reference reproduction.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 export OMP_NUM_THREADS="${OMP_NUM_THREADS:-1}"
 export MKL_NUM_THREADS="${MKL_NUM_THREADS:-1}"
-bash scripts/reproduce.sh
-python -m eval.test.prepare_fixtures
-bash scripts/evaluate_train.sh
-cp scoring/scores_train.json scoring/scores.json
-bash scripts/evaluate_test.sh
-python validate.py --post-design
+python eval/test/hardening/rebuild/run_rebuild.py

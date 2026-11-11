@@ -291,90 +291,90 @@
     "codec_stack2": {
       "description": "Synthetic multi-codebook codec generation at the 2x frame-stacking operating point (at most 12 primary decoder steps per 24-frame utterance), the paper's recommended speed/quality balance. Proposed row `generator_2x`; comparison rows are frozen by the hidden evaluator (independent parallel heads at 1x and 2x, MaskGIT local transformer at 2x). Values in `results` are from this gym's reference run on the hidden test, not paper numbers.",
       "weight": 0.4,
-      "primary_metric": "dependency_validity",
+      "primary_metric": "codec_fd",
       "metrics": {
-        "dependency_validity": {
-          "higher_is_better": true,
-          "coefficient": 1.0,
-          "description": "Fraction of within-frame and temporal dependency checks satisfied. A failed run (briefing/evaluation.md) receives 0 in both experiments."
-        },
         "codec_fd": {
           "higher_is_better": false,
-          "coefficient": 0.6,
-          "description": "Full-covariance Frechet distance of consecutive-frame pairs in a fixed 32-dimensional RVQ-style codec latent space; no clipping. A failed run receives the distance of uniform random tokens."
+          "coefficient": 1.0,
+          "description": "The paper's Frechet distance in the codec's embedding space: full-covariance FD between generated and reference consecutive-frame pairs of the public 24-d FSQ codec latent (48 dimensions per pair); no clipping. A failed run receives the distance of uniform random tokens."
+        },
+        "codebook_pair_divergence": {
+          "higher_is_better": false,
+          "coefficient": 0.8,
+          "description": "Implausible codebook combinations, measured without a moment assumption: mean Jensen-Shannon divergence (bits) between generated and reference joint token distributions over the 28 within-frame codebook pairs and the 64 (frame t, frame t+1) codebook pairs. A failed run receives the divergence of uniform random tokens."
         },
         "speaker_conditioned_codec_fd": {
           "higher_is_better": false,
-          "coefficient": 0.4,
-          "description": "Mean full-covariance codec Frechet distance per conditioning speaker; no clipping. A failed run receives the distance of uniform random tokens."
+          "coefficient": 0.6,
+          "description": "Speaker-similarity analogue: the codec FD computed separately for each of the 16 conditioning speakers and averaged; no clipping. A failed run receives the distance of uniform random tokens."
         }
       },
       "results": {
         "generator_2x": {
           "type": "proposed",
-          "dependency_validity": 0.9742910974312827,
-          "codec_fd": 0.1849770164481015,
-          "speaker_conditioned_codec_fd": 0.5026589485900139
+          "codec_fd": 0.0049192474235759676,
+          "codebook_pair_divergence": 0.0017726660680927584,
+          "speaker_conditioned_codec_fd": 0.047490893781123145
         },
         "baseline_parallel_1x": {
           "type": "baseline",
-          "codec_fd": 0.30726740414922915,
-          "dependency_validity": 0.15979898662467276,
-          "speaker_conditioned_codec_fd": 0.8707904246543379
+          "codec_fd": 0.0038840202804450996,
+          "codebook_pair_divergence": 0.0017427223630014854,
+          "speaker_conditioned_codec_fd": 0.04336592946859752
         },
         "baseline_parallel_2x": {
           "type": "baseline",
-          "codec_fd": 0.40657049222829755,
-          "dependency_validity": 0.1408224854793848,
-          "speaker_conditioned_codec_fd": 0.8915317881935785
+          "codec_fd": 0.004422016744150881,
+          "codebook_pair_divergence": 0.0017658746864905595,
+          "speaker_conditioned_codec_fd": 0.04299055280886166
         },
         "baseline_maskgit_2x": {
           "type": "baseline",
-          "codec_fd": 0.5111311204324807,
-          "dependency_validity": 0.178613792539267,
-          "speaker_conditioned_codec_fd": 0.9526961957546121
+          "codec_fd": 0.0044971450064927865,
+          "codebook_pair_divergence": 0.0017391821359971167,
+          "speaker_conditioned_codec_fd": 0.04798113538453963
         }
       }
     },
     "codec_stack4": {
       "description": "Synthetic multi-codebook codec generation at the aggressive 4x frame-stacking operating point (at most 6 primary decoder steps per 24-frame utterance), where the paper reports its own method losing quality. Proposed row `generator_4x`; comparison rows are frozen by the hidden evaluator (parallel heads at 4x, MaskGIT local transformer at 4x). Values in `results` are from this gym's reference run on the hidden test, not paper numbers.",
       "weight": 0.6,
-      "primary_metric": "dependency_validity",
+      "primary_metric": "codec_fd",
       "metrics": {
-        "dependency_validity": {
-          "higher_is_better": true,
-          "coefficient": 1.0,
-          "description": "Fraction of within-frame and temporal dependency checks satisfied. A failed run (briefing/evaluation.md) receives 0 in both experiments."
-        },
         "codec_fd": {
           "higher_is_better": false,
-          "coefficient": 0.6,
-          "description": "Full-covariance Frechet distance of consecutive-frame pairs in a fixed 32-dimensional RVQ-style codec latent space; no clipping. A failed run receives the distance of uniform random tokens."
+          "coefficient": 1.0,
+          "description": "The paper's Frechet distance in the codec's embedding space: full-covariance FD between generated and reference consecutive-frame pairs of the public 24-d FSQ codec latent (48 dimensions per pair); no clipping. A failed run receives the distance of uniform random tokens."
+        },
+        "codebook_pair_divergence": {
+          "higher_is_better": false,
+          "coefficient": 0.8,
+          "description": "Implausible codebook combinations, measured without a moment assumption: mean Jensen-Shannon divergence (bits) between generated and reference joint token distributions over the 28 within-frame codebook pairs and the 64 (frame t, frame t+1) codebook pairs. A failed run receives the divergence of uniform random tokens."
         },
         "speaker_conditioned_codec_fd": {
           "higher_is_better": false,
-          "coefficient": 0.4,
-          "description": "Mean full-covariance codec Frechet distance per conditioning speaker; no clipping. A failed run receives the distance of uniform random tokens."
+          "coefficient": 0.6,
+          "description": "Speaker-similarity analogue: the codec FD computed separately for each of the 16 conditioning speakers and averaged; no clipping. A failed run receives the distance of uniform random tokens."
         }
       },
       "results": {
         "generator_4x": {
           "type": "proposed",
-          "dependency_validity": 0.9330172713514397,
-          "codec_fd": 0.26808556106846027,
-          "speaker_conditioned_codec_fd": 0.6028814086313439
+          "codec_fd": 0.0037883479096478823,
+          "codebook_pair_divergence": 0.001717179190931082,
+          "speaker_conditioned_codec_fd": 0.04714143144974603
         },
         "baseline_parallel_4x": {
           "type": "baseline",
-          "codec_fd": 1.3274698506430695,
-          "dependency_validity": 0.12210098985602094,
-          "speaker_conditioned_codec_fd": 1.7477046499661135
+          "codec_fd": 0.00393010188562215,
+          "codebook_pair_divergence": 0.001735430064194243,
+          "speaker_conditioned_codec_fd": 0.04436277510476483
         },
         "baseline_maskgit_4x": {
           "type": "baseline",
-          "codec_fd": 0.938013104727986,
-          "dependency_validity": 0.12513996543684555,
-          "speaker_conditioned_codec_fd": 1.330383762593911
+          "codec_fd": 0.0044083008810460456,
+          "codebook_pair_divergence": 0.0017553706043049156,
+          "speaker_conditioned_codec_fd": 0.04455578573829233
         }
       }
     }

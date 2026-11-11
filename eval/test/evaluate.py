@@ -2,11 +2,11 @@
 """Hidden test evaluator for the synthetic multi-codebook codec task.
 
 Everything on the reference side of the comparison is fixed here: the codec
-process, the hidden reference utterances (drawn at evaluation time from a seed
-that exists only in this file), the evaluated rows, the operating points, the
-failure threshold, artifact defaults and the comparison rows. Method artifacts
-contribute generated tokens only; no number, flag or config value written by a
-method is used as a score.
+process (eval/test/codec_process.py), the hidden reference utterances (drawn
+at evaluation time from a seed that exists only in this file), the evaluated
+rows, the operating points, the failure thresholds, artifact defaults and the
+comparison rows. Method artifacts contribute generated tokens only; no number,
+flag or config value written by a method is used as a score.
 """
 import argparse
 import hashlib
@@ -15,34 +15,43 @@ import math
 import re
 from pathlib import Path
 
+import numpy as np
 import torch
+
+from eval.test import codec_process as process
 
 SLICE = "test"
 SEQ_LEN, NUM_CODEBOOKS, VOCAB, NUM_SPEAKERS = 24, 8, 32, 16
 NUM_CONDITIONS = 16384
 PARTITION_SEED = 250919592
-HIDDEN_REFERENCE_SEED = 73_517_903
+HIDDEN_REFERENCE_SEED = 83_160_271
 REFERENCES_PER_ROW = 4
 RANDOM_CAP_SEED = 424_243
-EMBED_SEED = 4242
 # Canonical visible sequences: public train/validation splits and the
 # train-slice reference sample. Copying any of them is not generation.
-VISIBLE_SPLITS = ((8192, 1001), (1024, 1002))
+VISIBLE_SPLITS = ((32768, 1001), (2048, 1002))
 TRAIN_SLICE_REFERENCE_SEED = 20_250_919
 COPY_WINDOW = SEQ_LEN // 2  # aligned 12-frame halves, all 8 codebooks
 MAX_COPIED_FRACTION = 0.01
-# Memorization test: 4-frame windows (all codebooks, same frame position)
-# shared with the visible utterances, minus those shared with a fresh sample
-# of the data process with the same speaker composition (hidden seed). Its
-# expectation is 0 for any generator that does not reproduce visible segments.
+# Memorization test on 4-frame windows (32 tokens, same frame position). A
+# window "hits" a set if it agrees with one of the set's windows on all 32
+# tokens or on any of 8 fixed subsets of 12 of its tokens, so copies with
+# scattered edits still hit. The excess is the hit rate against the visible
+# utterances minus the hit rate against a fresh sample of the data process
+# with the same size and speaker composition (hidden seed): its expectation
+# is 0 for any generator that does not reproduce visible segments.
 EXCESS_WINDOW = 4
+WINDOW_TOKENS = EXCESS_WINDOW * NUM_CODEBOOKS
+NUM_SUBSETS, SUBSET_SIZE, SUBSET_SEED = 8, 12, 8_675_309
 MAX_WINDOW_EXCESS = 0.05
+# A run whose distribution is not clearly closer to the reference than
+# uniform random tokens fails the task: every scored measurement must be
+# below this fraction of the random-token measurement.
+FAIL_FRACTION_OF_RANDOM = 0.5
 CONTROL_SEED = 61_803_398
-VALIDITY_THRESHOLD = 0.5
-COARSE_THRESHOLD = 0.5
-INTRA_THRESHOLD = 0.5
 EXPERIMENTS = {2: "codec_stack2", 4: "codec_stack4"}
 REQUIRED_ROWS = {"generator_2x": 2, "generator_4x": 4}
+SCORED = ('codec_fd', 'speaker_conditioned_codec_fd', 'codebook_pair_divergence')
 FIXED_DIR = Path(__file__).resolve().parent / "fixed"
 FIXED_ROWS = {
     "baseline_parallel_1x": 1,
@@ -53,40 +62,12 @@ FIXED_ROWS = {
 }
 
 
-# ----------------------------------------------------------------- codec process
-def speaker_tables():
-    increments = torch.tensor((1, 6, 12, 19), dtype=torch.long).repeat(NUM_SPEAKERS, 1)
-    style_p = torch.zeros(NUM_SPEAKERS, NUM_CODEBOOKS - 1)
-    for s in range(NUM_SPEAKERS):
-        for k in range(1, NUM_CODEBOOKS):
-            style_p[s, k - 1] = 0.75 if (s + 2 * k) % 3 == 0 else 0.25
-    return increments, style_p
-
-
-INCREMENTS, STYLE_P = speaker_tables()
-
-
 def sample_tokens(speakers, seed):
-    gen = torch.Generator().manual_seed(seed)
-    b = speakers.shape[0]
-    style = (torch.rand(b, NUM_CODEBOOKS - 1, generator=gen) < STYLE_P[speakers]).long()
-    coarse = torch.zeros(b, SEQ_LEN, dtype=torch.long)
-    coarse[:, 0] = torch.randint(VOCAB, (b,), generator=gen)
-    for t in range(1, SEQ_LEN):
-        choice = torch.randint(4, (b,), generator=gen)
-        coarse[:, t] = (coarse[:, t - 1] + INCREMENTS[speakers, choice]) % VOCAB
-    tokens = torch.zeros(b, SEQ_LEN, NUM_CODEBOOKS, dtype=torch.long)
-    tokens[..., 0] = coarse
-    pos = torch.arange(SEQ_LEN).view(1, SEQ_LEN)
-    spk = speakers.view(b, 1)
-    for k in range(1, NUM_CODEBOOKS):
-        tokens[..., k] = (5 * tokens[..., k - 1] + 7 * spk + 11 * k + pos + style[:, k - 1].view(b, 1)) % VOCAB
-    return tokens
+    return process.sample_tokens(speakers, seed)
 
 
 def visible_split(num, seed):
-    speakers = torch.randint(NUM_SPEAKERS, (num,), generator=torch.Generator().manual_seed(seed + 7919))
-    return sample_tokens(speakers, seed)
+    return process.make_split(num, seed)['tokens']
 
 
 def conditions():
@@ -99,47 +80,31 @@ def slice_rows():
 
 
 # ---------------------------------------------------------------------- metrics
-def validity_parts(tokens, speakers):
-    b = tokens.shape[0]
-    k = torch.arange(1, NUM_CODEBOOKS).view(1, 1, -1)
-    pos = torch.arange(SEQ_LEN).view(1, SEQ_LEN, 1)
-    residual = (tokens[..., 1:] - 5 * tokens[..., :-1] - 7 * speakers.view(b, 1, 1) - 11 * k - pos) % VOCAB
-    intra = residual <= 1
-    step = (tokens[:, 1:, 0] - tokens[:, :-1, 0]) % VOCAB
-    coarse = (step.unsqueeze(-1) == INCREMENTS[speakers].unsqueeze(1)).any(-1)
-    # Diagnostic only (distributional, not a hard check): fraction of
-    # consecutive frames whose residual style bit is unchanged (1.0 in data).
-    persist = intra[:, 1:] & intra[:, :-1] & (residual[:, 1:] == residual[:, :-1])
-    total = intra.numel() + coarse.numel()
-    return {
-        "dependency_validity": float((intra.sum() + coarse.sum()).item() / total),
-        "intra_frame_validity": float(intra.float().mean()),
-        "coarse_transition_validity": float(coarse.float().mean()),
-        "residual_persistence": float(persist.float().mean()),
-    }
+_LEVELS = torch.tensor(process.LEVELS)
+_RADIX = torch.tensor([process.LEVELS[1] * process.LEVELS[2], process.LEVELS[2], 1])
+LATENT = NUM_CODEBOOKS * len(process.LEVELS)        # 24-d codec latent per frame
+PAIR = 2 * LATENT                                   # consecutive-frame pair: 48-d
 
 
-CODEC_EMBED = torch.randn(NUM_CODEBOOKS, VOCAB, 32, generator=torch.Generator().manual_seed(EMBED_SEED)).double()
-CODEC_EMBED = CODEC_EMBED * (0.75 ** torch.arange(NUM_CODEBOOKS, dtype=torch.float64)).view(-1, 1, 1)
-
-
-def frame_pair_embedding(tokens):
-    """RVQ-style codec latent (sum of per-codebook vectors) for consecutive frame pairs."""
-    z = CODEC_EMBED[torch.arange(NUM_CODEBOOKS).view(1, 1, -1), tokens].sum(2)
-    return torch.cat([z[:, :-1], z[:, 1:]], dim=-1).reshape(-1, 64)
+def codec_latent(tokens):
+    """Public FSQ dequantization: each codebook token -> centres of its 4x4x2 grid cell in [-1, 1]^3."""
+    t = tokens.long().unsqueeze(-1)
+    digits = (t // _RADIX) % _LEVELS
+    centres = (digits.double() + 0.5) / _LEVELS * 2 - 1
+    return centres.reshape(*tokens.shape[:-1], LATENT)
 
 
 def feature_moments(tokens, speakers):
-    sums = torch.zeros(NUM_SPEAKERS + 1, 64, dtype=torch.float64)
-    products = torch.zeros(NUM_SPEAKERS + 1, 64, 64, dtype=torch.float64)
+    sums = torch.zeros(NUM_SPEAKERS + 1, PAIR, dtype=torch.float64)
+    products = torch.zeros(NUM_SPEAKERS + 1, PAIR, PAIR, dtype=torch.float64)
     counts = torch.zeros(NUM_SPEAKERS + 1, dtype=torch.float64)
-    for start in range(0, len(tokens), 256):
-        batch = tokens[start:start + 256]
-        spk = speakers[start:start + 256]
-        pairs = frame_pair_embedding(batch).reshape(len(batch), SEQ_LEN - 1, 64)
+    for start in range(0, len(tokens), 1024):
+        z = codec_latent(tokens[start:start + 1024])
+        spk = speakers[start:start + 1024]
+        pairs = torch.cat([z[:, :-1], z[:, 1:]], dim=-1)
         for speaker in range(NUM_SPEAKERS + 1):
             x = pairs if speaker == NUM_SPEAKERS else pairs[spk == speaker]
-            x = x.reshape(-1, 64)
+            x = x.reshape(-1, PAIR)
             if len(x):
                 counts[speaker] += len(x)
                 sums[speaker] += x.sum(0)
@@ -160,13 +125,52 @@ def frechet_moments(mx, cx, my, cy):
     return max(0.0, value)
 
 
-def distribution_metrics(tokens, speakers, ref_moments):
+WITHIN_PAIRS = [(i, j) for i in range(NUM_CODEBOOKS) for j in range(i + 1, NUM_CODEBOOKS)]
+
+
+def pair_counts(tokens):
+    """Joint token counts for the 28 within-frame codebook pairs and the 64
+    (codebook at frame t, codebook at frame t+1) pairs: (92, 32*32) int64."""
+    t = tokens.long()
+    frames = t.reshape(-1, NUM_CODEBOOKS)
+    cur, nxt = t[:, :-1].reshape(-1, NUM_CODEBOOKS), t[:, 1:].reshape(-1, NUM_CODEBOOKS)
+    rows = [torch.bincount(frames[:, i] * VOCAB + frames[:, j], minlength=VOCAB * VOCAB) for i, j in WITHIN_PAIRS]
+    rows += [torch.bincount(cur[:, i] * VOCAB + nxt[:, j], minlength=VOCAB * VOCAB)
+             for i in range(NUM_CODEBOOKS) for j in range(NUM_CODEBOOKS)]
+    return torch.stack(rows)
+
+
+def pair_divergences(counts, ref_counts):
+    """Jensen-Shannon divergence (bits, in [0, 1]) per pair view."""
+    p = counts.double() / counts.sum(1, keepdim=True)
+    q = ref_counts.double() / ref_counts.sum(1, keepdim=True)
+    m = (p + q) / 2
+
+    def kl(a):
+        return torch.where(a > 0, a * torch.log2(a / m.clamp_min(1e-300)), torch.zeros_like(a)).sum(1)
+
+    js = 0.5 * kl(p) + 0.5 * kl(q)
+    if not bool(torch.isfinite(js).all()) or float(js.min()) < -1e-9:
+        raise ValueError('nonfinite or impossible divergence')
+    return js.clamp_min(0.0)
+
+
+def distribution_metrics(tokens, speakers, ref):
     means, cov = feature_moments(tokens, speakers)
-    rm, rc = ref_moments
+    rm, rc = ref['moments']
     distances = [frechet_moments(means[i], cov[i], rm[i], rc[i]) for i in range(NUM_SPEAKERS + 1)]
-    return distances[-1], sum(distances[:-1]) / NUM_SPEAKERS
+    js = pair_divergences(pair_counts(tokens), ref['pairs'])
+    within = len(WITHIN_PAIRS)
+    return {
+        'codec_fd': distances[-1],
+        'speaker_conditioned_codec_fd': sum(distances[:-1]) / NUM_SPEAKERS,
+        'codebook_pair_divergence': float(js.mean()),
+        'within_frame_pair_divergence': float(js[:within].mean()),
+        'temporal_pair_divergence': float(js[within:].mean()),
+    }
 
 
+# ----------------------------------------------------------- memorization tests
 def window_keys(tokens):
     """Per utterance, byte keys of its aligned 12-frame halves (all codebooks)."""
     halves = tokens.to(torch.uint8).reshape(tokens.shape[0], SEQ_LEN // COPY_WINDOW, -1).numpy()
@@ -174,12 +178,7 @@ def window_keys(tokens):
 
 
 def copied_fraction(tokens, windows):
-    """Fraction of utterances with at least one half identical to a half in `windows`.
-
-    Independent learned samples essentially never repeat a 12-frame half of a
-    visible utterance (reference and seed controls: at most 1 in 8192), so this
-    flags complete copies, copies with edits in one half and spliced halves.
-    """
+    """Fraction of utterances with at least one half identical to a half in `windows`."""
     return sum(any(key in windows for key in keys) for keys in window_keys(tokens)) / len(tokens)
 
 
@@ -187,10 +186,49 @@ def window_set(tokens):
     return {key for keys in window_keys(tokens) for key in keys}
 
 
-def build_visible_windows():
-    # Frozen canonical visible examples, never mutable method-side data.
-    item = torch.load(FIXED_DIR / 'visible.pt', map_location='cpu', weights_only=True)
-    return window_set(item['tokens'].reshape(-1, SEQ_LEN, NUM_CODEBOOKS))
+def _hash_tables():
+    g = torch.Generator().manual_seed(SUBSET_SEED)
+    masks = torch.zeros(NUM_SUBSETS + 1, WINDOW_TOKENS, dtype=torch.long)
+    masks[0] = 1  # the whole window
+    for r in range(1, NUM_SUBSETS + 1):
+        masks[r, torch.randperm(WINDOW_TOKENS, generator=g)[:SUBSET_SIZE]] = 1
+    mult = (torch.randint(0, 2 ** 61, (NUM_SUBSETS + 1, WINDOW_TOKENS), generator=g) * 2 + 1) * masks
+    salt = torch.randint(0, 2 ** 62, (SEQ_LEN, NUM_SUBSETS + 1), generator=g)
+    return mult.numpy().astype(np.uint64).T.copy(), salt.numpy().astype(np.uint64)
+
+
+_MULT, _SALT = _hash_tables()
+NUM_STARTS = SEQ_LEN - EXCESS_WINDOW + 1
+
+
+def subset_keys(tokens):
+    """(b, 21 starts, 9) 48-bit keys: the whole 4-frame window and 8 token subsets, salted by start."""
+    t = tokens.long()
+    w = t.unfold(1, EXCESS_WINDOW, 1).permute(0, 1, 3, 2).reshape(t.shape[0], NUM_STARTS, WINDOW_TOKENS)
+    x = (w + 1).numpy().astype(np.uint64)
+    with np.errstate(over='ignore'):
+        keys = np.matmul(x, _MULT) + _SALT[:NUM_STARTS]
+    return keys >> np.uint64(16)  # 48-bit keys
+
+
+def key_set(tokens):
+    keys = []
+    for start in range(0, len(tokens), 8192):
+        keys.append(subset_keys(tokens[start:start + 8192]).ravel())
+    return np.unique(np.concatenate(keys))
+
+
+def _hits(keys, sorted_keys):
+    idx = np.minimum(np.searchsorted(sorted_keys, keys), len(sorted_keys) - 1)
+    return sorted_keys[idx] == keys
+
+
+def window_excess(tokens, visible_keys, control_keys):
+    """(any-key excess, whole-window excess): fraction of 4-frame windows that hit
+    the visible set minus the fraction that hit the equally composed fresh sample."""
+    keys = subset_keys(tokens)
+    vis, ctl = _hits(keys, visible_keys), _hits(keys, control_keys)
+    return (float(vis.any(-1).mean() - ctl.any(-1).mean()), float(vis[..., 0].mean() - ctl[..., 0].mean()))
 
 
 def visible_speakers():
@@ -203,38 +241,15 @@ def visible_speakers():
     return torch.cat(parts)
 
 
-def sliding_keys(tokens):
-    """Per utterance, byte keys of every EXCESS_WINDOW-frame window with its start frame."""
-    t = tokens.to(torch.uint8).contiguous().numpy()
-    return [[bytes([s]) + row[s:s + EXCESS_WINDOW].tobytes() for s in range(SEQ_LEN - EXCESS_WINDOW + 1)] for row in t]
-
-
-_EXCESS_SETS = {}
-
-
-def excess_sets():
-    if not _EXCESS_SETS:
-        item = torch.load(FIXED_DIR / 'visible.pt', map_location='cpu', weights_only=True)
-        visible = item['tokens'].reshape(-1, SEQ_LEN, NUM_CODEBOOKS)
-        speakers = visible_speakers()
-        if len(speakers) != len(visible):
-            raise RuntimeError('visible fixture does not match its speaker composition')
-        control = sample_tokens(speakers, CONTROL_SEED)
-        _EXCESS_SETS['visible'] = {k for keys in sliding_keys(visible) for k in keys}
-        _EXCESS_SETS['control'] = {k for keys in sliding_keys(control) for k in keys}
-    return _EXCESS_SETS['visible'], _EXCESS_SETS['control']
-
-
-def window_excess(tokens):
-    """Mean over utterances of the fraction of 4-frame windows found at the same
-    position in a visible utterance, minus the same fraction for an equally
-    composed fresh sample of the data process. Independent learned samples sit
-    near 0 (reference and learned variants: at most 0.012); spliced or copied
-    visible segments of 4 or more frames give 0.27 or more."""
-    visible, control = excess_sets()
-    keys = sliding_keys(tokens)
-    hits = sum((k in visible) - (k in control) for row in keys for k in row)
-    return hits / (len(keys) * (SEQ_LEN - EXCESS_WINDOW + 1))
+def build_memorization_sets():
+    # Frozen canonical visible examples, never mutable method-side data.
+    item = torch.load(FIXED_DIR / 'visible.pt', map_location='cpu', weights_only=True)
+    visible = item['tokens'].reshape(-1, SEQ_LEN, NUM_CODEBOOKS)
+    speakers = visible_speakers()
+    if len(speakers) != len(visible):
+        raise RuntimeError('visible fixture does not match its speaker composition')
+    control = sample_tokens(speakers, CONTROL_SEED)
+    return {'halves': window_set(visible), 'visible_keys': key_set(visible), 'control_keys': key_set(control)}
 
 
 # --------------------------------------------------------------------- scoring
@@ -281,30 +296,28 @@ def load_tokens(path, stack):
     return pred, None
 
 
-def score_tokens(tokens, speakers, ref_moments, caps, visible_windows):
-    raw = validity_parts(tokens, speakers)
-    raw['codec_fd'], raw['speaker_conditioned_codec_fd'] = distribution_metrics(tokens, speakers, ref_moments)
-    raw['copied_fraction'] = copied_fraction(tokens, visible_windows)
-    raw['visible_window_excess'] = window_excess(tokens)
+def score_tokens(tokens, ctx):
+    raw = distribution_metrics(tokens, ctx['speakers'], ctx['reference'])
+    raw['copied_fraction'] = copied_fraction(tokens, ctx['memorization']['halves'])
+    raw['visible_window_excess'], raw['visible_exact_window_excess'] = window_excess(
+        tokens, ctx['memorization']['visible_keys'], ctx['memorization']['control_keys'])
+    caps = ctx['caps']
     failure = None
     if any(not math.isfinite(v) for v in raw.values()):
         failure = 'nonfinite metric'
     elif raw['copied_fraction'] > MAX_COPIED_FRACTION:
         failure = f"{raw['copied_fraction']:.3f} of sequences repeat a 12-frame half of a visible utterance"
     elif raw['visible_window_excess'] > MAX_WINDOW_EXCESS:
-        failure = (f"{raw['visible_window_excess']:.3f} excess of 4-frame windows shared with visible utterances "
-                   'over a fresh data-process sample (copied or spliced segments)')
-    elif raw['dependency_validity'] < VALIDITY_THRESHOLD:
-        failure = f"dependency_validity {raw['dependency_validity']:.3f} < {VALIDITY_THRESHOLD}"
-    elif raw['coarse_transition_validity'] < COARSE_THRESHOLD:
-        failure = 'coarse transition validity below 0.5'
-    elif raw['intra_frame_validity'] < INTRA_THRESHOLD:
-        failure = 'within-frame validity below 0.5'
-    elif raw['codec_fd'] >= caps['codec_fd'] or raw['speaker_conditioned_codec_fd'] >= caps['speaker_conditioned_codec_fd']:
-        failure = 'generated distribution is no closer to the reference than uniform random tokens'
+        failure = (f"{raw['visible_window_excess']:.3f} excess of 4-frame windows matching visible utterances "
+                   'over a fresh data-process sample (copied, edited or spliced segments)')
+    else:
+        for key in SCORED:
+            if raw[key] >= FAIL_FRACTION_OF_RANDOM * caps[key]:
+                failure = f'{key} is not below half that of uniform random tokens'
+                break
     # Raw measurements are returned here; evaluate_directory replaces every
     # scored value of a failed run by its worst value.
-    scored = {key: raw[key] for key in ('dependency_validity', 'codec_fd', 'speaker_conditioned_codec_fd')}
+    scored = {key: raw[key] for key in SCORED}
     return scored, raw, failure
 
 
@@ -320,8 +333,8 @@ def run_groups(names):
     return groups
 
 
-def evaluate_directory(pred_dir, rows, speakers, ref_moments, caps, visible_windows, check_integrity=True):
-    worst = {'dependency_validity': 0.0, **caps}
+def evaluate_directory(pred_dir, ctx, check_integrity=True):
+    rows, worst = ctx['rows'], dict(ctx['caps'])
     candidates = {path.stem: path for path in sorted(pred_dir.glob('*.pt'))}
     for name in FIXED_ROWS:
         candidates[name] = FIXED_DIR / f'{name}.pt'
@@ -354,12 +367,12 @@ def evaluate_directory(pred_dir, rows, speakers, ref_moments, caps, visible_wind
         experiment = EXPERIMENTS[4] if stack == 4 else EXPERIMENTS[2]
         if name in FIXED_ROWS:
             # Evaluator-frozen comparison rows: raw measurements are shown, and
-            # falling below a threshold is a comparison outcome, not a run failure.
+            # failing a check is a comparison outcome, not a run failure.
             if name not in _FIXED_CACHE:
                 tokens, reason = load_tokens(path, stack)
                 if tokens is None:
                     raise RuntimeError(f'frozen comparison {name} is unreadable: {reason}')
-                _FIXED_CACHE[name] = score_tokens(tokens[rows], speakers, ref_moments, caps, visible_windows)
+                _FIXED_CACHE[name] = score_tokens(tokens[rows], ctx)
             scored, raw_all[name], status = _FIXED_CACHE[name]
             experiments[experiment]['results'][name] = dict(scored)
             if status:
@@ -373,7 +386,7 @@ def evaluate_directory(pred_dir, rows, speakers, ref_moments, caps, visible_wind
         if tokens is not None:
             full[name] = tokens
             generated[name] = tokens[rows]
-            scored, raw_all[name], failure = score_tokens(generated[name], speakers, ref_moments, caps, visible_windows)
+            scored, raw_all[name], failure = score_tokens(generated[name], ctx)
         failure = integrity_failure or failure
         if failure:
             failures[name] = failure
@@ -406,6 +419,20 @@ def evaluate_directory(pred_dir, rows, speakers, ref_moments, caps, visible_wind
     return {'_failures': failures, '_comparison_status': comparison_status, '_raw': raw_all, 'experiments': experiments}
 
 
+def build_context():
+    rows = slice_rows()
+    speakers = conditions()[rows]
+    ref_speakers = speakers.repeat_interleave(REFERENCES_PER_ROW)
+    ref = sample_tokens(ref_speakers, HIDDEN_REFERENCE_SEED)
+    reference = {'moments': feature_moments(ref, ref_speakers), 'pairs': pair_counts(ref)}
+    ctx = {'rows': rows, 'speakers': speakers, 'reference': reference}
+    random_tokens = torch.randint(VOCAB, (rows.numel(), SEQ_LEN, NUM_CODEBOOKS), generator=torch.Generator().manual_seed(RANDOM_CAP_SEED))
+    cap = distribution_metrics(random_tokens, speakers, reference)
+    ctx['caps'] = {key: cap[key] for key in SCORED}
+    ctx['memorization'] = build_memorization_sets()
+    return ctx
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--pred-dir", default="checkpoints/predictions")
@@ -413,27 +440,18 @@ def main():
     args = parser.parse_args()
     pred_dir = Path(args.pred_dir)
 
-    rows = slice_rows()
-    speakers = conditions()[rows]
-    ref_speakers = speakers.repeat_interleave(REFERENCES_PER_ROW)
-    ref = sample_tokens(ref_speakers, HIDDEN_REFERENCE_SEED)
-    ref_moments = feature_moments(ref, ref_speakers)
-    random_tokens = torch.randint(VOCAB, (rows.numel(), SEQ_LEN, NUM_CODEBOOKS), generator=torch.Generator().manual_seed(RANDOM_CAP_SEED))
-    cap_fd, cap_speaker_fd = distribution_metrics(random_tokens, speakers, ref_moments)
-    caps = {'codec_fd': cap_fd, 'speaker_conditioned_codec_fd': cap_speaker_fd}
-    visible_windows = build_visible_windows()
-    output = evaluate_directory(pred_dir, rows, speakers, ref_moments, caps, visible_windows)
-    output['_metadata'] = {'slice': SLICE, 'num_examples': int(rows.numel()),
-                           'references_per_row': REFERENCES_PER_ROW, 'validity_threshold': VALIDITY_THRESHOLD,
+    ctx = build_context()
+    output = evaluate_directory(pred_dir, ctx)
+    output['_metadata'] = {'slice': SLICE, 'num_examples': int(ctx['rows'].numel()),
+                           'references_per_row': REFERENCES_PER_ROW,
                            'max_copied_half_fraction': MAX_COPIED_FRACTION, 'max_window_excess': MAX_WINDOW_EXCESS,
                            'method_source': str(pred_dir),
-                           'failed_run_values': {'dependency_validity': 0.0, **caps},
-                           'failed_run_values_note': 'worst value of each scored metric; distances equal those of uniform random tokens, '
-                                                     'and a run whose distance is not below them fails'}
+                           'failed_run_values': dict(ctx['caps']),
+                           'failed_run_values_note': 'worst value of each scored metric: the measurement of uniform random tokens; '
+                                                     'a run fails if any measurement is not below half of it'}
     # Rank every saved attempt from its raw predictions, never submitted scores.
     from eval.test.ranking import rank_attempts
-    reference = evaluate_directory(FIXED_DIR / 'reference_predictions', rows, speakers, ref_moments, caps, visible_windows,
-                                   check_integrity=False)
+    reference = evaluate_directory(FIXED_DIR / 'reference_predictions', ctx, check_integrity=False)
     attempts = {'current': output}
     # Additional flat files use the same interface, grouped by their prefix.
     all_rows = {name for exp in output['experiments'].values() for name in exp['results']}
@@ -445,8 +463,8 @@ def main():
             actual, canonical = f'{prefix}_{stack}x', f'generator_{stack}x'
             values = output['experiments'][exp]['results'].get(actual)
             failed = values is None or actual in output['_failures']
-            view['experiments'][exp] = {'results': {canonical: {'dependency_validity': 0.0, **caps} if failed else values}}
-            if values is None or actual in output['_failures']:
+            view['experiments'][exp] = {'results': {canonical: dict(ctx['caps']) if failed else values}}
+            if failed:
                 view['_failures'][canonical] = output['_failures'].get(actual, 'missing operating point')
         attempts[f'files:{prefix}'] = view
     attempts_dir = pred_dir.parent / 'attempts'
@@ -454,7 +472,7 @@ def main():
         for folder in sorted(attempts_dir.iterdir()):
             if (folder / 'predictions').is_dir():
                 label = folder.name if folder.name not in attempts else f'folder:{folder.name}'
-                attempts[label] = evaluate_directory(folder / 'predictions', rows, speakers, ref_moments, caps, visible_windows)
+                attempts[label] = evaluate_directory(folder / 'predictions', ctx)
     spec = json.loads(Path('scoring/reference.json').read_text())
     output['_ranking'] = rank_attempts(attempts, reference, spec)
     output['_attempts'] = {name: value for name, value in attempts.items() if name != 'current'}

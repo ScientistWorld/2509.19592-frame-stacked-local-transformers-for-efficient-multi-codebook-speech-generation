@@ -1,9 +1,20 @@
 # Problem
 
-Learn to generate joint multi-codebook codec sequences conditioned on a speaker. Each utterance contains 24 frames, 8 codebooks per frame, vocabulary 32, and one of 16 training speakers. Good outputs preserve within-frame codebook dependencies, transitions between frames, speaker characteristics, utterance-level consistency, and diversity.
+Learn to generate joint multi-codebook codec sequences conditioned on a speaker. Each utterance has 24 frames and 8 codebooks per frame, with vocabulary 32 per codebook, and belongs to one of 16 training speakers. Good outputs preserve the dependencies between the codebooks of a frame, the transitions between frames, speaker characteristics, utterance-level consistency and diversity.
 
-The fixed synthetic training and validation artifacts contain 8192 and 1024 utterances. They substitute for the paper's unavailable speech mixture and codec. The distribution includes stochastic temporal transitions and persistent speaker-dependent residual variation. There is no text or audio in this scaled task, and no exact-token target for a generated utterance.
+The codec is a finite scalar quantizer (FSQ), like the paper's NanoCodec. Each codebook owns 3 dimensions of a 24-dimensional codec latent, and its token is one cell of a 4 x 4 x 2 grid over them. Token `c` has the digits `(c // 8, (c // 2) % 4, c % 2)` on the three dimensions. The latent value of each dimension is the cell centre, `(digit + 0.5) / levels * 2 - 1`, in [-1, 1]. All 8 codebooks of a frame are read out from the same underlying speech state, so they are strongly dependent; nothing makes them independent.
 
-Generate one new utterance for each of the 16384 speaker IDs in `data/synthetic_codec/test_conditions.pt`, at each of two fixed operating points: at most 12 primary sequential steps per utterance (2 frames per step), and at most 6 (4 frames per step). Computation within a primary step is unrestricted. The scientific question is how well quality can be preserved when the primary sequence model runs less often.
+The fixed training and validation artifacts (`data/synthetic_codec/train.pt`, `val.pt`) hold 32768 and 2048 utterances with their speaker IDs. They are drawn from a synthetic speech process that stands in for the paper's unreleased 18k-hour speech mixture. The process is a hidden random nonlinear state-space model with phone-like regimes and persistent utterance style, whose latent trajectory the codec quantizes. Its parameters are not public, and its training data are the only view of it. There is no text or audio in this scaled task, and no exact-token target for a generated utterance.
 
-Use the provided training data to learn the generator. Copies or splices of visible utterances, hand-written or evaluator-side samplers of the data process, and false computation declarations are outside the task. See `scoring/CONSTRAINTS.md`.
+Generate one new utterance for each of the 16384 speaker IDs in `data/synthetic_codec/test_conditions.pt`, at two fixed operating points:
+- at most 12 primary sequential steps per utterance (2 frames per step);
+- at most 6 primary steps (4 frames per step).
+
+Computation within a primary step is unrestricted. The scientific question is how well generation quality can be kept when the primary sequence model runs less often.
+
+Use the provided training data to learn the generator. Outside the task:
+- copying, editing or splicing visible utterances;
+- calling evaluator-side samplers;
+- false computation declarations.
+
+See `scoring/CONSTRAINTS.md`.

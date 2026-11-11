@@ -5,8 +5,6 @@ import math
 from pathlib import Path
 
 import torch
-from torch.utils.data import DataLoader
-
 from data.codec_dataset import CodecTokenDataset
 from method.models import FrameStackedModel
 
@@ -38,7 +36,13 @@ def main():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     train = CodecTokenDataset(args.data, "train")
     meta = train.meta
-    loader = DataLoader(train, batch_size=args.batch_size, shuffle=True, drop_last=True, num_workers=2)
+    # The whole token set fits on the device; batches are drawn by reshuffling
+    # each epoch and dropping the last partial batch (DataLoader semantics,
+    # without worker processes).
+    all_tokens = train.tokens.to(device)
+    all_speakers = train.speaker.to(device)
+    batches_per_epoch = len(train) // args.batch_size
+    shuffle_gen = torch.Generator(device="cpu").manual_seed(args.seed)
     model = FrameStackedModel(
         vocab_size=meta["vocab_size"],
         num_codebooks=meta["num_codebooks"],
@@ -58,15 +62,14 @@ def main():
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
     history = []
-    it = iter(loader)
+    order = None
     for step in range(1, args.steps + 1):
-        try:
-            batch = next(it)
-        except StopIteration:
-            it = iter(loader)
-            batch = next(it)
-        tokens = batch["tokens"].to(device)
-        speaker = batch["speaker"].to(device)
+        position = (step - 1) % batches_per_epoch
+        if position == 0:
+            order = torch.randperm(len(train), generator=shuffle_gen).to(device)
+        idx = order[position * args.batch_size:(position + 1) * args.batch_size]
+        tokens = all_tokens[idx]
+        speaker = all_speakers[idx]
         loss = model.loss(tokens, speaker)
         opt.zero_grad(set_to_none=True)
         loss.backward()
