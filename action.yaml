@@ -1,6 +1,5 @@
-# Once you set action to 'submit' or 'done', STOP immediately.
-# Do NOT sleep, poll, or wait for jobs. The system reads this file
-# only after your turn ends.
-action: done
+action: submit
+gpus: 1
+test: false
 milestone: core_claim_plus
-notes: "Final hardening: memorization check closes the new visible-splice shortcut (+0.271 -> FAILED); all REDTEAM shortcuts fail; cosine 20k variant +0.247 [+0.229,+0.266] over reference across seeds; analytic sampler, rule repair/filter and 2x-as-4x left to shortcut review (documented with scores); run.sh restored end to end; validate passes."
+notes: "Rebuild on the hidden nonlinear FSQ codec process: train reference + comparisons (7 models, 10k steps), freeze fixtures, train variants (reference seeds, 20k cosine, large 20k cosine x3 seeds, 2k), build shortcut cases, score all through evaluate_test/train.sh, paired bootstrap, restore reference-only scores, validate. Resumable."

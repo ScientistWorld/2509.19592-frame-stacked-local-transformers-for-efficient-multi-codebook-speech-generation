@@ -312,27 +312,27 @@
       "results": {
         "generator_2x": {
           "type": "proposed",
-          "codec_fd": 0.0049192474235759676,
-          "codebook_pair_divergence": 0.0017726660680927584,
-          "speaker_conditioned_codec_fd": 0.047490893781123145
+          "codec_fd": 0.22080805198458364,
+          "codebook_pair_divergence": 0.01615809425970427,
+          "speaker_conditioned_codec_fd": 0.5503160992590137
         },
         "baseline_parallel_1x": {
           "type": "baseline",
-          "codec_fd": 0.0038840202804450996,
-          "codebook_pair_divergence": 0.0017427223630014854,
-          "speaker_conditioned_codec_fd": 0.04336592946859752
+          "codec_fd": 0.32302981078228044,
+          "codebook_pair_divergence": 0.014701394188473773,
+          "speaker_conditioned_codec_fd": 0.785186504590185
         },
         "baseline_parallel_2x": {
           "type": "baseline",
-          "codec_fd": 0.004422016744150881,
-          "codebook_pair_divergence": 0.0017658746864905595,
-          "speaker_conditioned_codec_fd": 0.04299055280886166
+          "codec_fd": 0.48575492380659924,
+          "codebook_pair_divergence": 0.01790588385437269,
+          "speaker_conditioned_codec_fd": 0.967596146965628
         },
         "baseline_maskgit_2x": {
           "type": "baseline",
-          "codec_fd": 0.0044971450064927865,
-          "codebook_pair_divergence": 0.0017391821359971167,
-          "speaker_conditioned_codec_fd": 0.04798113538453963
+          "codec_fd": 0.3115524357386512,
+          "codebook_pair_divergence": 0.018635604771191895,
+          "speaker_conditioned_codec_fd": 0.8994923605966892
         }
       }
     },
@@ -360,21 +360,21 @@
       "results": {
         "generator_4x": {
           "type": "proposed",
-          "codec_fd": 0.0037883479096478823,
-          "codebook_pair_divergence": 0.001717179190931082,
-          "speaker_conditioned_codec_fd": 0.04714143144974603
+          "codec_fd": 0.15055112422899697,
+          "codebook_pair_divergence": 0.011618759051071034,
+          "speaker_conditioned_codec_fd": 0.43321251570145036
         },
         "baseline_parallel_4x": {
           "type": "baseline",
-          "codec_fd": 0.00393010188562215,
-          "codebook_pair_divergence": 0.001735430064194243,
-          "speaker_conditioned_codec_fd": 0.04436277510476483
+          "codec_fd": 0.7809733046690042,
+          "codebook_pair_divergence": 0.023027582933171132,
+          "speaker_conditioned_codec_fd": 1.294415662590867
         },
         "baseline_maskgit_4x": {
           "type": "baseline",
-          "codec_fd": 0.0044083008810460456,
-          "codebook_pair_divergence": 0.0017553706043049156,
-          "speaker_conditioned_codec_fd": 0.04455578573829233
+          "codec_fd": 0.6228305108299388,
+          "codebook_pair_divergence": 0.028392364685382195,
+          "speaker_conditioned_codec_fd": 1.4549909163646273
         }
       }
     }
