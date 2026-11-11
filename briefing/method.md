@@ -11,7 +11,7 @@ The code is in `method/models.py`, scaled down from the paper:
 - width 96, 4 heads, 2 primary layers and 1 LT layer;
 - 10000 AdamW steps at a constant learning rate of 1e-3, batch 128.
 
-The paper specifies AdamW but no schedule. `method/train.py --lr-schedule cosine` is an optional variant that the reference does not use.
+The paper specifies AdamW and the Koel-TTS setup. Koel-TTS trains at 1e-4, annealed by 0.998 every 1000 steps, which keeps the rate almost constant over its 200k steps. The reference keeps that constant shape at this scale. `method/train.py --lr-schedule cosine` and `--speaker-rank r` (a low-rank speaker table shared by all speakers) are optional variants that the reference does not use.
 
 Model details:
 - **Embeddings.** Every (frame-in-stack, codebook) slot has its own token embedding table, shared by the primary decoder and the LT. The primary decoder input averages the slot embeddings of the previous stack (as in the paper), plus speaker and step-position embeddings.

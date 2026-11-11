@@ -37,6 +37,7 @@ def main():
         main_layers=cfg["main_layers"],
         lt_layers=cfg["lt_layers"],
         maskgit_steps=cfg.get("maskgit_steps", 3),
+        speaker_rank=cfg.get("speaker_rank", 0),
     ).to(device)
     model.load_state_dict(ckpt["model"])
     speakers = load_conditions(args.data)

@@ -18,9 +18,10 @@ All of its speakers share one speaker space, so what is learned from well-covere
 
 Computation within a primary step is unrestricted. The scientific question is how well generation quality can be kept when the primary sequence model runs less often.
 
-Use the provided training data to learn the generator. Outside the task:
+Use the provided training data to learn the generator; each row is one independent draw of it. Outside the task:
 - copying, editing or splicing visible utterances;
 - calling evaluator-side samplers;
+- choosing, filtering or editing generated rows so that the set matches data statistics (private search on the metric);
 - false computation declarations.
 
 See `scoring/CONSTRAINTS.md`.

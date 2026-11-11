@@ -26,6 +26,9 @@ def parse_args():
     p.add_argument("--lt-layers", type=int, default=1)
     p.add_argument("--heads", type=int, default=4)
     p.add_argument("--maskgit-steps", type=int, default=3)
+    # 0 (the reference): one free embedding per speaker. r > 0: low-rank
+    # speaker table shared across speakers (an optional variant).
+    p.add_argument("--speaker-rank", type=int, default=0)
     p.add_argument("--seed", type=int, default=7)
     return p.parse_args()
 
@@ -54,6 +57,7 @@ def main():
         main_layers=args.main_layers,
         lt_layers=args.lt_layers,
         maskgit_steps=args.maskgit_steps,
+        speaker_rank=args.speaker_rank,
     ).to(device)
     opt = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=0.01)
     sched = None
@@ -90,6 +94,7 @@ def main():
             "main_layers": args.main_layers,
             "lt_layers": args.lt_layers,
             "maskgit_steps": args.maskgit_steps,
+            "speaker_rank": args.speaker_rank,
             "seed": args.seed,
             "train_steps": args.steps,
             "lr": args.lr,

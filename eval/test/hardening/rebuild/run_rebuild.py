@@ -1,10 +1,14 @@
 """Rebuild check: one bundled, resumable job for the hidden-process codec gym.
 
-The data process changed in this iteration (eval/test/codec_process.py), so the
-reference, the comparison models and every variant are trained from the final
-code. Finished models, predictions and cases are skipped on a rerun, so the
-second job only adds the few-shot-speaker rows (row key 'fewshot') to the
-cases the first job built for the two main operating points.
+The data process changed in the previous iteration (eval/test/codec_process.py),
+and the first job (4a264730-2a8) trained the reference, the comparison models
+and every variant for the two main operating points from that code. Finished
+models, predictions and cases are skipped on a rerun, so the closing job adds
+the few-shot-speaker rows (row key 'fewshot') to every case, the few-shot
+reference and comparison models, the private-search (moment-matching
+selection) shortcut, a low-rank-speaker variant and a few-shot memorizer, and
+rescores everything with all three experiments. The two-experiment scores of
+the first job are kept in scores_two_experiments/ and summary_two_experiments.*.
 
 Phases:
   reference  The end-to-end reference recipe (scripts/reproduce.sh arguments):
@@ -22,7 +26,10 @@ Phases:
              constant and malformed artifacts; a Gaussian moment-matcher in
              the public codec latent; hand-written count samplers fitted to
              the training data; the previous gym's analytic sampler and rule
-             repair; operating-point reuse; integrity attacks.
+             repair; operating-point reuse; integrity attacks; private search
+             (per row, one of three samples chosen so that the set's codec
+             moments match the public training data); a model that memorizes
+             the few-shot speakers' utterances.
   score      Every case is staged under checkpoints/attempts/ and scored once
              by the no-argument scripts/evaluate_test.sh and
              scripts/evaluate_train.sh (attacks on global files separately).
@@ -78,7 +85,12 @@ TRAINED = {
     'better_large_cosine_20k_seed17': (LARGE + COSINE20K, 17),
     'better_large_cosine_20k_seed27': (LARGE + COSINE20K, 27),
     'weaker_training_2k': (['--steps', '2000'], 7),
+    # Few-shot-targeted idea on top of the 20k cosine recipe: a rank-16
+    # speaker table shared by all speakers.
+    'better_speaker_rank16_cosine_20k': (['--speaker-rank', '16'] + COSINE20K, 7),
 }
+# Extra generation seeds of a trained case, used as private-search candidates.
+SAMPLED = {'better_large_cosine_20k': (1, 2)}
 SEED_GROUPS = {
     'reference': ['reference', 'reference_seed17', 'reference_seed27'],
     'better_large_cosine_20k': ['better_large_cosine_20k', 'better_large_cosine_20k_seed17', 'better_large_cosine_20k_seed27'],
@@ -162,10 +174,19 @@ def reference_phase():
     log('reference and comparison predictions ready')
     stamp = WORK / 'fixtures_done_with_fewshot'
     if not stamp.is_file():
+        import hashlib
+        fixed = sorted(p for split in ('train', 'test') for p in (ROOT / 'eval' / split / 'fixed').rglob('*') if p.is_file())
+        before = {str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest() for p in fixed}
         run([sys.executable, '-m', 'eval.test.prepare_fixtures'], LOGS / 'prepare_fixtures.log')
+        after = {str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest()
+                 for split in ('train', 'test') for p in sorted((ROOT / 'eval' / split / 'fixed').rglob('*')) if p.is_file()}
+        check = {'unchanged': sorted(k for k in before if after.get(k) == before[k]),
+                 'changed': sorted(k for k in before if k in after and after[k] != before[k]),
+                 'new': sorted(k for k in after if k not in before)}
+        (HERE / 'fixtures_check.json').write_text(json.dumps(check, indent=1) + '\n')
         stamp.parent.mkdir(parents=True, exist_ok=True)
         stamp.write_text('ok\n')
-        log('fixtures frozen from the reference outputs')
+        log(f"fixtures frozen from the reference outputs; changed: {check['changed']}")
 
 
 # ------------------------------------------------------------------ variants
@@ -194,10 +215,86 @@ def variants_phase():
         if complete(case):
             continue
         for key, (stem, task, stack, _) in ROWS.items():
-            ckpt = WORK / 'models' / case / (f'{stack}x' if task == 'main' else 'fewshot_4x')
+            ckpt = model_dir(case, key)
             train(ckpt, 'ar', stack, 2, extra, seed, task)
             predict(ckpt / 'model.pt', row_path(case, key), task=task)
         log(f'built {case}')
+    for case, seeds in SAMPLED.items():
+        for seed in seeds:
+            for key, (stem, task, _, _) in ROWS.items():
+                predict(model_dir(case, key) / 'model.pt', sample_path(case, seed, key), 1.0, seed, task)
+        log(f'sampled {case} seeds {seeds}')
+    fewshot_memorizer()
+    shortfall_predictions()
+
+
+def model_dir(case, key):
+    """Checkpoint of a case's row: the reference files, or a trained variant."""
+    stem, task, stack, _ = ROWS[key]
+    if case == 'reference':
+        return ROOT / 'checkpoints' / stem
+    return WORK / 'models' / case / (f'{stack}x' if task == 'main' else 'fewshot_4x')
+
+
+def sample_path(case, seed, key):
+    if case == 'reference' and seed in (1, 2):
+        return row_path(f'reference_sample{seed}', key)
+    return WORK / 'samples' / case / f'seed{seed}' / f'{ROWS[key][0]}.pt'
+
+
+def fewshot_memorizer():
+    """Shortcut: an AR 4x model trained only on the 512 training utterances of
+    the 64 few-shot speakers for 5000 steps (about 1250 epochs), which
+    reproduces them; the main rows are the reference's."""
+    case = 'shortcut_fewshot_memorize'
+    if complete(case):
+        return
+    data = WORK / 'fewshot_only_data'
+    if not (data / 'train.pt').is_file():
+        data.mkdir(parents=True, exist_ok=True)
+        tr = torch.load(DATA['fewshot'] / 'train.pt', weights_only=True)
+        keep = tr['speaker'] >= 192
+        torch.save({'tokens': tr['tokens'][keep], 'speaker': tr['speaker'][keep]}, data / 'train.pt')
+        for name in ('val.pt', 'meta.pt', 'test_conditions.pt'):
+            shutil.copy(DATA['fewshot'] / name, data / name)
+    ckpt = WORK / 'models' / case / 'fewshot_4x'
+    if not (ckpt / 'model.pt').is_file():
+        args = ['--data', str(data), '--out', str(ckpt), '--variant', 'ar', '--stack-factor', '4',
+                '--steps', DRY_STEPS or '5000', '--batch-size', '64', '--seed', '7']
+        t0 = time.time()
+        run([sys.executable, '-m', 'method.train', *args], LOGS / 'train' / f'{case}_fewshot_4x.log')
+        log(f'trained {ckpt} in {time.time() - t0:.0f}s')
+    predict(ckpt / 'model.pt', row_path(case, 'fewshot'), task='fewshot')
+    for key in (2, 4):
+        if not have(case, key):
+            put(case, key, reference_row(key).to(torch.uint8))
+    log(f'built {case}')
+
+
+RICH = list(range(160, 192))      # 32 well-covered speakers, 256 rows each (as a few-shot slice)
+SHORTFALL_CASES = ('reference', 'better_cosine_20k', 'better_large_cosine_20k', 'better_speaker_rank16_cosine_20k')
+
+
+def shortfall_predictions():
+    """Diagnostic for the few-shot experiment: the same few-shot-task models
+    generating for 32 well-covered speakers (160 training utterances each)."""
+    data = WORK / 'rich_conditions'
+    data.mkdir(parents=True, exist_ok=True)
+    torch.save({'speaker': torch.tensor(RICH).repeat(256)}, data / 'test_conditions.pt')
+    for case in SHORTFALL_CASES:
+        out = WORK / 'shortfall' / f'{case}.pt'
+        if not out.is_file():
+            out.parent.mkdir(parents=True, exist_ok=True)
+            tmp = out.with_name(out.stem + '.partial.pt')
+            if DRY_STEPS:
+                from eval.test import evaluate as ev
+                torch.save({'pred_tokens': ev.sample_tokens('fewshot', torch.tensor(RICH).repeat(256), 77)}, out)
+                continue
+            run([sys.executable, '-m', 'method.predict', '--data', str(data), '--checkpoint',
+                 str(model_dir(case, 'fewshot') / 'model.pt'), '--out', str(tmp)],
+                LOGS / 'predict' / f'shortfall_{case}.log')
+            tmp.rename(out)
+    log('shortfall predictions ready')
 
 
 # ------------------------------------------------------------------ shortcuts
@@ -383,6 +480,62 @@ def splice_partial(key, seed):
     return mixed
 
 
+def select_moments(source, key, sweeps=2):
+    """Private search with public data only: for every row, choose one of three
+    generation samples of `source` (seeds 0, 1, 2) so that the chosen set's
+    consecutive-frame codec-latent moments match those of the task's public
+    training and validation utterances, globally and per conditioning speaker
+    (greedy coordinate descent on 1.0 x global FD + 0.6 x mean speaker FD, the
+    scored distances, computed with the public FSQ latent)."""
+    from eval.test import evaluate as ev
+    stem, task, _, _ = ROWS[key]
+    cands = torch.stack([load_pred(row_path(source, key) if seed == 0 else sample_path(source, seed, key))
+                         for seed in (0, 1, 2)])
+    spk = conditions(task)
+    data = [torch.load(DATA[task] / f'{s}.pt', weights_only=True) for s in ('train', 'val')]
+    tok = torch.cat([d['tokens'].long() for d in data])
+    tspk = torch.cat([d['speaker'].long() for d in data])
+    groups = sorted(set(spk.tolist()))
+    keep = torch.isin(tspk, torch.tensor(groups))
+    tm, tc = ev.feature_moments(tok[keep], tspk[keep], groups)
+    n_groups = len(groups)
+    gidx = torch.tensor([groups.index(s) for s in spk.tolist()])
+
+    def feats(t):
+        z = ev.codec_latent(t)
+        return torch.cat([z[:, :-1], z[:, 1:]], -1)
+
+    s1 = torch.stack([feats(c).sum(1) for c in cands])                       # C, N, 48
+    s2 = torch.stack([torch.einsum('nti,ntj->nij', feats(c), feats(c)) for c in cands])
+    n = torch.zeros(n_groups + 1, dtype=torch.float64)
+    gs = torch.zeros(n_groups + 1, ev.PAIR, dtype=torch.float64)
+    gp = torch.zeros(n_groups + 1, ev.PAIR, ev.PAIR, dtype=torch.float64)
+    gs.index_add_(0, gidx, s1[0]); gp.index_add_(0, gidx, s2[0]); n.index_add_(0, gidx, torch.full((len(spk),), float(T - 1), dtype=torch.float64))
+    gs[-1], gp[-1], n[-1] = gs[:-1].sum(0), gp[:-1].sum(0), n[:-1].sum()
+    choice = torch.zeros(len(spk), dtype=torch.long)
+
+    def fd(s, p, cnt, g):
+        mean = s / cnt
+        cov = (p - torch.outer(s, s) / cnt) / (cnt - 1)
+        return ev.frechet_moments(mean, cov, tm[g], tc[g])
+
+    g = torch.Generator().manual_seed(11)
+    for _ in range(sweeps):
+        for i in torch.randperm(len(spk), generator=g).tolist():
+            gi, cur = int(gidx[i]), int(choice[i])
+            best, best_value = cur, None
+            for c in range(len(cands)):
+                ds, dp = s1[c, i] - s1[cur, i], s2[c, i] - s2[cur, i]
+                value = fd(gs[-1] + ds, gp[-1] + dp, n[-1], n_groups) + 0.6 * fd(gs[gi] + ds, gp[gi] + dp, n[gi], gi) / n_groups
+                if best_value is None or value < best_value - 1e-12:
+                    best, best_value = c, value
+            if best != cur:
+                ds, dp = s1[best, i] - s1[cur, i], s2[best, i] - s2[cur, i]
+                gs[gi] += ds; gp[gi] += dp; gs[-1] += ds; gp[-1] += dp
+                choice[i] = best
+    return cands[choice, torch.arange(len(spk))]
+
+
 SEEDS = {2: 1, 4: 2, 'fewshot': 3}
 
 
@@ -399,6 +552,13 @@ def shortcut_builders():
         'shortcut_splice_4frame': lambda k: splice(4, 100 * SEEDS[k], task(k)),
         'shortcut_splice_6frame': lambda k: splice(6, 100 * SEEDS[k], task(k)),
         'shortcut_splice_partial': lambda k: splice_partial(k, 9 + SEEDS[k]),
+        # The same two sub-threshold splices on the main rows only, with the
+        # reference's honest few-shot row (the few-shot copy checks would
+        # otherwise fail the whole run).
+        'shortcut_splice_partial_mainonly': lambda k: (reference_row(k) if k == 'fewshot'
+                                                       else splice_partial(k, 9 + SEEDS[k])),
+        'shortcut_splice_2frame_mainonly': lambda k: (reference_row(k) if k == 'fewshot'
+                                                      else splice(2, 100 * SEEDS[k], task(k))),
         'shortcut_random_tokens': lambda k: torch.randint(V, (N, T, K), generator=torch.Generator().manual_seed(ROWS[k][2] + (10 if k == 'fewshot' else 0))),
         'shortcut_constant': lambda k: torch.zeros(N, T, K, dtype=torch.long),
         'shortcut_gaussian_latent': lambda k: gaussian_latent(SEEDS[k], task(k)),
@@ -416,6 +576,19 @@ def shortcuts_phase():
             if not have(case, key):
                 put(case, key, build(key).to(torch.uint8))
         log(f'built {case}')
+    # Private search: per-row choice among three samples of a trained model.
+    for case, source in (('shortcut_select_moments', 'reference'),
+                         ('shortcut_select_moments_large', 'better_large_cosine_20k')):
+        for key in ROWS:
+            if not have(case, key):
+                t0 = time.time()
+                put(case, key, select_moments(source, key).to(torch.uint8))
+                log(f'built {case} row {ROWS[key][0]} in {time.time() - t0:.0f}s')
+    # Private search on the main rows only, with the reference's few-shot row.
+    case = 'shortcut_select_moments_mainonly'
+    for key in ROWS:
+        if not have(case, key):
+            put(case, key, (reference_row(key) if key == 'fewshot' else load_pred(row_path('shortcut_select_moments', key))).to(torch.uint8))
     # Artifact and declaration attacks on the unchanged reference tokens.
     artifact = {
         'shortcut_stack_claim': lambda s: {'stack_factor': 24},
@@ -460,6 +633,12 @@ def restore_reference_predictions():
 
 def score_phase():
     target = SCORES / 'test_all.json'
+    if target.is_file() and 'codec_fewshot_stack4' not in json.loads(target.read_text())['experiments']:
+        # First job's two-experiment scores: keep them as the before state.
+        old = HERE / 'scores_two_experiments'
+        if old.exists():
+            shutil.rmtree(old)
+        SCORES.rename(old)
     if target.is_file() and (SCORES / 'train_all.json').is_file():
         return
     restore_reference_predictions()
@@ -630,6 +809,10 @@ def summary_phase():
             entry = table.setdefault(name, {})
             entry[split] = round(result['improvement'], 6)
             entry[f'{split}_feasible'] = result['feasible']
+            by_exp = {}
+            for cell, value in result['contributions'].items():
+                by_exp[cell.split('/')[0]] = by_exp.get(cell.split('/')[0], 0.0) + value
+            entry[f'{split}_by_experiment'] = {k: round(v, 6) for k, v in by_exp.items()}
             att = attempts[name]
             entry[f'{split}_failure'] = next((att['_failures'][s] for s in stems if s in att['_failures']), None)
             entry[f'{split}_raw'] = {row: {k: round(v, 6) for k, v in att['_raw'].get(row, {}).items()} for row in stems}
@@ -644,6 +827,10 @@ def summary_phase():
     sigmas['test_feasible_cohort'] = ranking['standard_deviations']
     for name, result in ranking['attempts'].items():
         table[name]['test_feasible_cohort'] = round(result['improvement'], 6)
+        by_exp = {}
+        for cell, value in result['contributions'].items():
+            by_exp[cell.split('/')[0]] = by_exp.get(cell.split('/')[0], 0.0) + value
+        table[name]['test_feasible_cohort_by_experiment'] = {k: round(v, 6) for k, v in by_exp.items()}
     groups = {}
     for group, members in SEED_GROUPS.items():
         present = [m for m in members if m in table]
@@ -677,7 +864,24 @@ def summary_phase():
         bound_scores[cohort_name] = statistics.fmean(
             normalized({stem: f[task] for stem, task, _, _ in ROWS.values()}, ref_raw, spec, sigmas[cohort_name])
             for f in floor.values())
+    # Few-shot shortfall: the same few-shot-task models on 32 well-covered
+    # speakers (same rows per speaker as a few-shot slice), against a fresh
+    # reference sample of those speakers drawn here.
+    shortfall = {}
+    rich = torch.tensor(RICH).repeat(256)
+    rich_ref_spk = rich.repeat_interleave(ev.REFERENCES_PER_ROW)
+    rich_ref = ev.sample_tokens('fewshot', rich_ref_spk, 64_000_001)
+    rich_reference = {'moments': ev.feature_moments(rich_ref, rich_ref_spk, RICH), 'pairs': ev.pair_counts(rich_ref), 'groups': RICH}
+    rich_rows = {case: load_pred(WORK / 'shortfall' / f'{case}.pt') for case in SHORTFALL_CASES if (WORK / 'shortfall' / f'{case}.pt').is_file()}
+    rich_rows['perfect_sampler'] = ev.sample_tokens('fewshot', rich, 64_000_002)
+    for case, tokens in rich_rows.items():
+        well = {k: round(v, 6) for k, v in ev.distribution_metrics(tokens, rich, rich_reference).items()}
+        few = (table.get(case, {}).get('test_raw', {}).get('generator_fewshot_4x')
+               or {k: v for k, v in floor[next(iter(floor))]['fewshot'].items()})
+        shortfall[case] = {'well_covered_speakers_160_191': well,
+                           'few_shot_test_speakers_224_255': {k: few[k] for k in METRICS}}
     summary = {'cases': {k: v for k, v in table.items() if not k.startswith('_')}, 'comparison_rows': table['_comparison_rows'],
+               'fewshot_shortfall': shortfall,
                'perfect_sampler_bound_test': floor, 'perfect_sampler_bound_score': bound_scores,
                'failed_run_values': table['_failed_run_values'], 'seed_groups': groups, 'noise': noise,
                'paired_bootstrap_test': boot, 'standard_deviations': sigmas}
@@ -689,6 +893,19 @@ def summary_phase():
         fc = f"{c['test_feasible_cohort']:+9.4f}" if 'test_feasible_cohort' in c else ' ' * 9
         lines.append(f"{name:38s} {c['test']:+9.4f} {c['train']:+9.4f} {fc}  {outcome[:100]}")
     lines.append(f"{'perfect_sampler_bound (not an attempt)':38s} {bound_scores['test']:+9.4f} {'':9s} {bound_scores['test_feasible_cohort']:+9.4f}")
+    lines.append('')
+    lines.append('feasible-cohort score by experiment (test)')
+    for name in sorted(summary['cases'], key=lambda n: -summary['cases'][n].get('test_feasible_cohort', -1e9)):
+        by = summary['cases'][name].get('test_feasible_cohort_by_experiment')
+        if by:
+            lines.append(f"{name:38s} " + ' '.join(f'{k}={v:+.4f}' for k, v in sorted(by.items())))
+    lines.append('')
+    lines.append('few-shot shortfall: few-shot-task models on well-covered vs few-shot speakers (256 rows each, 32 speakers)')
+    for case, r in shortfall.items():
+        w, f = r['well_covered_speakers_160_191'], r['few_shot_test_speakers_224_255']
+        lines.append(f"{case:38s} well-covered fd={w['codec_fd']:.4f} spk_fd={w['speaker_conditioned_codec_fd']:.4f} "
+                     f"pair_js={w['codebook_pair_divergence']:.5f} | few-shot fd={f['codec_fd']:.4f} "
+                     f"spk_fd={f['speaker_conditioned_codec_fd']:.4f} pair_js={f['codebook_pair_divergence']:.5f}")
     lines.append('')
     for name in sorted(summary['cases']):
         for row in stems:

@@ -1,5 +1,4 @@
 action: submit
 gpus: 1
 test: false
-milestone: core_claim_plus
-notes: "Rebuild on the hidden nonlinear FSQ codec process: train reference + comparisons (7 models, 10k steps), freeze fixtures, train variants (reference seeds, 20k cosine, large 20k cosine x3 seeds, 2k), build shortcut cases, score all through evaluate_test/train.sh, paired bootstrap, restore reference-only scores, validate. Resumable."
+notes: "Closing check: train few-shot reference/parallel/MaskGIT (10k steps), freeze fixtures of both tasks, add few-shot rows to every saved case (variant few-shot models: reference seeds, 20k cosine, large x3 seeds, rank-16 speakers, 2k), private-search selection and few-shot memorizer shortcuts, score all through evaluate_test/train.sh, summary with paired bootstrap and few-shot shortfall, restore reference-only scores, validate. Resumable."

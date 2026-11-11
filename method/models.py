@@ -46,6 +46,7 @@ class FrameStackedModel(nn.Module):
         main_layers=2,
         lt_layers=1,
         maskgit_steps=3,
+        speaker_rank=0,
     ):
         super().__init__()
         self.vocab_size = vocab_size
@@ -66,7 +67,14 @@ class FrameStackedModel(nn.Module):
         self.slot_token_embed = nn.Embedding(slots * (vocab_size + 1), dim)
         nn.init.zeros_(self.slot_token_embed.weight)
         self.register_buffer("slot_offset", torch.arange(slots) * (vocab_size + 1), persistent=False)
-        self.speaker_embed = nn.Embedding(num_speakers, dim)
+        if speaker_rank > 0:
+            # Optional low-rank speaker table (the reference uses a full one):
+            # every speaker is a point of an r-dimensional space shared by all
+            # speakers, so speakers with little data have fewer free parameters.
+            self.speaker_embed = nn.Sequential(nn.Embedding(num_speakers, speaker_rank),
+                                               nn.Linear(speaker_rank, dim, bias=False))
+        else:
+            self.speaker_embed = nn.Embedding(num_speakers, dim)
         self.pos_embed = nn.Embedding(256, dim)
         self.step_in = nn.Linear(dim, dim)
         self.main = CausalBlock(dim, heads, main_layers)

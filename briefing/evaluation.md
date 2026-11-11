@@ -48,7 +48,7 @@ A run fails if any of the following holds:
   - The test draws its fresh sample at evaluation time. The train evaluator holds only the 48-bit keys of its fresh sample's windows.
 - **Reused operating point.** More than 1% of one main operating point's scored utterances repeat a 12-frame half found in any row of the other operating point's file. The two rows must be separate samples.
 - **Not better than noise.** Any of the three measurements is not below half of its value for uniform random tokens.
-- **Integrity.** The fixed training data or a reserved comparison output was changed, or a method-side `data/synthetic_codec/test.pt` exists.
+- **Integrity.** The fixed training data of either task or a reserved comparison output was changed, or a method-side `test.pt` exists in either data directory.
 
 Copy and window checks use each task's own visible utterances and fresh sample. A failed run receives the worst value of every scored metric in all three experiments: each measurement equals that of uniform random tokens (`_metadata.failed_run_values`). A failed or missing row fails the whole run.
 - Raw diagnostics of the actual outputs stay under `_raw`, and the reason under `_failures`.
@@ -59,7 +59,7 @@ Copy and window checks use each task's own visible utterances and fresh sample. 
 The rank sums over experiments and metrics: experiment weight × |metric coefficient| × improvement over the reference. Direction comes from `higher_is_better`. Each improvement is divided by that metric's variation across the ranked attempts, so scores depend on the comparison cohort and attempts should be compared together. The evaluator's own `_ranking` block is a diagnostic of the same quantity for the attempts on disk. The reference measurements are recomputed each time from evaluator-frozen raw predictions.
 
 Weights and coefficients:
-- `codec_stack2` has weight 0.3, `codec_stack4` 0.4 and `codec_fewshot_stack4` 0.3. The aggressive 4x point carries the most weight, in total 0.7 across the two tasks.
+- `codec_stack2` has weight 0.25, `codec_stack4` 0.35 and `codec_fewshot_stack4` 0.4. The aggressive 4x point carries 0.75 across the two tasks. The few-shot experiment carries the most: it is where the paper reports its method losing robustness, and its test speakers' distributions cannot be estimated from public data.
 - Per metric: codec FD 1.0, codebook-pair divergence 0.8, speaker-conditioned FD 0.6.
 
 Efficiency is a constraint, not a rewarded method-written number. Token artifacts cannot prove actual sequential compute, so false declarations remain subject to shortcut review.

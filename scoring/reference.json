@@ -290,7 +290,7 @@
   "experiments": {
     "codec_stack2": {
       "description": "Synthetic multi-codebook codec generation at the 2x frame-stacking operating point (at most 12 primary decoder steps per 24-frame utterance), the paper's recommended speed/quality balance. Proposed row `generator_2x`; comparison rows are frozen by the hidden evaluator (independent parallel heads at 1x and 2x, MaskGIT local transformer at 2x). Values in `results` are from this gym's reference run on the hidden test, not paper numbers.",
-      "weight": 0.3,
+      "weight": 0.25,
       "primary_metric": "codec_fd",
       "metrics": {
         "codec_fd": {
@@ -338,7 +338,7 @@
     },
     "codec_stack4": {
       "description": "Synthetic multi-codebook codec generation at the aggressive 4x frame-stacking operating point (at most 6 primary decoder steps per 24-frame utterance), where the paper reports its own method losing quality. Proposed row `generator_4x`; comparison rows are frozen by the hidden evaluator (parallel heads at 4x, MaskGIT local transformer at 4x). Values in `results` are from this gym's reference run on the hidden test, not paper numbers.",
-      "weight": 0.4,
+      "weight": 0.35,
       "primary_metric": "codec_fd",
       "metrics": {
         "codec_fd": {
@@ -380,7 +380,7 @@
     },
     "codec_fewshot_stack4": {
       "description": "Few-shot speakers at the aggressive 4x frame-stacking operating point (at most 6 primary decoder steps per 24-frame utterance): an independent hidden open-speaker process in which 192 speakers have 160 training utterances each and the 64 evaluation speakers only 8 each (`data/synthetic_codec_fewshot`). This is the scaled counterpart of the paper's reported shortfall, the loss of speaker robustness at 4x for speakers the training data cover poorly (unseen speakers, Figure 2(d)); the train and test slices use disjoint halves of the 64 speakers. Proposed row `generator_fewshot_4x`; comparison rows are frozen by the hidden evaluator (parallel heads and MaskGIT local transformer at 4x on the same data). Values in `results` are from this gym's reference run on the hidden test, not paper numbers.",
-      "weight": 0.3,
+      "weight": 0.4,
       "primary_metric": "codec_fd",
       "metrics": {
         "codec_fd": {

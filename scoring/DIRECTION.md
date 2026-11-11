@@ -12,12 +12,14 @@ A learned alternative that produces a better distribution is a scientific improv
 These are shortcuts:
 - calling or copying a hidden reference sampler;
 - copying, editing or splicing visible examples, or assembling rows from looked-up training frames or segments;
+- private search on the metric: choosing among several samples per row, or filtering, editing or reweighting rows, so that the submitted set matches data statistics or an evaluation-like score;
 - false compute declarations, including using a 2x model for the 4x row;
 - modifying canonical data or fixed comparisons;
 - substituting scores.
 
 Generated tokens cannot reveal some of these, so a separate shortcut review checks them:
 - actual sequential computation;
+- selection or filtering of generated rows (private search on the metric);
 - splices of very short pieces;
 - lookups of single training frames;
 - copies of a small fraction of rows.
