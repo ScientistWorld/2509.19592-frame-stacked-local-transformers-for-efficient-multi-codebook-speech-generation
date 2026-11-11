@@ -24,9 +24,10 @@ All of its speakers share one speaker space, so what is learned from well-covere
 
 Computation within a primary step is unrestricted. The scientific question is how well generation quality can be kept when the primary sequence model runs less often.
 
-Use the provided training data to learn the generator. Outside the task:
+Use the provided training data to learn the generator; each row is one independent draw of it. Outside the task:
 - copying, editing or splicing visible utterances;
 - calling evaluator-side samplers;
+- choosing, filtering or editing generated rows so that the set matches data statistics (private search on the metric);
 - false computation declarations.
 
 See `scoring/CONSTRAINTS.md`.
@@ -46,7 +47,7 @@ The code is in `method/models.py`, scaled down from the paper:
 - width 96, 4 heads, 2 primary layers and 1 LT layer;
 - 10000 AdamW steps at a constant learning rate of 1e-3, batch 128.
 
-The paper specifies AdamW but no schedule. `method/train.py --lr-schedule cosine` is an optional variant that the reference does not use.
+The paper specifies AdamW and the Koel-TTS setup. Koel-TTS trains at 1e-4, annealed by 0.998 every 1000 steps, which keeps the rate almost constant over its 200k steps. The reference keeps that constant shape at this scale. `method/train.py --lr-schedule cosine` and `--speaker-rank r` (a low-rank speaker table shared by all speakers) are optional variants that the reference does not use.
 
 Model details:
 - **Embeddings.** Every (frame-in-stack, codebook) slot has its own token embedding table, shared by the primary decoder and the LT. The primary decoder input averages the slot embeddings of the previous stack (as in the paper), plus speaker and step-position embeddings.
@@ -123,7 +124,7 @@ A run fails if any of the following holds:
   - The test draws its fresh sample at evaluation time. The train evaluator holds only the 48-bit keys of its fresh sample's windows.
 - **Reused operating point.** More than 1% of one main operating point's scored utterances repeat a 12-frame half found in any row of the other operating point's file. The two rows must be separate samples.
 - **Not better than noise.** Any of the three measurements is not below half of its value for uniform random tokens.
-- **Integrity.** The fixed training data or a reserved comparison output was changed, or a method-side `data/synthetic_codec/test.pt` exists.
+- **Integrity.** The fixed training data of either task or a reserved comparison output was changed, or a method-side `test.pt` exists in either data directory.
 
 Copy and window checks use each task's own visible utterances and fresh sample. A failed run receives the worst value of every scored metric in all three experiments: each measurement equals that of uniform random tokens (`_metadata.failed_run_values`). A failed or missing row fails the whole run.
 - Raw diagnostics of the actual outputs stay under `_raw`, and the reason under `_failures`.
@@ -134,7 +135,7 @@ Copy and window checks use each task's own visible utterances and fresh sample. 
 The rank sums over experiments and metrics: experiment weight × |metric coefficient| × improvement over the reference. Direction comes from `higher_is_better`. Each improvement is divided by that metric's variation across the ranked attempts, so scores depend on the comparison cohort and attempts should be compared together. The evaluator's own `_ranking` block is a diagnostic of the same quantity for the attempts on disk. The reference measurements are recomputed each time from evaluator-frozen raw predictions.
 
 Weights and coefficients:
-- `codec_stack2` has weight 0.3, `codec_stack4` 0.4 and `codec_fewshot_stack4` 0.3. The aggressive 4x point carries the most weight, in total 0.7 across the two tasks.
+- `codec_stack2` has weight 0.25, `codec_stack4` 0.35 and `codec_fewshot_stack4` 0.4. The aggressive 4x point carries 0.75 across the two tasks. The few-shot experiment carries the most: it is where the paper reports its method losing robustness, and its test speakers' distributions cannot be estimated from public data.
 - Per metric: codec FD 1.0, codebook-pair divergence 0.8, speaker-conditioned FD 0.6.
 
 Efficiency is a constraint, not a rewarded method-written number. Token artifacts cannot prove actual sequential compute, so false declarations remain subject to shortcut review.
@@ -828,6 +829,65 @@ The paper's real-speech metrics remain unchanged under `_paper_reported` in `sco
 - **Milestone**: `core_claim_plus` | **Status**: error
 - **Working time**: 53m | **GPU**: 2.1h
 - **Jobs**: 17 total (14 completed, 2 failed)
+
+<details>
+<summary>Progress Log</summary>
+
+### [2026-06-13 19:48] - core_claim
+- Verified the paper method/evaluation against the arXiv HTML/source files and confirmed no official code release is available.
+- Audited the existing gym implementation: the evaluator scores saved prediction artifacts and does not import or rerun `method/`.
+- Existing reproduced scores support the central claim on the fixed synthetic codec task: `ar_lt_2x` reaches dependency validity 1.000 versus 0.038 for `baseline_parallel_1x`, while using 12 rather than 24 primary decoder steps per 24 frames.
+- Patched script portability and evaluator failure behavior before submitting a CPU container validation job.
+
+### [2026-06-13 19:48] - method_runs
+- Continuing audit found that prediction used ground-truth previous frames for temporal context and that evaluation trusted reference/speaker tensors from prediction artifacts.
+- Fixed generation to roll out primary steps from model-generated previous frames.
+- Fixed evaluation to load the fixed test split from `data/downloads/synthetic_codec` and ignore artifact-provided references/speakers; removed artifact-reported NLL from official scoring.
+- Submitting a CPU validation job to regenerate prediction artifacts and scores before restoring `core_claim`.
+
+### [2026-06-13 19:59] - method_runs
+- CPU validation job `e966ac72-db7` regenerated free-running prediction artifacts for baseline, AR LT, and MaskGIT, then failed inside the evaluator before writing fresh scores.
+- Root cause: evaluator variable shadowing replaced the reference token tensor with the parsed `reference.json` dictionary.
+- Fixed evaluator reference handling and split checking; resubmitting CPU validation before restoring `core_claim`.
+
+### [2026-06-13 20:03] - core_claim
+- CPU validation job `b04cfee6-16a` passed under the corrected free-running protocol and `python validate.py --compare`.
+- Reproduced core synthetic claim: `ar_lt_2x` reached dependency validity 1.000 versus 0.045 for `baseline_parallel_1x`, while reducing primary decoder steps from 24 to 12 per 24-frame sequence.
+- Added `ar_lt_4x` as a runnable synthetic stretch target and prepared a follow-up job to test whether the same local-transformer mechanism holds at 4x frame stacking.
+
+### [2026-06-13 20:57] - core_claim_plus
+- CPU validation job `c18a070a-58c` trained `ar_lt_4x` for 5000 steps and passed `python validate.py --compare`.
+- `ar_lt_4x` reached dependency validity 1.000 with 6 primary decoder steps per 24-frame sequence, extending the validated effect beyond the minimum 2x stack setting.
+- Updated `scripts/reproduce.sh` so the end-to-end reproduction includes the validated 4x expansion.
+
+### [2026-06-13 21:24] - core_claim_plus
+- Final verification job `856c925d-a5f` passed in the packaged CPU environment.
+- Regenerated `scores.json`, `scores_train.json`, and `scores_test.json`; validation confirmed import separation, artifact-based evaluation, shared-path portability, and train/test evaluator independence.
+- Cleaned method-agnostic guidance and moved the small synthetic dataset to tracked `data/synthetic_codec`.
+
+### [2026-06-13 21:30] - core_claim_plus
+- Audited the paper-context reference rows against Figure 2(g).
+- Expanded `scoring/reference.json` to include the seen and unseen LibriTTS 1x/2x/4x mean metrics and confidence intervals as reference-only experiments.
+- Re-ran `python validate.py --compare`; all scoring and structure checks passed.
+
+### [2026-06-13 21:33] - core_claim_plus
+- Completed final gym verification.
+- Tightened method-agnostic evaluation wording and aligned `scoring/EXPERIMENTS.md` with the active scored experiment.
+- Wrote `VERIFICATION.md`; `python validate.py --compare` passes.
+
+### [2026-11-09] - core_claim_plus, final hardening verified
+- Bundled GPU job `c0959cf3-667` completed with exit 0. Reference and comparison predictions were regenerated on 16,384 final evaluation conditions from weights trained on the final temporal data; no evaluator retrains.
+- AR reference validity is 0.974291 at 2x and 0.933017 at 4x; it improves every scored quantity over the parallel comparisons. Original validity-1 results above belong to the superseded independent-frame setup.
+- A feasible 20k-step variant beats the 10k reference by +0.047042, paired 95% interval [+0.041183, +0.058011], above measured seed variation. No scored reference metric is at its bound.
+- Replayed shortcuts fail; ranking now uses feasibility precedence and coefficient-weighted, cohort-standardized improvements from raw outputs. `python validate.py --post-design` passes; reference-only score artifacts are restored.
+- Milestone remains `core_claim_plus`: full MaskGIT and real-audio claims are not reproduced, and inferred analytic samplers, partial splicing and false compute claims remain limitations. See `HARDENING.md` and `VERIFICATION.md` for the current protocol and evidence.
+
+</details>
+
+### Iteration 11: claude-opus-5-5 (hardener)
+- **Milestone**: `core_claim_plus` | **Status**: done
+- **Working time**: 51m | **GPU**: 2.0h
+- **Jobs**: 18 total (15 completed, 2 failed)
 
 <details>
 <summary>Progress Log</summary>
