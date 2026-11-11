@@ -19,3 +19,5 @@
 - [x] Reference-only scores regenerated; limitations documented in HARDENING.md
 - [x] Memorization (visible-minus-control window) check added; remaining shortcut families measured and documented
 - [x] End-to-end run.sh restored; final replay and validation passed
+- [x] Few-shot-speaker experiment trained, fixtures frozen, all cases replayed with three experiments
+- [x] Private-search shortcut measured and documented; weights, scoring docs and HARDENING.md final

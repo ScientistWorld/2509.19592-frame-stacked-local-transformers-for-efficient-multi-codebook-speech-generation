@@ -1,14 +1,18 @@
 #!/usr/bin/env bash
-# Closing check job: add the few-shot-speaker experiment to the rebuilt gym.
-# Trains the few-shot reference and comparison models from the final code,
-# freezes the fixtures of both tasks, adds the few-shot rows to every saved
-# case (variants retrain their few-shot model; shortcuts are rebuilt from
-# public data), adds the private-search and few-shot-memorizer cases, scores
-# every case through scripts/evaluate_{test,train}.sh, writes the summary,
-# restores reference-only scores and validates. Resumable.
-# After the job this file is restored to the end-to-end reference reproduction.
+# End-to-end reference reproduction: train the AR local-transformer reference
+# (main task at 2x and 4x frame stacking, few-shot task at 4x) and the
+# comparison models (parallel heads at 1x/2x/4x and MaskGIT local transformer
+# at 2x/4x on the main task; parallel and MaskGIT at 4x on the few-shot task),
+# write their predictions, freeze the evaluator fixtures from them, score both
+# slices and validate. The hardening evidence is replayed by
+# eval/test/hardening/rebuild/run_rebuild.py.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 export OMP_NUM_THREADS="${OMP_NUM_THREADS:-1}"
 export MKL_NUM_THREADS="${MKL_NUM_THREADS:-1}"
-python eval/test/hardening/rebuild/run_rebuild.py
+bash scripts/reproduce.sh
+python -m eval.test.prepare_fixtures
+bash scripts/evaluate_train.sh
+cp scoring/scores_train.json scoring/scores.json
+bash scripts/evaluate_test.sh
+python validate.py --post-design

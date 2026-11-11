@@ -1,4 +1,2 @@
-action: submit
-gpus: 1
-test: false
-notes: "Closing check: train few-shot reference/parallel/MaskGIT (10k steps), freeze fixtures of both tasks, add few-shot rows to every saved case (variant few-shot models: reference seeds, 20k cosine, large x3 seeds, rank-16 speakers, 2k), private-search selection and few-shot memorizer shortcuts, score all through evaluate_test/train.sh, summary with paired bootstrap and few-shot shortfall, restore reference-only scores, validate. Resumable."
+action: done
+notes: "Few-shot-speaker experiment completed and verified (reference/comparisons trained, fixtures frozen, 49 cases replayed with 3 experiments); every REDTEAM shortcut fails; better variants +1.0-1.12 vs training-seed range 0.267; private search (+1.10) measured and left to shortcut review; weights 0.25/0.35/0.4; run.sh restored end to end; validate.py passes."

@@ -1,151 +1,210 @@
 # Hardening: final state of the test
 
-**Better results now score higher, weaker ones lower, and every shortcut that REDTEAM.md reported fails.** The reference scores 0. The strongest honest learned variant scores **+0.247**, with paired 95% interval **[+0.229, +0.266]**. Its gain holds across three training seeds. Weaker variants fail the task and rank below every feasible run.
+**Better results score higher, and weaker ones score lower, on all three experiments.** Every shortcut REDTEAM.md reported now fails.
 
-This iteration found one new paying shortcut: splicing visible training utterances into pieces that are shorter than the old 12-frame copy window. It now fails, through a memorization check added to both evaluators. Four shortcut families still pay. Generated tokens cannot reveal them, so they are left to the separate shortcut review (section 4):
-- a hand-written sampler of the synthetic data process;
-- repairing or filtering outputs with the public validity rule;
-- false compute declarations;
-- splices of 3-frame pieces, or of a small fraction of rows.
+This iteration completed the experiment from where the paper's method falls short. The previous iteration had designed it but left the gym unable to score: it had no fixtures, no reference run and placeholder reference values. The experiment covers few-shot speakers at 4x frame stacking. This iteration trained its reference and comparison models, froze its fixtures, and replayed every saved case with all three experiments. It also measured one new shortcut family, **private search**:
+- For every row, it chooses one of three samples of the reference model, so that the set's codec moments match the public training data.
+- It pays as much as the best honest variant, on both tasks.
+- No evaluator check can see it, so it is left to the shortcut review (section 3).
 
-All numbers below come from the final replay job `9bb82593-d9d` (CPU, exit 0) unless marked otherwise. That job rescored every saved case through the no-argument `scripts/evaluate_test.sh` and `scripts/evaluate_train.sh`. Evidence:
-- [summary.json](eval/test/hardening/last/summary.json) and [summary.txt](eval/test/hardening/last/summary.txt);
-- per-case raw measurements in [scores/](eval/test/hardening/last/scores/);
-- the before-fix replay of job `47df85f6-fd8`, in [summary_before_excess_check.json](eval/test/hardening/last/summary_before_excess_check.json);
-- the runner, [run_last.py](eval/test/hardening/last/run_last.py).
+All numbers come from the closing job `bbe268c5-f24` (1 GPU, exit 0). That job ran every case through the no-argument `scripts/evaluate_test.sh` and `scripts/evaluate_train.sh`. Evidence:
+- [summary.txt](eval/test/hardening/rebuild/summary.txt) and [summary.json](eval/test/hardening/rebuild/summary.json);
+- per-case scores in [scores/](eval/test/hardening/rebuild/scores/);
+- the runner, [run_rebuild.py](eval/test/hardening/rebuild/run_rebuild.py);
+- the before state of this iteration, the two-experiment replay of job `4a264730-2a8`, in [summary_two_experiments.txt](eval/test/hardening/rebuild/summary_two_experiments.txt) and [scores_two_experiments/](eval/test/hardening/rebuild/scores_two_experiments/).
 
-Nothing was retrained in this iteration. Method code, training data, the reference, and the comparison outputs are unchanged since the earlier hardening jobs that trained them.
+The main-task reference, its comparison rows and every main-task variant were trained in job `4a264730-2a8` from the current data and method code. Their predictions are unchanged. This job trained only the few-shot models, plus the low-rank-speaker variant on all three rows.
 
-Scores are the rank's quantity: for each experiment and metric, `weight × |coefficient| × improvement in the higher_is_better direction ÷ the metric's standard deviation across the saved cohort` (54 cases, including failed runs at worst values). Absolute values therefore depend on the cohort. Scores from REDTEAM.md used raw, unnormalized utility on an older task and are only comparable in sign and order.
+**How scores are reported.** Scores are the rank's quantity: for each experiment and metric, weight × |coefficient| × improvement over the reference ÷ the metric's standard deviation across a cohort. Two cohorts are reported:
+- **Feasible cohort** (the main number below): the 20 feasible cases.
+- **All cases**: all 49 cases, including failed runs at worst values. The failed runs inflate the standard deviations about ninefold.
+
+Absolute values depend on the cohort. REDTEAM.md used raw, unnormalized utility on an older task, so its numbers are comparable to these in sign and order only. Paired 95% intervals come from a block bootstrap (64 row blocks, 200 replicates):
+- every replicate uses identical held-out rows and identical hidden references for both methods;
+- the full-covariance FD is recomputed from resampled sufficient statistics;
+- the cohort standard deviations are held fixed.
 
 ## 1. Do better results score higher?
 
-Yes. The table shows the before/after view of the variants.
+Yes.
 
-| Variant (same inputs, paired) | REDTEAM.md (original gym) | Final test | Final train | Final outcome |
-|---|---:|---:|---:|---|
-| Reference, AR LT, 10k steps | 0 | **0** | 0 | feasible |
-| Same model, 20k steps, cosine LR decay | — | **+0.247** [+0.229, +0.266] | +0.262 | feasible |
-| …same, training seeds 17 / 27 | — | +0.231 / +0.146 | +0.247 / +0.156 | feasible |
-| Same model, 20k steps, constant LR | +0.031724 (10k vs 5k) | +0.091 [+0.071, +0.120] | +0.084 | feasible |
-| …same, training seeds 17 / 27 | — | +0.029 / +0.033 | +0.042 / +0.042 | feasible |
-| Same model, 10k steps, cosine LR (seeds 7/17/27) | — | +0.054 / −0.118 / +0.129 | +0.062 / −0.109 / +0.140 | feasible, seed-noisy |
-| Reference weights, paper temperature 0.6 | — | −0.263 [−0.282, −0.241] | −0.237 | feasible |
-| 2k steps (weaker) | −1.127834 (100 steps) | FAILED −3.957 | FAILED | validity 0.448 / 0.269 |
-| Local transformer removed (weaker) | −0.883640 | FAILED −3.957 | FAILED | validity 0.141 |
-| Reference weights, argmax decoding | — | FAILED −3.957 | FAILED | distribution no closer than uniform random tokens |
-| Wider/deeper model, 10k / 20k steps | — | FAILED −3.957 | FAILED | memorizes: 30% / 67% of rows repeat a visible 12-frame half |
+| Variant (same inputs, paired) | REDTEAM.md (original gym) | Two experiments (before) | **Final, feasible cohort** [95%] | Final, all cases: test / train | Outcome |
+|---|---:|---:|---:|---:|---|
+| Reference: AR LT, 10k steps, constant LR | 0 | 0 | **0** | 0 / 0 | feasible |
+| Same model, 20k steps, cosine LR decay | — | +1.290 | **+1.070** [+1.011, +1.121] | +0.122 / +0.132 | feasible |
+| Larger model (width 192, 3+2 layers), 20k cosine, seeds 7 / 17 / 27 | — | +1.364 / +1.366 / +1.363 | **+1.041 / +1.005 / +1.122** | +0.118 / +0.114 / +0.126 (test) | feasible |
+| 20k cosine with a rank-16 speaker table (few-shot idea) | — | — | **+1.013** [+0.948, +1.077] | +0.116 / +0.131 | feasible |
+| Reference retrained, seeds 17 / 27 | +0.002 / −0.012 (5k steps) | +0.159 / −0.274 | −0.100 / −0.264 | −0.011 / −0.030 (test) | feasible |
+| Reference weights, generation seeds 1 / 2 | — | −0.034 / −0.006 | −0.050 / +0.008 | −0.006 / 0.000 (test) | feasible |
+| 2k steps (weaker) | −1.128 (100 steps) | −0.836 | **−1.677** | −0.180 | feasible |
+| Local transformer removed (weaker) | −0.884 | −2.832 | **−2.979** | −0.279 | feasible |
+| Reference weights, paper temperature 0.6 | — | −7.978 | −8.667 | −1.133 | feasible |
+| Reference weights, argmax decoding | — | FAILED | FAILED | −4.903 | not below half of random-token FD |
 
-In REDTEAM.md, independent random tokens beat the reference by +0.424 even though they failed the task. That inversion is gone: random tokens now fail (validity 0.070), and every failed run receives the worst value of every scored metric in both experiments.
+**Noise and train/test agreement:**
+- The reference's training-seed range is **0.267**, and its generation-seed range 0.057.
+- Every better variant beats the reference by about four times the training-seed range. The worst seed of the larger model (+1.005) beats the best reference retraining (0) by far more than that range.
+- Train and test agree: +0.132 on train against +0.122 on test, in the all-cases cohort.
+- The reference itself measures 0.218 / 1.640 / 0.0187 on train against 0.212 / 1.534 / 0.0185 on test (few-shot codec FD / speaker FD / pair divergence).
 
-Noise:
-- Three retrainings of the reference span **0.115** (seed 17 −0.074, seed 27 +0.041).
-- Three generation seeds of the reference span **0.014**.
-- The 20k cosine variant's worst seed (+0.146) is above the best reference seed (+0.041). Its mean gain over the reference seed group is +0.219.
-- The 20k constant-LR variant gains +0.062 on average, but its worst seed overlaps the reference seed range. It is a real but small improvement.
+**Per-experiment gains** (feasible cohort, contributions to the total):
 
-The paired interval uses a block bootstrap with 16 blocks and 200 replicates. Every replicate uses identical held-out rows and identical hidden references for both methods, recomputes full-covariance FD from resampled sufficient statistics, and holds the cohort standard deviations fixed.
+| Variant | `codec_stack2` | `codec_stack4` | `codec_fewshot_stack4` |
+|---|---:|---:|---:|
+| 20k cosine | +0.416 | +0.381 | +0.272 |
+| Larger model, 3 seeds | +0.43 | +0.41 | +0.16 to +0.28 |
+| Reference retrainings | −0.04 to +0.10 | −0.12 to +0.00 | −0.20 / −0.10 |
 
-Train and test agree:
-- The best variant scores +0.262 on train and +0.247 on test.
-- Reference validity is 0.9737 / 0.9329 on train and 0.9743 / 0.9330 on test.
+On the few-shot row, the better variants improve codec FD and pair divergence well beyond noise. For example, 20k cosine changes codec FD by [−0.094, −0.072] and pair divergence by [−0.0063, −0.0051].
+
+Few-shot speaker FD barely moves: by [−0.18, −0.12] for 20k cosine, and [−0.07, +0.03] for the larger model. Generic training improvements do not fix the few-shot shortfall; section 5 has the numbers.
 
 ## 2. Shortcuts: fixes and scores before and after
 
-"Before" for the REDTEAM rows is the score REDTEAM.md reported. For shortcuts found later, it is the replay before the fix that closes them. "FAILED" ranks below every feasible run. Its diagnostic utility is −3.957 here because every scored metric is replaced by its worst value.
+"Before" for the REDTEAM.md rows is the score REDTEAM.md reported. For shortcuts found during hardening, it is the replay before the fix that closed them.
+
+"FAILED" ranks below every feasible run. A failed run receives the uniform-random-token value of every scored measurement in all three experiments: −4.903 in the all-cases cohort.
 
 | Shortcut | Before | Final | Fix |
 |---|---:|---|---|
-| Copy visible test answers | +0.586483 | FAILED | No test answer file; test references are drawn inside `eval/test/` from a hidden seed. The replay falls back to copying training utterances, which fails the half-copy check (100%) and the window-excess check (0.955). |
-| Rebuild answers with the public `make_split` | +0.586483 | FAILED | The data generator is no longer public (only `eval/test/` holds it). The replay's import fails, and its empty fallback fails the shape check. |
-| Rule sampler (independent frames) | +0.146181 | FAILED | Temporal task. Coarse-transition validity must be at least 0.5; this sampler reaches about 0.125. |
-| Stack factor 24 / −1 / ∞ / 0 | +1.2475 / +7.485 / +1.497 / crash | FAILED (all four) | Exact evaluator-fixed operating points (2 and 4, positive integers). No speed reward. |
-| Prewrite scores, add verdict fields | 0 (paying tie) | FAILED | Scores are recomputed from raw tokens, and extra top-level fields fail the artifact. |
-| Replace baseline predictions | +1.612635 (aggregate) | FAILED | Comparison rows load from `eval/*/fixed`. Changing a reserved file fails the run. |
-| Replace ground truth (test file / validation file) | +0.300536 (aggregate) | FAILED (both) | A method-side `test.pt` is forbidden, and train/validation are hash-checked. |
-| Independent random tokens, one step | +0.424047 | FAILED | Validity threshold (0.070 < 0.5). Failed runs get worst values everywhere. |
+| Copy visible test answers | +0.586 | FAILED | There is no answer file. References are drawn inside `eval/test/` from hidden seeds. Copying training utterances instead fails the half-copy check (100%) and the window check (excess 0.99). |
+| Rebuild answers with the public generator | +0.586 | FAILED | The process and its seeds exist only in `eval/test/codec_process.py`. The old rule replayed as a sampler fails: its codec FD is not below half that of random tokens. |
+| Rule sampler (old affine rule) / rule repair | +0.146 / +0.202 | FAILED / FAILED | Hidden nonlinear process: the old rule describes nothing. |
+| Stack factor 24 / −1 / ∞ / 0 | +1.248 / +7.485 / +1.497 / crash | FAILED (all four) | Exact evaluator-fixed operating points; no speed reward. |
+| Prewrite scores, add verdict fields | 0 (paying tie) | FAILED | Scores are recomputed from raw tokens. Extra artifact fields fail the run. |
+| Replace baseline predictions | +1.613 (aggregate) | FAILED | Comparison rows load from `eval/*/fixed`. A changed reserved file fails the run. |
+| Replace ground truth (test file / validation file) | +0.301 (aggregate) | FAILED / FAILED | A method-side `test.pt` is forbidden, and the training files of both tasks are hash-checked. |
+| Independent random tokens, one step | +0.424 | FAILED | Codec FD 6.52 is not below half of the random-token value. |
 | Constant zeros / vocabulary 1 / out-of-range IDs / empty output | −19.85 / −18.88 / −32.77 / crash | FAILED (all four) | Fixed vocabulary, range and shape checks. |
-| Copy with local edit; splice of aligned 12-frame halves | +0.124 / +0.113 (earlier hardening replay) | FAILED | Aligned 12-frame-half copy check (> 1% of rows fails the run). |
-| 2x outputs reused as the 4x row (whole or via unscored rows) | +0.060 / +0.059 | FAILED | Cross-operating-point reuse check over the full sibling file. |
-| **Splice of training utterances at frames 8 and 16** (new) | **+0.271** (job `47df85f6-fd8`) | **FAILED** (excess 0.684) | **New this iteration: memorization check**, described below. |
-| **Splice of 6-frame / 4-frame pieces** (new) | +0.237 / +0.152 (local rescoring of the same construction, job-1 cohort) | **FAILED** (excess 0.547 / 0.275) | Memorization check. |
-| Train on the formerly public train-slice references | — | −0.058 (feasible) | Does not pay. The train fixture holds only the sufficient statistics of those references. |
+| Copy with 3% / 12% / 25% token edits | +0.124 (earlier replay) | FAILED | Half-copy check, and subset-key window check (excess 0.68 / 0.20). |
+| 2x outputs reused as the 4x row | +0.060 | FAILED | Cross-operating-point reuse check (100% of halves). |
+| Splices of 3 / 4 / 6-frame training pieces | +0.030 / +0.271 (three-piece) | FAILED (all) | Window excess 0.052 / 0.32 / 0.59 on the main rows; 0.19 / 0.42 / 0.65 on the few-shot rows. |
+| Count-chain sampler, frame lookup | −0.20 / −0.08 (two experiments, all cases) | FAILED / FAILED | On the few-shot row: codec FD not below half of random, and 1.1% copied halves, respectively. |
+| **Few-shot memorizer** (new): an AR model trained 625 epochs on the 512 few-shot-speaker utterances | — | **FAILED** | 8.7% copied halves, window excess 0.14. |
+| 2-frame splice | +0.010 (two experiments, all cases) | FAILED; main rows only: −0.109 | The few-shot row's window excess is 0.093. On the main rows alone it does not pay. |
+| Gaussian AR(1) in the public codec latent | −0.706 (two experiments, all cases) | −3.256 | Does not pay. |
+| 2x model's second sample as the 4x row | +0.099 (earlier process) | −0.213 | Does not pay here, because the 2x reference is worse than the 4x one. It is still a false declaration (section 3). |
 
-**The memorization check** applies to both evaluators: `visible_window_excess` in `eval/test/evaluate.py` and `eval/train/evaluate.py`. For every scored utterance it counts the 4-frame windows (all codebooks, same frame positions) that occur in the frozen visible utterances, and subtracts the count that occurs in a fresh sample of the data process of the same size and speaker composition.
-- **Why its expectation is 0:** a generator that does not reproduce visible segments matches both sets equally often in expectation. Only copied or memorized visible segments raise the visible count.
-- **Threshold:** a run fails when the excess exceeds 0.05 of all windows.
-- **Honest outputs:** the reference, all learned variants, the analytic sampler, rule repair and best-of-8 filtering stay at or below **0.012**. The failed argmax control reaches 0.018.
-- **Copied outputs:** every splice of pieces of 4 frames or more is at or above **0.27**, and memorizing or copying runs score 0.09–0.99.
-- **Control samples:** the hidden test draws its control at evaluation time from a seed only `eval/test/` holds. The public train evaluator holds only 64-bit hashes of its control windows (`eval/train/fixed/control_windows.bin`, written by `eval/test/prepare_fixtures.py`), so the control utterances cannot become extra training data.
-- **Margin on train:** the train side uses only the train and validation utterances as its visible set, and its worst honest learned value is 0.012 (`better_more_training_seed17`). That leaves a fourfold margin.
+The few-shot task tightens the copy checks. Its speakers have 8 public utterances each, so splicing or looking up their utterances repeats windows far more often than on the main task. Every whole-run splice construction now fails on its few-shot row.
 
-## 3. Reference before and after
+## 3. Shortcuts left to the shortcut review, and why
 
-The reference-relative score is 0 before and after, by construction. Raw reference measurements did not change in this iteration. Its outputs and comparison rows are frozen, `scoring/scores_test.json` matches `scoring/reference.json` to 1e-12, and its window excess is 0.0009 at 2x and 0.0008 at 4x.
+| Shortcut | Final, feasible cohort [95%] | Why it is not closed |
+|---|---:|---|
+| **Private search** (new): per row, one of 3 reference samples chosen so that the set's codec-latent moments match the public training and validation data (greedy, on 1.0 × global FD + 0.6 × mean speaker FD) | **+1.104** [+1.056, +1.155]; main rows only **+0.776**; on the larger model **+1.218**, against +1.041 for that model alone | See below. This is the major remaining shortcut. |
+| 12% of main rows replaced by 4-frame training splices, honest few-shot row | +0.200 [+0.185, +0.216] (two experiments: +0.304) | Sized to stay under the window threshold (excess 0.039 / 0.041). Its gain is below the reference's training-seed range (0.267). |
+| False compute declarations: a 2x or 1x model's samples as a 4x row | −0.213 here | Tokens cannot reveal how many primary steps produced them. It pays only with a 2x model better than the 4x one. |
 
-| Row (hidden test) | Validity ↑ | Codec FD ↓ | Speaker-conditioned FD ↓ |
+**Why private search cannot be closed by the evaluator.**
+
+All three scored measurements are functions of low-order token statistics of the submitted set: codec FD and speaker FD use pair moments of the FSQ latent, and pair divergence uses token-pair counts. The task's own public training data estimates these for every scored speaker:
+- The public main-task data, scored as if generated, is within codec FD 0.0019 and speaker FD 0.018 of the hidden test reference.
+- The 8 public utterances of each few-shot test speaker are within 0.117 and 2.16.
+
+That few-shot estimate is worse than the reference model's own few-shot speaker FD (1.53). Combining the two by selection still helps by shrinkage: the selected set reaches speaker FD 1.27 on the few-shot test speakers.
+
+Selection leaves no trace in tokens:
+- Each selected row is an honest model sample.
+- The copy and window checks see nothing (excess −0.0001).
+- The rows of a selected set are exchangeable, so no split-half test can find it.
+- Detecting an imprint of the public data's sampling noise has no power on the main task, where that noise is about 100 times smaller than honest model error. On the few-shot task, honest models imprint the same 8 utterances they learn from.
+
+Prevention would need per-row targets (text-like conditioning with a hidden true continuation) or test speakers with no public data. Both are a different task and a full rebuild.
+
+Instead, `scoring/CONSTRAINTS.md`, `scoring/DIRECTION.md` and `briefing/problem.md` now require each row to be one independent draw of the generator. They name selection, filtering or reweighting of rows toward data statistics as a shortcut. It is easy to see in code: several samples per row, and a choice made with data moments.
+
+## 4. Reference before and after
+
+The reference-relative score is 0 by construction. The main-task reference and its comparison rows are unchanged since the previous iteration's rebuild. This iteration adds the few-shot row and its comparisons.
+
+| Hidden test row | Codec FD ↓ | Pair divergence ↓ | Speaker FD ↓ |
 |---|---:|---:|---:|
-| REDTEAM.md AR 2x / 4x (original task, validity saturated) | 1.000 / 1.000 | 0.0430 / 0.0470 | 0.277 / 0.304 |
-| **Final AR LT 2x** (`generator_2x`) | **0.9743** | **0.1850** | **0.5027** |
-| **Final AR LT 4x** (`generator_4x`) | **0.9330** | **0.2681** | **0.6029** |
-| Parallel 1x / 2x / 4x | 0.160 / 0.141 / 0.122 | 0.307 / 0.407 / 1.327 | 0.871 / 0.892 / 1.748 |
-| MaskGIT LT 2x / 4x | 0.179 / 0.125 | 0.511 / 0.938 | 0.953 / 1.330 |
+| REDTEAM.md AR 2x / 4x (original task: validity 1.000 / 1.000) | 0.0430 / 0.0470 | — | 0.277 / 0.304 |
+| **AR LT 2x** (`generator_2x`), before and after | **0.2208** | **0.01616** | **0.5503** |
+| **AR LT 4x** (`generator_4x`), before and after | **0.1506** | **0.01162** | **0.4332** |
+| **AR LT 4x, few-shot** (`generator_fewshot_4x`), new | **0.2122** | **0.01852** | **1.5339** |
+| Parallel 1x / 2x / 4x (main) | 0.323 / 0.486 / 0.781 | 0.0147 / 0.0179 / 0.0230 | 0.785 / 0.968 / 1.294 |
+| MaskGIT LT 2x / 4x (main) | 0.312 / 0.623 | 0.0186 / 0.0284 | 0.899 / 1.455 |
+| Parallel 4x / MaskGIT LT 4x (few-shot) | 0.677 / 0.529 | 0.0289 / 0.0303 | 2.289 / 2.750 |
+| Perfect sampler of the process (main / few-shot) | 0.004 / 0.004 | 0.0018 / 0.0019 | 0.045 / 0.086 |
 
-The paper's core claim is reproduced in its direction. The AR local transformer beats parallel prediction at every stack factor on all three measurements, and it degrades from 2x to 4x, as the paper reports for aggressive stacking.
+The reference passes every check on both slices: no copied halves, window excess at most 0.0002, every measurement far below half of random. On the train slice its values are 0.226 / 0.140 / 0.218 codec FD at 2x / 4x / few-shot, close to the test values.
 
-The paper's MaskGIT claim is **not reproduced**. Its 4x row beats parallel 4x on both distances, but it fails the validity threshold at both points, and its 2x distances are worse than parallel 2x. With only 3 unmasking passes, tokens unmasked in the same pass are sampled independently, which hurts this strongly chained synthetic codec. MaskGIT follows the paper's settings (non-causal LT, 3 passes, purity selection); it was not altered to change this result. The comparison rows earn no rank.
+**What reproduces the paper:**
+- **Core claim.** The AR local transformer beats parallel prediction at the same stacking factor on all three measurements, at 2x and 4x and on the few-shot task.
+- **Against unstacked parallel.** The stacked AR rows beat unstacked parallel 1x on codec FD (0.221 and 0.151 against 0.323) and speaker FD (0.550 and 0.433 against 0.785). The paper's "all LT models beat all parallel models on FD" holds for the AR rows.
+- **Speaker robustness at 4x.** The same few-shot model reaches speaker FD 0.68 on well-covered speakers and 1.53 on few-shot speakers. This is the scaled counterpart of the paper's SSIM drop for unseen speakers at 4x.
 
-The remaining deviations from the paper are documented in `briefing/method.md` and `scoring/reference.json`:
-- a scaled synthetic task (width 96, 2+1 layers, 10k steps, instead of 768, 12+4 layers, 220k steps);
-- temperature-1 sampling instead of Koel-TTS's temperature 0.6 / top-k 80 / CFG. On the reference weights, the paper's temperature scores −0.263, so restoring it would hand a future agent a trivial +0.26.
+**What does not:**
+- On pair divergence, AR 2x (0.0162) is slightly worse than parallel 1x (0.0147).
+- The reference recipe does not show the paper's small 2x-to-4x quality drop: 4x scores better than 2x. Converged variants do show it: 20k cosine has codec FD 0.0166 at 2x against 0.0188 at 4x, and the larger model 0.0100 against 0.0121.
+- MaskGIT beats parallel on codec FD at every point, but not on pair divergence, nor on speaker FD at 4x. It follows the paper's settings (3 passes, purity selection) and was not tuned toward the claim.
+
+The reference keeps the paper's training-schedule shape. Koel-TTS, the paper's base, trains with Adam at 1e-4 and anneals by 0.998 every 1000 steps, which is almost constant over 200k steps. Cosine decay is therefore a variant, not a restoration of the paper's setting.
+
+Remaining deviations from the paper are documented in `briefing/method.md` and `scoring/reference.json`:
+- a scaled synthetic task (width 96, 2+1 layers, 10k steps);
+- temperature-1 sampling. On the reference weights, the paper's temperature 0.6 scores −8.67.
 
 The paper's numbers are unchanged under `_paper_reported`.
 
-## 4. Shortcuts left to the shortcut review, and why
-
-These were measured on the hidden test in the final job. None can be told apart from honest generation using the tokens alone.
-
-| Shortcut | Final test | Why it is not closed |
-|---|---:|---|
-| Hand-written sampler of the data process (affine residual rule, coarse walk and style rates fitted from training data) | **+0.390** [+0.375, +0.409] | The validity rule must be public, because the train evaluator scores it, and it is visible in the training data anyway. A perfect sampler of the data process produces the same distribution as a perfect learned generator. It sits at the task's bound: validity 1, codec FD 0.013, speaker FD 0.23, which is the finite-sample floor. |
-| Rule repair: snap the reference's outputs onto the public rule | +0.202 [+0.191, +0.213] | This is private computation with the public train-side scorer. The scorer is the data's own deterministic structure, so it cannot be kept out of reach. |
-| Best-of-8 per row by public validity | +0.041 [+0.009, +0.071] | Same reason as rule repair. |
-| 2x model's second sample submitted as the 4x row | +0.099 [+0.085, +0.119] | Tokens cannot reveal how many primary steps produced them. Reusing the same samples is caught; an independent sample is not. |
-| Splice of 3-frame pieces | +0.030 [+0.018, +0.049] | A 3-frame window check would flag honest samplers too: the analytic sampler already matches visible 6-frame windows in 4% of rows. The gain is far below the 0.115 training-seed range. |
-| 6% of rows replaced by 8-frame splices | +0.037 [+0.032, +0.044] | Sized to stay under the 0.05 threshold (excess 0.042 / 0.044). The residual gain is below training-seed noise. |
-
-`scoring/CONSTRAINTS.md` and `scoring/DIRECTION.md` name all of these as shortcuts. Each needs code that indexes training data, hard-codes or applies the validity rule, or misdeclares the operating point. The hand-written sampler and rule repair are the major shortcuts that still pay, and only code review can catch them.
-
 ## 5. Headroom
 
-The reference sits at **no scored bound**:
-- Validity is below 1 (0.974 at 2x, 0.933 at 4x).
-- Both distances are well above the finite-sample floor of a perfect sampler (codec FD about 0.013, speaker-conditioned FD about 0.23).
+The reference sits at **no scored bound**; every value is far above the perfect-sampler floor (section 4 table).
 
-The 4x experiment, weight 0.6, is the experiment from where the paper's method falls short (aggressive stacking). Earlier iterations added it with a temporal, utterance-persistent data process, and it keeps the most headroom. The best honest variant leaves 4x validity unchanged (0.933) and reaches codec FD 0.039 and speaker FD 0.311. A better method still has room in validity at 4x, in residual persistence across primary steps (0.79–0.80 against 1.0 in the data), and in speaker-conditioned distance.
+**The main task is nearly saturated by a simple variant.** The larger 20k cosine model reaches codec FD 0.010, speaker FD 0.063 and pair divergence 0.0021 at 2x, against floors of 0.004, 0.045 and 0.0018. That is not headroom a better method could use, which is why the few-shot experiment exists.
 
-Simple baselines are clearly below the reference: every parallel and MaskGIT row fails validity. Brute force is infeasible: there are 32^8 joint tuples per frame, and about 2.9e17 sequences per speaker.
+**The few-shot experiment added.** It covers 4x stacking for speakers with 8 training utterances, in an independent open-speaker process whose speaker effects live in one shared 16-d space. The previous iteration designed it; this iteration trained, froze, scored and verified it.
 
-**Weights are unchanged:** codec_stack2 0.4 and codec_stack4 0.6; validity 1.0, codec FD 0.6, speaker FD 0.4. The evidence did not show any metric mattering more than its weight already says.
+Its headroom is wide, and generic training does not use it:
 
-## 6. Packaging and anything not fixed
+| Few-shot-task model | Speaker FD, well-covered speakers 160–191 | Speaker FD, few-shot test speakers 224–255 |
+|---|---:|---:|
+| Reference | 0.678 | 1.534 |
+| 20k cosine | 0.305 | 1.386 |
+| Larger model, 20k cosine | 0.250 | 1.521 |
+| Rank-16 speaker table, 20k cosine | 0.343 | 1.479 |
+| Perfect sampler (floor) | 0.088 | 0.086 |
 
-**Run script:** `scripts/run.sh` is restored to the end-to-end reference reproduction:
-- train the reference and comparison models;
-- run `python -m eval.test.prepare_fixtures`;
-- score both slices;
-- run `validate.py`.
+Better training halves the well-covered error but leaves the few-shot error nearly unchanged. Private search (section 3) reaches 1.27, which shows that the 8 public utterances hold speaker information the reference does not extract. A learned few-shot method, such as speaker adaptation or inferring the speaker from its utterances, has room between 1.39 and 0.09.
 
-**Fixture reproduction:** the final job ran the packaging step on the frozen reference outputs.
-- Every committed fixture was reproduced bit for bit, including the new control hashes, with one exception: `eval/train/fixed/reference_moments.pt` was reproduced only to within 8.9e-16 (|cov| ≤ 2.8). The committed file was computed with 2 BLAS threads and the job ran with 1. A 2-thread recomputation is identical.
-- This file feeds only the public train evaluator.
-- Retraining with `run.sh` would also reproduce the reference only up to GPU nondeterminism.
+**Baselines and brute force:**
+- Simple baselines are clearly below the reference everywhere. Parallel few-shot speaker FD is 2.29 against 1.53, and the Gaussian moment-matcher scores −3.26.
+- Brute-force enumeration of joint codebook tuples is infeasible: 32^8 per frame.
+- Private search is the search that does pay. It is left to review, as section 3 explains.
 
-**Score files:** `scoring/scores_test.json`, `scores_train.json` and `scores.json` hold the reference run alone. Audit cases live only under `eval/test/hardening/`.
+## 6. Weights
 
-**Validation:** `python validate.py --post-design` passed in the job ([validation.log](eval/test/hardening/last/logs/validation.log)) and again after packaging.
+The experiment weights changed from 0.3 / 0.4 / 0.3 to **0.25 / 0.35 / 0.4** (`codec_stack2` / `codec_stack4` / `codec_fewshot_stack4`). Metric coefficients are unchanged: codec FD 1.0, pair divergence 0.8, speaker FD 0.6.
 
-**Not fixed:**
-- the shortcut families in section 4;
-- the MaskGIT claim;
-- any real-speech claim (WER, TitaNet SSIM, UTMOSv2): the gym measures synthetic token generation only.
+The few-shot experiment matters more than 0.3 says, for three reasons:
+- It measures the paper's own stated weakness: robustness for poorly covered speakers at 4x.
+- It is the only experiment with headroom above simple variants.
+- Its test speakers' distributions are not well estimable from public data, so it is the experiment least exposed to private search.
+
+The 4x points still carry 0.75 in total, keeping the paper's emphasis on aggressive stacking. All cohort numbers above use the new weights.
+
+## 7. Packaging, and what is not fixed
+
+**Run script.** `scripts/run.sh` is restored to the end-to-end reference reproduction:
+- `scripts/reproduce.sh` trains the main and few-shot reference and comparison models;
+- `python -m eval.test.prepare_fixtures` freezes the fixtures;
+- both slices are scored;
+- `validate.py` runs.
+
+**Fixtures.** The closing job's `prepare_fixtures` run reproduced every main-task fixture byte for byte ([fixtures_check.json](eval/test/hardening/rebuild/fixtures_check.json)), with one exception: `eval/train/fixed/reference_moments.pt` was rewritten with an added `groups` key, which the train evaluator requires, and its statistics are bit-identical. The few-shot fixtures are new.
+
+**Score files and validation.**
+- `scoring/scores_test.json`, `scores_train.json` and `scores.json` hold the reference rows alone. Shortcut and variant scores live only under `eval/test/hardening/`.
+- `scoring/reference.json` results equal the hidden-test reference measurements.
+- `python validate.py --post-design` passed in the job and again after this write-up.
+
+**Method code.** `method/` gained an optional `--speaker-rank` flag, off by default. The reference's computation and checkpoints are unchanged.
+
+**Not fixed, stated plainly:**
+- **Private search** pays +1.10, as much as the best honest variant. Only the shortcut review can catch it.
+- **The sub-threshold partial splice** on main rows pays +0.20, below training-seed noise.
+- **False compute declarations** cannot be seen in tokens.
+- **The main task is close to saturation** under simple training changes. Its headroom above those is small, and the few-shot experiment carries the room for improvement.
+- **The paper's 2x-to-4x quality drop** appears only for converged variants, not for the reference recipe. MaskGIT's pair-divergence and 4x speaker claims are not reproduced.
+- **No real-speech claim** (WER, TitaNet SSIM, UTMOSv2) is tested. The gym measures synthetic codec-token generation only.

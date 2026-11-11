@@ -1,32 +1,46 @@
 # Verification report
 
-Milestone: **core_claim_plus**. The scaled AR local-transformer result and measurable learned headroom are verified. The full MaskGIT and real-speech claims are not reproduced. See [HARDENING.md](HARDENING.md) for before/after results, shortcut replays and remaining limitations.
+Milestone: **core_claim_plus**. Verified:
+- the scaled AR local-transformer result on both tasks;
+- the few-shot speaker-robustness shortfall at 4x;
+- measurable learned headroom.
 
-Final jobs:
-- **`47df85f6-fd8` (GPU).** Checked fixture reproduction. Built the validity-filter, rule-repair and three-piece-splice cases, and replayed every saved case.
-- **`9bb82593-d9d` (CPU).** Ran after the memorization check was added. Replayed all 54 cases through the no-argument `scripts/evaluate_test.sh` and `scripts/evaluate_train.sh`, computed the paired bootstrap, restored reference-only scores and validated.
+The full MaskGIT claim and the real-speech claims are not reproduced. See [HARDENING.md](HARDENING.md) for before/after results, shortcut replays and remaining limitations.
 
-No model was retrained in this iteration.
+**Final job `bbe268c5-f24` (1 GPU, exit 0):**
+- trained the few-shot reference (AR LT 4x) and its parallel and MaskGIT comparisons, 10k steps each;
+- froze the fixtures of both tasks;
+- added few-shot rows to every saved case, training each variant's few-shot model;
+- built the private-search, few-shot-memorizer and main-only splice cases;
+- scored all 49 cases through the no-argument `scripts/evaluate_test.sh` and `scripts/evaluate_train.sh`;
+- computed the paired block bootstrap and the few-shot shortfall diagnostic;
+- restored reference-only scores and passed `python validate.py --post-design`.
 
-**Learned headroom.** The 20k-step cosine-LR variant improves all six scored measurements:
-- normalized test gain +0.247, paired 95% interval [+0.229, +0.266];
-- train gain +0.262;
-- seeds 17/27 score +0.231/+0.146.
+The main-task models were trained in job `4a264730-2a8` from the same data and method code, and were not retrained.
 
-Reference noise: training-seed range 0.115, generation-seed range 0.014.
+**Reference (hidden test).**
 
-**Weaker variants and memorizing models fail.** Weaker training, no local transformer and argmax decoding all fail. Larger models that memorize training utterances also fail, and are not counted as headroom.
+| Row | Codec FD | Pair divergence | Speaker FD |
+|---|---:|---:|---:|
+| 2x | 0.2208 | 0.01616 | 0.5503 |
+| 4x | 0.1506 | 0.01162 | 0.4332 |
+| Few-shot 4x | 0.2122 | 0.01852 | 1.5339 |
 
-**Shortcuts.** Every REDTEAM.md shortcut and every copy, splice and operating-point-reuse case fails. The shortcuts that still pay are listed with measured scores in HARDENING.md section 4:
-- the analytic sampler, +0.390;
-- rule repair, +0.202;
-- the 2x model submitted as the 4x row, +0.099;
-- best-of-8 filtering, +0.041;
-- the sub-threshold partial splice, +0.037;
-- the 3-frame splice, +0.030.
+It passes every check on both slices. Train-slice values are close to the test values.
 
-**Fixtures.** Running `python -m eval.test.prepare_fixtures` on the frozen reference outputs reproduced every committed fixture, with one exception: the train-slice moment file matched only to within 8.9e-16, because of a different thread count ([fixtures_check.json](eval/test/hardening/last/fixtures_check.json)).
+**Learned headroom** (feasible cohort, paired 95% intervals):
+- 20k cosine: +1.070 [+1.011, +1.121];
+- larger model: +1.041 / +1.005 / +1.122 across 3 seeds;
+- rank-16 speaker table: +1.013.
 
-**Score files.** `scoring/scores_test.json` matches `scoring/reference.json` to 1e-12. The score files contain reference runs alone.
+Reference noise: training-seed range 0.267, generation-seed range 0.057. On few-shot speakers, speaker FD stays at 1.39–1.52 even for models that reach 0.25–0.34 on well-covered speakers.
 
-**Paper numbers.** The paper's reported results are unchanged under `_paper_reported` in `scoring/reference.json`.
+**Shortcuts.** Every REDTEAM.md shortcut and every whole-run copy, splice or memorization case fails. Still paying, and left to the shortcut review:
+- private search, +1.104 (main rows only +0.776);
+- the sub-threshold 12% main-row splice, +0.200, below training-seed noise.
+
+**Fixtures.** Every main-task fixture was reproduced byte for byte. `eval/train/fixed/reference_moments.pt` was rewritten with its `groups` key; its statistics are bit-identical ([fixtures_check.json](eval/test/hardening/rebuild/fixtures_check.json)).
+
+**Score files.** `scoring/scores_test.json`, `scores_train.json` and `scores.json` hold the reference runs alone. `scoring/reference.json` results equal the hidden-test reference measurements.
+
+**Paper numbers.** The paper's reported results are unchanged under `_paper_reported`.

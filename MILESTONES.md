@@ -59,3 +59,10 @@
 - A naive three-piece training splice paid +0.271 by evading the aligned-half copy rule. Both evaluators now fail runs whose 4-frame windows match visible utterances more often than a fresh data-process sample (excess > 0.05). Honest outputs stay at or below 0.012, and splices of 4-frame or longer pieces reach 0.27 or more.
 - Final cohort: the 20k cosine-LR variant scores +0.247 [+0.229, +0.266] and the reference 0. The reference is at no bound.
 - `scripts/run.sh` is restored to the end-to-end reproduction. Fixture packaging reproduces the committed fixtures.
+
+## 2026-11-11 — closing hardening (claude-opus-5.5, last iteration)
+
+- Completed the few-shot-speaker experiment (`codec_fewshot_stack4`) that the previous iteration had designed but not run. Job `bbe268c5-f24` trained its reference and comparison models, froze the fixtures of both tasks, and replayed all 49 cases with three experiments.
+- The few-shot reference beats parallel and MaskGIT 4x on every measurement. Its few-shot speaker FD is 1.53, against 0.68 for the same model on well-covered speakers. Better training does not close that gap, so the experiment carries the gym's headroom.
+- New shortcut measured: private search, which chooses among 3 samples per row to match the public data's moments. It pays +1.10, as much as the best honest variant. Tokens cannot reveal it, so it is named in `CONSTRAINTS.md` and left to the shortcut review.
+- Experiment weights are now 0.25 / 0.35 / 0.4. `scripts/run.sh` is restored to the end-to-end reproduction.
