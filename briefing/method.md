@@ -22,9 +22,10 @@ Model details:
 
 ## Reference artifacts
 
-`scripts/reproduce.sh` trains everything on the fixed 32768-utterance training split:
-- `generator_2x` and `generator_4x`: the AR LT at stack factors 2 and 4 (12 and 6 primary steps per 24 frames);
-- comparison rows: `baseline_parallel_{1,2,4}x` and `baseline_maskgit_{2,4}x`.
+`scripts/reproduce.sh` trains everything with the same recipe:
+- `generator_2x` and `generator_4x`: the AR LT at stack factors 2 and 4 (12 and 6 primary steps per 24 frames), trained on `data/synthetic_codec`;
+- comparison rows: `baseline_parallel_{1,2,4}x` and `baseline_maskgit_{2,4}x`;
+- `generator_fewshot_4x`: the same AR LT at 4x, trained on `data/synthetic_codec_fewshot` alone, with comparison rows `baseline_parallel_fewshot_4x` and `baseline_maskgit_fewshot_4x`.
 
 ## Deviations from the paper
 

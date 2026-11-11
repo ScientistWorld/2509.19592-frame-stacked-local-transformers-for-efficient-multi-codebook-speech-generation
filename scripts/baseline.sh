@@ -8,12 +8,13 @@ scripts/download.sh
 MODEL_NAME="${MODEL_NAME:-baseline_parallel_1x}"
 STACK_FACTOR="${STACK_FACTOR:-1}"
 STEPS="${STEPS:-10000}"
+DATA="${DATA:-data/synthetic_codec}"
 # As in the paper, the baseline gets the LT models' total layer count in its
 # primary decoder (2 primary + 1 LT layer -> 3 primary layers).
 MAIN_LAYERS="${MAIN_LAYERS:-3}"
 
 python -m baseline.run_parallel \
-  --data data/synthetic_codec \
+  --data "${DATA}" \
   --out "checkpoints/${MODEL_NAME}" \
   --stack-factor "${STACK_FACTOR}" \
   --steps "${STEPS}" \
@@ -21,6 +22,6 @@ python -m baseline.run_parallel \
 
 mkdir -p checkpoints/predictions
 python -m method.predict \
-  --data data/synthetic_codec \
+  --data "${DATA}" \
   --checkpoint "checkpoints/${MODEL_NAME}/model.pt" \
   --out "checkpoints/predictions/${MODEL_NAME}.pt"

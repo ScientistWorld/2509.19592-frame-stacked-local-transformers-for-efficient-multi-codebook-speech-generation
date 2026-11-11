@@ -10,6 +10,12 @@ Generate one new utterance for each of the 16384 speaker IDs in `data/synthetic_
 - at most 12 primary sequential steps per utterance (2 frames per step);
 - at most 6 primary steps (4 frames per step).
 
+A second task tests speakers that the training data cover poorly. `data/synthetic_codec_fewshot/` holds an independent speech-like process with the same codec and dimensions, but 256 speakers:
+- speakers 0–191 have 160 training utterances each;
+- speakers 192–255 have only 8 training utterances each (validation covers speakers 0–191 only).
+
+All of its speakers share one speaker space, so what is learned from well-covered speakers can transfer. Generate one new utterance for each of the 16384 speaker IDs in `data/synthetic_codec_fewshot/test_conditions.pt` (the few-shot speakers 192–255), at the 6-step operating point (4 frames per step). Its training data may be used together with the main task's, but the two processes differ.
+
 Computation within a primary step is unrestricted. The scientific question is how well generation quality can be kept when the primary sequence model runs less often.
 
 Use the provided training data to learn the generator. Outside the task:

@@ -1,11 +1,11 @@
 # Constraints
 
-- Train on the fixed `data/synthetic_codec/train.pt` and optionally `val.pt`. Do not change the splits, dimensions, speakers or conditioning order. Evaluator fixtures are not training data.
+- Train on the fixed `train.pt` (and optionally `val.pt`) of `data/synthetic_codec/` and `data/synthetic_codec_fewshot/`. Do not change the splits, dimensions, speakers or conditioning order. Evaluator fixtures are not training data.
 - Produce new utterances from a generator learned from these data. Do not:
   - call or copy evaluator-side samplers, or read test references;
   - copy, edit or splice visible utterances, whole or in pieces;
   - fill rows with training frames or training segments chosen by lookup.
-- Use at most 12 primary sequential steps per 24 frames for 2x, and 6 for 4x. The exact artifact declarations are 2 and 4; work within a primary step is unrestricted. The 4x row must come from a generator that runs its primary model at most 6 times per utterance. Submitting a 2x (or unstacked) model's samples as the 4x row is a false declaration, even though saved tokens cannot reveal it.
+- Use at most 12 primary sequential steps per 24 frames for 2x, and 6 for 4x (both `generator_4x` and `generator_fewshot_4x`). The exact artifact declarations are 2, 4 and 4; work within a primary step is unrestricted. The 4x row must come from a generator that runs its primary model at most 6 times per utterance. Submitting a 2x (or unstacked) model's samples as the 4x row is a false declaration, even though saved tokens cannot reveal it.
 - Submit the raw tensor interface in `briefing/evaluation.md`. No method-written score or verdict is accepted. The run fails, and receives the worst value of every scored metric, on any of:
   - contradictory dimensions or impossible values;
   - copied or reused 12-frame halves;

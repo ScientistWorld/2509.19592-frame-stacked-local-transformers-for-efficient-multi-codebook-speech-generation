@@ -1,0 +1,828 @@
+case                                        test     train  feas.coh  outcome
+better_large_cosine_20k_seed17           +0.1631   +0.1616   +1.3659  feasible
+better_large_cosine_20k                  +0.1628   +0.1618   +1.3641  feasible
+better_large_cosine_20k_seed27           +0.1628   +0.1606   +1.3625  feasible
+better_cosine_20k                        +0.1541   +0.1527   +1.2901  feasible
+shortcut_splice_partial                  +0.0367   +0.0383   +0.3038  feasible
+reference_seed17                         +0.0183   +0.0169   +0.1590  feasible
+shortcut_splice_2frame                   +0.0096   +0.0074   -0.2121  feasible
+reference                                +0.0000   +0.0000   +0.0000  feasible
+reference_sample2                        -0.0010   -0.0050   -0.0064  feasible
+reference_sample1                        -0.0045   +0.0007   -0.0337  feasible
+reference_seed27                         -0.0290   -0.0320   -0.2736  feasible
+shortcut_resample_2x_as_4x               -0.0431   -0.0486   -0.3540  feasible
+shortcut_frame_lookup                    -0.0824   -0.0870   -1.1563  feasible
+weaker_training_2k                       -0.0945   -0.0923   -0.8357  feasible
+shortcut_count_chain                     -0.1972   -0.2001   -2.1118  feasible
+weaker_no_local                          -0.2802   -0.2900   -2.8320  feasible
+shortcut_gaussian_latent                 -0.7056   -0.7129   -3.3024  feasible
+paper_sampling_t06                       -1.1100   -1.1235   -7.9780  feasible
+shortcut_constant                        -4.9017   -4.9039            FAILED: codec_fd is not below half that of uniform random tokens
+shortcut_copy_edit_12pct                 -4.9017   -4.9039            FAILED: 0.679 excess of 4-frame windows matching visible utterances over a fresh data-process sample
+shortcut_copy_edit_25pct                 -4.9017   -4.9039            FAILED: 0.200 excess of 4-frame windows matching visible utterances over a fresh data-process sample
+shortcut_copy_edit_3pct                  -4.9017   -4.9039            FAILED: 0.108 of sequences repeat a 12-frame half of a visible utterance
+shortcut_copy_train                      -4.9017   -4.9039            FAILED: 1.000 of sequences repeat a 12-frame half of a visible utterance
+shortcut_empty                           -4.9017   -4.9039            FAILED: pred_tokens shape (0, 24, 8) != (16384, 24, 8)
+shortcut_infinite_stack                  -4.9017   -4.9039            FAILED: config.stack_factor must be a positive integer
+shortcut_negative_steps                  -4.9017   -4.9039            FAILED: declared stack factor -1 does not match the fixed 6-step budget of this row
+shortcut_old_analytic_sampler            -4.9017   -4.9039            FAILED: codec_fd is not below half that of uniform random tokens
+shortcut_old_rule_repair                 -4.9017   -4.9039            FAILED: codec_fd is not below half that of uniform random tokens
+shortcut_out_of_range                    -4.9017   -4.9039            FAILED: token ids outside [0, vocab_size)
+shortcut_random_tokens                   -4.9017   -4.9039            FAILED: codec_fd is not below half that of uniform random tokens
+shortcut_replace_baseline                -4.9017   -4.9039            FAILED: reserved fixed comparison output changed
+shortcut_reuse_2x_as_4x                  -4.9017   -4.9039            FAILED: 1.000 of generator_4x sequences repeat a 12-frame half of generator_2x
+shortcut_splice_3frame                   -4.9017   -4.9039            FAILED: 0.052 excess of 4-frame windows matching visible utterances over a fresh data-process sample
+shortcut_splice_4frame                   -4.9017   -4.9039            FAILED: 0.321 excess of 4-frame windows matching visible utterances over a fresh data-process sample
+shortcut_splice_6frame                   -4.9017   -4.9039            FAILED: 0.591 excess of 4-frame windows matching visible utterances over a fresh data-process sample
+shortcut_stack_claim                     -4.9017   -4.9039            FAILED: declared stack factor 24 does not match the fixed 6-step budget of this row
+shortcut_vocab_one                       -4.9017   -4.9039            FAILED: config.vocab_size conflicts with the fixed task
+shortcut_write_scores                    -4.9017   -4.9039            FAILED: unsupported artifact fields (submitted metrics and verdicts are not accepted)
+shortcut_zero_stack                      -4.9017   -4.9039            FAILED: declared stack factor 0 does not match the fixed 6-step budget of this row
+weaker_argmax                            -4.9017   -4.9039            FAILED: 0.057 excess of 4-frame windows matching visible utterances over a fresh data-process sample
+shortcut_replace_truth_testfile          -4.9017   -4.9039            FAILED: forbidden method-side target file
+shortcut_replace_truth_valfile           -4.9017   -4.9039            FAILED: fixed training data changed
+
+better_cosine_20k                      generator_2x  fd=0.0166 spk_fd=0.0945 pair_js=0.00246 excess=0.0005 half=0.000
+better_cosine_20k                      generator_4x  fd=0.0188 spk_fd=0.1062 pair_js=0.00258 excess=-0.0000 half=0.000
+better_large_cosine_20k                generator_2x  fd=0.0100 spk_fd=0.0627 pair_js=0.00209 excess=-0.0001 half=0.000
+better_large_cosine_20k                generator_4x  fd=0.0121 spk_fd=0.0691 pair_js=0.00212 excess=0.0002 half=0.000
+better_large_cosine_20k_seed17         generator_2x  fd=0.0110 spk_fd=0.0645 pair_js=0.00210 excess=0.0004 half=0.000
+better_large_cosine_20k_seed17         generator_4x  fd=0.0120 spk_fd=0.0631 pair_js=0.00212 excess=-0.0001 half=0.000
+better_large_cosine_20k_seed27         generator_2x  fd=0.0106 spk_fd=0.0616 pair_js=0.00206 excess=0.0003 half=0.000
+better_large_cosine_20k_seed27         generator_4x  fd=0.0132 spk_fd=0.0668 pair_js=0.00213 excess=0.0002 half=0.000
+paper_sampling_t06                     generator_2x  fd=1.0522 spk_fd=2.6590 pair_js=0.13004 excess=0.0015 half=0.000
+paper_sampling_t06                     generator_4x  fd=0.9804 spk_fd=2.4443 pair_js=0.13092 excess=0.0005 half=0.000
+reference                              generator_2x  fd=0.2208 spk_fd=0.5503 pair_js=0.01616 excess=-0.0000 half=0.000
+reference                              generator_4x  fd=0.1506 spk_fd=0.4332 pair_js=0.01162 excess=0.0000 half=0.000
+reference_sample1                      generator_2x  fd=0.2312 spk_fd=0.5629 pair_js=0.01702 excess=0.0001 half=0.000
+reference_sample1                      generator_4x  fd=0.1501 spk_fd=0.4360 pair_js=0.01186 excess=0.0001 half=0.000
+reference_sample2                      generator_2x  fd=0.2254 spk_fd=0.5558 pair_js=0.01671 excess=0.0002 half=0.000
+reference_sample2                      generator_4x  fd=0.1456 spk_fd=0.4425 pair_js=0.01138 excess=0.0000 half=0.000
+reference_seed17                       generator_2x  fd=0.1697 spk_fd=0.4671 pair_js=0.01242 excess=-0.0001 half=0.000
+reference_seed17                       generator_4x  fd=0.1507 spk_fd=0.4149 pair_js=0.01207 excess=-0.0002 half=0.000
+reference_seed27                       generator_2x  fd=0.2583 spk_fd=0.5569 pair_js=0.01634 excess=-0.0000 half=0.000
+reference_seed27                       generator_4x  fd=0.2152 spk_fd=0.4620 pair_js=0.01458 excess=-0.0001 half=0.000
+shortcut_constant                      generator_2x  fd=32.0719 spk_fd=32.1009 pair_js=0.95345 excess=0.0000 half=0.000
+shortcut_constant                      generator_4x  fd=32.0719 spk_fd=32.1009 pair_js=0.95345 excess=0.0000 half=0.000
+shortcut_copy_edit_12pct               generator_2x  fd=0.2955 spk_fd=0.5268 pair_js=0.01522 excess=0.6826 half=0.000
+shortcut_copy_edit_12pct               generator_4x  fd=0.2986 spk_fd=0.5304 pair_js=0.01542 excess=0.6793 half=0.000
+shortcut_copy_edit_25pct               generator_2x  fd=0.9483 spk_fd=1.4672 pair_js=0.04242 excess=0.2032 half=0.000
+shortcut_copy_edit_25pct               generator_4x  fd=0.9512 spk_fd=1.4748 pair_js=0.04270 excess=0.2002 half=0.000
+shortcut_copy_edit_3pct                generator_2x  fd=0.0250 spk_fd=0.0926 pair_js=0.00303 excess=0.9835 half=0.114
+shortcut_copy_edit_3pct                generator_4x  fd=0.0270 spk_fd=0.0938 pair_js=0.00323 excess=0.9830 half=0.108
+shortcut_copy_train                    generator_2x  fd=0.0045 spk_fd=0.0509 pair_js=0.00202 excess=0.9945 half=1.000
+shortcut_copy_train                    generator_4x  fd=0.0059 spk_fd=0.0506 pair_js=0.00215 excess=0.9944 half=1.000
+shortcut_count_chain                   generator_2x  fd=0.5506 spk_fd=0.9930 pair_js=0.01580 excess=0.0001 half=0.000
+shortcut_count_chain                   generator_4x  fd=0.5529 spk_fd=0.9937 pair_js=0.01581 excess=0.0001 half=0.000
+shortcut_frame_lookup                  generator_2x  fd=0.4655 spk_fd=0.5704 pair_js=0.00933 excess=0.0000 half=0.000
+shortcut_frame_lookup                  generator_4x  fd=0.4630 spk_fd=0.5671 pair_js=0.00927 excess=0.0001 half=0.000
+shortcut_gaussian_latent               generator_2x  fd=0.3434 spk_fd=0.4455 pair_js=0.14583 excess=0.0000 half=0.000
+shortcut_gaussian_latent               generator_4x  fd=0.3434 spk_fd=0.4460 pair_js=0.14586 excess=-0.0000 half=0.000
+shortcut_old_analytic_sampler          generator_2x  fd=6.4123 spk_fd=9.9490 pair_js=0.37871 excess=0.0000 half=0.000
+shortcut_old_analytic_sampler          generator_4x  fd=6.4160 spk_fd=9.9692 pair_js=0.37933 excess=0.0000 half=0.000
+shortcut_old_rule_repair               generator_2x  fd=7.7805 spk_fd=11.2126 pair_js=0.38989 excess=0.0000 half=0.000
+shortcut_old_rule_repair               generator_4x  fd=7.7937 spk_fd=11.2238 pair_js=0.38998 excess=0.0000 half=0.000
+shortcut_random_tokens                 generator_2x  fd=6.5204 spk_fd=9.9991 pair_js=0.34494 excess=0.0000 half=0.000
+shortcut_random_tokens                 generator_4x  fd=6.5350 spk_fd=10.0167 pair_js=0.34496 excess=0.0000 half=0.000
+shortcut_replace_baseline              generator_2x  fd=0.2208 spk_fd=0.5503 pair_js=0.01616 excess=-0.0000 half=0.000
+shortcut_replace_baseline              generator_4x  fd=0.1506 spk_fd=0.4332 pair_js=0.01162 excess=0.0000 half=0.000
+shortcut_replace_truth_testfile        generator_2x  fd=0.2208 spk_fd=0.5503 pair_js=0.01616 excess=-0.0000 half=0.000
+shortcut_replace_truth_testfile        generator_4x  fd=0.1506 spk_fd=0.4332 pair_js=0.01162 excess=0.0000 half=0.000
+shortcut_replace_truth_valfile         generator_2x  fd=0.2208 spk_fd=0.5503 pair_js=0.01616 excess=-0.0000 half=0.000
+shortcut_replace_truth_valfile         generator_4x  fd=0.1506 spk_fd=0.4332 pair_js=0.01162 excess=0.0000 half=0.000
+shortcut_resample_2x_as_4x             generator_2x  fd=0.2208 spk_fd=0.5503 pair_js=0.01616 excess=-0.0000 half=0.000
+shortcut_resample_2x_as_4x             generator_4x  fd=0.2328 spk_fd=0.5742 pair_js=0.01714 excess=0.0001 half=0.000
+shortcut_reuse_2x_as_4x                generator_2x  fd=0.2208 spk_fd=0.5503 pair_js=0.01616 excess=-0.0000 half=0.000
+shortcut_reuse_2x_as_4x                generator_4x  fd=0.2208 spk_fd=0.5503 pair_js=0.01616 excess=-0.0000 half=0.000
+shortcut_splice_2frame                 generator_2x  fd=0.2971 spk_fd=0.3650 pair_js=0.00670 excess=0.0031 half=0.000
+shortcut_splice_2frame                 generator_4x  fd=0.2984 spk_fd=0.3655 pair_js=0.00677 excess=0.0029 half=0.000
+shortcut_splice_3frame                 generator_2x  fd=0.1333 spk_fd=0.1803 pair_js=0.00388 excess=0.0525 half=0.000
+shortcut_splice_3frame                 generator_4x  fd=0.1344 spk_fd=0.1797 pair_js=0.00394 excess=0.0515 half=0.000
+shortcut_splice_4frame                 generator_2x  fd=0.0727 spk_fd=0.1122 pair_js=0.00290 excess=0.3222 half=0.000
+shortcut_splice_4frame                 generator_4x  fd=0.0734 spk_fd=0.1125 pair_js=0.00290 excess=0.3213 half=0.000
+shortcut_splice_6frame                 generator_2x  fd=0.0293 spk_fd=0.0644 pair_js=0.00220 excess=0.5903 half=0.001
+shortcut_splice_6frame                 generator_4x  fd=0.0304 spk_fd=0.0654 pair_js=0.00223 excess=0.5906 half=0.000
+shortcut_splice_partial                generator_2x  fd=0.1723 spk_fd=0.4358 pair_js=0.01280 excess=0.0383 half=0.000
+shortcut_splice_partial                generator_4x  fd=0.1234 spk_fd=0.3496 pair_js=0.00950 excess=0.0379 half=0.000
+weaker_argmax                          generator_2x  fd=8.0091 spk_fd=21.0481 pair_js=0.67934 excess=0.0289 half=0.000
+weaker_argmax                          generator_4x  fd=7.6031 spk_fd=20.9615 pair_js=0.69137 excess=0.0567 half=0.000
+weaker_no_local                        generator_2x  fd=0.4858 spk_fd=0.9676 pair_js=0.01791 excess=-0.0000 half=0.000
+weaker_no_local                        generator_4x  fd=0.7810 spk_fd=1.2944 pair_js=0.02303 excess=0.0000 half=0.000
+weaker_training_2k                     generator_2x  fd=0.2655 spk_fd=0.7666 pair_js=0.01679 excess=-0.0001 half=0.000
+weaker_training_2k                     generator_4x  fd=0.3025 spk_fd=0.7491 pair_js=0.01935 excess=-0.0002 half=0.000
+
+baseline_maskgit_2x                    fd=0.3116 spk_fd=0.8995 pair_js=0.01864
+baseline_maskgit_4x                    fd=0.6228 spk_fd=1.4550 pair_js=0.02839
+baseline_parallel_1x                   fd=0.3230 spk_fd=0.7852 pair_js=0.01470
+baseline_parallel_2x                   fd=0.4858 spk_fd=0.9676 pair_js=0.01791
+baseline_parallel_4x                   fd=0.7810 spk_fd=1.2944 pair_js=0.02303
+
+perfect_sampler_bound_5000001          fd=0.0038 spk_fd=0.0452 pair_js=0.00177 excess=0.0001
+perfect_sampler_bound_5000002          fd=0.0041 spk_fd=0.0460 pair_js=0.00173 excess=-0.0001
+
+{
+ "seed_groups": {
+  "reference/test": {
+   "members": {
+    "reference": 0.0,
+    "reference_seed17": 0.0183,
+    "reference_seed27": -0.028981
+   },
+   "mean": -0.0035603333333333333,
+   "min": -0.028981,
+   "max": 0.0183,
+   "range": 0.047281000000000004
+  },
+  "reference/test_feasible_cohort": {
+   "members": {
+    "reference": 0.0,
+    "reference_seed17": 0.159026,
+    "reference_seed27": -0.273585
+   },
+   "mean": -0.03818633333333334,
+   "min": -0.273585,
+   "max": 0.159026,
+   "range": 0.432611
+  },
+  "better_large_cosine_20k/test": {
+   "members": {
+    "better_large_cosine_20k": 0.162842,
+    "better_large_cosine_20k_seed17": 0.163097,
+    "better_large_cosine_20k_seed27": 0.162791
+   },
+   "mean": 0.16291,
+   "min": 0.162791,
+   "max": 0.163097,
+   "range": 0.0003060000000000007
+  },
+  "better_large_cosine_20k/test_feasible_cohort": {
+   "members": {
+    "better_large_cosine_20k": 1.364116,
+    "better_large_cosine_20k_seed17": 1.365904,
+    "better_large_cosine_20k_seed27": 1.362538
+   },
+   "mean": 1.3641860000000001,
+   "min": 1.362538,
+   "max": 1.365904,
+   "range": 0.00336599999999998
+  }
+ },
+ "noise": {
+  "test": {
+   "training_seed_range": 0.047281000000000004,
+   "generation_seed_range": 0.004534
+  },
+  "test_feasible_cohort": {
+   "training_seed_range": 0.432611,
+   "generation_seed_range": 0.033693
+  }
+ },
+ "paired_bootstrap_test": {
+  "better_cosine_20k": {
+   "raw_delta_95_percent": {
+    "generator_2x/codec_fd": [
+     -0.2154408419575482,
+     -0.19370106013297317
+    ],
+    "generator_2x/speaker_conditioned_codec_fd": [
+     -0.47920347055894896,
+     -0.4350079526957933
+    ],
+    "generator_2x/codebook_pair_divergence": [
+     -0.014390710847934366,
+     -0.01305438407910427
+    ],
+    "generator_4x/codec_fd": [
+     -0.14211048995283804,
+     -0.11933527148121215
+    ],
+    "generator_4x/speaker_conditioned_codec_fd": [
+     -0.3445820549054295,
+     -0.30680352941343947
+    ],
+    "generator_4x/codebook_pair_divergence": [
+     -0.009556443818609841,
+     -0.008406379038939185
+    ]
+   },
+   "test_mean": 0.15398890381651406,
+   "test_95_percent": [
+    0.1471208021754133,
+    0.16087429871555303
+   ],
+   "test_feasible_cohort_mean": 1.2886666048279019,
+   "test_feasible_cohort_95_percent": [
+    1.2294038062480481,
+    1.345972700519281
+   ]
+  },
+  "better_large_cosine_20k": {
+   "raw_delta_95_percent": {
+    "generator_2x/codec_fd": [
+     -0.22225914430795868,
+     -0.20000432919633226
+    ],
+    "generator_2x/speaker_conditioned_codec_fd": [
+     -0.5079265049398587,
+     -0.4672633264803674
+    ],
+    "generator_2x/codebook_pair_divergence": [
+     -0.014697002662412357,
+     -0.013375164800456679
+    ],
+    "generator_4x/codec_fd": [
+     -0.1481125077683565,
+     -0.12761403243149871
+    ],
+    "generator_4x/speaker_conditioned_codec_fd": [
+     -0.3842036489228067,
+     -0.34016222685548536
+    ],
+    "generator_4x/codebook_pair_divergence": [
+     -0.010002347467919873,
+     -0.008847241047859377
+    ]
+   },
+   "test_mean": 0.1622933408127815,
+   "test_95_percent": [
+    0.15546823544526148,
+    0.16856831630799404
+   ],
+   "test_feasible_cohort_mean": 1.359921902176116,
+   "test_feasible_cohort_95_percent": [
+    1.3008864125178714,
+    1.416008386437001
+   ]
+  },
+  "better_large_cosine_20k_seed17": {
+   "raw_delta_95_percent": {
+    "generator_2x/codec_fd": [
+     -0.22063332031710203,
+     -0.1991943989058953
+    ],
+    "generator_2x/speaker_conditioned_codec_fd": [
+     -0.5065308669084889,
+     -0.4629411371974501
+    ],
+    "generator_2x/codebook_pair_divergence": [
+     -0.014758040188184619,
+     -0.01334154862809244
+    ],
+    "generator_4x/codec_fd": [
+     -0.1485072935986338,
+     -0.12624268437688357
+    ],
+    "generator_4x/speaker_conditioned_codec_fd": [
+     -0.38926170095075463,
+     -0.34581999631459204
+    ],
+    "generator_4x/codebook_pair_divergence": [
+     -0.010006954460586536,
+     -0.008800245164598812
+    ]
+   },
+   "test_mean": 0.16269418984796816,
+   "test_95_percent": [
+    0.1551895456170397,
+    0.16867412887424946
+   ],
+   "test_feasible_cohort_mean": 1.3629126935477165,
+   "test_feasible_cohort_95_percent": [
+    1.2974389789223868,
+    1.415970392441125
+   ]
+  },
+  "better_large_cosine_20k_seed27": {
+   "raw_delta_95_percent": {
+    "generator_2x/codec_fd": [
+     -0.22071484150158938,
+     -0.19963220127443293
+    ],
+    "generator_2x/speaker_conditioned_codec_fd": [
+     -0.5124067322719494,
+     -0.46619015859647006
+    ],
+    "generator_2x/codebook_pair_divergence": [
+     -0.01475631160013992,
+     -0.013362480586883151
+    ],
+    "generator_4x/codec_fd": [
+     -0.14696394091300036,
+     -0.12591459979350006
+    ],
+    "generator_4x/speaker_conditioned_codec_fd": [
+     -0.38500304119512885,
+     -0.3452562739861471
+    ],
+    "generator_4x/codebook_pair_divergence": [
+     -0.009975456033134295,
+     -0.00877165854499627
+    ]
+   },
+   "test_mean": 0.16227916769137685,
+   "test_95_percent": [
+    0.1550044238210624,
+    0.16909842117126123
+   ],
+   "test_feasible_cohort_mean": 1.358652505965801,
+   "test_feasible_cohort_95_percent": [
+    1.297462880406963,
+    1.4188611240461848
+   ]
+  },
+  "paper_sampling_t06": {
+   "raw_delta_95_percent": {
+    "generator_2x/codec_fd": [
+     0.8139911879984325,
+     0.8549105040914071
+    ],
+    "generator_2x/speaker_conditioned_codec_fd": [
+     2.086162191057517,
+     2.1879659081220373
+    ],
+    "generator_2x/codebook_pair_divergence": [
+     0.11296284134417503,
+     0.11722514817988292
+    ],
+    "generator_4x/codec_fd": [
+     0.8131783559417585,
+     0.8484868684216345
+    ],
+    "generator_4x/speaker_conditioned_codec_fd": [
+     1.991280253841678,
+     2.0862631176777007
+    ],
+    "generator_4x/codebook_pair_divergence": [
+     0.11840140354382492,
+     0.12216281406423396
+    ]
+   },
+   "test_mean": -1.1187711432558198,
+   "test_95_percent": [
+    -1.1327212575498866,
+    -1.102405228279745
+   ],
+   "test_feasible_cohort_mean": -8.035785337662242,
+   "test_feasible_cohort_95_percent": [
+    -8.144094782353708,
+    -7.908198137405705
+   ]
+  },
+  "reference_sample1": {
+   "raw_delta_95_percent": {
+    "generator_2x/codec_fd": [
+     -0.006247313388580977,
+     0.025824290931542038
+    ],
+    "generator_2x/speaker_conditioned_codec_fd": [
+     -0.01502258356730013,
+     0.04731566384689789
+    ],
+    "generator_2x/codebook_pair_divergence": [
+     -0.0002358932118382423,
+     0.0017776091079149056
+    ],
+    "generator_4x/codec_fd": [
+     -0.011986659289668466,
+     0.01267798163600986
+    ],
+    "generator_4x/speaker_conditioned_codec_fd": [
+     -0.021409073455436634,
+     0.02888308306119658
+    ],
+    "generator_4x/codebook_pair_divergence": [
+     -0.0003355681369417128,
+     0.0010704529724522658
+    ]
+   },
+   "test_mean": -0.004509242762356011,
+   "test_95_percent": [
+    -0.014542735491437765,
+    0.0043221876719530565
+   ],
+   "test_feasible_cohort_mean": -0.03359769508908667,
+   "test_feasible_cohort_95_percent": [
+    -0.11865061285964686,
+    0.04067681457648567
+   ]
+  },
+  "reference_sample2": {
+   "raw_delta_95_percent": {
+    "generator_2x/codec_fd": [
+     -0.013401912562692075,
+     0.023452332956754418
+    ],
+    "generator_2x/speaker_conditioned_codec_fd": [
+     -0.02340644583872087,
+     0.03907044968400508
+    ],
+    "generator_2x/codebook_pair_divergence": [
+     -0.000529834125797303,
+     0.0017371331113225572
+    ],
+    "generator_4x/codec_fd": [
+     -0.021488619944058485,
+     0.009984326528851284
+    ],
+    "generator_4x/speaker_conditioned_codec_fd": [
+     -0.018390519668785243,
+     0.03691022536826338
+    ],
+    "generator_4x/codebook_pair_divergence": [
+     -0.0011379371193904093,
+     0.0006880553991420665
+    ]
+   },
+   "test_mean": -0.0013332976907332412,
+   "test_95_percent": [
+    -0.012090005000485357,
+    0.008887195217487494
+   ],
+   "test_feasible_cohort_mean": -0.008926951843971197,
+   "test_feasible_cohort_95_percent": [
+    -0.10131784877298493,
+    0.0768125343915943
+   ]
+  },
+  "reference_seed17": {
+   "raw_delta_95_percent": {
+    "generator_2x/codec_fd": [
+     -0.06732385617346637,
+     -0.034189633673292974
+    ],
+    "generator_2x/speaker_conditioned_codec_fd": [
+     -0.11178875408720734,
+     -0.056276149055574765
+    ],
+    "generator_2x/codebook_pair_divergence": [
+     -0.004633781444844307,
+     -0.0027973465188113403
+    ],
+    "generator_4x/codec_fd": [
+     -0.008866483664849767,
+     0.012760010775583197
+    ],
+    "generator_4x/speaker_conditioned_codec_fd": [
+     -0.04134843757259854,
+     0.008358274745495109
+    ],
+    "generator_4x/codebook_pair_divergence": [
+     -0.00011902090823516336,
+     0.0012160271400450326
+    ]
+   },
+   "test_mean": 0.0178864115442018,
+   "test_95_percent": [
+    0.010123288280138133,
+    0.025657232911754754
+   ],
+   "test_feasible_cohort_mean": 0.15541157546144058,
+   "test_feasible_cohort_95_percent": [
+    0.0875554422358171,
+    0.21921534716814295
+   ]
+  },
+  "reference_seed27": {
+   "raw_delta_95_percent": {
+    "generator_2x/codec_fd": [
+     0.02161508275163726,
+     0.05364877528967682
+    ],
+    "generator_2x/speaker_conditioned_codec_fd": [
+     -0.027701737009137695,
+     0.03539655085864046
+    ],
+    "generator_2x/codebook_pair_divergence": [
+     -0.0007454717145046821,
+     0.0011557364583876795
+    ],
+    "generator_4x/codec_fd": [
+     0.050345603992216326,
+     0.07974357484782146
+    ],
+    "generator_4x/speaker_conditioned_codec_fd": [
+     -0.00017891509456524624,
+     0.04990661313348377
+    ],
+    "generator_4x/codebook_pair_divergence": [
+     0.002191677259847584,
+     0.00392389983914317
+    ]
+   },
+   "test_mean": -0.028804056525154827,
+   "test_95_percent": [
+    -0.038289569410491844,
+    -0.019935766698541545
+   ],
+   "test_feasible_cohort_mean": -0.2713103586727384,
+   "test_feasible_cohort_95_percent": [
+    -0.35221075112675787,
+    -0.19626157172554
+   ]
+  },
+  "shortcut_count_chain": {
+   "raw_delta_95_percent": {
+    "generator_2x/codec_fd": [
+     0.314752194331124,
+     0.3414689941971467
+    ],
+    "generator_2x/speaker_conditioned_codec_fd": [
+     0.40181502965911364,
+     0.45283306169435633
+    ],
+    "generator_2x/codebook_pair_divergence": [
+     -0.0015066080103498351,
+     6.009336714020777e-05
+    ],
+    "generator_4x/codec_fd": [
+     0.38960310828344547,
+     0.4126591807555542
+    ],
+    "generator_4x/speaker_conditioned_codec_fd": [
+     0.5243634026602544,
+     0.5663831942146547
+    ],
+    "generator_4x/codebook_pair_divergence": [
+     0.0033096690793369635,
+     0.004476108525146495
+    ]
+   },
+   "test_mean": -0.19344500957752558,
+   "test_95_percent": [
+    -0.2014566104299547,
+    -0.1853993462672577
+   ],
+   "test_feasible_cohort_mean": -2.0847275965912275,
+   "test_feasible_cohort_95_percent": [
+    -2.155446979940453,
+    -2.0140585546941105
+   ]
+  },
+  "shortcut_frame_lookup": {
+   "raw_delta_95_percent": {
+    "generator_2x/codec_fd": [
+     0.23160095208257303,
+     0.25430722581480936
+    ],
+    "generator_2x/speaker_conditioned_codec_fd": [
+     -0.0225610538954093,
+     0.022235360303105578
+    ],
+    "generator_2x/codebook_pair_divergence": [
+     -0.007790191039324164,
+     -0.0064265616160162145
+    ],
+    "generator_4x/codec_fd": [
+     0.30016920464327157,
+     0.3240870711827455
+    ],
+    "generator_4x/speaker_conditioned_codec_fd": [
+     0.0961122943728896,
+     0.13670116699049317
+    ],
+    "generator_4x/codebook_pair_divergence": [
+     -0.0031552836895706923,
+     -0.0019349532652284864
+    ]
+   },
+   "test_mean": -0.07839020211517975,
+   "test_95_percent": [
+    -0.08555406508341835,
+    -0.07165745001711091
+   ],
+   "test_feasible_cohort_mean": -1.1257490971940103,
+   "test_feasible_cohort_95_percent": [
+    -1.1880395783644107,
+    -1.0679212876333735
+   ]
+  },
+  "shortcut_gaussian_latent": {
+   "raw_delta_95_percent": {
+    "generator_2x/codec_fd": [
+     0.10986862624604754,
+     0.13294071689326614
+    ],
+    "generator_2x/speaker_conditioned_codec_fd": [
+     -0.14585907639648488,
+     -0.10320656476820134
+    ],
+    "generator_2x/codebook_pair_divergence": [
+     0.12801259752428287,
+     0.1305325226615081
+    ],
+    "generator_4x/codec_fd": [
+     0.18224757240581013,
+     0.2021450845172197
+    ],
+    "generator_4x/speaker_conditioned_codec_fd": [
+     -0.024019513556668093,
+     0.017327666852602785
+    ],
+    "generator_4x/codebook_pair_divergence": [
+     0.13285466411971672,
+     0.13514400375322275
+    ]
+   },
+   "test_mean": -0.7018402070120017,
+   "test_95_percent": [
+    -0.7104264425493654,
+    -0.694317103173111
+   ],
+   "test_feasible_cohort_mean": -3.273039020519162,
+   "test_feasible_cohort_95_percent": [
+    -3.3365252525875064,
+    -3.2129690349968665
+   ]
+  },
+  "shortcut_resample_2x_as_4x": {
+   "raw_delta_95_percent": {
+    "generator_2x/codec_fd": [
+     0.0,
+     0.0
+    ],
+    "generator_2x/speaker_conditioned_codec_fd": [
+     0.0,
+     0.0
+    ],
+    "generator_2x/codebook_pair_divergence": [
+     0.0,
+     0.0
+    ],
+    "generator_4x/codec_fd": [
+     0.06788098254403963,
+     0.10064455249229809
+    ],
+    "generator_4x/speaker_conditioned_codec_fd": [
+     0.1160222225124754,
+     0.1680979231851183
+    ],
+    "generator_4x/codebook_pair_divergence": [
+     0.004790516433221063,
+     0.006485704032122818
+    ]
+   },
+   "test_mean": -0.04318597129765491,
+   "test_95_percent": [
+    -0.05116196953761268,
+    -0.03651560134445893
+   ],
+   "test_feasible_cohort_mean": -0.35491445455747195,
+   "test_feasible_cohort_95_percent": [
+    -0.42445650064729523,
+    -0.29836331528940563
+   ]
+  },
+  "shortcut_splice_2frame": {
+   "raw_delta_95_percent": {
+    "generator_2x/codec_fd": [
+     0.06326830983189424,
+     0.08570671857465939
+    ],
+    "generator_2x/speaker_conditioned_codec_fd": [
+     -0.2294078433754969,
+     -0.1842496644654883
+    ],
+    "generator_2x/codebook_pair_divergence": [
+     -0.010442635310295082,
+     -0.00903615855133379
+    ],
+    "generator_4x/codec_fd": [
+     0.13619735890969764,
+     0.15649494473438352
+    ],
+    "generator_4x/speaker_conditioned_codec_fd": [
+     -0.1068588969479638,
+     -0.06684243769435305
+    ],
+    "generator_4x/codebook_pair_divergence": [
+     -0.005652786806743469,
+     -0.004548618276646432
+    ]
+   },
+   "test_mean": 0.01393513180480527,
+   "test_95_percent": [
+    0.007540714533309332,
+    0.020648854144105087
+   ],
+   "test_feasible_cohort_mean": -0.1782139634704009,
+   "test_feasible_cohort_95_percent": [
+    -0.2335654542280049,
+    -0.11743921016577824
+   ]
+  },
+  "shortcut_splice_partial": {
+   "raw_delta_95_percent": {
+    "generator_2x/codec_fd": [
+     -0.05442337132700459,
+     -0.043271845753775295
+    ],
+    "generator_2x/speaker_conditioned_codec_fd": [
+     -0.12695137249782684,
+     -0.10630373252398884
+    ],
+    "generator_2x/codebook_pair_divergence": [
+     -0.0037433291514506837,
+     -0.003043354408613211
+    ],
+    "generator_4x/codec_fd": [
+     -0.0320010105452333,
+     -0.023102912726216118
+    ],
+    "generator_4x/speaker_conditioned_codec_fd": [
+     -0.09374165279078328,
+     -0.07759192388581404
+    ],
+    "generator_4x/codebook_pair_divergence": [
+     -0.002394167271014127,
+     -0.0019012270482400354
+    ]
+   },
+   "test_mean": 0.03708837048915702,
+   "test_95_percent": [
+    0.03413498311554027,
+    0.04005900753556377
+   ],
+   "test_feasible_cohort_mean": 0.30690464634780834,
+   "test_feasible_cohort_95_percent": [
+    0.2817819122572726,
+    0.33239617752912587
+   ]
+  },
+  "weaker_no_local": {
+   "raw_delta_95_percent": {
+    "generator_2x/codec_fd": [
+     0.24683001945427208,
+     0.2805095335148735
+    ],
+    "generator_2x/speaker_conditioned_codec_fd": [
+     0.3864217056241829,
+     0.43555398544858104
+    ],
+    "generator_2x/codebook_pair_divergence": [
+     0.0007079564721978321,
+     0.0024407970828779248
+    ],
+    "generator_4x/codec_fd": [
+     0.6162295501665156,
+     0.6419280360063233
+    ],
+    "generator_4x/speaker_conditioned_codec_fd": [
+     0.8261000464433088,
+     0.8721439629326753
+    ],
+    "generator_4x/codebook_pair_divergence": [
+     0.010542851441386414,
+     0.011876771898231551
+    ]
+   },
+   "test_mean": -0.2779338550226404,
+   "test_95_percent": [
+    -0.28595613652158886,
+    -0.2693074833500771
+   ],
+   "test_feasible_cohort_mean": -2.8155048922356447,
+   "test_feasible_cohort_95_percent": [
+    -2.88350084806584,
+    -2.7373918198247185
+   ]
+  },
+  "weaker_training_2k": {
+   "raw_delta_95_percent": {
+    "generator_2x/codec_fd": [
+     0.021750335730086334,
+     0.06905598417894154
+    ],
+    "generator_2x/speaker_conditioned_codec_fd": [
+     0.17481728842504762,
+     0.24538464697465012
+    ],
+    "generator_2x/codebook_pair_divergence": [
+     -0.0006471832278500886,
+     0.0019358255057998278
+    ],
+    "generator_4x/codec_fd": [
+     0.1321342959471714,
+     0.16970726924662216
+    ],
+    "generator_4x/speaker_conditioned_codec_fd": [
+     0.2767370822419073,
+     0.33990710479785524
+    ],
+    "generator_4x/codebook_pair_divergence": [
+     0.006597099217168997,
+     0.008567083402730448
+    ]
+   },
+   "test_mean": -0.09346228484012715,
+   "test_95_percent": [
+    -0.10498541082559612,
+    -0.08074953539602205
+   ],
+   "test_feasible_cohort_mean": -0.8273333372454234,
+   "test_feasible_cohort_95_percent": [
+    -0.9299740650262213,
+    -0.7149424702012934
+   ]
+  }
+ }
+}

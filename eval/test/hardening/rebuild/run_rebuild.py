@@ -1,14 +1,17 @@
 """Rebuild check: one bundled, resumable job for the hidden-process codec gym.
 
 The data process changed in this iteration (eval/test/codec_process.py), so the
-reference, the comparison models and every variant are retrained from the
-final code. Finished outputs are skipped on a rerun.
+reference, the comparison models and every variant are trained from the final
+code. Finished models, predictions and cases are skipped on a rerun, so the
+second job only adds the few-shot-speaker rows (row key 'fewshot') to the
+cases the first job built for the two main operating points.
 
 Phases:
-  reference  The end-to-end reference recipe (scripts/method.sh and
-             scripts/baseline.sh arguments): AR local transformer at 2x/4x,
-             parallel heads at 1x/2x/4x, MaskGIT local transformer at 2x/4x,
-             10000 steps each, then `python -m eval.test.prepare_fixtures`.
+  reference  The end-to-end reference recipe (scripts/reproduce.sh arguments):
+             AR local transformer at 2x/4x, parallel heads at 1x/2x/4x,
+             MaskGIT local transformer at 2x/4x, and the AR reference, parallel
+             and MaskGIT at 4x on the few-shot data, 10000 steps each; then
+             `python -m eval.test.prepare_fixtures`.
   variants   Learned variants on identical inputs: reference retrainings
              (seeds 17, 27) and generation seeds; stronger models (20k steps
              with cosine decay; a larger model with the same schedule, three
@@ -23,8 +26,9 @@ Phases:
   score      Every case is staged under checkpoints/attempts/ and scored once
              by the no-argument scripts/evaluate_test.sh and
              scripts/evaluate_train.sh (attacks on global files separately).
-  summary    Cohort-normalized scores, raw measurements, seed groups and a
-             paired block bootstrap on identical held-out rows.
+  summary    Cohort-normalized scores, raw measurements, seed groups, a paired
+             block bootstrap on identical held-out rows, and the
+             finite-sample bound of a perfect sampler.
   restore    Reference-only scoring/scores*.json, reference.json results from
              the reference run, and validate.py.
 """
@@ -48,18 +52,24 @@ WORK = ROOT / 'checkpoints' / 'rebuild'
 CASES = WORK / 'cases'
 PRED = ROOT / 'checkpoints' / 'predictions'
 ATTEMPTS = ROOT / 'checkpoints' / 'attempts'
-DATA = ROOT / 'data' / 'synthetic_codec'
-N, T, K, V, S = 16384, 24, 8, 32, 16
-STACKS = (2, 4)
-EXPS = {2: 'codec_stack2', 4: 'codec_stack4'}
+DATA = {'main': ROOT / 'data' / 'synthetic_codec', 'fewshot': ROOT / 'data' / 'synthetic_codec_fewshot'}
+N, T, K, V = 16384, 24, 8, 32
+# Row key -> (file stem, task, stack factor, experiment)
+ROWS = {2: ('generator_2x', 'main', 2, 'codec_stack2'),
+        4: ('generator_4x', 'main', 4, 'codec_stack4'),
+        'fewshot': ('generator_fewshot_4x', 'fewshot', 4, 'codec_fewshot_stack4')}
 METRICS = ('codec_fd', 'speaker_conditioned_codec_fd', 'codebook_pair_divergence')
-REFERENCE_ROWS = {'generator_2x': ('ar', 2, 2), 'generator_4x': ('ar', 4, 2),
-                  'baseline_maskgit_2x': ('maskgit', 2, 2), 'baseline_maskgit_4x': ('maskgit', 4, 2),
-                  'baseline_parallel_1x': ('none', 1, 3), 'baseline_parallel_2x': ('none', 2, 3),
-                  'baseline_parallel_4x': ('none', 4, 3)}
+REFERENCE_ROWS = {'generator_2x': ('ar', 2, 2, 'main'), 'generator_4x': ('ar', 4, 2, 'main'),
+                  'baseline_maskgit_2x': ('maskgit', 2, 2, 'main'), 'baseline_maskgit_4x': ('maskgit', 4, 2, 'main'),
+                  'baseline_parallel_1x': ('none', 1, 3, 'main'), 'baseline_parallel_2x': ('none', 2, 3, 'main'),
+                  'baseline_parallel_4x': ('none', 4, 3, 'main'),
+                  'generator_fewshot_4x': ('ar', 4, 2, 'fewshot'),
+                  'baseline_maskgit_fewshot_4x': ('maskgit', 4, 2, 'fewshot'),
+                  'baseline_parallel_fewshot_4x': ('none', 4, 3, 'fewshot')}
+PARALLEL = {2: 'baseline_parallel_2x', 4: 'baseline_parallel_4x', 'fewshot': 'baseline_parallel_fewshot_4x'}
 LARGE = ['--dim', '192', '--main-layers', '3', '--lt-layers', '2']
 COSINE20K = ['--steps', '20000', '--lr-schedule', 'cosine']
-# name -> (training arguments, training seed); every variant trains both points.
+# name -> (training arguments, training seed); every variant trains every row.
 TRAINED = {
     'reference_seed17': ([], 17),
     'reference_seed27': ([], 27),
@@ -75,8 +85,6 @@ SEED_GROUPS = {
 }
 GLOBAL_ATTACKS = ('shortcut_replace_truth_testfile', 'shortcut_replace_truth_valfile')
 DRY_STEPS = os.environ.get('REBUILD_DRY_STEPS')
-if DRY_STEPS:
-    TRAINED = dict(list(TRAINED.items())[:1] + list(TRAINED.items())[3:4])
 
 
 def log(msg):
@@ -89,10 +97,10 @@ def run(cmd, logfile):
         subprocess.run(cmd, check=True, stdout=fh, stderr=subprocess.STDOUT)
 
 
-def train(ckpt_dir, variant, stack, main_layers, extra=(), seed=7):
+def train(ckpt_dir, variant, stack, main_layers, extra=(), seed=7, task='main'):
     if (ckpt_dir / 'model.pt').is_file():
         return
-    args = ['--data', str(DATA), '--out', str(ckpt_dir), '--variant', variant, '--stack-factor', str(stack),
+    args = ['--data', str(DATA[task]), '--out', str(ckpt_dir), '--variant', variant, '--stack-factor', str(stack),
             '--steps', '10000', '--main-layers', str(main_layers), '--seed', str(seed), *extra]
     if DRY_STEPS:  # pipeline dry run only (never in a real job)
         args += ['--steps', DRY_STEPS]
@@ -101,52 +109,58 @@ def train(ckpt_dir, variant, stack, main_layers, extra=(), seed=7):
     log(f'trained {ckpt_dir} in {time.time() - t0:.0f}s')
 
 
-def predict(ckpt, out, temperature=1.0, seed=0, data=DATA):
+def predict(ckpt, out, temperature=1.0, seed=0, task='main'):
     if out.is_file():
         return
     out.parent.mkdir(parents=True, exist_ok=True)
     tmp = out.with_name(out.stem + '.partial.pt')
     if DRY_STEPS:  # pipeline dry run only: stand-in samples instead of slow CPU generation
-        from eval.test import codec_process
-        seed = abs(hash((str(ckpt), temperature, seed))) % 100_000
-        tokens = codec_process.sample_tokens(conditions(), seed)
+        from eval.test import evaluate as ev
+        tokens = ev.sample_tokens(task, conditions(task), abs(hash((str(ckpt), temperature, seed))) % 100_000)
         torch.save({'pred_tokens': tokens, 'config': {'stack_factor': int(out.stem[-2])}, 'split': 'test'}, out)
         return
-    run([sys.executable, '-m', 'method.predict', '--data', str(data), '--checkpoint', str(ckpt), '--out', str(tmp),
+    run([sys.executable, '-m', 'method.predict', '--data', str(DATA[task]), '--checkpoint', str(ckpt), '--out', str(tmp),
          '--temperature', str(temperature), '--seed', str(seed)],
         LOGS / 'predict' / f'{out.parent.parent.name}_{out.stem}.log')
     tmp.rename(out)
 
 
-def save_case(case, tensors, config=None):
-    folder = CASES / case / 'predictions'
-    folder.mkdir(parents=True, exist_ok=True)
-    for stack, tokens in tensors.items():
-        cfg = {'stack_factor': stack} if config is None else config(stack)
-        target = folder / f'generator_{stack}x.pt'
-        torch.save({'pred_tokens': tokens, 'config': cfg, 'split': 'test'}, target.with_suffix('.tmp'))
-        target.with_suffix('.tmp').rename(target)
+def row_path(case, key):
+    return CASES / case / 'predictions' / f'{ROWS[key][0]}.pt'
 
 
-def built(case):
-    return (CASES / case / 'done').is_file()
+def have(case, key):
+    return row_path(case, key).is_file()
 
 
-def mark(case):
-    (CASES / case / 'done').write_text('ok\n')
+def put(case, key, tokens, config=None):
+    target = row_path(case, key)
+    target.parent.mkdir(parents=True, exist_ok=True)
+    stack = ROWS[key][2]
+    cfg = {'stack_factor': stack} if config is None else config(stack)
+    torch.save({'pred_tokens': tokens, 'config': cfg, 'split': 'test'}, target.with_suffix('.tmp'))
+    target.with_suffix('.tmp').rename(target)
+
+
+def complete(case):
+    return all(have(case, key) for key in ROWS)
 
 
 def load_pred(path):
     return torch.load(path, map_location='cpu', weights_only=False)['pred_tokens'].long()
 
 
+def reference_row(key):
+    return load_pred(PRED / f'{ROWS[key][0]}.pt')
+
+
 # ------------------------------------------------------------------ reference
 def reference_phase():
-    for name, (variant, stack, layers) in REFERENCE_ROWS.items():
-        train(ROOT / 'checkpoints' / name, variant, stack, layers)
-        predict(ROOT / 'checkpoints' / name / 'model.pt', PRED / f'{name}.pt')
+    for name, (variant, stack, layers, task) in REFERENCE_ROWS.items():
+        train(ROOT / 'checkpoints' / name, variant, stack, layers, task=task)
+        predict(ROOT / 'checkpoints' / name / 'model.pt', PRED / f'{name}.pt', task=task)
     log('reference and comparison predictions ready')
-    stamp = WORK / 'fixtures_done'
+    stamp = WORK / 'fixtures_done_with_fewshot'
     if not stamp.is_file():
         run([sys.executable, '-m', 'eval.test.prepare_fixtures'], LOGS / 'prepare_fixtures.log')
         stamp.parent.mkdir(parents=True, exist_ok=True)
@@ -156,56 +170,53 @@ def reference_phase():
 
 # ------------------------------------------------------------------ variants
 def variants_phase():
-    ref = {s: PRED / f'generator_{s}x.pt' for s in STACKS}
-    if not built('reference'):
-        save_case('reference', {s: load_pred(ref[s]).to(torch.uint8) for s in STACKS})
-        mark('reference')
+    for key in ROWS:
+        if not have('reference', key):
+            put('reference', key, reference_row(key).to(torch.uint8))
     for case, temperature, seed in (('reference_sample1', 1.0, 1), ('reference_sample2', 1.0, 2),
                                     ('paper_sampling_t06', 0.6, 0), ('weaker_argmax', 0.0, 0)):
-        if not built(case):
-            for s in STACKS:
-                predict(ROOT / 'checkpoints' / f'generator_{s}x' / 'model.pt',
-                        CASES / case / 'predictions' / f'generator_{s}x.pt', temperature, seed)
-            mark(case)
-            log(f'built {case}')
-    if not built('weaker_no_local'):
-        save_case('weaker_no_local', {s: load_pred(PRED / f'baseline_parallel_{s}x.pt').to(torch.uint8) for s in STACKS})
-        mark('weaker_no_local')
-    if not built('shortcut_resample_2x_as_4x'):
-        # The 2x model's own fresh sample declared as the 4x row (false compute claim).
-        folder = CASES / 'shortcut_resample_2x_as_4x' / 'predictions'
+        for key, (stem, task, _, _) in ROWS.items():
+            predict(ROOT / 'checkpoints' / stem / 'model.pt', row_path(case, key), temperature, seed, task)
+        log(f'built {case}')
+    for key, name in PARALLEL.items():
+        if not have('weaker_no_local', key):
+            put('weaker_no_local', key, load_pred(PRED / f'{name}.pt').to(torch.uint8))
+    # The 2x model's own fresh sample declared as the 4x row (false compute claim).
+    case = 'shortcut_resample_2x_as_4x'
+    if not have(case, 2):
+        put(case, 2, reference_row(2).to(torch.uint8))
+    if not have(case, 4):
         predict(ROOT / 'checkpoints' / 'generator_2x' / 'model.pt', WORK / 'resample_2x.pt', 1.0, 5)
-        save_case('shortcut_resample_2x_as_4x', {2: load_pred(ref[2]).to(torch.uint8),
-                                                 4: load_pred(WORK / 'resample_2x.pt').to(torch.uint8)})
-        mark('shortcut_resample_2x_as_4x')
+        put(case, 4, load_pred(WORK / 'resample_2x.pt').to(torch.uint8))
+    if not have(case, 'fewshot'):
+        put(case, 'fewshot', reference_row('fewshot').to(torch.uint8))
     for case, (extra, seed) in TRAINED.items():
-        if built(case):
+        if complete(case):
             continue
-        for s in STACKS:
-            ckpt = WORK / 'models' / case / f'{s}x'
-            train(ckpt, 'ar', s, 2, extra, seed)
-            predict(ckpt / 'model.pt', CASES / case / 'predictions' / f'generator_{s}x.pt')
-        mark(case)
+        for key, (stem, task, stack, _) in ROWS.items():
+            ckpt = WORK / 'models' / case / (f'{stack}x' if task == 'main' else 'fewshot_4x')
+            train(ckpt, 'ar', stack, 2, extra, seed, task)
+            predict(ckpt / 'model.pt', row_path(case, key), task=task)
         log(f'built {case}')
 
 
 # ------------------------------------------------------------------ shortcuts
-def conditions():
-    return torch.load(DATA / 'test_conditions.pt', weights_only=True)['speaker'].long()
+def conditions(task='main'):
+    return torch.load(DATA[task] / 'test_conditions.pt', weights_only=True)['speaker'].long()
 
 
-def training_set():
-    tr = torch.load(DATA / 'train.pt', weights_only=True)
+def training_set(task='main'):
+    tr = torch.load(DATA[task] / 'train.pt', weights_only=True)
     return tr['tokens'].long(), tr['speaker'].long()
 
 
-def copy_rows(seed):
+def copy_rows(seed, task='main'):
     """For every conditioning row, a random training utterance of the same speaker."""
-    toks, spk_tr = training_set()
-    spk = conditions()
+    toks, spk_tr = training_set(task)
+    spk = conditions(task)
     g = torch.Generator().manual_seed(seed)
     out = torch.zeros(N, T, K, dtype=torch.long)
-    for s in range(S):
+    for s in spk.unique().tolist():
         rows = (spk == s).nonzero().squeeze(1)
         pool = toks[spk_tr == s]
         out[rows] = pool[torch.randint(len(pool), (len(rows),), generator=g)]
@@ -218,10 +229,10 @@ def edit(x, rate, seed):
     return torch.where(mask, torch.randint(V, x.shape, generator=g), x)
 
 
-def splice(piece, seed):
+def splice(piece, seed, task='main'):
     out = torch.zeros(N, T, K, dtype=torch.long)
     for i, start in enumerate(range(0, T, piece)):
-        out[:, start:start + piece] = copy_rows(seed + i)[:, start:start + piece]
+        out[:, start:start + piece] = copy_rows(seed + i, task)[:, start:start + piece]
     return out
 
 
@@ -242,24 +253,24 @@ def requantize(z):
     return (digits * RADIX).sum(-1)
 
 
-def gaussian_latent(seed):
+def gaussian_latent(seed, task='main'):
     """Per speaker, a Gaussian AR(1) fitted to the training latents' first two
     moments (exactly what FD compares), sampled and re-quantized."""
-    toks, spk_tr = training_set()
+    toks, spk_tr = training_set(task)
     z = latent(toks)
-    spk = conditions()
+    spk = conditions(task)
     g = torch.Generator().manual_seed(seed)
     d = 3 * K
     out = torch.zeros(N, T, K, dtype=torch.long)
-    eye = 1e-9 * torch.eye(d, dtype=torch.float64)
-    for s in range(S):
+    eye = (1e-9 if task == 'main' else 1e-4) * torch.eye(d, dtype=torch.float64)
+    for s in spk.unique().tolist():
         x = z[spk_tr == s]
         a, b = x[:, :-1].reshape(-1, d), x[:, 1:].reshape(-1, d)
         mu = x.reshape(-1, d).mean(0)
         c = torch.cov(torch.cat([a, b], 1).T)
-        A = c[:d, d:].T @ torch.linalg.inv(c[:d, :d])
+        A = c[:d, d:].T @ torch.linalg.inv(c[:d, :d] + eye)
         noise = torch.linalg.cholesky(c[d:, d:] - A @ c[:d, d:] + eye)
-        first = torch.linalg.cholesky(torch.cov(x[:, 0].T) + eye)
+        first = torch.linalg.cholesky(torch.cov(x[:, 0].T) + eye) if len(x) > d else torch.linalg.cholesky(c[:d, :d] + eye)
         rows = (spk == s).nonzero().squeeze(1)
         cur = x[:, 0].mean(0) + torch.randn(len(rows), d, generator=g, dtype=torch.float64) @ first.T
         seq = [cur]
@@ -270,16 +281,16 @@ def gaussian_latent(seed):
     return out
 
 
-def count_chain(seed, alpha=0.1):
+def count_chain(seed, task='main', alpha=0.1):
     """Hand-written structure fitted by counting (the previous gym's analytic
     sampler, generalized): per speaker, codebook 0 is a first-order chain over
     frames and codebook k depends on codebook k-1 of the same frame and on
     codebook k of the previous frame."""
-    toks, spk_tr = training_set()
-    spk = conditions()
+    toks, spk_tr = training_set(task)
+    spk = conditions(task)
     g = torch.Generator().manual_seed(seed)
     out = torch.zeros(N, T, K, dtype=torch.long)
-    for s in range(S):
+    for s in spk.unique().tolist():
         x = toks[spk_tr == s]
         c0 = torch.full((V, V), alpha, dtype=torch.float64)
         c0 += torch.bincount(x[:, :-1, 0].flatten() * V + x[:, 1:, 0].flatten(), minlength=V * V).reshape(V, V)
@@ -301,14 +312,14 @@ def count_chain(seed, alpha=0.1):
     return out
 
 
-def frame_lookup(seed):
+def frame_lookup(seed, task='main'):
     """Nonparametric frame bigram: each next frame is a training frame whose
     predecessor matched the current frame on codebooks 0 and 1 (same speaker)."""
-    toks, spk_tr = training_set()
-    spk = conditions()
+    toks, spk_tr = training_set(task)
+    spk = conditions(task)
     g = torch.Generator().manual_seed(seed)
     out = torch.zeros(N, T, K, dtype=torch.long)
-    for s in range(S):
+    for s in spk.unique().tolist():
         x = toks[spk_tr == s]
         prev, nxt_all = x[:, :-1].reshape(-1, K), x[:, 1:].reshape(-1, K)
         key = prev[:, 0] * V + prev[:, 1]
@@ -332,9 +343,9 @@ def frame_lookup(seed):
 OLD_INCREMENTS = torch.tensor((1, 6, 12, 19))
 
 
-def old_analytic_sampler(seed):
+def old_analytic_sampler(seed, task='main'):
     """The previous gym's hand-written sampler (affine residual rule, coarse walk)."""
-    spk = conditions()
+    spk = conditions(task)
     g = torch.Generator().manual_seed(seed)
     style = (torch.rand(N, K - 1, generator=g) < 0.5).long()
     tokens = torch.zeros(N, T, K, dtype=torch.long)
@@ -347,9 +358,9 @@ def old_analytic_sampler(seed):
     return tokens
 
 
-def old_rule_repair(tokens):
+def old_rule_repair(tokens, task='main'):
     """The previous gym's rule repair: snap outputs onto its public validity rule."""
-    spk = conditions()
+    spk = conditions(task)
     out = tokens.clone()
     step = (out[:, 1:, 0] - out[:, :-1, 0]) % V
     snapped = OLD_INCREMENTS[(step.unsqueeze(-1) - OLD_INCREMENTS).abs().argmin(-1)]
@@ -362,44 +373,49 @@ def old_rule_repair(tokens):
     return out
 
 
-def shortcuts_phase():
-    ref = {s: load_pred(PRED / f'generator_{s}x.pt') for s in STACKS}
-    u8 = lambda d: {s: t.to(torch.uint8) for s, t in d.items()}
-    builders = {
-        'shortcut_copy_train': lambda: u8({2: copy_rows(1), 4: copy_rows(2)}),
-        'shortcut_copy_edit_3pct': lambda: u8({2: edit(copy_rows(1), 0.03, 3), 4: edit(copy_rows(2), 0.03, 4)}),
-        'shortcut_copy_edit_12pct': lambda: u8({2: edit(copy_rows(1), 0.125, 3), 4: edit(copy_rows(2), 0.125, 4)}),
-        'shortcut_copy_edit_25pct': lambda: u8({2: edit(copy_rows(1), 0.25, 3), 4: edit(copy_rows(2), 0.25, 4)}),
-        'shortcut_splice_2frame': lambda: u8({2: splice(2, 100), 4: splice(2, 200)}),
-        'shortcut_splice_3frame': lambda: u8({2: splice(3, 100), 4: splice(3, 200)}),
-        'shortcut_splice_4frame': lambda: u8({2: splice(4, 100), 4: splice(4, 200)}),
-        'shortcut_splice_6frame': lambda: u8({2: splice(6, 100), 4: splice(6, 200)}),
-        'shortcut_random_tokens': lambda: u8({s: torch.randint(V, (N, T, K), generator=torch.Generator().manual_seed(s)) for s in STACKS}),
-        'shortcut_constant': lambda: u8({s: torch.zeros(N, T, K, dtype=torch.long) for s in STACKS}),
-        'shortcut_gaussian_latent': lambda: u8({2: gaussian_latent(1), 4: gaussian_latent(2)}),
-        'shortcut_count_chain': lambda: u8({2: count_chain(1), 4: count_chain(2)}),
-        'shortcut_frame_lookup': lambda: u8({2: frame_lookup(1), 4: frame_lookup(2)}),
-        'shortcut_old_analytic_sampler': lambda: u8({2: old_analytic_sampler(1), 4: old_analytic_sampler(2)}),
-        'shortcut_old_rule_repair': lambda: u8({s: old_rule_repair(ref[s]) for s in STACKS}),
-        'shortcut_reuse_2x_as_4x': lambda: u8({2: ref[2], 4: ref[2]}),
+def splice_partial(key, seed):
+    """The reference outputs with 12% of rows replaced by 4-frame training
+    splices, sized to stay under the window threshold."""
+    g = torch.Generator().manual_seed(seed)
+    rows = torch.rand(N, generator=g) < 0.12
+    mixed = reference_row(key).clone()
+    mixed[rows] = splice(4, 300 + seed, ROWS[key][1])[rows]
+    return mixed
+
+
+SEEDS = {2: 1, 4: 2, 'fewshot': 3}
+
+
+def shortcut_builders():
+    """case -> function(row key) -> tokens, each built from public data only."""
+    task = lambda key: ROWS[key][1]
+    return {
+        'shortcut_copy_train': lambda k: copy_rows(SEEDS[k], task(k)),
+        'shortcut_copy_edit_3pct': lambda k: edit(copy_rows(SEEDS[k], task(k)), 0.03, 2 + SEEDS[k]),
+        'shortcut_copy_edit_12pct': lambda k: edit(copy_rows(SEEDS[k], task(k)), 0.125, 2 + SEEDS[k]),
+        'shortcut_copy_edit_25pct': lambda k: edit(copy_rows(SEEDS[k], task(k)), 0.25, 2 + SEEDS[k]),
+        'shortcut_splice_2frame': lambda k: splice(2, 100 * SEEDS[k], task(k)),
+        'shortcut_splice_3frame': lambda k: splice(3, 100 * SEEDS[k], task(k)),
+        'shortcut_splice_4frame': lambda k: splice(4, 100 * SEEDS[k], task(k)),
+        'shortcut_splice_6frame': lambda k: splice(6, 100 * SEEDS[k], task(k)),
+        'shortcut_splice_partial': lambda k: splice_partial(k, 9 + SEEDS[k]),
+        'shortcut_random_tokens': lambda k: torch.randint(V, (N, T, K), generator=torch.Generator().manual_seed(ROWS[k][2] + (10 if k == 'fewshot' else 0))),
+        'shortcut_constant': lambda k: torch.zeros(N, T, K, dtype=torch.long),
+        'shortcut_gaussian_latent': lambda k: gaussian_latent(SEEDS[k], task(k)),
+        'shortcut_count_chain': lambda k: count_chain(SEEDS[k], task(k)),
+        'shortcut_frame_lookup': lambda k: frame_lookup(SEEDS[k], task(k)),
+        'shortcut_old_analytic_sampler': lambda k: old_analytic_sampler(SEEDS[k], task(k)),
+        'shortcut_old_rule_repair': lambda k: old_rule_repair(reference_row(k), task(k)),
+        'shortcut_reuse_2x_as_4x': lambda k: reference_row(2 if k == 4 else k),
     }
-    for case, build in builders.items():
-        if not built(case):
-            save_case(case, build())
-            mark(case)
-            log(f'built {case}')
-    # Partial splice: the reference outputs with a fraction of rows replaced by
-    # 4-frame training splices, sized to stay under the window threshold.
-    if not built('shortcut_splice_partial'):
-        g = torch.Generator().manual_seed(9)
-        tensors = {}
-        for s in STACKS:
-            rows = torch.rand(N, generator=g) < 0.12
-            mixed = ref[s].clone()
-            mixed[rows] = splice(4, 300 + s)[rows]
-            tensors[s] = mixed.to(torch.uint8)
-        save_case('shortcut_splice_partial', tensors)
-        mark('shortcut_splice_partial')
+
+
+def shortcuts_phase():
+    for case, build in shortcut_builders().items():
+        for key in ROWS:
+            if not have(case, key):
+                put(case, key, build(key).to(torch.uint8))
+        log(f'built {case}')
     # Artifact and declaration attacks on the unchanged reference tokens.
     artifact = {
         'shortcut_stack_claim': lambda s: {'stack_factor': 24},
@@ -409,38 +425,31 @@ def shortcuts_phase():
         'shortcut_vocab_one': lambda s: {'stack_factor': s, 'vocab_size': 1},
     }
     for case, config in artifact.items():
-        if not built(case):
-            save_case(case, u8(ref), config)
-            mark(case)
-    if not built('shortcut_out_of_range'):
-        save_case('shortcut_out_of_range', {s: torch.full((N, T, K), -1, dtype=torch.long) for s in STACKS})
-        mark('shortcut_out_of_range')
-    if not built('shortcut_empty'):
-        save_case('shortcut_empty', {s: torch.zeros(0, T, K, dtype=torch.uint8) for s in STACKS})
-        mark('shortcut_empty')
-    if not built('shortcut_write_scores'):
-        folder = CASES / 'shortcut_write_scores' / 'predictions'
-        folder.mkdir(parents=True, exist_ok=True)
-        for s in STACKS:
-            torch.save({'pred_tokens': ref[s].to(torch.uint8), 'config': {'stack_factor': s}, 'split': 'test',
-                        'metrics': {'codec_fd': 0.0, 'codebook_pair_divergence': 0.0}, 'success': True},
-                       folder / f'generator_{s}x.pt')
-        mark('shortcut_write_scores')
-    if not built('shortcut_replace_baseline'):
-        # Reference rows unchanged; the reserved parallel 1x file replaced by copies.
-        save_case('shortcut_replace_baseline', u8(ref))
-        torch.save({'pred_tokens': copy_rows(7).to(torch.uint8), 'config': {'stack_factor': 1}},
-                   CASES / 'shortcut_replace_baseline' / 'predictions' / 'baseline_parallel_1x.pt')
-        mark('shortcut_replace_baseline')
-    for case in GLOBAL_ATTACKS:
-        if not built(case):
-            save_case(case, u8(ref))
-            mark(case)
+        for key in ROWS:
+            if not have(case, key):
+                put(case, key, reference_row(key).to(torch.uint8), config)
+    for key in ROWS:
+        if not have('shortcut_out_of_range', key):
+            put('shortcut_out_of_range', key, torch.full((N, T, K), -1, dtype=torch.long))
+        if not have('shortcut_empty', key):
+            put('shortcut_empty', key, torch.zeros(0, T, K, dtype=torch.uint8))
+        if not have('shortcut_write_scores', key):
+            target = row_path('shortcut_write_scores', key)
+            target.parent.mkdir(parents=True, exist_ok=True)
+            torch.save({'pred_tokens': reference_row(key).to(torch.uint8), 'config': {'stack_factor': ROWS[key][2]},
+                        'split': 'test', 'metrics': {'codec_fd': 0.0, 'codebook_pair_divergence': 0.0}, 'success': True}, target)
+        for case in ('shortcut_replace_baseline', *GLOBAL_ATTACKS):
+            if not have(case, key):
+                put(case, key, reference_row(key).to(torch.uint8))
+    # Reference rows unchanged; the reserved parallel 1x file replaced by copies.
+    baseline = CASES / 'shortcut_replace_baseline' / 'predictions' / 'baseline_parallel_1x.pt'
+    if not baseline.is_file():
+        torch.save({'pred_tokens': copy_rows(7).to(torch.uint8), 'config': {'stack_factor': 1}}, baseline)
 
 
 # ---------------------------------------------------------------------- score
 def case_names():
-    return sorted(p.parent.name for p in CASES.glob('*/done'))
+    return sorted(p.name for p in CASES.iterdir() if p.is_dir() and complete(p.name))
 
 
 def restore_reference_predictions():
@@ -468,14 +477,13 @@ def score_phase():
         log(f'scored all cases on {split} in {time.time() - t0:.0f}s')
     shutil.rmtree(ATTEMPTS)
     # Attacks on global files: one attempt each, files restored afterwards.
-    val = DATA / 'val.pt'
+    val = DATA['main'] / 'val.pt'
     backup = WORK / 'val_backup.pt'
     for case in GLOBAL_ATTACKS:
         shutil.copytree(CASES / case / 'predictions', ATTEMPTS / case / 'predictions')
         try:
             if case.endswith('testfile'):
-                torch.save({'tokens': load_pred(PRED / 'generator_2x.pt').to(torch.uint8), 'speaker': conditions()},
-                           DATA / 'test.pt')
+                torch.save({'tokens': reference_row(2).to(torch.uint8), 'speaker': conditions()}, DATA['main'] / 'test.pt')
             else:
                 shutil.copy(val, backup)
                 item = torch.load(val, weights_only=True)
@@ -485,7 +493,7 @@ def score_phase():
                 run(['bash', f'scripts/evaluate_{split}.sh'], LOGS / f'evaluate_{split}_{case}.log')
                 shutil.copy(ROOT / f'scoring/scores_{split}.json', SCORES / f'{split}_{case}.json')
         finally:
-            (DATA / 'test.pt').unlink(missing_ok=True)
+            (DATA['main'] / 'test.pt').unlink(missing_ok=True)
             if backup.is_file():
                 shutil.copy(backup, val)
                 backup.unlink()
@@ -505,28 +513,29 @@ def cohort(split):
 
 
 def reference_view(data):
-    return {'experiments': {e: {'results': {r: data['experiments'][e]['results'][r]}}
-                            for e, r in (('codec_stack2', 'generator_2x'), ('codec_stack4', 'generator_4x'))},
+    return {'experiments': {exp: {'results': {stem: data['experiments'][exp]['results'][stem]}}
+                            for stem, _, _, exp in ROWS.values()},
             '_failures': {}}
 
 
-def block_stats(tokens, speakers, ev, blocks):
+def block_stats(tokens, speakers, groups, ev, blocks):
     """Per block of rows: per-speaker/global pair-feature sums, products and
     counts, and token-pair counts (the evaluator's sufficient statistics)."""
     out = []
+    n = len(groups) + 1
     for idx in torch.arange(len(tokens)).chunk(blocks):
-        means_sum = torch.zeros(S + 1, ev.PAIR, dtype=torch.float64)
-        prod = torch.zeros(S + 1, ev.PAIR, ev.PAIR, dtype=torch.float64)
-        cnt = torch.zeros(S + 1, dtype=torch.float64)
+        sums = torch.zeros(n, ev.PAIR, dtype=torch.float64)
+        prod = torch.zeros(n, ev.PAIR, ev.PAIR, dtype=torch.float64)
+        cnt = torch.zeros(n, dtype=torch.float64)
         z = ev.codec_latent(tokens[idx])
         pairs = torch.cat([z[:, :-1], z[:, 1:]], -1)
         spk = speakers[idx]
-        for s in range(S + 1):
-            x = (pairs if s == S else pairs[spk == s]).reshape(-1, ev.PAIR)
-            cnt[s] += len(x)
-            means_sum[s] += x.sum(0)
-            prod[s] += x.T @ x
-        out.append((means_sum, prod, cnt, ev.pair_counts(tokens[idx]).double()))
+        for i in range(n):
+            x = (pairs if i == n - 1 else pairs[spk == groups[i]]).reshape(-1, ev.PAIR)
+            cnt[i] += len(x)
+            sums[i] += x.sum(0)
+            prod[i] += x.T @ x
+        out.append((sums, prod, cnt, ev.pair_counts(tokens[idx]).double()))
     return [torch.stack(parts) for parts in zip(*out)]
 
 
@@ -535,29 +544,30 @@ def metrics_from(stats, weights, ev, ref):
     means = sums / cnts[:, None]
     cov = (prods - sums[:, :, None] * sums[:, None, :] / cnts[:, None, None]) / (cnts - 1)[:, None, None]
     rm, rc = ref['moments']
-    d = [ev.frechet_moments(means[i], cov[i], rm[i], rc[i]) for i in range(S + 1)]
+    n = len(ref['groups'])
+    d = [ev.frechet_moments(means[i], cov[i], rm[i], rc[i]) for i in range(n + 1)]
     js = ev.pair_divergences(pairs, ref['pairs'])
-    return {'codec_fd': d[-1], 'speaker_conditioned_codec_fd': sum(d[:-1]) / S, 'codebook_pair_divergence': float(js.mean())}
+    return {'codec_fd': d[-1], 'speaker_conditioned_codec_fd': sum(d[:-1]) / n, 'codebook_pair_divergence': float(js.mean())}
 
 
-def paired_bootstrap(sigmas, spec, names, replicates=200, blocks=64):
+def paired_bootstrap(ctx, sigmas, spec, names, replicates=200, blocks=64):
     """Paired block bootstrap against the reference: identical held-out rows and
     identical hidden references for both methods, cohort standard deviations
     held fixed. Reports the 95% interval of the normalized improvement (for
-    each cohort in `sigmas`) and of every raw metric difference."""
+    each cohort in `sigmas`) and of every raw metric difference. Blocks are
+    drawn independently per task."""
     from eval.test import evaluate as ev
-    ctx_ref = ev.build_context()
-    rows, speakers = ctx_ref['rows'], ctx_ref['speakers']
     g = torch.Generator().manual_seed(2026)
-    draws = [torch.bincount(torch.randint(blocks, (blocks,), generator=g), minlength=blocks).double()
-             for _ in range(replicates)]
+    draws = {task: [torch.bincount(torch.randint(blocks, (blocks,), generator=g), minlength=blocks).double()
+                    for _ in range(replicates)] for task in ('main', 'fewshot')}
 
     def per_draw(name):
-        out = []
-        for s in STACKS:
-            tokens = load_pred(CASES / name / 'predictions' / f'generator_{s}x.pt')[rows]
-            stats = block_stats(tokens, speakers, ev, blocks)
-            out.append([metrics_from(stats, w, ev, ctx_ref['reference']) for w in draws])
+        out = {}
+        for key, (stem, task, _, _) in ROWS.items():
+            tctx = ctx[task]
+            tokens = load_pred(row_path(name, key))[tctx['rows']]
+            stats = block_stats(tokens, tctx['speakers'], tctx['reference']['groups'], ev, blocks)
+            out[key] = [metrics_from(stats, w, ev, tctx['reference']) for w in draws[task]]
         return out
 
     def interval(values):
@@ -569,23 +579,22 @@ def paired_bootstrap(sigmas, spec, names, replicates=200, blocks=64):
     for name in names:
         new = per_draw(name)
         entry = {'raw_delta_95_percent': {}}
-        for i, s in enumerate(STACKS):
+        for key, (stem, _, _, _) in ROWS.items():
             for metric in METRICS:
-                deltas = [new[i][r][metric] - ref[i][r][metric] for r in range(replicates)]
-                entry['raw_delta_95_percent'][f'generator_{s}x/{metric}'] = interval(deltas)
+                deltas = [new[key][r][metric] - ref[key][r][metric] for r in range(replicates)]
+                entry['raw_delta_95_percent'][f'{stem}/{metric}'] = interval(deltas)
         for cohort_name, sigma in sigmas.items():
             totals = []
             for r in range(replicates):
                 total = 0.0
-                for i, s in enumerate(STACKS):
-                    exp = EXPS[s]
+                for key, (stem, _, _, exp) in ROWS.items():
                     cfg = spec['experiments'][exp]
                     for metric in METRICS:
-                        key = f'{exp}/generator_{s}x/{metric}'
+                        skey = f'{exp}/{stem}/{metric}'
                         coef = cfg['weight'] * abs(cfg['metrics'][metric]['coefficient'])
                         direction = 1 if cfg['metrics'][metric]['higher_is_better'] else -1
-                        if sigma[key]:
-                            total += coef * direction * (new[i][r][metric] - ref[i][r][metric]) / sigma[key]
+                        if sigma[skey]:
+                            total += coef * direction * (new[key][r][metric] - ref[key][r][metric]) / sigma[skey]
                 totals.append(total)
             entry[f'{cohort_name}_mean'] = statistics.fmean(totals)
             entry[f'{cohort_name}_95_percent'] = interval(totals)
@@ -594,10 +603,23 @@ def paired_bootstrap(sigmas, spec, names, replicates=200, blocks=64):
     return out
 
 
+def normalized(raw_by_row, ref_raw, spec, sigma):
+    """The rank's quantity for raw measurements of every row (diagnostic)."""
+    total = 0.0
+    for stem, _, _, exp in ROWS.values():
+        cfg = spec['experiments'][exp]
+        for metric in METRICS:
+            key = f'{exp}/{stem}/{metric}'
+            if sigma[key]:
+                total += cfg['weight'] * abs(cfg['metrics'][metric]['coefficient']) * (ref_raw[stem][metric] - raw_by_row[stem][metric]) / sigma[key]
+    return total
+
+
 def summary_phase():
-    sys.path.insert(0, str(ROOT))
     from eval.test.ranking import rank_attempts
+    from eval.test import evaluate as ev
     spec = json.loads((ROOT / 'scoring/reference.json').read_text())
+    stems = [stem for stem, _, _, _ in ROWS.values()]
     table = {}
     sigmas = {}
     for split in ('test', 'train'):
@@ -609,9 +631,8 @@ def summary_phase():
             entry[split] = round(result['improvement'], 6)
             entry[f'{split}_feasible'] = result['feasible']
             att = attempts[name]
-            entry[f'{split}_failure'] = att['_failures'].get('generator_4x') or att['_failures'].get('generator_2x')
-            entry[f'{split}_raw'] = {row: {k: round(v, 6) for k, v in att['_raw'].get(row, {}).items()}
-                                     for row in ('generator_2x', 'generator_4x')}
+            entry[f'{split}_failure'] = next((att['_failures'][s] for s in stems if s in att['_failures']), None)
+            entry[f'{split}_raw'] = {row: {k: round(v, 6) for k, v in att['_raw'].get(row, {}).items()} for row in stems}
         table.setdefault('_comparison_rows', {})[split] = {k: {m: round(v, 6) for m, v in r.items()} for k, r in data['_raw'].items()
                                                          if k.startswith('baseline_')}
         table.setdefault('_failed_run_values', {})[split] = data['_metadata']['failed_run_values']
@@ -636,19 +657,28 @@ def summary_phase():
         gen = [table[m].get(key) for m in ('reference', 'reference_sample1', 'reference_sample2') if m in table]
         noise[key] = {'training_seed_range': groups.get(f'reference/{key}', {}).get('range'),
                       'generation_seed_range': (max(gen) - min(gen)) if gen else None}
-    others = sorted(n for n in table if not n.startswith('_') and n != 'reference' and table[n]['test_feasible'])
-    boot = paired_bootstrap({'test': sigmas['test'], 'test_feasible_cohort': sigmas['test_feasible_cohort']},
-                            spec, others) if others else {}
-    # The finite-sample bound: a fresh sample of the hidden process itself,
-    # measured like any row (not an attempt; diagnostic only).
-    from eval.test import evaluate as ev
     ctx = ev.build_context()
+    others = sorted(n for n in table if not n.startswith('_') and n != 'reference' and table[n]['test_feasible'])
+    boot = paired_bootstrap(ctx, {'test': sigmas['test'], 'test_feasible_cohort': sigmas['test_feasible_cohort']},
+                            spec, others) if others else {}
+    # The finite-sample bound: a fresh sample of each hidden process itself,
+    # measured like any row (not an attempt; diagnostic only).
     floor = {}
     for seed in (5_000_001, 5_000_002):
-        _, raw, _ = ev.score_tokens(ev.sample_tokens(ctx['speakers'], seed), ctx)
-        floor[str(seed)] = {k: round(v, 6) for k, v in raw.items()}
+        rows = {}
+        for stem, task, _, _ in ROWS.values():
+            if task not in rows:
+                _, raw, _ = ev.score_tokens(ev.sample_tokens(task, ctx[task]['speakers'], seed), ctx[task])
+                rows[task] = {k: round(v, 6) for k, v in raw.items()}
+        floor[str(seed)] = rows
+    ref_raw = table['reference']['test_raw']
+    bound_scores = {}
+    for cohort_name in ('test', 'test_feasible_cohort'):
+        bound_scores[cohort_name] = statistics.fmean(
+            normalized({stem: f[task] for stem, task, _, _ in ROWS.values()}, ref_raw, spec, sigmas[cohort_name])
+            for f in floor.values())
     summary = {'cases': {k: v for k, v in table.items() if not k.startswith('_')}, 'comparison_rows': table['_comparison_rows'],
-               'perfect_sampler_bound_test': floor,
+               'perfect_sampler_bound_test': floor, 'perfect_sampler_bound_score': bound_scores,
                'failed_run_values': table['_failed_run_values'], 'seed_groups': groups, 'noise': noise,
                'paired_bootstrap_test': boot, 'standard_deviations': sigmas}
     (HERE / 'summary.json').write_text(json.dumps(summary, indent=1, sort_keys=True) + '\n')
@@ -658,21 +688,23 @@ def summary_phase():
         outcome = 'feasible' if c['test_feasible'] else f"FAILED: {c['test_failure']}"
         fc = f"{c['test_feasible_cohort']:+9.4f}" if 'test_feasible_cohort' in c else ' ' * 9
         lines.append(f"{name:38s} {c['test']:+9.4f} {c['train']:+9.4f} {fc}  {outcome[:100]}")
+    lines.append(f"{'perfect_sampler_bound (not an attempt)':38s} {bound_scores['test']:+9.4f} {'':9s} {bound_scores['test_feasible_cohort']:+9.4f}")
     lines.append('')
     for name in sorted(summary['cases']):
-        for row in ('generator_2x', 'generator_4x'):
+        for row in stems:
             r = summary['cases'][name]['test_raw'].get(row, {})
             if r:
-                lines.append(f"{name:38s} {row}  fd={r['codec_fd']:.4f} spk_fd={r['speaker_conditioned_codec_fd']:.4f} "
+                lines.append(f"{name:38s} {row:20s} fd={r['codec_fd']:.4f} spk_fd={r['speaker_conditioned_codec_fd']:.4f} "
                              f"pair_js={r['codebook_pair_divergence']:.5f} excess={r['visible_window_excess']:.4f} "
                              f"half={r['copied_fraction']:.3f}")
     lines.append('')
     for name, r in sorted(table['_comparison_rows']['test'].items()):
         lines.append(f"{name:38s} fd={r['codec_fd']:.4f} spk_fd={r['speaker_conditioned_codec_fd']:.4f} pair_js={r['codebook_pair_divergence']:.5f}")
     lines.append('')
-    for seed, r in floor.items():
-        lines.append(f"{'perfect_sampler_bound_' + seed:38s} fd={r['codec_fd']:.4f} spk_fd={r['speaker_conditioned_codec_fd']:.4f} "
-                     f"pair_js={r['codebook_pair_divergence']:.5f} excess={r['visible_window_excess']:.4f}")
+    for seed, rows in floor.items():
+        for task, r in rows.items():
+            lines.append(f"{'perfect_sampler_' + task + '_' + seed:38s} fd={r['codec_fd']:.4f} spk_fd={r['speaker_conditioned_codec_fd']:.4f} "
+                         f"pair_js={r['codebook_pair_divergence']:.5f} excess={r['visible_window_excess']:.4f}")
     lines.append('')
     lines.append(json.dumps({'seed_groups': groups, 'noise': noise, 'paired_bootstrap_test': boot}, indent=1))
     (HERE / 'summary.txt').write_text('\n'.join(lines) + '\n')

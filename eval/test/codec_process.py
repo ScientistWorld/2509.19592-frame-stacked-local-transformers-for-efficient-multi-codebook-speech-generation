@@ -67,8 +67,40 @@ _LEVELS = torch.tensor(LEVELS)
 _RADIX = torch.tensor([LEVELS[1] * LEVELS[2], LEVELS[2], 1])
 
 
-def sample_latents(speakers, seed):
+# ------------------------------------------------- few-shot (open-speaker) process
+# A second, independent process for the few-shot-speaker experiment. Its
+# speakers are points of a continuous 16-d speaker space, and every speaker
+# effect (hidden-state drive, regime start, durations and transitions) is a
+# function of the speaker's embedding, so what is learned from well-covered
+# speakers transfers to speakers with little data. Speakers 0-191 are
+# well covered in training (160 utterances each); speakers 192-255 have only
+# 8 training utterances each and are the evaluation speakers.
+OPEN_SEED = 731_904_457
+OPEN_SPEAKERS, OPEN_RICH = 256, 192
+
+
+def _open_params(seed=OPEN_SEED):
+    g = torch.Generator().manual_seed(seed)
+    p = _params(seed + 1)                      # fresh dynamics and readout
+
+    def r(*shape, scale=1.0):
+        return torch.randn(*shape, generator=g, dtype=torch.float64) * scale
+
+    e = r(OPEN_SPEAKERS, SPEAKER_DIM)
+    p['spk'] = e
+    p['trans_spk'] = torch.einsum('se,epq->spq', e, r(SPEAKER_DIM, PHONES, PHONES, scale=0.5))
+    p['init'] = e @ r(SPEAKER_DIM, PHONES, scale=0.5)
+    p['stay_spk'] = e @ r(SPEAKER_DIM, scale=0.5 / math.sqrt(SPEAKER_DIM))
+    p['B'] = r(HIDDEN, SPEAKER_DIM, scale=0.5)
+    return p
+
+
+_OPEN = _open_params()
+
+
+def sample_latents(speakers, seed, params=None):
     """(b, 24, 24) float64 latent trajectories for the given speakers."""
+    _P = globals()['_P'] if params is None else params
     g = torch.Generator().manual_seed(seed)
     speakers = speakers.long()
     b = speakers.shape[0]
@@ -99,14 +131,39 @@ def quantize(z):
     return (digits * _RADIX).sum(-1)
 
 
-def sample_tokens(speakers, seed, chunk=8192):
+def sample_tokens(speakers, seed, chunk=8192, params=None):
     """(b, 24, 8) long codec tokens drawn from the process (deterministic in seed)."""
     out = []
     for i, start in enumerate(range(0, speakers.shape[0], chunk)):
-        out.append(quantize(sample_latents(speakers[start:start + chunk], seed * 1009 + i)))
+        out.append(quantize(sample_latents(speakers[start:start + chunk], seed * 1009 + i, params)))
     return torch.cat(out) if out else torch.zeros(0, SEQ_LEN, NUM_CODEBOOKS, dtype=torch.long)
 
 
 def make_split(num_sequences, seed):
     speakers = torch.randint(NUM_SPEAKERS, (num_sequences,), generator=torch.Generator().manual_seed(seed + 7919))
     return {'tokens': sample_tokens(speakers, seed), 'speaker': speakers}
+
+
+def sample_open_tokens(speakers, seed):
+    return sample_tokens(speakers, seed, params=_OPEN)
+
+
+FEWSHOT_RICH_UTTERANCES, FEWSHOT_UTTERANCES = 160, 8
+
+
+def fewshot_train_speakers(seed=1101):
+    """Speaker IDs of the few-shot training split, in file order."""
+    speakers = torch.cat([torch.arange(OPEN_RICH).repeat_interleave(FEWSHOT_RICH_UTTERANCES),
+                          torch.arange(OPEN_RICH, OPEN_SPEAKERS).repeat_interleave(FEWSHOT_UTTERANCES)])
+    return speakers[torch.randperm(len(speakers), generator=torch.Generator().manual_seed(seed + 7919))]
+
+
+def fewshot_val_speakers(num=2048, seed=1102):
+    """Validation covers the well-covered speakers only."""
+    return torch.randint(OPEN_RICH, (num,), generator=torch.Generator().manual_seed(seed + 7919))
+
+
+def make_fewshot_splits():
+    train_spk, val_spk = fewshot_train_speakers(), fewshot_val_speakers()
+    return ({'tokens': sample_open_tokens(train_spk, 1101), 'speaker': train_spk},
+            {'tokens': sample_open_tokens(val_spk, 1102), 'speaker': val_spk})

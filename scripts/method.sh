@@ -9,9 +9,10 @@ MODEL_NAME="${MODEL_NAME:-generator_2x}"
 VARIANT="${VARIANT:-ar}"
 STACK_FACTOR="${STACK_FACTOR:-2}"
 STEPS="${STEPS:-10000}"
+DATA="${DATA:-data/synthetic_codec}"
 
 python -m method.train \
-  --data data/synthetic_codec \
+  --data "${DATA}" \
   --out "checkpoints/${MODEL_NAME}" \
   --variant "${VARIANT}" \
   --stack-factor "${STACK_FACTOR}" \
@@ -19,6 +20,6 @@ python -m method.train \
 
 mkdir -p checkpoints/predictions
 python -m method.predict \
-  --data data/synthetic_codec \
+  --data "${DATA}" \
   --checkpoint "checkpoints/${MODEL_NAME}/model.pt" \
   --out "checkpoints/predictions/${MODEL_NAME}.pt"

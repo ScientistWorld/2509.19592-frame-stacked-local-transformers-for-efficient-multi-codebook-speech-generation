@@ -2,11 +2,17 @@
 """Hidden test evaluator for the synthetic multi-codebook codec task.
 
 Everything on the reference side of the comparison is fixed here: the codec
-process (eval/test/codec_process.py), the hidden reference utterances (drawn
-at evaluation time from a seed that exists only in this file), the evaluated
+processes (eval/test/codec_process.py), the hidden reference utterances (drawn
+at evaluation time from seeds that exist only in this file), the evaluated
 rows, the operating points, the failure thresholds, artifact defaults and the
 comparison rows. Method artifacts contribute generated tokens only; no number,
 flag or config value written by a method is used as a score.
+
+Two tasks share one interface:
+  main     16 well-covered speakers; rows generator_2x (12 primary steps) and
+           generator_4x (6 primary steps).
+  fewshot  an independent open-speaker process; the evaluation speakers have
+           8 training utterances each; row generator_fewshot_4x (6 steps).
 """
 import argparse
 import hashlib
@@ -21,16 +27,11 @@ import torch
 from eval.test import codec_process as process
 
 SLICE = "test"
-SEQ_LEN, NUM_CODEBOOKS, VOCAB, NUM_SPEAKERS = 24, 8, 32, 16
+SEQ_LEN, NUM_CODEBOOKS, VOCAB = 24, 8, 32
 NUM_CONDITIONS = 16384
 PARTITION_SEED = 250919592
-HIDDEN_REFERENCE_SEED = 83_160_271
 REFERENCES_PER_ROW = 4
 RANDOM_CAP_SEED = 424_243
-# Canonical visible sequences: public train/validation splits and the
-# train-slice reference sample. Copying any of them is not generation.
-VISIBLE_SPLITS = ((32768, 1001), (2048, 1002))
-TRAIN_SLICE_REFERENCE_SEED = 20_250_919
 COPY_WINDOW = SEQ_LEN // 2  # aligned 12-frame halves, all 8 codebooks
 MAX_COPIED_FRACTION = 0.01
 # Memorization test on 4-frame windows (32 tokens, same frame position). A
@@ -48,35 +49,66 @@ MAX_WINDOW_EXCESS = 0.05
 # uniform random tokens fails the task: every scored measurement must be
 # below this fraction of the random-token measurement.
 FAIL_FRACTION_OF_RANDOM = 0.5
-CONTROL_SEED = 61_803_398
-EXPERIMENTS = {2: "codec_stack2", 4: "codec_stack4"}
-REQUIRED_ROWS = {"generator_2x": 2, "generator_4x": 4}
 SCORED = ('codec_fd', 'speaker_conditioned_codec_fd', 'codebook_pair_divergence')
 FIXED_DIR = Path(__file__).resolve().parent / "fixed"
-FIXED_ROWS = {
-    "baseline_parallel_1x": 1,
-    "baseline_parallel_2x": 2,
-    "baseline_parallel_4x": 4,
-    "baseline_maskgit_2x": 2,
-    "baseline_maskgit_4x": 4,
+
+# Per task: data directory, experiments by stack factor, hidden seeds and the
+# canonical visible splits (copying any visible utterance is not generation).
+TASKS = {
+    'main': {
+        'data': 'data/synthetic_codec',
+        'experiments': {2: 'codec_stack2', 4: 'codec_stack4'},
+        'visible': 'visible.pt',
+        'hidden_reference_seed': 83_160_271,
+        'train_slice_reference_seed': 20_250_919,
+        'control_seed': 61_803_398,
+    },
+    'fewshot': {
+        'data': 'data/synthetic_codec_fewshot',
+        'experiments': {4: 'codec_fewshot_stack4'},
+        'visible': 'visible_fewshot.pt',
+        'hidden_reference_seed': 47_093_811,
+        'train_slice_reference_seed': 30_250_919,
+        'control_seed': 71_828_182,
+    },
 }
+VISIBLE_SPLITS = ((32768, 1001), (2048, 1002))  # main task: (size, seed) of train, val
+REQUIRED_ROWS = {"generator_2x": ('main', 2), "generator_4x": ('main', 4), "generator_fewshot_4x": ('fewshot', 4)}
+FIXED_ROWS = {
+    "baseline_parallel_1x": ('main', 1),
+    "baseline_parallel_2x": ('main', 2),
+    "baseline_parallel_4x": ('main', 4),
+    "baseline_maskgit_2x": ('main', 2),
+    "baseline_maskgit_4x": ('main', 4),
+    "baseline_parallel_fewshot_4x": ('fewshot', 4),
+    "baseline_maskgit_fewshot_4x": ('fewshot', 4),
+}
+EXPERIMENT_NAMES = [e for task in TASKS.values() for e in task['experiments'].values()]
 
 
-def sample_tokens(speakers, seed):
-    return process.sample_tokens(speakers, seed)
+def sample_tokens(task, speakers, seed):
+    if task == 'main':
+        return process.sample_tokens(speakers, seed)
+    return process.sample_open_tokens(speakers, seed)
 
 
-def visible_split(num, seed):
-    return process.make_split(num, seed)['tokens']
+def conditions(task='main'):
+    if task == 'main':
+        return torch.arange(NUM_CONDITIONS) % process.NUM_SPEAKERS
+    few = process.OPEN_SPEAKERS - process.OPEN_RICH
+    return process.OPEN_RICH + torch.arange(NUM_CONDITIONS) % few
 
 
-def conditions():
-    return torch.arange(NUM_CONDITIONS) % NUM_SPEAKERS
-
-
-def slice_rows():
-    order = torch.randperm(NUM_CONDITIONS, generator=torch.Generator().manual_seed(PARTITION_SEED))
-    return order[NUM_CONDITIONS // 2 :].sort().values
+def slice_rows(task='main', split=SLICE):
+    """main: a fixed random half of the rows. fewshot: the rows of half of the
+    evaluation speakers (192-223 train slice, 224-255 test slice)."""
+    if task == 'main':
+        order = torch.randperm(NUM_CONDITIONS, generator=torch.Generator().manual_seed(PARTITION_SEED))
+        half = order[NUM_CONDITIONS // 2:] if split == 'test' else order[:NUM_CONDITIONS // 2]
+        return half.sort().values
+    cut = process.OPEN_RICH + (process.OPEN_SPEAKERS - process.OPEN_RICH) // 2
+    cond = conditions('fewshot')
+    return (cond >= cut).nonzero().squeeze(1) if split == 'test' else (cond < cut).nonzero().squeeze(1)
 
 
 # ---------------------------------------------------------------------- metrics
@@ -94,21 +126,24 @@ def codec_latent(tokens):
     return centres.reshape(*tokens.shape[:-1], LATENT)
 
 
-def feature_moments(tokens, speakers):
-    sums = torch.zeros(NUM_SPEAKERS + 1, PAIR, dtype=torch.float64)
-    products = torch.zeros(NUM_SPEAKERS + 1, PAIR, PAIR, dtype=torch.float64)
-    counts = torch.zeros(NUM_SPEAKERS + 1, dtype=torch.float64)
+def feature_moments(tokens, speakers, groups):
+    """Mean/covariance of consecutive-frame latent pairs for each speaker in
+    `groups` and (last index) for all rows."""
+    n = len(groups) + 1
+    sums = torch.zeros(n, PAIR, dtype=torch.float64)
+    products = torch.zeros(n, PAIR, PAIR, dtype=torch.float64)
+    counts = torch.zeros(n, dtype=torch.float64)
     for start in range(0, len(tokens), 1024):
         z = codec_latent(tokens[start:start + 1024])
         spk = speakers[start:start + 1024]
         pairs = torch.cat([z[:, :-1], z[:, 1:]], dim=-1)
-        for speaker in range(NUM_SPEAKERS + 1):
-            x = pairs if speaker == NUM_SPEAKERS else pairs[spk == speaker]
+        for i in range(n):
+            x = pairs if i == n - 1 else pairs[spk == groups[i]]
             x = x.reshape(-1, PAIR)
             if len(x):
-                counts[speaker] += len(x)
-                sums[speaker] += x.sum(0)
-                products[speaker] += x.T @ x
+                counts[i] += len(x)
+                sums[i] += x.sum(0)
+                products[i] += x.T @ x
     means = sums / counts[:, None]
     cov = (products - sums[:, :, None] * sums[:, None, :] / counts[:, None, None]) / (counts - 1)[:, None, None]
     return means, cov
@@ -156,14 +191,15 @@ def pair_divergences(counts, ref_counts):
 
 
 def distribution_metrics(tokens, speakers, ref):
-    means, cov = feature_moments(tokens, speakers)
+    groups = ref['groups']
+    means, cov = feature_moments(tokens, speakers, groups)
     rm, rc = ref['moments']
-    distances = [frechet_moments(means[i], cov[i], rm[i], rc[i]) for i in range(NUM_SPEAKERS + 1)]
+    distances = [frechet_moments(means[i], cov[i], rm[i], rc[i]) for i in range(len(groups) + 1)]
     js = pair_divergences(pair_counts(tokens), ref['pairs'])
     within = len(WITHIN_PAIRS)
     return {
         'codec_fd': distances[-1],
-        'speaker_conditioned_codec_fd': sum(distances[:-1]) / NUM_SPEAKERS,
+        'speaker_conditioned_codec_fd': sum(distances[:-1]) / len(groups),
         'codebook_pair_divergence': float(js.mean()),
         'within_frame_pair_divergence': float(js[:within].mean()),
         'temporal_pair_divergence': float(js[within:].mean()),
@@ -231,36 +267,54 @@ def window_excess(tokens, visible_keys, control_keys):
     return (float(vis.any(-1).mean() - ctl.any(-1).mean()), float(vis[..., 0].mean() - ctl[..., 0].mean()))
 
 
-def visible_speakers():
-    """Speakers of fixed/visible.pt in order: train split, validation split,
-    then the train slice's four reference utterances per conditioning row."""
-    parts = [torch.randint(NUM_SPEAKERS, (num,), generator=torch.Generator().manual_seed(seed + 7919))
-             for num, seed in VISIBLE_SPLITS]
-    order = torch.randperm(NUM_CONDITIONS, generator=torch.Generator().manual_seed(PARTITION_SEED))
-    parts.append(conditions()[order[:NUM_CONDITIONS // 2].sort().values].repeat_interleave(REFERENCES_PER_ROW))
-    return torch.cat(parts)
+def public_speakers(task):
+    """Speakers of the public train and validation splits, in file order."""
+    if task == 'main':
+        return torch.cat([torch.randint(process.NUM_SPEAKERS, (num,), generator=torch.Generator().manual_seed(seed + 7919))
+                          for num, seed in VISIBLE_SPLITS])
+    return torch.cat([process.fewshot_train_speakers(), process.fewshot_val_speakers()])
 
 
-def build_memorization_sets():
+def visible_speakers(task):
+    """Speakers of the task's visible fixture in order: train split, validation
+    split, then the train slice's four reference utterances per row."""
+    train_rows = slice_rows(task, 'train')
+    return torch.cat([public_speakers(task), conditions(task)[train_rows].repeat_interleave(REFERENCES_PER_ROW)])
+
+
+def build_memorization_sets(task):
     # Frozen canonical visible examples, never mutable method-side data.
-    item = torch.load(FIXED_DIR / 'visible.pt', map_location='cpu', weights_only=True)
+    item = torch.load(FIXED_DIR / TASKS[task]['visible'], map_location='cpu', weights_only=True)
     visible = item['tokens'].reshape(-1, SEQ_LEN, NUM_CODEBOOKS)
-    speakers = visible_speakers()
+    speakers = visible_speakers(task)
     if len(speakers) != len(visible):
         raise RuntimeError('visible fixture does not match its speaker composition')
-    control = sample_tokens(speakers, CONTROL_SEED)
+    control = sample_tokens(task, speakers, TASKS[task]['control_seed'])
     return {'halves': window_set(visible), 'visible_keys': key_set(visible), 'control_keys': key_set(control)}
 
 
 # --------------------------------------------------------------------- scoring
-def operating_point(name):
+def row_spec(name):
+    """(task, stack factor, experiment) of a row name, or None."""
     if name in FIXED_ROWS:
-        return FIXED_ROWS[name]
-    match = re.search(r"_(\d+)x$", name)
-    if not match:
-        return None
-    stack = int(match.group(1))
-    return stack if stack > 0 and SEQ_LEN % stack == 0 else None
+        task, stack = FIXED_ROWS[name]
+    else:
+        match = re.search(r"_(\d+)x$", name)
+        if not match:
+            return None
+        stack = int(match.group(1))
+        task = 'fewshot' if name.endswith(f'_fewshot_{stack}x') else 'main'
+        if stack not in TASKS[task]['experiments']:
+            return None
+    experiments = TASKS[task]['experiments']
+    return task, stack, experiments.get(stack, experiments.get(2))
+
+
+def run_prefix(name):
+    for suffix in ('_fewshot_4x', '_2x', '_4x'):
+        if name.endswith(suffix):
+            return name[:-len(suffix)]
+    return name
 
 
 def load_tokens(path, stack):
@@ -289,19 +343,19 @@ def load_tokens(path, stack):
         return None, "config.stack_factor must be a positive integer"
     if declared <= 0 or SEQ_LEN % declared != 0 or declared != stack:
         return None, f"declared stack factor {declared!r} does not match the fixed {SEQ_LEN // stack}-step budget of this row"
-    for key in ('vocab_size', 'num_codebooks', 'seq_len', 'num_speakers'):
-        expected = {'vocab_size': VOCAB, 'num_codebooks': NUM_CODEBOOKS, 'seq_len': SEQ_LEN, 'num_speakers': NUM_SPEAKERS}[key]
+    for key in ('vocab_size', 'num_codebooks', 'seq_len'):
+        expected = {'vocab_size': VOCAB, 'num_codebooks': NUM_CODEBOOKS, 'seq_len': SEQ_LEN}[key]
         if key in cfg and (type(cfg[key]) is not int or cfg[key] != expected):
             return None, f'config.{key} conflicts with the fixed task'
     return pred, None
 
 
-def score_tokens(tokens, ctx):
-    raw = distribution_metrics(tokens, ctx['speakers'], ctx['reference'])
-    raw['copied_fraction'] = copied_fraction(tokens, ctx['memorization']['halves'])
+def score_tokens(tokens, tctx):
+    raw = distribution_metrics(tokens, tctx['speakers'], tctx['reference'])
+    raw['copied_fraction'] = copied_fraction(tokens, tctx['memorization']['halves'])
     raw['visible_window_excess'], raw['visible_exact_window_excess'] = window_excess(
-        tokens, ctx['memorization']['visible_keys'], ctx['memorization']['control_keys'])
-    caps = ctx['caps']
+        tokens, tctx['memorization']['visible_keys'], tctx['memorization']['control_keys'])
+    caps = tctx['caps']
     failure = None
     if any(not math.isfinite(v) for v in raw.values()):
         failure = 'nonfinite metric'
@@ -324,24 +378,21 @@ def score_tokens(tokens, ctx):
 _FIXED_CACHE = {}
 
 
-def run_groups(names):
-    """Rows of one run: `<prefix>_2x` and `<prefix>_4x` belong together."""
-    groups = {}
-    for name in names:
-        prefix, _, point = name.rpartition('_')
-        groups.setdefault(prefix if point in ('2x', '4x') else name, []).append(name)
-    return groups
+def worst_values(ctx, task):
+    return dict(ctx[task]['caps'])
 
 
 def evaluate_directory(pred_dir, ctx, check_integrity=True):
-    rows, worst = ctx['rows'], dict(ctx['caps'])
     candidates = {path.stem: path for path in sorted(pred_dir.glob('*.pt'))}
     for name in FIXED_ROWS:
         candidates[name] = FIXED_DIR / f'{name}.pt'
     for name in REQUIRED_ROWS:
         candidates.setdefault(name, None)
-    experiments = {name: {'slice': SLICE, 'num_examples': int(rows.numel()), 'results': {}} for name in EXPERIMENTS.values()}
-    failures, raw_all, comparison_status, generated, full = {}, {}, {}, {}, {}
+    experiments = {}
+    for task, cfg in TASKS.items():
+        for exp in cfg['experiments'].values():
+            experiments[exp] = {'slice': SLICE, 'num_examples': int(ctx[task]['rows'].numel()), 'results': {}}
+    failures, raw_all, comparison_status, generated, full, tasks_of = {}, {}, {}, {}, {}, {}
     integrity_failure = None
     if check_integrity:
         expected_hashes = json.loads((FIXED_DIR / 'data_hashes.json').read_text())
@@ -349,22 +400,26 @@ def evaluate_directory(pred_dir, ctx, check_integrity=True):
             path = Path(relative)
             if not path.is_file() or hashlib.sha256(path.read_bytes()).hexdigest() != expected:
                 integrity_failure = 'fixed training data changed'
-        if Path('data/synthetic_codec/test.pt').exists():
-            integrity_failure = 'forbidden method-side target file'
-        for name, stack in FIXED_ROWS.items():
+        for cfg in TASKS.values():
+            if (Path(cfg['data']) / 'test.pt').exists():
+                integrity_failure = 'forbidden method-side target file'
+        for name, (task, stack) in FIXED_ROWS.items():
             submitted = pred_dir / f'{name}.pt'
             if submitted.exists():
                 got, reason = load_tokens(submitted, stack)
                 fixed, _ = load_tokens(FIXED_DIR / f'{name}.pt', stack)
+                rows = ctx[task]['rows']
                 if reason or not torch.equal(got[rows], fixed[rows]):
                     integrity_failure = 'reserved fixed comparison output changed'
 
     for name, path in sorted(candidates.items()):
-        stack = operating_point(name)
-        if stack is None or stack not in (1, 2, 4):
-            failures[name] = 'file must identify a fixed 1x, 2x or 4x operating point'
+        spec = row_spec(name)
+        if spec is None or (name not in FIXED_ROWS and spec[1] == 1):
+            failures[name] = 'file must identify a fixed operating point (<name>_2x, <name>_4x or <name>_fewshot_4x)'
             continue
-        experiment = EXPERIMENTS[4] if stack == 4 else EXPERIMENTS[2]
+        task, stack, experiment = spec
+        tctx = ctx[task]
+        tasks_of[name] = task
         if name in FIXED_ROWS:
             # Evaluator-frozen comparison rows: raw measurements are shown, and
             # failing a check is a comparison outcome, not a run failure.
@@ -372,7 +427,7 @@ def evaluate_directory(pred_dir, ctx, check_integrity=True):
                 tokens, reason = load_tokens(path, stack)
                 if tokens is None:
                     raise RuntimeError(f'frozen comparison {name} is unreadable: {reason}')
-                _FIXED_CACHE[name] = score_tokens(tokens[rows], ctx)
+                _FIXED_CACHE[name] = score_tokens(tokens[tctx['rows']], tctx)
             scored, raw_all[name], status = _FIXED_CACHE[name]
             experiments[experiment]['results'][name] = dict(scored)
             if status:
@@ -382,22 +437,24 @@ def evaluate_directory(pred_dir, ctx, check_integrity=True):
             tokens, failure = None, 'missing prediction artifact'
         else:
             tokens, failure = load_tokens(path, stack)
-        scored = dict(worst)
+        scored = worst_values(ctx, task)
         if tokens is not None:
             full[name] = tokens
-            generated[name] = tokens[rows]
-            scored, raw_all[name], failure = score_tokens(generated[name], ctx)
+            generated[name] = tokens[tctx['rows']]
+            scored, raw_all[name], failure = score_tokens(generated[name], tctx)
         failure = integrity_failure or failure
         if failure:
             failures[name] = failure
         experiments[experiment]['results'][name] = scored
 
-    groups = run_groups([n for exp in experiments.values() for n in exp['results'] if n not in FIXED_ROWS])
+    groups = {}
+    for name in sorted(n for exp in experiments.values() for n in exp['results'] if n not in FIXED_ROWS):
+        groups.setdefault(run_prefix(name), []).append(name)
     for names in groups.values():
-        # The two operating points must be separately generated samples: no
-        # scored row may repeat a 12-frame half found anywhere (any row, scored
-        # or not) in the sibling operating point's file.
-        present = [n for n in sorted(names) if n in generated]
+        # The two main operating points must be separately generated samples:
+        # no scored row may repeat a 12-frame half found anywhere (any row,
+        # scored or not) in the sibling operating point's file.
+        present = [n for n in sorted(names) if n in generated and tasks_of[n] == 'main']
         for a in present:
             reused = window_set(full[a])
             for b in present:
@@ -415,22 +472,27 @@ def evaluate_directory(pred_dir, ctx, check_integrity=True):
                 failures.setdefault(n, f'run failed: {failed[0]}')
                 for exp in experiments.values():
                     if n in exp['results']:
-                        exp['results'][n] = dict(worst)
+                        exp['results'][n] = worst_values(ctx, tasks_of.get(n, 'main'))
     return {'_failures': failures, '_comparison_status': comparison_status, '_raw': raw_all, 'experiments': experiments}
 
 
-def build_context():
-    rows = slice_rows()
-    speakers = conditions()[rows]
+def build_task_context(task):
+    rows = slice_rows(task)
+    speakers = conditions(task)[rows]
+    groups = sorted(set(speakers.tolist()))
     ref_speakers = speakers.repeat_interleave(REFERENCES_PER_ROW)
-    ref = sample_tokens(ref_speakers, HIDDEN_REFERENCE_SEED)
-    reference = {'moments': feature_moments(ref, ref_speakers), 'pairs': pair_counts(ref)}
-    ctx = {'rows': rows, 'speakers': speakers, 'reference': reference}
+    ref = sample_tokens(task, ref_speakers, TASKS[task]['hidden_reference_seed'])
+    reference = {'moments': feature_moments(ref, ref_speakers, groups), 'pairs': pair_counts(ref), 'groups': groups}
+    tctx = {'rows': rows, 'speakers': speakers, 'reference': reference}
     random_tokens = torch.randint(VOCAB, (rows.numel(), SEQ_LEN, NUM_CODEBOOKS), generator=torch.Generator().manual_seed(RANDOM_CAP_SEED))
     cap = distribution_metrics(random_tokens, speakers, reference)
-    ctx['caps'] = {key: cap[key] for key in SCORED}
-    ctx['memorization'] = build_memorization_sets()
-    return ctx
+    tctx['caps'] = {key: cap[key] for key in SCORED}
+    tctx['memorization'] = build_memorization_sets(task)
+    return tctx
+
+
+def build_context():
+    return {task: build_task_context(task) for task in TASKS}
 
 
 def main():
@@ -442,11 +504,11 @@ def main():
 
     ctx = build_context()
     output = evaluate_directory(pred_dir, ctx)
-    output['_metadata'] = {'slice': SLICE, 'num_examples': int(ctx['rows'].numel()),
+    output['_metadata'] = {'slice': SLICE, 'num_examples': {t: int(ctx[t]['rows'].numel()) for t in TASKS},
                            'references_per_row': REFERENCES_PER_ROW,
                            'max_copied_half_fraction': MAX_COPIED_FRACTION, 'max_window_excess': MAX_WINDOW_EXCESS,
                            'method_source': str(pred_dir),
-                           'failed_run_values': dict(ctx['caps']),
+                           'failed_run_values': {t: dict(ctx[t]['caps']) for t in TASKS},
                            'failed_run_values_note': 'worst value of each scored metric: the measurement of uniform random tokens; '
                                                      'a run fails if any measurement is not below half of it'}
     # Rank every saved attempt from its raw predictions, never submitted scores.
@@ -455,17 +517,22 @@ def main():
     attempts = {'current': output}
     # Additional flat files use the same interface, grouped by their prefix.
     all_rows = {name for exp in output['experiments'].values() for name in exp['results']}
-    prefixes = {name.rsplit('_', 1)[0] for name in all_rows
-                if name not in FIXED_ROWS and name not in REQUIRED_ROWS}
+    prefixes = {run_prefix(name) for name in all_rows if name not in FIXED_ROWS and name not in REQUIRED_ROWS}
     for prefix in sorted(prefixes):
         view = {'experiments': {}, '_failures': {}}
-        for stack, exp in EXPERIMENTS.items():
-            actual, canonical = f'{prefix}_{stack}x', f'generator_{stack}x'
+        for canonical, (task, stack) in REQUIRED_ROWS.items():
+            exp = TASKS[task]['experiments'][stack]
+            actual = canonical.replace('generator', prefix, 1)
             values = output['experiments'][exp]['results'].get(actual)
             failed = values is None or actual in output['_failures']
-            view['experiments'][exp] = {'results': {canonical: dict(ctx['caps']) if failed else values}}
+            view['experiments'].setdefault(exp, {'results': {}})['results'][canonical] = (
+                worst_values(ctx, task) if failed else values)
             if failed:
                 view['_failures'][canonical] = output['_failures'].get(actual, 'missing operating point')
+        if view['_failures']:
+            for canonical, (task, stack) in REQUIRED_ROWS.items():
+                exp = TASKS[task]['experiments'][stack]
+                view['experiments'][exp]['results'][canonical] = worst_values(ctx, task)
         attempts[f'files:{prefix}'] = view
     attempts_dir = pred_dir.parent / 'attempts'
     if attempts_dir.is_dir():
