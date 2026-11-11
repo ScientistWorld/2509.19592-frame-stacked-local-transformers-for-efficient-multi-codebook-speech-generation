@@ -1,10 +1,20 @@
 {
  "cases": {
   "better_cosine_20k": {
-   "test": 0.154149,
+   "test": 0.121938,
+   "test_by_experiment": {
+    "codec_fewshot_stack4": 0.029191,
+    "codec_stack2": 0.047829,
+    "codec_stack4": 0.044918
+   },
    "test_failure": null,
    "test_feasible": true,
-   "test_feasible_cohort": 1.290061,
+   "test_feasible_cohort": 1.069148,
+   "test_feasible_cohort_by_experiment": {
+    "codec_fewshot_stack4": 0.271695,
+    "codec_stack2": 0.41605,
+    "codec_stack4": 0.381404
+   },
    "test_raw": {
     "generator_2x": {
      "codebook_pair_divergence": 0.002457,
@@ -25,9 +35,24 @@
      "visible_exact_window_excess": 0.0,
      "visible_window_excess": -2.9e-05,
      "within_frame_pair_divergence": 0.002554
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.012866,
+     "codec_fd": 0.129763,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 1.385778,
+     "temporal_pair_divergence": 0.012513,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": -0.000116,
+     "within_frame_pair_divergence": 0.013674
     }
    },
-   "train": 0.15273,
+   "train": 0.132242,
+   "train_by_experiment": {
+    "codec_fewshot_stack4": 0.041134,
+    "codec_stack2": 0.049152,
+    "codec_stack4": 0.041956
+   },
    "train_failure": null,
    "train_feasible": true,
    "train_raw": {
@@ -50,14 +75,34 @@
      "visible_exact_window_excess": 0.0,
      "visible_window_excess": -2.9e-05,
      "within_frame_pair_divergence": 0.002516
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.010925,
+     "codec_fd": 0.092555,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 1.407632,
+     "temporal_pair_divergence": 0.010592,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": 1.2e-05,
+     "within_frame_pair_divergence": 0.011687
     }
    }
   },
   "better_large_cosine_20k": {
-   "test": 0.162842,
+   "test": 0.117936,
+   "test_by_experiment": {
+    "codec_fewshot_stack4": 0.020008,
+    "codec_stack2": 0.049818,
+    "codec_stack4": 0.048109
+   },
    "test_failure": null,
    "test_feasible": true,
-   "test_feasible_cohort": 1.364116,
+   "test_feasible_cohort": 1.042625,
+   "test_feasible_cohort_by_experiment": {
+    "codec_fewshot_stack4": 0.199995,
+    "codec_stack2": 0.433673,
+    "codec_stack4": 0.408957
+   },
    "test_raw": {
     "generator_2x": {
      "codebook_pair_divergence": 0.00209,
@@ -78,9 +123,24 @@
      "visible_exact_window_excess": 0.0,
      "visible_window_excess": 0.000244,
      "within_frame_pair_divergence": 0.002093
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.013941,
+     "codec_fd": 0.132726,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 1.520467,
+     "temporal_pair_divergence": 0.013466,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": -0.000105,
+     "within_frame_pair_divergence": 0.015028
     }
    },
-   "train": 0.161836,
+   "train": 0.125718,
+   "train_by_experiment": {
+    "codec_fewshot_stack4": 0.029239,
+    "codec_stack2": 0.051189,
+    "codec_stack4": 0.04529
+   },
    "train_failure": null,
    "train_feasible": true,
    "train_raw": {
@@ -103,14 +163,34 @@
      "visible_exact_window_excess": 0.0,
      "visible_window_excess": 0.000337,
      "within_frame_pair_divergence": 0.002039
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.014414,
+     "codec_fd": 0.113,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 1.464429,
+     "temporal_pair_divergence": 0.013937,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": 0.000564,
+     "within_frame_pair_divergence": 0.015504
     }
    }
   },
   "better_large_cosine_20k_seed17": {
-   "test": 0.163097,
+   "test": 0.114065,
+   "test_by_experiment": {
+    "codec_fewshot_stack4": 0.016,
+    "codec_stack2": 0.049667,
+    "codec_stack4": 0.048398
+   },
    "test_failure": null,
    "test_feasible": true,
-   "test_feasible_cohort": 1.365904,
+   "test_feasible_cohort": 1.005986,
+   "test_feasible_cohort_by_experiment": {
+    "codec_fewshot_stack4": 0.162425,
+    "codec_stack2": 0.432061,
+    "codec_stack4": 0.4115
+   },
    "test_raw": {
     "generator_2x": {
      "codebook_pair_divergence": 0.002102,
@@ -131,9 +211,24 @@
      "visible_exact_window_excess": 0.0,
      "visible_window_excess": -9.9e-05,
      "within_frame_pair_divergence": 0.002095
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.014455,
+     "codec_fd": 0.142136,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 1.556686,
+     "temporal_pair_divergence": 0.014004,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": -5.8e-05,
+     "within_frame_pair_divergence": 0.015487
     }
    },
-   "train": 0.161647,
+   "train": 0.125236,
+   "train_by_experiment": {
+    "codec_fewshot_stack4": 0.028875,
+    "codec_stack2": 0.05105,
+    "codec_stack4": 0.045311
+   },
    "train_failure": null,
    "train_feasible": true,
    "train_raw": {
@@ -156,14 +251,34 @@
      "visible_exact_window_excess": 0.0,
      "visible_window_excess": 0.0,
      "within_frame_pair_divergence": 0.00202
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.01373,
+     "codec_fd": 0.121542,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 1.478613,
+     "temporal_pair_divergence": 0.013309,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": 0.0,
+     "within_frame_pair_divergence": 0.014692
     }
    }
   },
   "better_large_cosine_20k_seed27": {
-   "test": 0.162791,
+   "test": 0.126089,
+   "test_by_experiment": {
+    "codec_fewshot_stack4": 0.028191,
+    "codec_stack2": 0.049835,
+    "codec_stack4": 0.048064
+   },
    "test_failure": null,
    "test_feasible": true,
-   "test_feasible_cohort": 1.362538,
+   "test_feasible_cohort": 1.12292,
+   "test_feasible_cohort_by_experiment": {
+    "codec_fewshot_stack4": 0.281289,
+    "codec_stack2": 0.433454,
+    "codec_stack4": 0.408177
+   },
    "test_raw": {
     "generator_2x": {
      "codebook_pair_divergence": 0.002065,
@@ -184,9 +299,24 @@
      "visible_exact_window_excess": 0.0,
      "visible_window_excess": 0.000233,
      "within_frame_pair_divergence": 0.002107
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.013381,
+     "codec_fd": 0.111987,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 1.430015,
+     "temporal_pair_divergence": 0.012967,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": 7e-05,
+     "within_frame_pair_divergence": 0.014327
     }
    },
-   "train": 0.160628,
+   "train": 0.117469,
+   "train_by_experiment": {
+    "codec_fewshot_stack4": 0.021706,
+    "codec_stack2": 0.050872,
+    "codec_stack4": 0.044891
+   },
    "train_failure": null,
    "train_feasible": true,
    "train_raw": {
@@ -209,14 +339,122 @@
      "visible_exact_window_excess": 0.0,
      "visible_window_excess": -3.5e-05,
      "within_frame_pair_divergence": 0.002153
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.014686,
+     "codec_fd": 0.112629,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 1.613985,
+     "temporal_pair_divergence": 0.014221,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": 0.000203,
+     "within_frame_pair_divergence": 0.015748
+    }
+   }
+  },
+  "better_speaker_rank16_cosine_20k": {
+   "test": 0.116027,
+   "test_by_experiment": {
+    "codec_fewshot_stack4": 0.022628,
+    "codec_stack2": 0.047945,
+    "codec_stack4": 0.045454
+   },
+   "test_failure": null,
+   "test_feasible": true,
+   "test_feasible_cohort": 1.01608,
+   "test_feasible_cohort_by_experiment": {
+    "codec_fewshot_stack4": 0.21171,
+    "codec_stack2": 0.417907,
+    "codec_stack4": 0.386464
+   },
+   "test_raw": {
+    "generator_2x": {
+     "codebook_pair_divergence": 0.002484,
+     "codec_fd": 0.014779,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 0.094308,
+     "temporal_pair_divergence": 0.002481,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": 9.9e-05,
+     "within_frame_pair_divergence": 0.002491
+    },
+    "generator_4x": {
+     "codebook_pair_divergence": 0.00248,
+     "codec_fd": 0.01627,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 0.10425,
+     "temporal_pair_divergence": 0.002483,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": -0.000198,
+     "within_frame_pair_divergence": 0.002475
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.013252,
+     "codec_fd": 0.139411,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 1.478826,
+     "temporal_pair_divergence": 0.012881,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": -1.2e-05,
+     "within_frame_pair_divergence": 0.014101
+    }
+   },
+   "train": 0.130873,
+   "train_by_experiment": {
+    "codec_fewshot_stack4": 0.040158,
+    "codec_stack2": 0.049264,
+    "codec_stack4": 0.041451
+   },
+   "train_failure": null,
+   "train_feasible": true,
+   "train_raw": {
+    "generator_2x": {
+     "codebook_pair_divergence": 0.002478,
+     "codec_fd": 0.015663,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 0.09657,
+     "temporal_pair_divergence": 0.002476,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": 0.000116,
+     "within_frame_pair_divergence": 0.002481
+    },
+    "generator_4x": {
+     "codebook_pair_divergence": 0.002585,
+     "codec_fd": 0.019676,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 0.116285,
+     "temporal_pair_divergence": 0.002583,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": 0.000256,
+     "within_frame_pair_divergence": 0.00259
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.011545,
+     "codec_fd": 0.098107,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 1.388705,
+     "temporal_pair_divergence": 0.011213,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": -0.000128,
+     "within_frame_pair_divergence": 0.012304
     }
    }
   },
   "paper_sampling_t06": {
-   "test": -1.110001,
+   "test": -1.123197,
+   "test_by_experiment": {
+    "codec_fewshot_stack4": -0.459589,
+    "codec_stack2": -0.274844,
+    "codec_stack4": -0.388764
+   },
    "test_failure": null,
    "test_feasible": true,
-   "test_feasible_cohort": -7.977963,
+   "test_feasible_cohort": -8.603679,
+   "test_feasible_cohort_by_experiment": {
+    "codec_fewshot_stack4": -3.701263,
+    "codec_stack2": -2.066721,
+    "codec_stack4": -2.835695
+   },
    "test_raw": {
     "generator_2x": {
      "codebook_pair_divergence": 0.130043,
@@ -237,9 +475,24 @@
      "visible_exact_window_excess": -5.8e-05,
      "visible_window_excess": 0.000471,
      "within_frame_pair_divergence": 0.128868
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.134317,
+     "codec_fd": 1.025994,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 3.985393,
+     "temporal_pair_divergence": 0.134636,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": 0.00018,
+     "within_frame_pair_divergence": 0.13359
     }
    },
-   "train": -1.123502,
+   "train": -1.109836,
+   "train_by_experiment": {
+    "codec_fewshot_stack4": -0.445536,
+    "codec_stack2": -0.273551,
+    "codec_stack4": -0.390749
+   },
    "train_failure": null,
    "train_feasible": true,
    "train_raw": {
@@ -262,14 +515,34 @@
      "visible_exact_window_excess": 0.0,
      "visible_window_excess": 0.002104,
      "within_frame_pair_divergence": 0.129863
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.141034,
+     "codec_fd": 1.070673,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 3.891799,
+     "temporal_pair_divergence": 0.141445,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": -0.001209,
+     "within_frame_pair_divergence": 0.140093
     }
    }
   },
   "reference": {
    "test": 0.0,
+   "test_by_experiment": {
+    "codec_fewshot_stack4": 0.0,
+    "codec_stack2": 0.0,
+    "codec_stack4": 0.0
+   },
    "test_failure": null,
    "test_feasible": true,
    "test_feasible_cohort": 0.0,
+   "test_feasible_cohort_by_experiment": {
+    "codec_fewshot_stack4": 0.0,
+    "codec_stack2": 0.0,
+    "codec_stack4": 0.0
+   },
    "test_raw": {
     "generator_2x": {
      "codebook_pair_divergence": 0.016158,
@@ -290,9 +563,24 @@
      "visible_exact_window_excess": 0.0,
      "visible_window_excess": 4.7e-05,
      "within_frame_pair_divergence": 0.012018
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.018525,
+     "codec_fd": 0.212206,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 1.533941,
+     "temporal_pair_divergence": 0.018124,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": 2.3e-05,
+     "within_frame_pair_divergence": 0.019441
     }
    },
    "train": 0.0,
+   "train_by_experiment": {
+    "codec_fewshot_stack4": 0.0,
+    "codec_stack2": 0.0,
+    "codec_stack4": 0.0
+   },
    "train_failure": null,
    "train_feasible": true,
    "train_raw": {
@@ -315,14 +603,34 @@
      "visible_exact_window_excess": 0.0,
      "visible_window_excess": 0.000163,
      "within_frame_pair_divergence": 0.011544
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.018737,
+     "codec_fd": 0.218068,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 1.639926,
+     "temporal_pair_divergence": 0.018312,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": -2.3e-05,
+     "within_frame_pair_divergence": 0.01971
     }
    }
   },
   "reference_sample1": {
-   "test": -0.004534,
+   "test": -0.005915,
+   "test_by_experiment": {
+    "codec_fewshot_stack4": -0.003126,
+    "codec_stack2": -0.002305,
+    "codec_stack4": -0.000484
+   },
    "test_failure": null,
    "test_feasible": true,
-   "test_feasible_cohort": -0.033693,
+   "test_feasible_cohort": -0.050578,
+   "test_feasible_cohort_by_experiment": {
+    "codec_fewshot_stack4": -0.029206,
+    "codec_stack2": -0.01919,
+    "codec_stack4": -0.002182
+   },
    "test_raw": {
     "generator_2x": {
      "codebook_pair_divergence": 0.017021,
@@ -343,9 +651,24 @@
      "visible_exact_window_excess": 0.0,
      "visible_window_excess": 5.8e-05,
      "within_frame_pair_divergence": 0.012254
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.018934,
+     "codec_fd": 0.219502,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 1.561944,
+     "temporal_pair_divergence": 0.018506,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": -2.9e-05,
+     "within_frame_pair_divergence": 0.019912
     }
    },
-   "train": 0.000656,
+   "train": 0.00064,
+   "train_by_experiment": {
+    "codec_fewshot_stack4": 0.000139,
+    "codec_stack2": 0.001862,
+    "codec_stack4": -0.00136
+   },
    "train_failure": null,
    "train_feasible": true,
    "train_raw": {
@@ -368,14 +691,34 @@
      "visible_exact_window_excess": 0.0,
      "visible_window_excess": 0.000122,
      "within_frame_pair_divergence": 0.011819
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.018675,
+     "codec_fd": 0.21321,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 1.651872,
+     "temporal_pair_divergence": 0.018239,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": 1.7e-05,
+     "within_frame_pair_divergence": 0.019673
     }
    }
   },
   "reference_sample2": {
-   "test": -0.001012,
+   "test": -2.4e-05,
+   "test_by_experiment": {
+    "codec_fewshot_stack4": 0.000645,
+    "codec_stack2": -0.001231,
+    "codec_stack4": 0.000561
+   },
    "test_failure": null,
    "test_feasible": true,
-   "test_feasible_cohort": -0.006358,
+   "test_feasible_cohort": 0.006564,
+   "test_feasible_cohort_by_experiment": {
+    "codec_fewshot_stack4": 0.010833,
+    "codec_stack2": -0.009373,
+    "codec_stack4": 0.005104
+   },
    "test_raw": {
     "generator_2x": {
      "codebook_pair_divergence": 0.016713,
@@ -396,9 +739,24 @@
      "visible_exact_window_excess": 0.0,
      "visible_window_excess": 1.7e-05,
      "within_frame_pair_divergence": 0.011765
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.01832,
+     "codec_fd": 0.203749,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 1.550938,
+     "temporal_pair_divergence": 0.017907,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": 4.7e-05,
+     "within_frame_pair_divergence": 0.019264
     }
    },
-   "train": -0.005044,
+   "train": -0.003527,
+   "train_by_experiment": {
+    "codec_fewshot_stack4": -0.000572,
+    "codec_stack2": -0.000812,
+    "codec_stack4": -0.002143
+   },
    "train_failure": null,
    "train_feasible": true,
    "train_raw": {
@@ -421,14 +779,34 @@
      "visible_exact_window_excess": 0.0,
      "visible_window_excess": 0.000279,
      "within_frame_pair_divergence": 0.011948
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.019176,
+     "codec_fd": 0.218541,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 1.632794,
+     "temporal_pair_divergence": 0.018746,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": -4.7e-05,
+     "within_frame_pair_divergence": 0.020158
     }
    }
   },
   "reference_seed17": {
-   "test": 0.0183,
+   "test": -0.010628,
+   "test_by_experiment": {
+    "codec_fewshot_stack4": -0.022017,
+    "codec_stack2": 0.01137,
+    "codec_stack4": 1.9e-05
+   },
    "test_failure": null,
    "test_feasible": true,
-   "test_feasible_cohort": 0.159026,
+   "test_feasible_cohort": -0.100194,
+   "test_feasible_cohort_by_experiment": {
+    "codec_fewshot_stack4": -0.201357,
+    "codec_stack2": 0.097361,
+    "codec_stack4": 0.003802
+   },
    "test_raw": {
     "generator_2x": {
      "codebook_pair_divergence": 0.012423,
@@ -449,9 +827,24 @@
      "visible_exact_window_excess": 0.0,
      "visible_window_excess": -0.000163,
      "within_frame_pair_divergence": 0.012428
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.021223,
+     "codec_fd": 0.256667,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 1.756518,
+     "temporal_pair_divergence": 0.02077,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": 7.6e-05,
+     "within_frame_pair_divergence": 0.022256
     }
    },
-   "train": 0.016869,
+   "train": 0.002632,
+   "train_by_experiment": {
+    "codec_fewshot_stack4": -0.008026,
+    "codec_stack2": 0.014339,
+    "codec_stack4": -0.003681
+   },
    "train_failure": null,
    "train_feasible": true,
    "train_raw": {
@@ -474,14 +867,34 @@
      "visible_exact_window_excess": 0.0,
      "visible_window_excess": -0.000145,
      "within_frame_pair_divergence": 0.012467
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.019827,
+     "codec_fd": 0.214595,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 1.774142,
+     "temporal_pair_divergence": 0.019352,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": -0.000198,
+     "within_frame_pair_divergence": 0.020911
     }
    }
   },
   "reference_seed27": {
-   "test": -0.028981,
+   "test": -0.029551,
+   "test_by_experiment": {
+    "codec_fewshot_stack4": -0.012485,
+    "codec_stack2": -0.003434,
+    "codec_stack4": -0.013633
+   },
    "test_failure": null,
    "test_feasible": true,
-   "test_feasible_cohort": -0.273585,
+   "test_feasible_cohort": -0.267446,
+   "test_feasible_cohort_by_experiment": {
+    "codec_fewshot_stack4": -0.099988,
+    "codec_stack2": -0.04318,
+    "codec_stack4": -0.124279
+   },
    "test_raw": {
     "generator_2x": {
      "codebook_pair_divergence": 0.016343,
@@ -502,9 +915,24 @@
      "visible_exact_window_excess": 0.0,
      "visible_window_excess": -9.3e-05,
      "within_frame_pair_divergence": 0.015001
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.019714,
+     "codec_fd": 0.217019,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 1.726435,
+     "temporal_pair_divergence": 0.019285,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": -5.8e-05,
+     "within_frame_pair_divergence": 0.020694
     }
    },
-   "train": -0.032017,
+   "train": -0.018787,
+   "train_by_experiment": {
+    "codec_fewshot_stack4": -0.000155,
+    "codec_stack2": -0.003196,
+    "codec_stack4": -0.015436
+   },
    "train_failure": null,
    "train_feasible": true,
    "train_raw": {
@@ -527,11 +955,26 @@
      "visible_exact_window_excess": 0.0,
      "visible_window_excess": 0.000157,
      "within_frame_pair_divergence": 0.014768
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.018947,
+     "codec_fd": 0.207661,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 1.660996,
+     "temporal_pair_divergence": 0.018497,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": 9.9e-05,
+     "within_frame_pair_divergence": 0.019975
     }
    }
   },
   "shortcut_constant": {
-   "test": -4.901707,
+   "test": -4.902712,
+   "test_by_experiment": {
+    "codec_fewshot_stack4": -1.97407,
+    "codec_stack2": -1.21303,
+    "codec_stack4": -1.715611
+   },
    "test_failure": "codec_fd is not below half that of uniform random tokens",
    "test_feasible": false,
    "test_raw": {
@@ -554,9 +997,24 @@
      "visible_exact_window_excess": 0.0,
      "visible_window_excess": 0.0,
      "within_frame_pair_divergence": 0.964163
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.982164,
+     "codec_fd": 40.49107,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 40.491462,
+     "temporal_pair_divergence": 0.979286,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": 0.0,
+     "within_frame_pair_divergence": 0.988743
     }
    },
-   "train": -4.903865,
+   "train": -4.849731,
+   "train_by_experiment": {
+    "codec_fewshot_stack4": -1.949357,
+    "codec_stack2": -1.199736,
+    "codec_stack4": -1.700638
+   },
    "train_failure": "codec_fd is not below half that of uniform random tokens",
    "train_feasible": false,
    "train_raw": {
@@ -579,12 +1037,27 @@
      "visible_exact_window_excess": 0.0,
      "visible_window_excess": 0.0,
      "within_frame_pair_divergence": 0.964843
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.973539,
+     "codec_fd": 39.249772,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 39.250156,
+     "temporal_pair_divergence": 0.970187,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": 0.0,
+     "within_frame_pair_divergence": 0.981202
     }
    }
   },
   "shortcut_copy_edit_12pct": {
-   "test": -4.901707,
-   "test_failure": "0.679 excess of 4-frame windows matching visible utterances over a fresh data-process sample (copied, edited or spliced segments)",
+   "test": -4.902712,
+   "test_by_experiment": {
+    "codec_fewshot_stack4": -1.97407,
+    "codec_stack2": -1.21303,
+    "codec_stack4": -1.715611
+   },
+   "test_failure": "0.683 excess of 4-frame windows matching visible utterances over a fresh data-process sample (copied, edited or spliced segments)",
    "test_feasible": false,
    "test_raw": {
     "generator_2x": {
@@ -606,10 +1079,25 @@
      "visible_exact_window_excess": 0.016439,
      "visible_window_excess": 0.679298,
      "within_frame_pair_divergence": 0.01465
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.035634,
+     "codec_fd": 0.390241,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 1.983383,
+     "temporal_pair_divergence": 0.036111,
+     "visible_exact_window_excess": 0.015038,
+     "visible_window_excess": 0.680658,
+     "within_frame_pair_divergence": 0.034543
     }
    },
-   "train": -4.903865,
-   "train_failure": "0.681 excess of 4-frame windows matching visible utterances over a fresh data-process sample (copied, edited or spliced segments)",
+   "train": -4.849731,
+   "train_by_experiment": {
+    "codec_fewshot_stack4": -1.949357,
+    "codec_stack2": -1.199736,
+    "codec_stack4": -1.700638
+   },
+   "train_failure": "0.680 excess of 4-frame windows matching visible utterances over a fresh data-process sample (copied, edited or spliced segments)",
    "train_feasible": false,
    "train_raw": {
     "generator_2x": {
@@ -631,12 +1119,27 @@
      "visible_exact_window_excess": 0.016264,
      "visible_window_excess": 0.681013,
      "within_frame_pair_divergence": 0.014117
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.035992,
+     "codec_fd": 0.410173,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 1.997636,
+     "temporal_pair_divergence": 0.036474,
+     "visible_exact_window_excess": 0.015654,
+     "visible_window_excess": 0.681489,
+     "within_frame_pair_divergence": 0.03489
     }
    }
   },
   "shortcut_copy_edit_25pct": {
-   "test": -4.901707,
-   "test_failure": "0.200 excess of 4-frame windows matching visible utterances over a fresh data-process sample (copied, edited or spliced segments)",
+   "test": -4.902712,
+   "test_by_experiment": {
+    "codec_fewshot_stack4": -1.97407,
+    "codec_stack2": -1.21303,
+    "codec_stack4": -1.715611
+   },
+   "test_failure": "0.203 excess of 4-frame windows matching visible utterances over a fresh data-process sample (copied, edited or spliced segments)",
    "test_feasible": false,
    "test_raw": {
     "generator_2x": {
@@ -658,9 +1161,24 @@
      "visible_exact_window_excess": 0.000169,
      "visible_window_excess": 0.200213,
      "within_frame_pair_divergence": 0.040797
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.052923,
+     "codec_fd": 1.051572,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 2.670915,
+     "temporal_pair_divergence": 0.054464,
+     "visible_exact_window_excess": 0.00014,
+     "visible_window_excess": 0.197603,
+     "within_frame_pair_divergence": 0.049401
     }
    },
-   "train": -4.903865,
+   "train": -4.849731,
+   "train_by_experiment": {
+    "codec_fewshot_stack4": -1.949357,
+    "codec_stack2": -1.199736,
+    "codec_stack4": -1.700638
+   },
    "train_failure": "0.202 excess of 4-frame windows matching visible utterances over a fresh data-process sample (copied, edited or spliced segments)",
    "train_feasible": false,
    "train_raw": {
@@ -683,12 +1201,27 @@
      "visible_exact_window_excess": 0.00018,
      "visible_window_excess": 0.201707,
      "within_frame_pair_divergence": 0.039968
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.055152,
+     "codec_fd": 1.096515,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 2.733378,
+     "temporal_pair_divergence": 0.056607,
+     "visible_exact_window_excess": 0.00018,
+     "visible_window_excess": 0.201869,
+     "within_frame_pair_divergence": 0.051827
     }
    }
   },
   "shortcut_copy_edit_3pct": {
-   "test": -4.901707,
-   "test_failure": "0.108 of sequences repeat a 12-frame half of a visible utterance",
+   "test": -4.902712,
+   "test_by_experiment": {
+    "codec_fewshot_stack4": -1.97407,
+    "codec_stack2": -1.21303,
+    "codec_stack4": -1.715611
+   },
+   "test_failure": "0.114 of sequences repeat a 12-frame half of a visible utterance",
    "test_feasible": false,
    "test_raw": {
     "generator_2x": {
@@ -710,10 +1243,25 @@
      "visible_exact_window_excess": 0.389282,
      "visible_window_excess": 0.983032,
      "within_frame_pair_divergence": 0.003164
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.040103,
+     "codec_fd": 0.131196,
+     "copied_fraction": 0.118652,
+     "speaker_conditioned_codec_fd": 1.956942,
+     "temporal_pair_divergence": 0.039819,
+     "visible_exact_window_excess": 0.387073,
+     "visible_window_excess": 0.986223,
+     "within_frame_pair_divergence": 0.040751
     }
    },
-   "train": -4.903865,
-   "train_failure": "0.117 of sequences repeat a 12-frame half of a visible utterance",
+   "train": -4.849731,
+   "train_by_experiment": {
+    "codec_fewshot_stack4": -1.949357,
+    "codec_stack2": -1.199736,
+    "codec_stack4": -1.700638
+   },
+   "train_failure": "0.120 of sequences repeat a 12-frame half of a visible utterance",
    "train_feasible": false,
    "train_raw": {
     "generator_2x": {
@@ -735,11 +1283,26 @@
      "visible_exact_window_excess": 0.390491,
      "visible_window_excess": 0.985677,
      "within_frame_pair_divergence": 0.002907
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.038639,
+     "codec_fd": 0.124372,
+     "copied_fraction": 0.119629,
+     "speaker_conditioned_codec_fd": 1.913356,
+     "temporal_pair_divergence": 0.038479,
+     "visible_exact_window_excess": 0.390852,
+     "visible_window_excess": 0.986944,
+     "within_frame_pair_divergence": 0.039005
     }
    }
   },
   "shortcut_copy_train": {
-   "test": -4.901707,
+   "test": -4.902712,
+   "test_by_experiment": {
+    "codec_fewshot_stack4": -1.97407,
+    "codec_stack2": -1.21303,
+    "codec_stack4": -1.715611
+   },
    "test_failure": "1.000 of sequences repeat a 12-frame half of a visible utterance",
    "test_feasible": false,
    "test_raw": {
@@ -762,9 +1325,24 @@
      "visible_exact_window_excess": 1.0,
      "visible_window_excess": 0.994414,
      "within_frame_pair_divergence": 0.002169
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.052812,
+     "codec_fd": 0.122436,
+     "copied_fraction": 1.0,
+     "speaker_conditioned_codec_fd": 2.18805,
+     "temporal_pair_divergence": 0.052475,
+     "visible_exact_window_excess": 1.0,
+     "visible_window_excess": 0.998628,
+     "within_frame_pair_divergence": 0.05358
     }
    },
-   "train": -4.903865,
+   "train": -4.849731,
+   "train_by_experiment": {
+    "codec_fewshot_stack4": -1.949357,
+    "codec_stack2": -1.199736,
+    "codec_stack4": -1.700638
+   },
    "train_failure": "1.000 of sequences repeat a 12-frame half of a visible utterance",
    "train_feasible": false,
    "train_raw": {
@@ -787,14 +1365,28 @@
      "visible_exact_window_excess": 1.0,
      "visible_window_excess": 0.997187,
      "within_frame_pair_divergence": 0.002052
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.050804,
+     "codec_fd": 0.10869,
+     "copied_fraction": 1.0,
+     "speaker_conditioned_codec_fd": 2.120897,
+     "temporal_pair_divergence": 0.050689,
+     "visible_exact_window_excess": 1.0,
+     "visible_window_excess": 0.998611,
+     "within_frame_pair_divergence": 0.051065
     }
    }
   },
   "shortcut_count_chain": {
-   "test": -0.197231,
-   "test_failure": null,
-   "test_feasible": true,
-   "test_feasible_cohort": -2.111783,
+   "test": -4.902712,
+   "test_by_experiment": {
+    "codec_fewshot_stack4": -1.97407,
+    "codec_stack2": -1.21303,
+    "codec_stack4": -1.715611
+   },
+   "test_failure": "run failed: codec_fd is not below half that of uniform random tokens",
+   "test_feasible": false,
    "test_raw": {
     "generator_2x": {
      "codebook_pair_divergence": 0.015801,
@@ -815,11 +1407,26 @@
      "visible_exact_window_excess": 0.0,
      "visible_window_excess": 8.1e-05,
      "within_frame_pair_divergence": 0.019564
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.262967,
+     "codec_fd": 5.3645,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 9.498379,
+     "temporal_pair_divergence": 0.269264,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": 0.0,
+     "within_frame_pair_divergence": 0.248575
     }
    },
-   "train": -0.200083,
-   "train_failure": null,
-   "train_feasible": true,
+   "train": -4.849731,
+   "train_by_experiment": {
+    "codec_fewshot_stack4": -1.949357,
+    "codec_stack2": -1.199736,
+    "codec_stack4": -1.700638
+   },
+   "train_failure": "run failed: codec_fd is not below half that of uniform random tokens",
+   "train_feasible": false,
    "train_raw": {
     "generator_2x": {
      "codebook_pair_divergence": 0.015713,
@@ -840,30 +1447,138 @@
      "visible_exact_window_excess": 0.0,
      "visible_window_excess": -1.7e-05,
      "within_frame_pair_divergence": 0.019679
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.286581,
+     "codec_fd": 5.729886,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 9.905787,
+     "temporal_pair_divergence": 0.292517,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": 0.0,
+     "within_frame_pair_divergence": 0.273013
     }
    }
   },
   "shortcut_empty": {
-   "test": -4.901707,
+   "test": -4.902712,
+   "test_by_experiment": {
+    "codec_fewshot_stack4": -1.97407,
+    "codec_stack2": -1.21303,
+    "codec_stack4": -1.715611
+   },
    "test_failure": "pred_tokens shape (0, 24, 8) != (16384, 24, 8)",
    "test_feasible": false,
    "test_raw": {
     "generator_2x": {},
-    "generator_4x": {}
+    "generator_4x": {},
+    "generator_fewshot_4x": {}
    },
-   "train": -4.903865,
+   "train": -4.849731,
+   "train_by_experiment": {
+    "codec_fewshot_stack4": -1.949357,
+    "codec_stack2": -1.199736,
+    "codec_stack4": -1.700638
+   },
    "train_failure": "pred_tokens shape (0, 24, 8) != (16384, 24, 8)",
    "train_feasible": false,
    "train_raw": {
     "generator_2x": {},
-    "generator_4x": {}
+    "generator_4x": {},
+    "generator_fewshot_4x": {}
+   }
+  },
+  "shortcut_fewshot_memorize": {
+   "test": -4.902712,
+   "test_by_experiment": {
+    "codec_fewshot_stack4": -1.97407,
+    "codec_stack2": -1.21303,
+    "codec_stack4": -1.715611
+   },
+   "test_failure": "run failed: 0.087 of sequences repeat a 12-frame half of a visible utterance",
+   "test_feasible": false,
+   "test_raw": {
+    "generator_2x": {
+     "codebook_pair_divergence": 0.016158,
+     "codec_fd": 0.220808,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 0.550316,
+     "temporal_pair_divergence": 0.01592,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": -2.9e-05,
+     "within_frame_pair_divergence": 0.016702
+    },
+    "generator_4x": {
+     "codebook_pair_divergence": 0.011619,
+     "codec_fd": 0.150551,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 0.433213,
+     "temporal_pair_divergence": 0.011444,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": 4.7e-05,
+     "within_frame_pair_divergence": 0.012018
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.030891,
+     "codec_fd": 0.294262,
+     "copied_fraction": 0.086792,
+     "speaker_conditioned_codec_fd": 2.111243,
+     "temporal_pair_divergence": 0.029475,
+     "visible_exact_window_excess": 0.099511,
+     "visible_window_excess": 0.142561,
+     "within_frame_pair_divergence": 0.034126
+    }
+   },
+   "train": -4.849731,
+   "train_by_experiment": {
+    "codec_fewshot_stack4": -1.949357,
+    "codec_stack2": -1.199736,
+    "codec_stack4": -1.700638
+   },
+   "train_failure": "run failed: 0.108 of sequences repeat a 12-frame half of a visible utterance",
+   "train_feasible": false,
+   "train_raw": {
+    "generator_2x": {
+     "codebook_pair_divergence": 0.016657,
+     "codec_fd": 0.226408,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 0.571292,
+     "temporal_pair_divergence": 0.016431,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": 0.000215,
+     "within_frame_pair_divergence": 0.017172
+    },
+    "generator_4x": {
+     "codebook_pair_divergence": 0.011183,
+     "codec_fd": 0.13987,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 0.417773,
+     "temporal_pair_divergence": 0.011025,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": 0.000163,
+     "within_frame_pair_divergence": 0.011544
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.032435,
+     "codec_fd": 0.304445,
+     "copied_fraction": 0.10791,
+     "speaker_conditioned_codec_fd": 2.160241,
+     "temporal_pair_divergence": 0.031034,
+     "visible_exact_window_excess": 0.123029,
+     "visible_window_excess": 0.178507,
+     "within_frame_pair_divergence": 0.03564
+    }
    }
   },
   "shortcut_frame_lookup": {
-   "test": -0.082355,
-   "test_failure": null,
-   "test_feasible": true,
-   "test_feasible_cohort": -1.156307,
+   "test": -4.902712,
+   "test_by_experiment": {
+    "codec_fewshot_stack4": -1.97407,
+    "codec_stack2": -1.21303,
+    "codec_stack4": -1.715611
+   },
+   "test_failure": "run failed: 0.011 of sequences repeat a 12-frame half of a visible utterance",
+   "test_feasible": false,
    "test_raw": {
     "generator_2x": {
      "codebook_pair_divergence": 0.009329,
@@ -884,9 +1599,24 @@
      "visible_exact_window_excess": 1.2e-05,
      "visible_window_excess": 5.2e-05,
      "within_frame_pair_divergence": 0.001679
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.045036,
+     "codec_fd": 0.225756,
+     "copied_fraction": 0.011108,
+     "speaker_conditioned_codec_fd": 2.262882,
+     "temporal_pair_divergence": 0.040695,
+     "visible_exact_window_excess": 0.03064,
+     "visible_window_excess": 0.04119,
+     "within_frame_pair_divergence": 0.054959
     }
    },
-   "train": -0.086955,
+   "train": -0.118868,
+   "train_by_experiment": {
+    "codec_fewshot_stack4": -0.068145,
+    "codec_stack2": -0.010169,
+    "codec_stack4": -0.040554
+   },
    "train_failure": null,
    "train_feasible": true,
    "train_raw": {
@@ -909,14 +1639,34 @@
      "visible_exact_window_excess": 2.3e-05,
      "visible_window_excess": 3.5e-05,
      "within_frame_pair_divergence": 0.001683
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.043253,
+     "codec_fd": 0.185124,
+     "copied_fraction": 0.009888,
+     "speaker_conditioned_codec_fd": 2.159939,
+     "temporal_pair_divergence": 0.039239,
+     "visible_exact_window_excess": 0.026507,
+     "visible_window_excess": 0.037592,
+     "within_frame_pair_divergence": 0.052426
     }
    }
   },
   "shortcut_gaussian_latent": {
-   "test": -0.705646,
+   "test": -0.639195,
+   "test_by_experiment": {
+    "codec_fewshot_stack4": -0.217227,
+    "codec_stack2": -0.167321,
+    "codec_stack4": -0.254647
+   },
    "test_failure": null,
    "test_feasible": true,
-   "test_feasible_cohort": -3.302413,
+   "test_feasible_cohort": -3.292669,
+   "test_feasible_cohort_by_experiment": {
+    "codec_fewshot_stack4": -1.25806,
+    "codec_stack2": -0.782538,
+    "codec_stack4": -1.252072
+   },
    "test_raw": {
     "generator_2x": {
      "codebook_pair_divergence": 0.145828,
@@ -937,9 +1687,24 @@
      "visible_exact_window_excess": 0.0,
      "visible_window_excess": -1.7e-05,
      "within_frame_pair_divergence": 0.14755
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.110501,
+     "codec_fd": 0.306888,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 1.875361,
+     "temporal_pair_divergence": 0.109754,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": 1.7e-05,
+     "within_frame_pair_divergence": 0.112207
     }
    },
-   "train": -0.712888,
+   "train": -0.613255,
+   "train_by_experiment": {
+    "codec_fewshot_stack4": -0.192394,
+    "codec_stack2": -0.16394,
+    "codec_stack4": -0.256922
+   },
    "train_failure": null,
    "train_feasible": true,
    "train_raw": {
@@ -962,43 +1727,82 @@
      "visible_exact_window_excess": 0.0,
      "visible_window_excess": -2.3e-05,
      "within_frame_pair_divergence": 0.14816
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.1079,
+     "codec_fd": 0.303584,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 1.833597,
+     "temporal_pair_divergence": 0.107134,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": 0.0,
+     "within_frame_pair_divergence": 0.109652
     }
    }
   },
   "shortcut_infinite_stack": {
-   "test": -4.901707,
+   "test": -4.902712,
+   "test_by_experiment": {
+    "codec_fewshot_stack4": -1.97407,
+    "codec_stack2": -1.21303,
+    "codec_stack4": -1.715611
+   },
    "test_failure": "config.stack_factor must be a positive integer",
    "test_feasible": false,
    "test_raw": {
     "generator_2x": {},
-    "generator_4x": {}
+    "generator_4x": {},
+    "generator_fewshot_4x": {}
    },
-   "train": -4.903865,
+   "train": -4.849731,
+   "train_by_experiment": {
+    "codec_fewshot_stack4": -1.949357,
+    "codec_stack2": -1.199736,
+    "codec_stack4": -1.700638
+   },
    "train_failure": "config.stack_factor must be a positive integer",
    "train_feasible": false,
    "train_raw": {
     "generator_2x": {},
-    "generator_4x": {}
+    "generator_4x": {},
+    "generator_fewshot_4x": {}
    }
   },
   "shortcut_negative_steps": {
-   "test": -4.901707,
-   "test_failure": "declared stack factor -1 does not match the fixed 6-step budget of this row",
+   "test": -4.902712,
+   "test_by_experiment": {
+    "codec_fewshot_stack4": -1.97407,
+    "codec_stack2": -1.21303,
+    "codec_stack4": -1.715611
+   },
+   "test_failure": "declared stack factor -1 does not match the fixed 12-step budget of this row",
    "test_feasible": false,
    "test_raw": {
     "generator_2x": {},
-    "generator_4x": {}
+    "generator_4x": {},
+    "generator_fewshot_4x": {}
    },
-   "train": -4.903865,
-   "train_failure": "declared stack factor -1 does not match the fixed 6-step budget of this row",
+   "train": -4.849731,
+   "train_by_experiment": {
+    "codec_fewshot_stack4": -1.949357,
+    "codec_stack2": -1.199736,
+    "codec_stack4": -1.700638
+   },
+   "train_failure": "declared stack factor -1 does not match the fixed 12-step budget of this row",
    "train_feasible": false,
    "train_raw": {
     "generator_2x": {},
-    "generator_4x": {}
+    "generator_4x": {},
+    "generator_fewshot_4x": {}
    }
   },
   "shortcut_old_analytic_sampler": {
-   "test": -4.901707,
+   "test": -4.902712,
+   "test_by_experiment": {
+    "codec_fewshot_stack4": -1.97407,
+    "codec_stack2": -1.21303,
+    "codec_stack4": -1.715611
+   },
    "test_failure": "codec_fd is not below half that of uniform random tokens",
    "test_feasible": false,
    "test_raw": {
@@ -1021,9 +1825,24 @@
      "visible_exact_window_excess": 0.0,
      "visible_window_excess": 0.0,
      "within_frame_pair_divergence": 0.344154
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.372885,
+     "codec_fd": 6.5853,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 11.576089,
+     "temporal_pair_divergence": 0.389355,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": 6e-06,
+     "within_frame_pair_divergence": 0.335239
     }
    },
-   "train": -4.903865,
+   "train": -4.849731,
+   "train_by_experiment": {
+    "codec_fewshot_stack4": -1.949357,
+    "codec_stack2": -1.199736,
+    "codec_stack4": -1.700638
+   },
    "train_failure": "codec_fd is not below half that of uniform random tokens",
    "train_feasible": false,
    "train_raw": {
@@ -1046,11 +1865,26 @@
      "visible_exact_window_excess": 0.0,
      "visible_window_excess": 0.0,
      "within_frame_pair_divergence": 0.342134
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.387522,
+     "codec_fd": 6.788269,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 11.943061,
+     "temporal_pair_divergence": 0.403388,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": 0.0,
+     "within_frame_pair_divergence": 0.351257
     }
    }
   },
   "shortcut_old_rule_repair": {
-   "test": -4.901707,
+   "test": -4.902712,
+   "test_by_experiment": {
+    "codec_fewshot_stack4": -1.97407,
+    "codec_stack2": -1.21303,
+    "codec_stack4": -1.715611
+   },
    "test_failure": "codec_fd is not below half that of uniform random tokens",
    "test_feasible": false,
    "test_raw": {
@@ -1073,9 +1907,24 @@
      "visible_exact_window_excess": 0.0,
      "visible_window_excess": 0.0,
      "within_frame_pair_divergence": 0.404061
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.385799,
+     "codec_fd": 8.100741,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 12.89808,
+     "temporal_pair_divergence": 0.378845,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": 0.0,
+     "within_frame_pair_divergence": 0.401695
     }
    },
-   "train": -4.903865,
+   "train": -4.849731,
+   "train_by_experiment": {
+    "codec_fewshot_stack4": -1.949357,
+    "codec_stack2": -1.199736,
+    "codec_stack4": -1.700638
+   },
    "train_failure": "codec_fd is not below half that of uniform random tokens",
    "train_feasible": false,
    "train_raw": {
@@ -1098,27 +1947,54 @@
      "visible_exact_window_excess": 0.0,
      "visible_window_excess": 0.0,
      "within_frame_pair_divergence": 0.40266
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.399858,
+     "codec_fd": 8.304183,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 13.318893,
+     "temporal_pair_divergence": 0.392937,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": 0.0,
+     "within_frame_pair_divergence": 0.415678
     }
    }
   },
   "shortcut_out_of_range": {
-   "test": -4.901707,
+   "test": -4.902712,
+   "test_by_experiment": {
+    "codec_fewshot_stack4": -1.97407,
+    "codec_stack2": -1.21303,
+    "codec_stack4": -1.715611
+   },
    "test_failure": "token ids outside [0, vocab_size)",
    "test_feasible": false,
    "test_raw": {
     "generator_2x": {},
-    "generator_4x": {}
+    "generator_4x": {},
+    "generator_fewshot_4x": {}
    },
-   "train": -4.903865,
+   "train": -4.849731,
+   "train_by_experiment": {
+    "codec_fewshot_stack4": -1.949357,
+    "codec_stack2": -1.199736,
+    "codec_stack4": -1.700638
+   },
    "train_failure": "token ids outside [0, vocab_size)",
    "train_feasible": false,
    "train_raw": {
     "generator_2x": {},
-    "generator_4x": {}
+    "generator_4x": {},
+    "generator_fewshot_4x": {}
    }
   },
   "shortcut_random_tokens": {
-   "test": -4.901707,
+   "test": -4.902712,
+   "test_by_experiment": {
+    "codec_fewshot_stack4": -1.97407,
+    "codec_stack2": -1.21303,
+    "codec_stack4": -1.715611
+   },
    "test_failure": "codec_fd is not below half that of uniform random tokens",
    "test_feasible": false,
    "test_raw": {
@@ -1141,9 +2017,24 @@
      "visible_exact_window_excess": 0.0,
      "visible_window_excess": 0.0,
      "within_frame_pair_divergence": 0.341405
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.341713,
+     "codec_fd": 6.723415,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 11.619037,
+     "temporal_pair_divergence": 0.345269,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": 0.0,
+     "within_frame_pair_divergence": 0.333586
     }
    },
-   "train": -4.903865,
+   "train": -4.849731,
+   "train_by_experiment": {
+    "codec_fewshot_stack4": -1.949357,
+    "codec_stack2": -1.199736,
+    "codec_stack4": -1.700638
+   },
    "train_failure": "codec_fd is not below half that of uniform random tokens",
    "train_feasible": false,
    "train_raw": {
@@ -1166,11 +2057,26 @@
      "visible_exact_window_excess": 0.0,
      "visible_window_excess": 0.0,
      "within_frame_pair_divergence": 0.339962
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.356743,
+     "codec_fd": 6.947579,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 11.983251,
+     "temporal_pair_divergence": 0.359921,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": 0.0,
+     "within_frame_pair_divergence": 0.349478
     }
    }
   },
   "shortcut_replace_baseline": {
-   "test": -4.901707,
+   "test": -4.902712,
+   "test_by_experiment": {
+    "codec_fewshot_stack4": -1.97407,
+    "codec_stack2": -1.21303,
+    "codec_stack4": -1.715611
+   },
    "test_failure": "reserved fixed comparison output changed",
    "test_feasible": false,
    "test_raw": {
@@ -1193,9 +2099,24 @@
      "visible_exact_window_excess": 0.0,
      "visible_window_excess": 4.7e-05,
      "within_frame_pair_divergence": 0.012018
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.018525,
+     "codec_fd": 0.212206,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 1.533941,
+     "temporal_pair_divergence": 0.018124,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": 2.3e-05,
+     "within_frame_pair_divergence": 0.019441
     }
    },
-   "train": -4.903865,
+   "train": -4.849731,
+   "train_by_experiment": {
+    "codec_fewshot_stack4": -1.949357,
+    "codec_stack2": -1.199736,
+    "codec_stack4": -1.700638
+   },
    "train_failure": "reserved fixed comparison output changed",
    "train_feasible": false,
    "train_raw": {
@@ -1218,11 +2139,26 @@
      "visible_exact_window_excess": 0.0,
      "visible_window_excess": 0.000163,
      "within_frame_pair_divergence": 0.011544
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.018737,
+     "codec_fd": 0.218068,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 1.639926,
+     "temporal_pair_divergence": 0.018312,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": -2.3e-05,
+     "within_frame_pair_divergence": 0.01971
     }
    }
   },
   "shortcut_replace_truth_testfile": {
-   "test": -4.901707,
+   "test": -4.902712,
+   "test_by_experiment": {
+    "codec_fewshot_stack4": -1.97407,
+    "codec_stack2": -1.21303,
+    "codec_stack4": -1.715611
+   },
    "test_failure": "forbidden method-side target file",
    "test_feasible": false,
    "test_raw": {
@@ -1245,9 +2181,24 @@
      "visible_exact_window_excess": 0.0,
      "visible_window_excess": 4.7e-05,
      "within_frame_pair_divergence": 0.012018
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.018525,
+     "codec_fd": 0.212206,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 1.533941,
+     "temporal_pair_divergence": 0.018124,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": 2.3e-05,
+     "within_frame_pair_divergence": 0.019441
     }
    },
-   "train": -4.903865,
+   "train": -4.849731,
+   "train_by_experiment": {
+    "codec_fewshot_stack4": -1.949357,
+    "codec_stack2": -1.199736,
+    "codec_stack4": -1.700638
+   },
    "train_failure": "forbidden method-side target file",
    "train_feasible": false,
    "train_raw": {
@@ -1270,11 +2221,26 @@
      "visible_exact_window_excess": 0.0,
      "visible_window_excess": 0.000163,
      "within_frame_pair_divergence": 0.011544
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.018737,
+     "codec_fd": 0.218068,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 1.639926,
+     "temporal_pair_divergence": 0.018312,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": -2.3e-05,
+     "within_frame_pair_divergence": 0.01971
     }
    }
   },
   "shortcut_replace_truth_valfile": {
-   "test": -4.901707,
+   "test": -4.902712,
+   "test_by_experiment": {
+    "codec_fewshot_stack4": -1.97407,
+    "codec_stack2": -1.21303,
+    "codec_stack4": -1.715611
+   },
    "test_failure": "fixed training data changed",
    "test_feasible": false,
    "test_raw": {
@@ -1297,9 +2263,24 @@
      "visible_exact_window_excess": 0.0,
      "visible_window_excess": 4.7e-05,
      "within_frame_pair_divergence": 0.012018
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.018525,
+     "codec_fd": 0.212206,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 1.533941,
+     "temporal_pair_divergence": 0.018124,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": 2.3e-05,
+     "within_frame_pair_divergence": 0.019441
     }
    },
-   "train": -4.903865,
+   "train": -4.849731,
+   "train_by_experiment": {
+    "codec_fewshot_stack4": -1.949357,
+    "codec_stack2": -1.199736,
+    "codec_stack4": -1.700638
+   },
    "train_failure": "fixed training data changed",
    "train_feasible": false,
    "train_raw": {
@@ -1322,14 +2303,34 @@
      "visible_exact_window_excess": 0.0,
      "visible_window_excess": 0.000163,
      "within_frame_pair_divergence": 0.011544
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.018737,
+     "codec_fd": 0.218068,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 1.639926,
+     "temporal_pair_divergence": 0.018312,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": -2.3e-05,
+     "within_frame_pair_divergence": 0.01971
     }
    }
   },
   "shortcut_resample_2x_as_4x": {
-   "test": -0.043053,
+   "test": -0.025017,
+   "test_by_experiment": {
+    "codec_fewshot_stack4": 0.0,
+    "codec_stack2": 0.0,
+    "codec_stack4": -0.025017
+   },
    "test_failure": null,
    "test_feasible": true,
-   "test_feasible_cohort": -0.354023,
+   "test_feasible_cohort": -0.212209,
+   "test_feasible_cohort_by_experiment": {
+    "codec_fewshot_stack4": 0.0,
+    "codec_stack2": 0.0,
+    "codec_stack4": -0.212209
+   },
    "test_raw": {
     "generator_2x": {
      "codebook_pair_divergence": 0.016158,
@@ -1350,9 +2351,24 @@
      "visible_exact_window_excess": 0.0,
      "visible_window_excess": 6.4e-05,
      "within_frame_pair_divergence": 0.017657
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.018525,
+     "codec_fd": 0.212206,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 1.533941,
+     "temporal_pair_divergence": 0.018124,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": 2.3e-05,
+     "within_frame_pair_divergence": 0.019441
     }
    },
-   "train": -0.048616,
+   "train": -0.027959,
+   "train_by_experiment": {
+    "codec_fewshot_stack4": 0.0,
+    "codec_stack2": 0.0,
+    "codec_stack4": -0.027959
+   },
    "train_failure": null,
    "train_feasible": true,
    "train_raw": {
@@ -1375,11 +2391,26 @@
      "visible_exact_window_excess": 0.0,
      "visible_window_excess": 0.00018,
      "within_frame_pair_divergence": 0.017916
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.018737,
+     "codec_fd": 0.218068,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 1.639926,
+     "temporal_pair_divergence": 0.018312,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": -2.3e-05,
+     "within_frame_pair_divergence": 0.01971
     }
    }
   },
   "shortcut_reuse_2x_as_4x": {
-   "test": -4.901707,
+   "test": -4.902712,
+   "test_by_experiment": {
+    "codec_fewshot_stack4": -1.97407,
+    "codec_stack2": -1.21303,
+    "codec_stack4": -1.715611
+   },
    "test_failure": "1.000 of generator_4x sequences repeat a 12-frame half of generator_2x",
    "test_feasible": false,
    "test_raw": {
@@ -1402,9 +2433,24 @@
      "visible_exact_window_excess": 0.0,
      "visible_window_excess": -2.9e-05,
      "within_frame_pair_divergence": 0.016702
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.018525,
+     "codec_fd": 0.212206,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 1.533941,
+     "temporal_pair_divergence": 0.018124,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": 2.3e-05,
+     "within_frame_pair_divergence": 0.019441
     }
    },
-   "train": -4.903865,
+   "train": -4.849731,
+   "train_by_experiment": {
+    "codec_fewshot_stack4": -1.949357,
+    "codec_stack2": -1.199736,
+    "codec_stack4": -1.700638
+   },
    "train_failure": "1.000 of generator_4x sequences repeat a 12-frame half of generator_2x",
    "train_feasible": false,
    "train_raw": {
@@ -1427,14 +2473,292 @@
      "visible_exact_window_excess": 0.0,
      "visible_window_excess": 0.000215,
      "within_frame_pair_divergence": 0.017172
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.018737,
+     "codec_fd": 0.218068,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 1.639926,
+     "temporal_pair_divergence": 0.018312,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": -2.3e-05,
+     "within_frame_pair_divergence": 0.01971
+    }
+   }
+  },
+  "shortcut_select_moments": {
+   "test": 0.123538,
+   "test_by_experiment": {
+    "codec_fewshot_stack4": 0.034596,
+    "codec_stack2": 0.044629,
+    "codec_stack4": 0.044313
+   },
+   "test_failure": null,
+   "test_feasible": true,
+   "test_feasible_cohort": 1.102666,
+   "test_feasible_cohort_by_experiment": {
+    "codec_fewshot_stack4": 0.325784,
+    "codec_stack2": 0.394305,
+    "codec_stack4": 0.382576
+   },
+   "test_raw": {
+    "generator_2x": {
+     "codebook_pair_divergence": 0.00395,
+     "codec_fd": 0.022689,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 0.121486,
+     "temporal_pair_divergence": 0.003896,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": 0.000378,
+     "within_frame_pair_divergence": 0.004074
+    },
+    "generator_4x": {
+     "codebook_pair_divergence": 0.003239,
+     "codec_fd": 0.016092,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 0.100798,
+     "temporal_pair_divergence": 0.003198,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": 0.00014,
+     "within_frame_pair_divergence": 0.003332
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.013454,
+     "codec_fd": 0.123711,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 1.266479,
+     "temporal_pair_divergence": 0.013119,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": -7e-05,
+     "within_frame_pair_divergence": 0.01422
+    }
+   },
+   "train": 0.125591,
+   "train_by_experiment": {
+    "codec_fewshot_stack4": 0.039128,
+    "codec_stack2": 0.045702,
+    "codec_stack4": 0.040761
+   },
+   "train_failure": null,
+   "train_feasible": true,
+   "train_raw": {
+    "generator_2x": {
+     "codebook_pair_divergence": 0.003901,
+     "codec_fd": 0.023901,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 0.133026,
+     "temporal_pair_divergence": 0.003862,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": 0.000198,
+     "within_frame_pair_divergence": 0.003988
+    },
+    "generator_4x": {
+     "codebook_pair_divergence": 0.003363,
+     "codec_fd": 0.017597,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 0.106838,
+     "temporal_pair_divergence": 0.003324,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": 9.3e-05,
+     "within_frame_pair_divergence": 0.003452
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.013111,
+     "codec_fd": 0.117728,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 1.296272,
+     "temporal_pair_divergence": 0.012773,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": -7e-05,
+     "within_frame_pair_divergence": 0.013885
+    }
+   }
+  },
+  "shortcut_select_moments_large": {
+   "test": 0.13716,
+   "test_by_experiment": {
+    "codec_fewshot_stack4": 0.034572,
+    "codec_stack2": 0.051515,
+    "codec_stack4": 0.051073
+   },
+   "test_failure": null,
+   "test_feasible": true,
+   "test_feasible_cohort": 1.22,
+   "test_feasible_cohort_by_experiment": {
+    "codec_fewshot_stack4": 0.334862,
+    "codec_stack2": 0.449105,
+    "codec_stack4": 0.436032
+   },
+   "test_raw": {
+    "generator_2x": {
+     "codebook_pair_divergence": 0.001789,
+     "codec_fd": 0.003623,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 0.037226,
+     "temporal_pair_divergence": 0.001772,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": 0.000326,
+     "within_frame_pair_divergence": 0.001829
+    },
+    "generator_4x": {
+     "codebook_pair_divergence": 0.001782,
+     "codec_fd": 0.003814,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 0.036347,
+     "temporal_pair_divergence": 0.001767,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": -1.2e-05,
+     "within_frame_pair_divergence": 0.001816
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.012705,
+     "codec_fd": 0.105906,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 1.343702,
+     "temporal_pair_divergence": 0.012276,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": -6.4e-05,
+     "within_frame_pair_divergence": 0.013688
+    }
+   },
+   "train": 0.143014,
+   "train_by_experiment": {
+    "codec_fewshot_stack4": 0.042058,
+    "codec_stack2": 0.052851,
+    "codec_stack4": 0.048105
+   },
+   "train_failure": null,
+   "train_feasible": true,
+   "train_raw": {
+    "generator_2x": {
+     "codebook_pair_divergence": 0.001784,
+     "codec_fd": 0.00401,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 0.039482,
+     "temporal_pair_divergence": 0.001764,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": 0.000308,
+     "within_frame_pair_divergence": 0.001828
+    },
+    "generator_4x": {
+     "codebook_pair_divergence": 0.001736,
+     "codec_fd": 0.003573,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 0.03908,
+     "temporal_pair_divergence": 0.001728,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": 0.000448,
+     "within_frame_pair_divergence": 0.001755
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.013215,
+     "codec_fd": 0.093665,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 1.290956,
+     "temporal_pair_divergence": 0.01279,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": 0.000192,
+     "within_frame_pair_divergence": 0.014184
+    }
+   }
+  },
+  "shortcut_select_moments_mainonly": {
+   "test": 0.088942,
+   "test_by_experiment": {
+    "codec_fewshot_stack4": 0.0,
+    "codec_stack2": 0.044629,
+    "codec_stack4": 0.044313
+   },
+   "test_failure": null,
+   "test_feasible": true,
+   "test_feasible_cohort": 0.776881,
+   "test_feasible_cohort_by_experiment": {
+    "codec_fewshot_stack4": 0.0,
+    "codec_stack2": 0.394305,
+    "codec_stack4": 0.382576
+   },
+   "test_raw": {
+    "generator_2x": {
+     "codebook_pair_divergence": 0.00395,
+     "codec_fd": 0.022689,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 0.121486,
+     "temporal_pair_divergence": 0.003896,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": 0.000378,
+     "within_frame_pair_divergence": 0.004074
+    },
+    "generator_4x": {
+     "codebook_pair_divergence": 0.003239,
+     "codec_fd": 0.016092,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 0.100798,
+     "temporal_pair_divergence": 0.003198,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": 0.00014,
+     "within_frame_pair_divergence": 0.003332
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.018525,
+     "codec_fd": 0.212206,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 1.533941,
+     "temporal_pair_divergence": 0.018124,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": 2.3e-05,
+     "within_frame_pair_divergence": 0.019441
+    }
+   },
+   "train": 0.086463,
+   "train_by_experiment": {
+    "codec_fewshot_stack4": 0.0,
+    "codec_stack2": 0.045702,
+    "codec_stack4": 0.040761
+   },
+   "train_failure": null,
+   "train_feasible": true,
+   "train_raw": {
+    "generator_2x": {
+     "codebook_pair_divergence": 0.003901,
+     "codec_fd": 0.023901,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 0.133026,
+     "temporal_pair_divergence": 0.003862,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": 0.000198,
+     "within_frame_pair_divergence": 0.003988
+    },
+    "generator_4x": {
+     "codebook_pair_divergence": 0.003363,
+     "codec_fd": 0.017597,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 0.106838,
+     "temporal_pair_divergence": 0.003324,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": 9.3e-05,
+     "within_frame_pair_divergence": 0.003452
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.018737,
+     "codec_fd": 0.218068,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 1.639926,
+     "temporal_pair_divergence": 0.018312,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": -2.3e-05,
+     "within_frame_pair_divergence": 0.01971
     }
    }
   },
   "shortcut_splice_2frame": {
-   "test": 0.009596,
-   "test_failure": null,
-   "test_feasible": true,
-   "test_feasible_cohort": -0.212132,
+   "test": -4.902712,
+   "test_by_experiment": {
+    "codec_fewshot_stack4": -1.97407,
+    "codec_stack2": -1.21303,
+    "codec_stack4": -1.715611
+   },
+   "test_failure": "run failed: 0.093 excess of 4-frame windows matching visible utterances over a fresh data-process sample (copied, edited or spliced segments)",
+   "test_feasible": false,
    "test_raw": {
     "generator_2x": {
      "codebook_pair_divergence": 0.006703,
@@ -1455,9 +2779,112 @@
      "visible_exact_window_excess": 0.000145,
      "visible_window_excess": 0.002947,
      "within_frame_pair_divergence": 0.001701
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.041459,
+     "codec_fd": 0.335774,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 2.272143,
+     "temporal_pair_divergence": 0.036269,
+     "visible_exact_window_excess": 0.073585,
+     "visible_window_excess": 0.092861,
+     "within_frame_pair_divergence": 0.053321
     }
    },
-   "train": 0.007387,
+   "train": -4.849731,
+   "train_by_experiment": {
+    "codec_fewshot_stack4": -1.949357,
+    "codec_stack2": -1.199736,
+    "codec_stack4": -1.700638
+   },
+   "train_failure": "run failed: 0.087 excess of 4-frame windows matching visible utterances over a fresh data-process sample (copied, edited or spliced segments)",
+   "train_feasible": false,
+   "train_raw": {
+    "generator_2x": {
+     "codebook_pair_divergence": 0.006789,
+     "codec_fd": 0.300767,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 0.368059,
+     "temporal_pair_divergence": 0.009016,
+     "visible_exact_window_excess": 0.000296,
+     "visible_window_excess": 0.003162,
+     "within_frame_pair_divergence": 0.001699
+    },
+    "generator_4x": {
+     "codebook_pair_divergence": 0.006733,
+     "codec_fd": 0.297173,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 0.365961,
+     "temporal_pair_divergence": 0.008934,
+     "visible_exact_window_excess": 0.000314,
+     "visible_window_excess": 0.003098,
+     "within_frame_pair_divergence": 0.001701
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.039971,
+     "codec_fd": 0.314482,
+     "copied_fraction": 0.000244,
+     "speaker_conditioned_codec_fd": 2.179933,
+     "temporal_pair_divergence": 0.035372,
+     "visible_exact_window_excess": 0.072376,
+     "visible_window_excess": 0.086955,
+     "within_frame_pair_divergence": 0.050482
+    }
+   }
+  },
+  "shortcut_splice_2frame_mainonly": {
+   "test": 0.006397,
+   "test_by_experiment": {
+    "codec_fewshot_stack4": 0.0,
+    "codec_stack2": 0.011523,
+    "codec_stack4": -0.005127
+   },
+   "test_failure": null,
+   "test_feasible": true,
+   "test_feasible_cohort": -0.129597,
+   "test_feasible_cohort_by_experiment": {
+    "codec_fewshot_stack4": 0.0,
+    "codec_stack2": 0.017518,
+    "codec_stack4": -0.147115
+   },
+   "test_raw": {
+    "generator_2x": {
+     "codebook_pair_divergence": 0.006703,
+     "codec_fd": 0.297116,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 0.36503,
+     "temporal_pair_divergence": 0.008907,
+     "visible_exact_window_excess": 0.00025,
+     "visible_window_excess": 0.003081,
+     "within_frame_pair_divergence": 0.001666
+    },
+    "generator_4x": {
+     "codebook_pair_divergence": 0.006774,
+     "codec_fd": 0.298368,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 0.36555,
+     "temporal_pair_divergence": 0.008993,
+     "visible_exact_window_excess": 0.000145,
+     "visible_window_excess": 0.002947,
+     "within_frame_pair_divergence": 0.001701
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.018525,
+     "codec_fd": 0.212206,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 1.533941,
+     "temporal_pair_divergence": 0.018124,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": 2.3e-05,
+     "within_frame_pair_divergence": 0.019441
+    }
+   },
+   "train": 0.005065,
+   "train_by_experiment": {
+    "codec_fewshot_stack4": 0.0,
+    "codec_stack2": 0.012651,
+    "codec_stack4": -0.007585
+   },
    "train_failure": null,
    "train_feasible": true,
    "train_raw": {
@@ -1480,11 +2907,26 @@
      "visible_exact_window_excess": 0.000314,
      "visible_window_excess": 0.003098,
      "within_frame_pair_divergence": 0.001701
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.018737,
+     "codec_fd": 0.218068,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 1.639926,
+     "temporal_pair_divergence": 0.018312,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": -2.3e-05,
+     "within_frame_pair_divergence": 0.01971
     }
    }
   },
   "shortcut_splice_3frame": {
-   "test": -4.901707,
+   "test": -4.902712,
+   "test_by_experiment": {
+    "codec_fewshot_stack4": -1.97407,
+    "codec_stack2": -1.21303,
+    "codec_stack4": -1.715611
+   },
    "test_failure": "0.052 excess of 4-frame windows matching visible utterances over a fresh data-process sample (copied, edited or spliced segments)",
    "test_feasible": false,
    "test_raw": {
@@ -1507,9 +2949,24 @@
      "visible_exact_window_excess": 0.000296,
      "visible_window_excess": 0.051543,
      "within_frame_pair_divergence": 0.001728
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.043526,
+     "codec_fd": 0.215125,
+     "copied_fraction": 0.002563,
+     "speaker_conditioned_codec_fd": 2.167726,
+     "temporal_pair_divergence": 0.039238,
+     "visible_exact_window_excess": 0.126814,
+     "visible_window_excess": 0.191895,
+     "within_frame_pair_divergence": 0.053327
     }
    },
-   "train": -4.903865,
+   "train": -4.849731,
+   "train_by_experiment": {
+    "codec_fewshot_stack4": -1.949357,
+    "codec_stack2": -1.199736,
+    "codec_stack4": -1.700638
+   },
    "train_failure": "0.053 excess of 4-frame windows matching visible utterances over a fresh data-process sample (copied, edited or spliced segments)",
    "train_feasible": false,
    "train_raw": {
@@ -1532,12 +2989,27 @@
      "visible_exact_window_excess": 0.00068,
      "visible_window_excess": 0.052694,
      "within_frame_pair_divergence": 0.001756
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.041722,
+     "codec_fd": 0.199799,
+     "copied_fraction": 0.003906,
+     "speaker_conditioned_codec_fd": 2.0882,
+     "temporal_pair_divergence": 0.037914,
+     "visible_exact_window_excess": 0.123099,
+     "visible_window_excess": 0.17992,
+     "within_frame_pair_divergence": 0.050424
     }
    }
   },
   "shortcut_splice_4frame": {
-   "test": -4.901707,
-   "test_failure": "0.321 excess of 4-frame windows matching visible utterances over a fresh data-process sample (copied, edited or spliced segments)",
+   "test": -4.902712,
+   "test_by_experiment": {
+    "codec_fewshot_stack4": -1.97407,
+    "codec_stack2": -1.21303,
+    "codec_stack4": -1.715611
+   },
+   "test_failure": "0.322 excess of 4-frame windows matching visible utterances over a fresh data-process sample (copied, edited or spliced segments)",
    "test_feasible": false,
    "test_raw": {
     "generator_2x": {
@@ -1559,10 +3031,25 @@
      "visible_exact_window_excess": 0.285871,
      "visible_window_excess": 0.321289,
      "within_frame_pair_divergence": 0.001731
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.045235,
+     "codec_fd": 0.169824,
+     "copied_fraction": 0.028931,
+     "speaker_conditioned_codec_fd": 2.134818,
+     "temporal_pair_divergence": 0.041672,
+     "visible_exact_window_excess": 0.375453,
+     "visible_window_excess": 0.424299,
+     "within_frame_pair_divergence": 0.053379
     }
    },
-   "train": -4.903865,
-   "train_failure": "0.322 excess of 4-frame windows matching visible utterances over a fresh data-process sample (copied, edited or spliced segments)",
+   "train": -4.849731,
+   "train_by_experiment": {
+    "codec_fewshot_stack4": -1.949357,
+    "codec_stack2": -1.199736,
+    "codec_stack4": -1.700638
+   },
+   "train_failure": "0.321 excess of 4-frame windows matching visible utterances over a fresh data-process sample (copied, edited or spliced segments)",
    "train_feasible": false,
    "train_raw": {
     "generator_2x": {
@@ -1584,12 +3071,27 @@
      "visible_exact_window_excess": 0.286255,
      "visible_window_excess": 0.322457,
      "within_frame_pair_divergence": 0.001784
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.043046,
+     "codec_fd": 0.154493,
+     "copied_fraction": 0.031006,
+     "speaker_conditioned_codec_fd": 2.045844,
+     "temporal_pair_divergence": 0.039786,
+     "visible_exact_window_excess": 0.374581,
+     "visible_window_excess": 0.412807,
+     "within_frame_pair_divergence": 0.050498
     }
    }
   },
   "shortcut_splice_6frame": {
-   "test": -4.901707,
-   "test_failure": "0.591 excess of 4-frame windows matching visible utterances over a fresh data-process sample (copied, edited or spliced segments)",
+   "test": -4.902712,
+   "test_by_experiment": {
+    "codec_fewshot_stack4": -1.97407,
+    "codec_stack2": -1.21303,
+    "codec_stack4": -1.715611
+   },
+   "test_failure": "0.590 excess of 4-frame windows matching visible utterances over a fresh data-process sample (copied, edited or spliced segments)",
    "test_feasible": false,
    "test_raw": {
     "generator_2x": {
@@ -1611,9 +3113,24 @@
      "visible_exact_window_excess": 0.571539,
      "visible_window_excess": 0.590611,
      "within_frame_pair_divergence": 0.001808
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.047573,
+     "codec_fd": 0.138013,
+     "copied_fraction": 0.22876,
+     "speaker_conditioned_codec_fd": 2.126388,
+     "temporal_pair_divergence": 0.045004,
+     "visible_exact_window_excess": 0.624878,
+     "visible_window_excess": 0.652216,
+     "within_frame_pair_divergence": 0.053447
     }
    },
-   "train": -4.903865,
+   "train": -4.849731,
+   "train_by_experiment": {
+    "codec_fewshot_stack4": -1.949357,
+    "codec_stack2": -1.199736,
+    "codec_stack4": -1.700638
+   },
    "train_failure": "0.592 excess of 4-frame windows matching visible utterances over a fresh data-process sample (copied, edited or spliced segments)",
    "train_feasible": false,
    "train_raw": {
@@ -1636,14 +3153,28 @@
      "visible_exact_window_excess": 0.57176,
      "visible_window_excess": 0.592151,
      "within_frame_pair_divergence": 0.00183
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.045546,
+     "codec_fd": 0.126885,
+     "copied_fraction": 0.226562,
+     "speaker_conditioned_codec_fd": 2.038091,
+     "temporal_pair_divergence": 0.043328,
+     "visible_exact_window_excess": 0.623396,
+     "visible_window_excess": 0.64642,
+     "within_frame_pair_divergence": 0.050615
     }
    }
   },
   "shortcut_splice_partial": {
-   "test": 0.036695,
-   "test_failure": null,
-   "test_feasible": true,
-   "test_feasible_cohort": 0.303798,
+   "test": -4.902712,
+   "test_by_experiment": {
+    "codec_fewshot_stack4": -1.97407,
+    "codec_stack2": -1.21303,
+    "codec_stack4": -1.715611
+   },
+   "test_failure": "run failed: 0.054 excess of 4-frame windows matching visible utterances over a fresh data-process sample (copied, edited or spliced segments)",
+   "test_feasible": false,
    "test_raw": {
     "generator_2x": {
      "codebook_pair_divergence": 0.0128,
@@ -1664,9 +3195,24 @@
      "visible_exact_window_excess": 0.033901,
      "visible_window_excess": 0.037941,
      "within_frame_pair_divergence": 0.009755
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.016398,
+     "codec_fd": 0.181692,
+     "copied_fraction": 0.003784,
+     "speaker_conditioned_codec_fd": 1.386192,
+     "temporal_pair_divergence": 0.016041,
+     "visible_exact_window_excess": 0.047398,
+     "visible_window_excess": 0.053926,
+     "within_frame_pair_divergence": 0.017215
     }
    },
-   "train": 0.038296,
+   "train": 0.039749,
+   "train_by_experiment": {
+    "codec_fewshot_stack4": 0.01695,
+    "codec_stack2": 0.011636,
+    "codec_stack4": 0.011162
+   },
    "train_failure": null,
    "train_feasible": true,
    "train_raw": {
@@ -1689,76 +3235,227 @@
      "visible_exact_window_excess": 0.035331,
      "visible_window_excess": 0.040097,
      "within_frame_pair_divergence": 0.009115
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.016588,
+     "codec_fd": 0.183453,
+     "copied_fraction": 0.004395,
+     "speaker_conditioned_codec_fd": 1.4567,
+     "temporal_pair_divergence": 0.016205,
+     "visible_exact_window_excess": 0.043858,
+     "visible_window_excess": 0.048264,
+     "within_frame_pair_divergence": 0.017464
+    }
+   }
+  },
+  "shortcut_splice_partial_mainonly": {
+   "test": 0.023272,
+   "test_by_experiment": {
+    "codec_fewshot_stack4": 0.0,
+    "codec_stack2": 0.011878,
+    "codec_stack4": 0.011394
+   },
+   "test_failure": null,
+   "test_feasible": true,
+   "test_feasible_cohort": 0.197691,
+   "test_feasible_cohort_by_experiment": {
+    "codec_fewshot_stack4": 0.0,
+    "codec_stack2": 0.101874,
+    "codec_stack4": 0.095817
+   },
+   "test_raw": {
+    "generator_2x": {
+     "codebook_pair_divergence": 0.012739,
+     "codec_fd": 0.173541,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 0.429063,
+     "temporal_pair_divergence": 0.01257,
+     "visible_exact_window_excess": 0.034354,
+     "visible_window_excess": 0.038539,
+     "within_frame_pair_divergence": 0.013126
+    },
+    "generator_4x": {
+     "codebook_pair_divergence": 0.009315,
+     "codec_fd": 0.119154,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 0.345586,
+     "temporal_pair_divergence": 0.009214,
+     "visible_exact_window_excess": 0.036115,
+     "visible_window_excess": 0.040719,
+     "within_frame_pair_divergence": 0.009544
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.018525,
+     "codec_fd": 0.212206,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 1.533941,
+     "temporal_pair_divergence": 0.018124,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": 2.3e-05,
+     "within_frame_pair_divergence": 0.019441
+    }
+   },
+   "train": 0.021962,
+   "train_by_experiment": {
+    "codec_fewshot_stack4": 0.0,
+    "codec_stack2": 0.012065,
+    "codec_stack4": 0.009898
+   },
+   "train_failure": null,
+   "train_feasible": true,
+   "train_raw": {
+    "generator_2x": {
+     "codebook_pair_divergence": 0.013121,
+     "codec_fd": 0.177186,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 0.45147,
+     "temporal_pair_divergence": 0.012961,
+     "visible_exact_window_excess": 0.03336,
+     "visible_window_excess": 0.037586,
+     "within_frame_pair_divergence": 0.013487
+    },
+    "generator_4x": {
+     "codebook_pair_divergence": 0.009177,
+     "codec_fd": 0.114052,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 0.336678,
+     "temporal_pair_divergence": 0.00908,
+     "visible_exact_window_excess": 0.033453,
+     "visible_window_excess": 0.037365,
+     "within_frame_pair_divergence": 0.009398
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.018737,
+     "codec_fd": 0.218068,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 1.639926,
+     "temporal_pair_divergence": 0.018312,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": -2.3e-05,
+     "within_frame_pair_divergence": 0.01971
     }
    }
   },
   "shortcut_stack_claim": {
-   "test": -4.901707,
-   "test_failure": "declared stack factor 24 does not match the fixed 6-step budget of this row",
+   "test": -4.902712,
+   "test_by_experiment": {
+    "codec_fewshot_stack4": -1.97407,
+    "codec_stack2": -1.21303,
+    "codec_stack4": -1.715611
+   },
+   "test_failure": "declared stack factor 24 does not match the fixed 12-step budget of this row",
    "test_feasible": false,
    "test_raw": {
     "generator_2x": {},
-    "generator_4x": {}
+    "generator_4x": {},
+    "generator_fewshot_4x": {}
    },
-   "train": -4.903865,
-   "train_failure": "declared stack factor 24 does not match the fixed 6-step budget of this row",
+   "train": -4.849731,
+   "train_by_experiment": {
+    "codec_fewshot_stack4": -1.949357,
+    "codec_stack2": -1.199736,
+    "codec_stack4": -1.700638
+   },
+   "train_failure": "declared stack factor 24 does not match the fixed 12-step budget of this row",
    "train_feasible": false,
    "train_raw": {
     "generator_2x": {},
-    "generator_4x": {}
+    "generator_4x": {},
+    "generator_fewshot_4x": {}
    }
   },
   "shortcut_vocab_one": {
-   "test": -4.901707,
+   "test": -4.902712,
+   "test_by_experiment": {
+    "codec_fewshot_stack4": -1.97407,
+    "codec_stack2": -1.21303,
+    "codec_stack4": -1.715611
+   },
    "test_failure": "config.vocab_size conflicts with the fixed task",
    "test_feasible": false,
    "test_raw": {
     "generator_2x": {},
-    "generator_4x": {}
+    "generator_4x": {},
+    "generator_fewshot_4x": {}
    },
-   "train": -4.903865,
+   "train": -4.849731,
+   "train_by_experiment": {
+    "codec_fewshot_stack4": -1.949357,
+    "codec_stack2": -1.199736,
+    "codec_stack4": -1.700638
+   },
    "train_failure": "config.vocab_size conflicts with the fixed task",
    "train_feasible": false,
    "train_raw": {
     "generator_2x": {},
-    "generator_4x": {}
+    "generator_4x": {},
+    "generator_fewshot_4x": {}
    }
   },
   "shortcut_write_scores": {
-   "test": -4.901707,
+   "test": -4.902712,
+   "test_by_experiment": {
+    "codec_fewshot_stack4": -1.97407,
+    "codec_stack2": -1.21303,
+    "codec_stack4": -1.715611
+   },
    "test_failure": "unsupported artifact fields (submitted metrics and verdicts are not accepted)",
    "test_feasible": false,
    "test_raw": {
     "generator_2x": {},
-    "generator_4x": {}
+    "generator_4x": {},
+    "generator_fewshot_4x": {}
    },
-   "train": -4.903865,
+   "train": -4.849731,
+   "train_by_experiment": {
+    "codec_fewshot_stack4": -1.949357,
+    "codec_stack2": -1.199736,
+    "codec_stack4": -1.700638
+   },
    "train_failure": "unsupported artifact fields (submitted metrics and verdicts are not accepted)",
    "train_feasible": false,
    "train_raw": {
     "generator_2x": {},
-    "generator_4x": {}
+    "generator_4x": {},
+    "generator_fewshot_4x": {}
    }
   },
   "shortcut_zero_stack": {
-   "test": -4.901707,
-   "test_failure": "declared stack factor 0 does not match the fixed 6-step budget of this row",
+   "test": -4.902712,
+   "test_by_experiment": {
+    "codec_fewshot_stack4": -1.97407,
+    "codec_stack2": -1.21303,
+    "codec_stack4": -1.715611
+   },
+   "test_failure": "declared stack factor 0 does not match the fixed 12-step budget of this row",
    "test_feasible": false,
    "test_raw": {
     "generator_2x": {},
-    "generator_4x": {}
+    "generator_4x": {},
+    "generator_fewshot_4x": {}
    },
-   "train": -4.903865,
-   "train_failure": "declared stack factor 0 does not match the fixed 6-step budget of this row",
+   "train": -4.849731,
+   "train_by_experiment": {
+    "codec_fewshot_stack4": -1.949357,
+    "codec_stack2": -1.199736,
+    "codec_stack4": -1.700638
+   },
+   "train_failure": "declared stack factor 0 does not match the fixed 12-step budget of this row",
    "train_feasible": false,
    "train_raw": {
     "generator_2x": {},
-    "generator_4x": {}
+    "generator_4x": {},
+    "generator_fewshot_4x": {}
    }
   },
   "weaker_argmax": {
-   "test": -4.901707,
-   "test_failure": "0.057 excess of 4-frame windows matching visible utterances over a fresh data-process sample (copied, edited or spliced segments)",
+   "test": -4.902712,
+   "test_by_experiment": {
+    "codec_fewshot_stack4": -1.97407,
+    "codec_stack2": -1.21303,
+    "codec_stack4": -1.715611
+   },
+   "test_failure": "codec_fd is not below half that of uniform random tokens",
    "test_feasible": false,
    "test_raw": {
     "generator_2x": {
@@ -1780,9 +3477,24 @@
      "visible_exact_window_excess": 0.0,
      "visible_window_excess": 0.056652,
      "within_frame_pair_divergence": 0.70051
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.601291,
+     "codec_fd": 4.476851,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 19.338469,
+     "temporal_pair_divergence": 0.598064,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": -0.032738,
+     "within_frame_pair_divergence": 0.608666
     }
    },
-   "train": -4.903865,
+   "train": -4.849731,
+   "train_by_experiment": {
+    "codec_fewshot_stack4": -1.949357,
+    "codec_stack2": -1.199736,
+    "codec_stack4": -1.700638
+   },
    "train_failure": "codec_fd is not below half that of uniform random tokens",
    "train_feasible": false,
    "train_raw": {
@@ -1805,14 +3517,34 @@
      "visible_exact_window_excess": 0.0,
      "visible_window_excess": 0.014398,
      "within_frame_pair_divergence": 0.701946
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.602752,
+     "codec_fd": 4.251379,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 18.878491,
+     "temporal_pair_divergence": 0.599242,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": -0.010417,
+     "within_frame_pair_divergence": 0.610776
     }
    }
   },
   "weaker_no_local": {
-   "test": -0.280206,
+   "test": -0.281657,
+   "test_by_experiment": {
+    "codec_fewshot_stack4": -0.116532,
+    "codec_stack2": -0.036629,
+    "codec_stack4": -0.128496
+   },
    "test_failure": null,
    "test_feasible": true,
-   "test_feasible_cohort": -2.832021,
+   "test_feasible_cohort": -3.002833,
+   "test_feasible_cohort_by_experiment": {
+    "codec_fewshot_stack4": -1.27895,
+    "codec_stack2": -0.408537,
+    "codec_stack4": -1.315347
+   },
    "test_raw": {
     "generator_2x": {
      "codebook_pair_divergence": 0.017906,
@@ -1833,9 +3565,24 @@
      "visible_exact_window_excess": 0.0,
      "visible_window_excess": 2.9e-05,
      "within_frame_pair_divergence": 0.023313
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.028905,
+     "codec_fd": 0.677414,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 2.288563,
+     "temporal_pair_divergence": 0.029254,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": -7e-05,
+     "within_frame_pair_divergence": 0.028107
     }
    },
-   "train": -0.290032,
+   "train": -0.27847,
+   "train_by_experiment": {
+    "codec_fewshot_stack4": -0.10921,
+    "codec_stack2": -0.036579,
+    "codec_stack4": -0.132681
+   },
    "train_failure": null,
    "train_feasible": true,
    "train_raw": {
@@ -1858,14 +3605,34 @@
      "visible_exact_window_excess": 0.0,
      "visible_window_excess": 7e-05,
      "within_frame_pair_divergence": 0.023701
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.030814,
+     "codec_fd": 0.693152,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 2.253179,
+     "temporal_pair_divergence": 0.031036,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": 1.2e-05,
+     "within_frame_pair_divergence": 0.030307
     }
    }
   },
   "weaker_training_2k": {
-   "test": -0.094549,
+   "test": -0.181849,
+   "test_by_experiment": {
+    "codec_fewshot_stack4": -0.126185,
+    "codec_stack2": -0.01124,
+    "codec_stack4": -0.044424
+   },
    "test_failure": null,
    "test_feasible": true,
-   "test_feasible_cohort": -0.835667,
+   "test_feasible_cohort": -1.692183,
+   "test_feasible_cohort_by_experiment": {
+    "codec_fewshot_stack4": -1.18567,
+    "codec_stack2": -0.110349,
+    "codec_stack4": -0.396165
+   },
    "test_raw": {
     "generator_2x": {
      "codebook_pair_divergence": 0.016791,
@@ -1886,9 +3653,24 @@
      "visible_exact_window_excess": -6e-06,
      "visible_window_excess": -0.000227,
      "within_frame_pair_divergence": 0.019711
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.035458,
+     "codec_fd": 0.518535,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 2.616675,
+     "temporal_pair_divergence": 0.034742,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": -0.000145,
+     "within_frame_pair_divergence": 0.037096
     }
    },
-   "train": -0.092343,
+   "train": -0.192644,
+   "train_by_experiment": {
+    "codec_fewshot_stack4": -0.138989,
+    "codec_stack2": -0.008294,
+    "codec_stack4": -0.045362
+   },
    "train_failure": null,
    "train_feasible": true,
    "train_raw": {
@@ -1911,6 +3693,16 @@
      "visible_exact_window_excess": 0.0,
      "visible_window_excess": 0.000128,
      "within_frame_pair_divergence": 0.019608
+    },
+    "generator_fewshot_4x": {
+     "codebook_pair_divergence": 0.036248,
+     "codec_fd": 0.602801,
+     "copied_fraction": 0.0,
+     "speaker_conditioned_codec_fd": 2.890553,
+     "temporal_pair_divergence": 0.035482,
+     "visible_exact_window_excess": 0.0,
+     "visible_window_excess": -0.000105,
+     "within_frame_pair_divergence": 0.038
     }
    }
   }
@@ -1936,6 +3728,16 @@
     "visible_exact_window_excess": 0.0,
     "visible_window_excess": 0.000279,
     "within_frame_pair_divergence": 0.028
+   },
+   "baseline_maskgit_fewshot_4x": {
+    "codebook_pair_divergence": 0.030337,
+    "codec_fd": 0.528801,
+    "copied_fraction": 0.0,
+    "speaker_conditioned_codec_fd": 2.750083,
+    "temporal_pair_divergence": 0.030383,
+    "visible_exact_window_excess": 0.0,
+    "visible_window_excess": -0.000314,
+    "within_frame_pair_divergence": 0.030231
    },
    "baseline_parallel_1x": {
     "codebook_pair_divergence": 0.014701,
@@ -1966,6 +3768,16 @@
     "visible_exact_window_excess": 0.0,
     "visible_window_excess": 2.9e-05,
     "within_frame_pair_divergence": 0.023313
+   },
+   "baseline_parallel_fewshot_4x": {
+    "codebook_pair_divergence": 0.028905,
+    "codec_fd": 0.677414,
+    "copied_fraction": 0.0,
+    "speaker_conditioned_codec_fd": 2.288563,
+    "temporal_pair_divergence": 0.029254,
+    "visible_exact_window_excess": 0.0,
+    "visible_window_excess": -7e-05,
+    "within_frame_pair_divergence": 0.028107
    }
   },
   "train": {
@@ -1988,6 +3800,16 @@
     "visible_exact_window_excess": 0.0,
     "visible_window_excess": -6e-06,
     "within_frame_pair_divergence": 0.029074
+   },
+   "baseline_maskgit_fewshot_4x": {
+    "codebook_pair_divergence": 0.026632,
+    "codec_fd": 0.445361,
+    "copied_fraction": 0.0,
+    "speaker_conditioned_codec_fd": 2.51608,
+    "temporal_pair_divergence": 0.026649,
+    "visible_exact_window_excess": 0.0,
+    "visible_window_excess": -8.7e-05,
+    "within_frame_pair_divergence": 0.026593
    },
    "baseline_parallel_1x": {
     "codebook_pair_divergence": 0.014982,
@@ -2018,29 +3840,125 @@
     "visible_exact_window_excess": 0.0,
     "visible_window_excess": 7e-05,
     "within_frame_pair_divergence": 0.023701
+   },
+   "baseline_parallel_fewshot_4x": {
+    "codebook_pair_divergence": 0.030814,
+    "codec_fd": 0.693152,
+    "copied_fraction": 0.0,
+    "speaker_conditioned_codec_fd": 2.253179,
+    "temporal_pair_divergence": 0.031036,
+    "visible_exact_window_excess": 0.0,
+    "visible_window_excess": 1.2e-05,
+    "within_frame_pair_divergence": 0.030307
    }
   }
  },
  "failed_run_values": {
   "test": {
-   "codebook_pair_divergence": 0.34478358240302104,
-   "codec_fd": 6.5316183729593575,
-   "speaker_conditioned_codec_fd": 10.004044405425367
+   "fewshot": {
+    "codebook_pair_divergence": 0.34168766737774087,
+    "codec_fd": 6.7352506831762575,
+    "speaker_conditioned_codec_fd": 11.622120714994706
+   },
+   "main": {
+    "codebook_pair_divergence": 0.34478358240302104,
+    "codec_fd": 6.5316183729593575,
+    "speaker_conditioned_codec_fd": 10.004044405425367
+   }
   },
   "train": {
-   "codebook_pair_divergence": 0.34301617720110883,
-   "codec_fd": 6.500967832428152,
-   "speaker_conditioned_codec_fd": 9.989383813606505
+   "fewshot": {
+    "codebook_pair_divergence": 0.35671594817101476,
+    "codec_fd": 6.9568611918494625,
+    "speaker_conditioned_codec_fd": 11.967983443108784
+   },
+   "main": {
+    "codebook_pair_divergence": 0.34301617720110883,
+    "codec_fd": 6.500967832428152,
+    "speaker_conditioned_codec_fd": 9.989383813606505
+   }
+  }
+ },
+ "fewshot_shortfall": {
+  "better_cosine_20k": {
+   "few_shot_test_speakers_224_255": {
+    "codebook_pair_divergence": 0.012866,
+    "codec_fd": 0.129763,
+    "speaker_conditioned_codec_fd": 1.385778
+   },
+   "well_covered_speakers_160_191": {
+    "codebook_pair_divergence": 0.003701,
+    "codec_fd": 0.024253,
+    "speaker_conditioned_codec_fd": 0.305315,
+    "temporal_pair_divergence": 0.003608,
+    "within_frame_pair_divergence": 0.003914
+   }
+  },
+  "better_large_cosine_20k": {
+   "few_shot_test_speakers_224_255": {
+    "codebook_pair_divergence": 0.013941,
+    "codec_fd": 0.132726,
+    "speaker_conditioned_codec_fd": 1.520467
+   },
+   "well_covered_speakers_160_191": {
+    "codebook_pair_divergence": 0.003527,
+    "codec_fd": 0.017754,
+    "speaker_conditioned_codec_fd": 0.249962,
+    "temporal_pair_divergence": 0.003451,
+    "within_frame_pair_divergence": 0.003702
+   }
+  },
+  "better_speaker_rank16_cosine_20k": {
+   "few_shot_test_speakers_224_255": {
+    "codebook_pair_divergence": 0.013252,
+    "codec_fd": 0.139411,
+    "speaker_conditioned_codec_fd": 1.478826
+   },
+   "well_covered_speakers_160_191": {
+    "codebook_pair_divergence": 0.003973,
+    "codec_fd": 0.026033,
+    "speaker_conditioned_codec_fd": 0.34276,
+    "temporal_pair_divergence": 0.003853,
+    "within_frame_pair_divergence": 0.004247
+   }
+  },
+  "perfect_sampler": {
+   "few_shot_test_speakers_224_255": {
+    "codebook_pair_divergence": 0.001922,
+    "codec_fd": 0.004245,
+    "speaker_conditioned_codec_fd": 0.086219
+   },
+   "well_covered_speakers_160_191": {
+    "codebook_pair_divergence": 0.002007,
+    "codec_fd": 0.004526,
+    "speaker_conditioned_codec_fd": 0.087649,
+    "temporal_pair_divergence": 0.001983,
+    "within_frame_pair_divergence": 0.002061
+   }
+  },
+  "reference": {
+   "few_shot_test_speakers_224_255": {
+    "codebook_pair_divergence": 0.018525,
+    "codec_fd": 0.212206,
+    "speaker_conditioned_codec_fd": 1.533941
+   },
+   "well_covered_speakers_160_191": {
+    "codebook_pair_divergence": 0.012183,
+    "codec_fd": 0.139519,
+    "speaker_conditioned_codec_fd": 0.677926,
+    "temporal_pair_divergence": 0.011945,
+    "within_frame_pair_divergence": 0.012727
+   }
   }
  },
  "noise": {
   "test": {
-   "generation_seed_range": 0.004534,
-   "training_seed_range": 0.047281000000000004
+   "generation_seed_range": 0.005915,
+   "training_seed_range": 0.029551
   },
   "test_feasible_cohort": {
-   "generation_seed_range": 0.033693,
-   "training_seed_range": 0.432611
+   "generation_seed_range": 0.057142,
+   "training_seed_range": 0.267446
   }
  },
  "paired_bootstrap_test": {
@@ -2069,18 +3987,30 @@
     "generator_4x/speaker_conditioned_codec_fd": [
      -0.3445820549054295,
      -0.30680352941343947
+    ],
+    "generator_fewshot_4x/codebook_pair_divergence": [
+     -0.00627580350389079,
+     -0.0051404820510688
+    ],
+    "generator_fewshot_4x/codec_fd": [
+     -0.09434047723096484,
+     -0.07174557401640769
+    ],
+    "generator_fewshot_4x/speaker_conditioned_codec_fd": [
+     -0.18115116803426523,
+     -0.11594654862164622
     ]
    },
    "test_95_percent": [
-    0.1471208021754133,
-    0.16087429871555303
+    0.11567167883046015,
+    0.1276034578553548
    ],
    "test_feasible_cohort_95_percent": [
-    1.2294038062480481,
-    1.345972700519281
+    1.011108457763648,
+    1.1207724120862288
    ],
-   "test_feasible_cohort_mean": 1.2886666048279019,
-   "test_mean": 0.15398890381651406
+   "test_feasible_cohort_mean": 1.0695529604724212,
+   "test_mean": 0.12194928212491676
   },
   "better_large_cosine_20k": {
    "raw_delta_95_percent": {
@@ -2107,18 +4037,30 @@
     "generator_4x/speaker_conditioned_codec_fd": [
      -0.3842036489228067,
      -0.34016222685548536
+    ],
+    "generator_fewshot_4x/codebook_pair_divergence": [
+     -0.005263180937865113,
+     -0.0039034637899132245
+    ],
+    "generator_fewshot_4x/codec_fd": [
+     -0.09125506681093754,
+     -0.06660082620576802
+    ],
+    "generator_fewshot_4x/speaker_conditioned_codec_fd": [
+     -0.06510673663508282,
+     0.03440976435143184
     ]
    },
    "test_95_percent": [
-    0.15546823544526148,
-    0.16856831630799404
+    0.11141180851456575,
+    0.12396842635513525
    ],
    "test_feasible_cohort_95_percent": [
-    1.3008864125178714,
-    1.416008386437001
+    0.9838552496677007,
+    1.0990544589612334
    ],
-   "test_feasible_cohort_mean": 1.359921902176116,
-   "test_mean": 0.1622933408127815
+   "test_feasible_cohort_mean": 1.0412780280222722,
+   "test_mean": 0.11769737912759373
   },
   "better_large_cosine_20k_seed17": {
    "raw_delta_95_percent": {
@@ -2145,18 +4087,30 @@
     "generator_4x/speaker_conditioned_codec_fd": [
      -0.38926170095075463,
      -0.34581999631459204
+    ],
+    "generator_fewshot_4x/codebook_pair_divergence": [
+     -0.004744406006562476,
+     -0.0032370238072992434
+    ],
+    "generator_fewshot_4x/codec_fd": [
+     -0.0851038143242242,
+     -0.05784855582507831
+    ],
+    "generator_fewshot_4x/speaker_conditioned_codec_fd": [
+     -0.01555069368408879,
+     0.06349776512724037
     ]
    },
    "test_95_percent": [
-    0.1551895456170397,
-    0.16867412887424946
+    0.10735115967912236,
+    0.11977531160451593
    ],
    "test_feasible_cohort_95_percent": [
-    1.2974389789223868,
-    1.415970392441125
+    0.9435148760815685,
+    1.062082218334514
    ],
-   "test_feasible_cohort_mean": 1.3629126935477165,
-   "test_mean": 0.16269418984796816
+   "test_feasible_cohort_mean": 1.0047923322250958,
+   "test_mean": 0.11383139946285377
   },
   "better_large_cosine_20k_seed27": {
    "raw_delta_95_percent": {
@@ -2183,18 +4137,80 @@
     "generator_4x/speaker_conditioned_codec_fd": [
      -0.38500304119512885,
      -0.3452562739861471
+    ],
+    "generator_fewshot_4x/codebook_pair_divergence": [
+     -0.005843209251640533,
+     -0.00438920354697926
+    ],
+    "generator_fewshot_4x/codec_fd": [
+     -0.1132961633761056,
+     -0.08815068332799214
+    ],
+    "generator_fewshot_4x/speaker_conditioned_codec_fd": [
+     -0.15826234386671723,
+     -0.05430685136747493
     ]
    },
    "test_95_percent": [
-    0.1550044238210624,
-    0.16909842117126123
+    0.12042730491059292,
+    0.13225762815111863
    ],
    "test_feasible_cohort_95_percent": [
-    1.297462880406963,
-    1.4188611240461848
+    1.0710677681800775,
+    1.1815869338726528
    ],
-   "test_feasible_cohort_mean": 1.358652505965801,
-   "test_mean": 0.16227916769137685
+   "test_feasible_cohort_mean": 1.1224102083988878,
+   "test_mean": 0.12592285308646947
+  },
+  "better_speaker_rank16_cosine_20k": {
+   "raw_delta_95_percent": {
+    "generator_2x/codebook_pair_divergence": [
+     -0.014349702609706064,
+     -0.012961024779471938
+    ],
+    "generator_2x/codec_fd": [
+     -0.21746574336253488,
+     -0.1944797475165636
+    ],
+    "generator_2x/speaker_conditioned_codec_fd": [
+     -0.4750746547190059,
+     -0.43489591215193446
+    ],
+    "generator_4x/codebook_pair_divergence": [
+     -0.009633845621987866,
+     -0.008486674037749196
+    ],
+    "generator_4x/codec_fd": [
+     -0.14483322731157955,
+     -0.12331594442030536
+    ],
+    "generator_4x/speaker_conditioned_codec_fd": [
+     -0.3489673073516746,
+     -0.3059567898169915
+    ],
+    "generator_fewshot_4x/codebook_pair_divergence": [
+     -0.006063055984832741,
+     -0.004467466555344451
+    ],
+    "generator_fewshot_4x/codec_fd": [
+     -0.08821367412378933,
+     -0.05791023497701531
+    ],
+    "generator_fewshot_4x/speaker_conditioned_codec_fd": [
+     -0.09797340403901966,
+     -0.014956770850472534
+    ]
+   },
+   "test_95_percent": [
+    0.10903869859704615,
+    0.12210973274839527
+   ],
+   "test_feasible_cohort_95_percent": [
+    0.9482156686634257,
+    1.0768469193752368
+   ],
+   "test_feasible_cohort_mean": 1.0124945973190989,
+   "test_mean": 0.11553746663566086
   },
   "paper_sampling_t06": {
    "raw_delta_95_percent": {
@@ -2221,18 +4237,30 @@
     "generator_4x/speaker_conditioned_codec_fd": [
      1.991280253841678,
      2.0862631176777007
+    ],
+    "generator_fewshot_4x/codebook_pair_divergence": [
+     0.11499579649404007,
+     0.11850828024821307
+    ],
+    "generator_fewshot_4x/codec_fd": [
+     0.7941119483413814,
+     0.8326530623871697
+    ],
+    "generator_fewshot_4x/speaker_conditioned_codec_fd": [
+     2.436458920223069,
+     2.5456936031867983
     ]
    },
    "test_95_percent": [
-    -1.1327212575498866,
-    -1.102405228279745
+    -1.146502600486769,
+    -1.118837719334778
    ],
    "test_feasible_cohort_95_percent": [
-    -8.144094782353708,
-    -7.908198137405705
+    -8.778992098926372,
+    -8.547465906441507
    ],
-   "test_feasible_cohort_mean": -8.035785337662242,
-   "test_mean": -1.1187711432558198
+   "test_feasible_cohort_mean": -8.667043739220635,
+   "test_mean": -1.1324837505772969
   },
   "reference_sample1": {
    "raw_delta_95_percent": {
@@ -2259,18 +4287,30 @@
     "generator_4x/speaker_conditioned_codec_fd": [
      -0.021409073455436634,
      0.02888308306119658
+    ],
+    "generator_fewshot_4x/codebook_pair_divergence": [
+     -0.0005444372538184611,
+     0.0014413598889246766
+    ],
+    "generator_fewshot_4x/codec_fd": [
+     -0.012511488705786888,
+     0.028880292814022823
+    ],
+    "generator_fewshot_4x/speaker_conditioned_codec_fd": [
+     -0.023173698941741483,
+     0.07762088656790311
     ]
    },
    "test_95_percent": [
-    -0.014542735491437765,
-    0.0043221876719530565
+    -0.01361354226256931,
+    0.002287254023240218
    ],
    "test_feasible_cohort_95_percent": [
-    -0.11865061285964686,
-    0.04067681457648567
+    -0.12234096811142266,
+    0.023184283586893735
    ],
-   "test_feasible_cohort_mean": -0.03359769508908667,
-   "test_mean": -0.004509242762356011
+   "test_feasible_cohort_mean": -0.04998996724470451,
+   "test_mean": -0.00582160426693451
   },
   "reference_sample2": {
    "raw_delta_95_percent": {
@@ -2297,18 +4337,30 @@
     "generator_4x/speaker_conditioned_codec_fd": [
      -0.018390519668785243,
      0.03691022536826338
+    ],
+    "generator_fewshot_4x/codebook_pair_divergence": [
+     -0.0012256365080060422,
+     0.0006646398737278347
+    ],
+    "generator_fewshot_4x/codec_fd": [
+     -0.027737045879497657,
+     0.007333742400000176
+    ],
+    "generator_fewshot_4x/speaker_conditioned_codec_fd": [
+     -0.036668933039667895,
+     0.0634288449514433
     ]
    },
    "test_95_percent": [
-    -0.012090005000485357,
-    0.008887195217487494
+    -0.008613182561179841,
+    0.010399149297479128
    ],
    "test_feasible_cohort_95_percent": [
-    -0.10131784877298493,
-    0.0768125343915943
+    -0.06573192405891136,
+    0.09802806473894007
    ],
-   "test_feasible_cohort_mean": -0.008926951843971197,
-   "test_mean": -0.0013332976907332412
+   "test_feasible_cohort_mean": 0.008194569679144063,
+   "test_mean": 0.00011447602006693491
   },
   "reference_seed17": {
    "raw_delta_95_percent": {
@@ -2335,18 +4387,30 @@
     "generator_4x/speaker_conditioned_codec_fd": [
      -0.04134843757259854,
      0.008358274745495109
+    ],
+    "generator_fewshot_4x/codebook_pair_divergence": [
+     0.0019372651231075212,
+     0.003251778636158803
+    ],
+    "generator_fewshot_4x/codec_fd": [
+     0.03057860638548604,
+     0.05514454702869287
+    ],
+    "generator_fewshot_4x/speaker_conditioned_codec_fd": [
+     0.18282553106253818,
+     0.2539905225720729
     ]
    },
    "test_95_percent": [
-    0.010123288280138133,
-    0.025657232911754754
+    -0.017305395105619927,
+    -0.003867864603041905
    ],
    "test_feasible_cohort_95_percent": [
-    0.0875554422358171,
-    0.21921534716814295
+    -0.16239399102386814,
+    -0.035448013453037816
    ],
-   "test_feasible_cohort_mean": 0.15541157546144058,
-   "test_mean": 0.0178864115442018
+   "test_feasible_cohort_mean": -0.0995899790746677,
+   "test_mean": -0.010574987243242472
   },
   "reference_seed27": {
    "raw_delta_95_percent": {
@@ -2373,94 +4437,30 @@
     "generator_4x/speaker_conditioned_codec_fd": [
      -0.00017891509456524624,
      0.04990661313348377
+    ],
+    "generator_fewshot_4x/codebook_pair_divergence": [
+     0.0004868682837558258,
+     0.0019150518347128276
+    ],
+    "generator_fewshot_4x/codec_fd": [
+     -0.009455099143746537,
+     0.016676378991547836
+    ],
+    "generator_fewshot_4x/speaker_conditioned_codec_fd": [
+     0.15139082381289515,
+     0.23211502316991028
     ]
    },
    "test_95_percent": [
-    -0.038289569410491844,
-    -0.019935766698541545
+    -0.03657362734962183,
+    -0.022037193495908387
    ],
    "test_feasible_cohort_95_percent": [
-    -0.35221075112675787,
-    -0.19626157172554
+    -0.32955298471180455,
+    -0.1974472806927554
    ],
-   "test_feasible_cohort_mean": -0.2713103586727384,
-   "test_mean": -0.028804056525154827
-  },
-  "shortcut_count_chain": {
-   "raw_delta_95_percent": {
-    "generator_2x/codebook_pair_divergence": [
-     -0.0015066080103498351,
-     6.009336714020777e-05
-    ],
-    "generator_2x/codec_fd": [
-     0.314752194331124,
-     0.3414689941971467
-    ],
-    "generator_2x/speaker_conditioned_codec_fd": [
-     0.40181502965911364,
-     0.45283306169435633
-    ],
-    "generator_4x/codebook_pair_divergence": [
-     0.0033096690793369635,
-     0.004476108525146495
-    ],
-    "generator_4x/codec_fd": [
-     0.38960310828344547,
-     0.4126591807555542
-    ],
-    "generator_4x/speaker_conditioned_codec_fd": [
-     0.5243634026602544,
-     0.5663831942146547
-    ]
-   },
-   "test_95_percent": [
-    -0.2014566104299547,
-    -0.1853993462672577
-   ],
-   "test_feasible_cohort_95_percent": [
-    -2.155446979940453,
-    -2.0140585546941105
-   ],
-   "test_feasible_cohort_mean": -2.0847275965912275,
-   "test_mean": -0.19344500957752558
-  },
-  "shortcut_frame_lookup": {
-   "raw_delta_95_percent": {
-    "generator_2x/codebook_pair_divergence": [
-     -0.007790191039324164,
-     -0.0064265616160162145
-    ],
-    "generator_2x/codec_fd": [
-     0.23160095208257303,
-     0.25430722581480936
-    ],
-    "generator_2x/speaker_conditioned_codec_fd": [
-     -0.0225610538954093,
-     0.022235360303105578
-    ],
-    "generator_4x/codebook_pair_divergence": [
-     -0.0031552836895706923,
-     -0.0019349532652284864
-    ],
-    "generator_4x/codec_fd": [
-     0.30016920464327157,
-     0.3240870711827455
-    ],
-    "generator_4x/speaker_conditioned_codec_fd": [
-     0.0961122943728896,
-     0.13670116699049317
-    ]
-   },
-   "test_95_percent": [
-    -0.08555406508341835,
-    -0.07165745001711091
-   ],
-   "test_feasible_cohort_95_percent": [
-    -1.1880395783644107,
-    -1.0679212876333735
-   ],
-   "test_feasible_cohort_mean": -1.1257490971940103,
-   "test_mean": -0.07839020211517975
+   "test_feasible_cohort_mean": -0.2641130067506076,
+   "test_mean": -0.029290089762223453
   },
   "shortcut_gaussian_latent": {
    "raw_delta_95_percent": {
@@ -2487,18 +4487,30 @@
     "generator_4x/speaker_conditioned_codec_fd": [
      -0.024019513556668093,
      0.017327666852602785
+    ],
+    "generator_fewshot_4x/codebook_pair_divergence": [
+     0.09048627370698442,
+     0.09314272021054658
+    ],
+    "generator_fewshot_4x/codec_fd": [
+     0.07946649411246653,
+     0.10620778843118828
+    ],
+    "generator_fewshot_4x/speaker_conditioned_codec_fd": [
+     0.2670649682125288,
+     0.3454451407291741
     ]
    },
    "test_95_percent": [
-    -0.7104264425493654,
-    -0.694317103173111
+    -0.6415796903242221,
+    -0.6273213183091884
    ],
    "test_feasible_cohort_95_percent": [
-    -3.3365252525875064,
-    -3.2129690349968665
+    -3.3106157331021016,
+    -3.193084595301663
    ],
-   "test_feasible_cohort_mean": -3.273039020519162,
-   "test_mean": -0.7018402070120017
+   "test_feasible_cohort_mean": -3.2555468450979843,
+   "test_mean": -0.634614534868356
   },
   "shortcut_resample_2x_as_4x": {
    "raw_delta_95_percent": {
@@ -2525,20 +4537,182 @@
     "generator_4x/speaker_conditioned_codec_fd": [
      0.1160222225124754,
      0.1680979231851183
+    ],
+    "generator_fewshot_4x/codebook_pair_divergence": [
+     0.0,
+     0.0
+    ],
+    "generator_fewshot_4x/codec_fd": [
+     0.0,
+     0.0
+    ],
+    "generator_fewshot_4x/speaker_conditioned_codec_fd": [
+     0.0,
+     0.0
     ]
    },
    "test_95_percent": [
-    -0.05116196953761268,
-    -0.03651560134445893
+    -0.029728640213530062,
+    -0.02121968504025387
    ],
    "test_feasible_cohort_95_percent": [
-    -0.42445650064729523,
-    -0.29836331528940563
+    -0.2546271318227698,
+    -0.17890520597348403
    ],
-   "test_feasible_cohort_mean": -0.35491445455747195,
-   "test_mean": -0.04318597129765491
+   "test_feasible_cohort_mean": -0.21273757079638753,
+   "test_mean": -0.02509474244806257
   },
-  "shortcut_splice_2frame": {
+  "shortcut_select_moments": {
+   "raw_delta_95_percent": {
+    "generator_2x/codebook_pair_divergence": [
+     -0.01285525115864189,
+     -0.011535584381240332
+    ],
+    "generator_2x/codec_fd": [
+     -0.2088654460612176,
+     -0.1868245182844781
+    ],
+    "generator_2x/speaker_conditioned_codec_fd": [
+     -0.44792866785229624,
+     -0.40778072247854547
+    ],
+    "generator_4x/codebook_pair_divergence": [
+     -0.008855043908680044,
+     -0.007861530469275388
+    ],
+    "generator_4x/codec_fd": [
+     -0.14433157627166437,
+     -0.12369859733106026
+    ],
+    "generator_4x/speaker_conditioned_codec_fd": [
+     -0.34863878361968936,
+     -0.31113926808023185
+    ],
+    "generator_fewshot_4x/codebook_pair_divergence": [
+     -0.0057944755884559215,
+     -0.00449806346661262
+    ],
+    "generator_fewshot_4x/codec_fd": [
+     -0.10268766515966021,
+     -0.07726207584257239
+    ],
+    "generator_fewshot_4x/speaker_conditioned_codec_fd": [
+     -0.31030129995862854,
+     -0.22732265341765
+    ]
+   },
+   "test_95_percent": [
+    0.11848394014553452,
+    0.12975561423497486
+   ],
+   "test_feasible_cohort_95_percent": [
+    1.0555624622815452,
+    1.1553972243363275
+   ],
+   "test_feasible_cohort_mean": 1.104083151604179,
+   "test_mean": 0.12369076404511414
+  },
+  "shortcut_select_moments_large": {
+   "raw_delta_95_percent": {
+    "generator_2x/codebook_pair_divergence": [
+     -0.014946184024991881,
+     -0.013635529041044559
+    ],
+    "generator_2x/codec_fd": [
+     -0.2282669281560885,
+     -0.20552725104457892
+    ],
+    "generator_2x/speaker_conditioned_codec_fd": [
+     -0.5330055392809754,
+     -0.4899476819131008
+    ],
+    "generator_4x/codebook_pair_divergence": [
+     -0.010265001004629125,
+     -0.009190349676426257
+    ],
+    "generator_4x/codec_fd": [
+     -0.15554124237328537,
+     -0.13696211516657542
+    ],
+    "generator_4x/speaker_conditioned_codec_fd": [
+     -0.4121600265749843,
+     -0.3725356266616284
+    ],
+    "generator_fewshot_4x/codebook_pair_divergence": [
+     -0.0065064602344985945,
+     -0.005091948054286567
+    ],
+    "generator_fewshot_4x/codec_fd": [
+     -0.12078470779264094,
+     -0.09248562959406215
+    ],
+    "generator_fewshot_4x/speaker_conditioned_codec_fd": [
+     -0.23840322547456716,
+     -0.15131774372310325
+    ]
+   },
+   "test_95_percent": [
+    0.13117617913189153,
+    0.14311417022477063
+   ],
+   "test_feasible_cohort_95_percent": [
+    1.1646578130551202,
+    1.2783630505324444
+   ],
+   "test_feasible_cohort_mean": 1.2183766774488598,
+   "test_mean": 0.13683407239007908
+  },
+  "shortcut_select_moments_mainonly": {
+   "raw_delta_95_percent": {
+    "generator_2x/codebook_pair_divergence": [
+     -0.01285525115864189,
+     -0.011535584381240332
+    ],
+    "generator_2x/codec_fd": [
+     -0.2088654460612176,
+     -0.1868245182844781
+    ],
+    "generator_2x/speaker_conditioned_codec_fd": [
+     -0.44792866785229624,
+     -0.40778072247854547
+    ],
+    "generator_4x/codebook_pair_divergence": [
+     -0.008855043908680044,
+     -0.007861530469275388
+    ],
+    "generator_4x/codec_fd": [
+     -0.14433157627166437,
+     -0.12369859733106026
+    ],
+    "generator_4x/speaker_conditioned_codec_fd": [
+     -0.34863878361968936,
+     -0.31113926808023185
+    ],
+    "generator_fewshot_4x/codebook_pair_divergence": [
+     0.0,
+     0.0
+    ],
+    "generator_fewshot_4x/codec_fd": [
+     0.0,
+     0.0
+    ],
+    "generator_fewshot_4x/speaker_conditioned_codec_fd": [
+     0.0,
+     0.0
+    ]
+   },
+   "test_95_percent": [
+    0.0849667595859318,
+    0.09229341547588689
+   ],
+   "test_feasible_cohort_95_percent": [
+    0.7407526608174644,
+    0.8086673497585875
+   ],
+   "test_feasible_cohort_mean": 0.7761124555945241,
+   "test_mean": 0.08887377060024619
+  },
+  "shortcut_splice_2frame_mainonly": {
    "raw_delta_95_percent": {
     "generator_2x/codebook_pair_divergence": [
      -0.010442635310295082,
@@ -2563,56 +4737,80 @@
     "generator_4x/speaker_conditioned_codec_fd": [
      -0.1068588969479638,
      -0.06684243769435305
+    ],
+    "generator_fewshot_4x/codebook_pair_divergence": [
+     0.0,
+     0.0
+    ],
+    "generator_fewshot_4x/codec_fd": [
+     0.0,
+     0.0
+    ],
+    "generator_fewshot_4x/speaker_conditioned_codec_fd": [
+     0.0,
+     0.0
     ]
    },
    "test_95_percent": [
-    0.007540714533309332,
-    0.020648854144105087
+    0.005177206021149686,
+    0.01310063927047792
    ],
    "test_feasible_cohort_95_percent": [
-    -0.2335654542280049,
-    -0.11743921016577824
+    -0.14296879950631378,
+    -0.07138620105647023
    ],
-   "test_feasible_cohort_mean": -0.1782139634704009,
-   "test_mean": 0.01393513180480527
+   "test_feasible_cohort_mean": -0.10889802927932157,
+   "test_mean": 0.008994541787224614
   },
-  "shortcut_splice_partial": {
+  "shortcut_splice_partial_mainonly": {
    "raw_delta_95_percent": {
     "generator_2x/codebook_pair_divergence": [
-     -0.0037433291514506837,
-     -0.003043354408613211
+     -0.0038590376180618665,
+     -0.0031281183488541895
     ],
     "generator_2x/codec_fd": [
-     -0.05442337132700459,
-     -0.043271845753775295
+     -0.05355924653796862,
+     -0.042545818611227304
     ],
     "generator_2x/speaker_conditioned_codec_fd": [
-     -0.12695137249782684,
-     -0.10630373252398884
+     -0.13644084064296846,
+     -0.11336312870910725
     ],
     "generator_4x/codebook_pair_divergence": [
-     -0.002394167271014127,
-     -0.0019012270482400354
+     -0.0025928115859979277,
+     -0.002078757658527594
     ],
     "generator_4x/codec_fd": [
-     -0.0320010105452333,
-     -0.023102912726216118
+     -0.036391793587949195,
+     -0.026741806379472877
     ],
     "generator_4x/speaker_conditioned_codec_fd": [
-     -0.09374165279078328,
-     -0.07759192388581404
+     -0.09991839627100729,
+     -0.08014683413874724
+    ],
+    "generator_fewshot_4x/codebook_pair_divergence": [
+     0.0,
+     0.0
+    ],
+    "generator_fewshot_4x/codec_fd": [
+     0.0,
+     0.0
+    ],
+    "generator_fewshot_4x/speaker_conditioned_codec_fd": [
+     0.0,
+     0.0
     ]
    },
    "test_95_percent": [
-    0.03413498311554027,
-    0.04005900753556377
+    0.021854919720244725,
+    0.025327240477799242
    ],
    "test_feasible_cohort_95_percent": [
-    0.2817819122572726,
-    0.33239617752912587
+    0.18453514358175166,
+    0.2155979769765284
    ],
-   "test_feasible_cohort_mean": 0.30690464634780834,
-   "test_mean": 0.03708837048915702
+   "test_feasible_cohort_mean": 0.19982676724126783,
+   "test_mean": 0.023544689267477156
   },
   "weaker_no_local": {
    "raw_delta_95_percent": {
@@ -2639,18 +4837,30 @@
     "generator_4x/speaker_conditioned_codec_fd": [
      0.8261000464433088,
      0.8721439629326753
+    ],
+    "generator_fewshot_4x/codebook_pair_divergence": [
+     0.009229463200982158,
+     0.01091705153668527
+    ],
+    "generator_fewshot_4x/codec_fd": [
+     0.4464720973783969,
+     0.4775594275936541
+    ],
+    "generator_fewshot_4x/speaker_conditioned_codec_fd": [
+     0.6901201538807555,
+     0.7716318540094922
     ]
    },
    "test_95_percent": [
-    -0.28595613652158886,
-    -0.2693074833500771
+    -0.28461440487439327,
+    -0.2696893608557839
    ],
    "test_feasible_cohort_95_percent": [
-    -2.88350084806584,
-    -2.7373918198247185
+    -3.0358715639195952,
+    -2.897993206975118
    ],
-   "test_feasible_cohort_mean": -2.8155048922356447,
-   "test_mean": -0.2779338550226404
+   "test_feasible_cohort_mean": -2.978501947754284,
+   "test_mean": -0.27854589141035185
   },
   "weaker_training_2k": {
    "raw_delta_95_percent": {
@@ -2677,112 +4887,161 @@
     "generator_4x/speaker_conditioned_codec_fd": [
      0.2767370822419073,
      0.33990710479785524
+    ],
+    "generator_fewshot_4x/codebook_pair_divergence": [
+     0.015779834581797138,
+     0.017679995727177916
+    ],
+    "generator_fewshot_4x/codec_fd": [
+     0.28707417533260937,
+     0.321741525740304
+    ],
+    "generator_fewshot_4x/speaker_conditioned_codec_fd": [
+     1.0345537212090827,
+     1.107622377811039
     ]
    },
    "test_95_percent": [
-    -0.10498541082559612,
-    -0.08074953539602205
+    -0.1886703894065749,
+    -0.17160722436756462
    ],
    "test_feasible_cohort_95_percent": [
-    -0.9299740650262213,
-    -0.7149424702012934
+    -1.7551106149651217,
+    -1.5966618995531354
    ],
-   "test_feasible_cohort_mean": -0.8273333372454234,
-   "test_mean": -0.09346228484012715
+   "test_feasible_cohort_mean": -1.6773070831922647,
+   "test_mean": -0.17998302091109944
   }
+ },
+ "perfect_sampler_bound_score": {
+  "test": 0.2331742078305068,
+  "test_feasible_cohort": 2.0291337863136727
  },
  "perfect_sampler_bound_test": {
   "5000001": {
-   "codebook_pair_divergence": 0.001774,
-   "codec_fd": 0.003772,
-   "copied_fraction": 0.0,
-   "speaker_conditioned_codec_fd": 0.045189,
-   "temporal_pair_divergence": 0.001765,
-   "visible_exact_window_excess": 0.0,
-   "visible_window_excess": 0.00011,
-   "within_frame_pair_divergence": 0.001794
+   "fewshot": {
+    "codebook_pair_divergence": 0.001922,
+    "codec_fd": 0.004245,
+    "copied_fraction": 0.0,
+    "speaker_conditioned_codec_fd": 0.086219,
+    "temporal_pair_divergence": 0.001908,
+    "visible_exact_window_excess": 0.0,
+    "visible_window_excess": -7.6e-05,
+    "within_frame_pair_divergence": 0.001952
+   },
+   "main": {
+    "codebook_pair_divergence": 0.001774,
+    "codec_fd": 0.003772,
+    "copied_fraction": 0.0,
+    "speaker_conditioned_codec_fd": 0.045189,
+    "temporal_pair_divergence": 0.001765,
+    "visible_exact_window_excess": 0.0,
+    "visible_window_excess": 0.00011,
+    "within_frame_pair_divergence": 0.001794
+   }
   },
   "5000002": {
-   "codebook_pair_divergence": 0.00173,
-   "codec_fd": 0.004116,
-   "copied_fraction": 0.0,
-   "speaker_conditioned_codec_fd": 0.045952,
-   "temporal_pair_divergence": 0.001722,
-   "visible_exact_window_excess": 0.0,
-   "visible_window_excess": -5.2e-05,
-   "within_frame_pair_divergence": 0.001747
+   "fewshot": {
+    "codebook_pair_divergence": 0.001894,
+    "codec_fd": 0.004184,
+    "copied_fraction": 0.0,
+    "speaker_conditioned_codec_fd": 0.083434,
+    "temporal_pair_divergence": 0.00188,
+    "visible_exact_window_excess": 0.0,
+    "visible_window_excess": -0.000291,
+    "within_frame_pair_divergence": 0.001925
+   },
+   "main": {
+    "codebook_pair_divergence": 0.00173,
+    "codec_fd": 0.004116,
+    "copied_fraction": 0.0,
+    "speaker_conditioned_codec_fd": 0.045952,
+    "temporal_pair_divergence": 0.001722,
+    "visible_exact_window_excess": 0.0,
+    "visible_window_excess": -5.2e-05,
+    "within_frame_pair_divergence": 0.001747
+   }
   }
  },
  "seed_groups": {
   "better_large_cosine_20k/test": {
-   "max": 0.163097,
-   "mean": 0.16291,
+   "max": 0.126089,
+   "mean": 0.11936333333333334,
    "members": {
-    "better_large_cosine_20k": 0.162842,
-    "better_large_cosine_20k_seed17": 0.163097,
-    "better_large_cosine_20k_seed27": 0.162791
+    "better_large_cosine_20k": 0.117936,
+    "better_large_cosine_20k_seed17": 0.114065,
+    "better_large_cosine_20k_seed27": 0.126089
    },
-   "min": 0.162791,
-   "range": 0.0003060000000000007
+   "min": 0.114065,
+   "range": 0.012024000000000007
   },
   "better_large_cosine_20k/test_feasible_cohort": {
-   "max": 1.365904,
-   "mean": 1.3641860000000001,
+   "max": 1.12292,
+   "mean": 1.057177,
    "members": {
-    "better_large_cosine_20k": 1.364116,
-    "better_large_cosine_20k_seed17": 1.365904,
-    "better_large_cosine_20k_seed27": 1.362538
+    "better_large_cosine_20k": 1.042625,
+    "better_large_cosine_20k_seed17": 1.005986,
+    "better_large_cosine_20k_seed27": 1.12292
    },
-   "min": 1.362538,
-   "range": 0.00336599999999998
+   "min": 1.005986,
+   "range": 0.11693399999999987
   },
   "reference/test": {
-   "max": 0.0183,
-   "mean": -0.0035603333333333333,
+   "max": 0.0,
+   "mean": -0.013393,
    "members": {
     "reference": 0.0,
-    "reference_seed17": 0.0183,
-    "reference_seed27": -0.028981
+    "reference_seed17": -0.010628,
+    "reference_seed27": -0.029551
    },
-   "min": -0.028981,
-   "range": 0.047281000000000004
+   "min": -0.029551,
+   "range": 0.029551
   },
   "reference/test_feasible_cohort": {
-   "max": 0.159026,
-   "mean": -0.03818633333333334,
+   "max": 0.0,
+   "mean": -0.12254666666666668,
    "members": {
     "reference": 0.0,
-    "reference_seed17": 0.159026,
-    "reference_seed27": -0.273585
+    "reference_seed17": -0.100194,
+    "reference_seed27": -0.267446
    },
-   "min": -0.273585,
-   "range": 0.432611
+   "min": -0.267446,
+   "range": 0.267446
   }
  },
  "standard_deviations": {
   "test": {
-   "codec_stack2/generator_2x/codebook_pair_divergence": 0.16093739768952656,
-   "codec_stack2/generator_2x/codec_fd": 3.111045919410984,
-   "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 4.6877101965370604,
-   "codec_stack4/generator_4x/codebook_pair_divergence": 0.1613742663716001,
-   "codec_stack4/generator_4x/codec_fd": 3.115119449211531,
-   "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 4.701603915664702
+   "codec_fewshot_stack4/generator_fewshot_4x/codebook_pair_divergence": 0.15603383018753011,
+   "codec_fewshot_stack4/generator_fewshot_4x/codec_fd": 3.1960392441016143,
+   "codec_fewshot_stack4/generator_fewshot_4x/speaker_conditioned_codec_fd": 4.891980825096658,
+   "codec_stack2/generator_2x/codebook_pair_divergence": 0.16122870761544345,
+   "codec_stack2/generator_2x/codec_fd": 3.1268281724182456,
+   "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 4.714149702181313,
+   "codec_stack4/generator_4x/codebook_pair_divergence": 0.16165282341206566,
+   "codec_stack4/generator_4x/codec_fd": 3.1308131550169156,
+   "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 4.727096628039134
   },
   "test_feasible_cohort": {
-   "codec_stack2/generator_2x/codebook_pair_divergence": 0.03923508900569521,
-   "codec_stack2/generator_2x/codec_fd": 0.2381588416065733,
-   "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 0.5531864273652004,
-   "codec_stack4/generator_4x/codebook_pair_divergence": 0.039657460476340986,
-   "codec_stack4/generator_4x/codec_fd": 0.2565930668484774,
-   "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 0.5349903221798001
+   "codec_fewshot_stack4/generator_fewshot_4x/codebook_pair_divergence": 0.031229727274569255,
+   "codec_fewshot_stack4/generator_fewshot_4x/codec_fd": 0.21552484638716726,
+   "codec_fewshot_stack4/generator_fewshot_4x/speaker_conditioned_codec_fd": 0.5857475545014603,
+   "codec_stack2/generator_2x/codebook_pair_divergence": 0.038211090697889076,
+   "codec_stack2/generator_2x/codec_fd": 0.2316551442680402,
+   "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 0.5516636767412352,
+   "codec_stack4/generator_4x/codebook_pair_divergence": 0.038580604159597395,
+   "codec_stack4/generator_4x/codec_fd": 0.24746534901309925,
+   "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 0.5304901700496163
   },
   "train": {
-   "codec_stack2/generator_2x/codebook_pair_divergence": 0.16003084986924215,
-   "codec_stack2/generator_2x/codec_fd": 3.0949812750579837,
-   "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 4.677021100004935,
-   "codec_stack4/generator_4x/codebook_pair_divergence": 0.1605339530699562,
-   "codec_stack4/generator_4x/codec_fd": 3.1003990896675164,
-   "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 4.695540027407621
+   "codec_fewshot_stack4/generator_fewshot_4x/codebook_pair_divergence": 0.16489901288684083,
+   "codec_fewshot_stack4/generator_fewshot_4x/codec_fd": 3.3418108597759577,
+   "codec_fewshot_stack4/generator_fewshot_4x/speaker_conditioned_codec_fd": 5.091075484138066,
+   "codec_stack2/generator_2x/codebook_pair_divergence": 0.16234305134979998,
+   "codec_stack2/generator_2x/codec_fd": 3.1365212001295895,
+   "codec_stack2/generator_2x/speaker_conditioned_codec_fd": 4.7477730737416035,
+   "codec_stack4/generator_4x/codebook_pair_divergence": 0.16287105828235568,
+   "codec_stack4/generator_4x/codec_fd": 3.142693031996665,
+   "codec_stack4/generator_4x/speaker_conditioned_codec_fd": 4.76612679151118
   }
  }
 }

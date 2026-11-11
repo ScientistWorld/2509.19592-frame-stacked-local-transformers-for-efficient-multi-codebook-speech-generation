@@ -1,0 +1,40 @@
+{
+ "unchanged": [
+  "eval/test/fixed/baseline_maskgit_2x.pt",
+  "eval/test/fixed/baseline_maskgit_4x.pt",
+  "eval/test/fixed/baseline_parallel_1x.pt",
+  "eval/test/fixed/baseline_parallel_2x.pt",
+  "eval/test/fixed/baseline_parallel_4x.pt",
+  "eval/test/fixed/reference_predictions/generator_2x.pt",
+  "eval/test/fixed/reference_predictions/generator_4x.pt",
+  "eval/test/fixed/visible.pt",
+  "eval/train/fixed/baseline_maskgit_2x.pt",
+  "eval/train/fixed/baseline_maskgit_4x.pt",
+  "eval/train/fixed/baseline_parallel_1x.pt",
+  "eval/train/fixed/baseline_parallel_2x.pt",
+  "eval/train/fixed/baseline_parallel_4x.pt",
+  "eval/train/fixed/control_keys.bin",
+  "eval/train/fixed/reference_pairs.pt",
+  "eval/train/fixed/reference_predictions/generator_2x.pt",
+  "eval/train/fixed/reference_predictions/generator_4x.pt",
+  "eval/train/fixed/visible.pt"
+ ],
+ "changed": [
+  "eval/test/fixed/data_hashes.json",
+  "eval/train/fixed/data_hashes.json",
+  "eval/train/fixed/reference_moments.pt"
+ ],
+ "new": [
+  "eval/test/fixed/baseline_maskgit_fewshot_4x.pt",
+  "eval/test/fixed/baseline_parallel_fewshot_4x.pt",
+  "eval/test/fixed/reference_predictions/generator_fewshot_4x.pt",
+  "eval/test/fixed/visible_fewshot.pt",
+  "eval/train/fixed/baseline_maskgit_fewshot_4x.pt",
+  "eval/train/fixed/baseline_parallel_fewshot_4x.pt",
+  "eval/train/fixed/control_keys_fewshot.bin",
+  "eval/train/fixed/reference_moments_fewshot.pt",
+  "eval/train/fixed/reference_pairs_fewshot.pt",
+  "eval/train/fixed/reference_predictions/generator_fewshot_4x.pt",
+  "eval/train/fixed/visible_fewshot.pt"
+ ]
+}

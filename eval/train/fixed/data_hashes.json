@@ -1,4 +1,6 @@
 {
   "data/synthetic_codec/train.pt": "9cb2cde7793023297aab9a6df9b4c6c93b47782102f1bcbe2d545cd1b1c21095",
-  "data/synthetic_codec/val.pt": "1ceb1c95280df9aab955f6c5476d558fe0db0a85daf5e0b05a1603265838d529"
+  "data/synthetic_codec/val.pt": "1ceb1c95280df9aab955f6c5476d558fe0db0a85daf5e0b05a1603265838d529",
+  "data/synthetic_codec_fewshot/train.pt": "1f080f5e4409a138b025e84a070e7fa18c03f4992e773a19a15c93f8f1d81cd8",
+  "data/synthetic_codec_fewshot/val.pt": "ba721f8987be5eb2fe3e8c38a27de433f6acc05624bafb2b51cbbd28dc965081"
 }

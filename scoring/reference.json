@@ -402,21 +402,21 @@
       "results": {
         "generator_fewshot_4x": {
           "type": "proposed",
-          "codec_fd": 1.0,
-          "codebook_pair_divergence": 0.1,
-          "speaker_conditioned_codec_fd": 1.0
+          "codec_fd": 0.21220555736297086,
+          "codebook_pair_divergence": 0.018524871445291687,
+          "speaker_conditioned_codec_fd": 1.5339413385117922
         },
         "baseline_parallel_fewshot_4x": {
           "type": "baseline",
-          "codec_fd": 1.0,
-          "codebook_pair_divergence": 0.1,
-          "speaker_conditioned_codec_fd": 1.0
+          "codec_fd": 0.6774144749512239,
+          "codebook_pair_divergence": 0.02890475624702599,
+          "speaker_conditioned_codec_fd": 2.2885628821975286
         },
         "baseline_maskgit_fewshot_4x": {
           "type": "baseline",
-          "codec_fd": 1.0,
-          "codebook_pair_divergence": 0.1,
-          "speaker_conditioned_codec_fd": 1.0
+          "codec_fd": 0.5288007720467967,
+          "codebook_pair_divergence": 0.030336523989548544,
+          "speaker_conditioned_codec_fd": 2.750082661149943
         }
       }
     }

@@ -1,180 +1,276 @@
 case                                        test     train  feas.coh  outcome
-better_large_cosine_20k_seed17           +0.1631   +0.1616   +1.3659  feasible
-better_large_cosine_20k                  +0.1628   +0.1618   +1.3641  feasible
-better_large_cosine_20k_seed27           +0.1628   +0.1606   +1.3625  feasible
-better_cosine_20k                        +0.1541   +0.1527   +1.2901  feasible
-shortcut_splice_partial                  +0.0367   +0.0383   +0.3038  feasible
-reference_seed17                         +0.0183   +0.0169   +0.1590  feasible
-shortcut_splice_2frame                   +0.0096   +0.0074   -0.2121  feasible
+shortcut_select_moments_large            +0.1372   +0.1430   +1.2200  feasible
+better_large_cosine_20k_seed27           +0.1261   +0.1175   +1.1229  feasible
+shortcut_select_moments                  +0.1235   +0.1256   +1.1027  feasible
+better_cosine_20k                        +0.1219   +0.1322   +1.0691  feasible
+better_large_cosine_20k                  +0.1179   +0.1257   +1.0426  feasible
+better_speaker_rank16_cosine_20k         +0.1160   +0.1309   +1.0161  feasible
+better_large_cosine_20k_seed17           +0.1141   +0.1252   +1.0060  feasible
+shortcut_select_moments_mainonly         +0.0889   +0.0865   +0.7769  feasible
+shortcut_splice_partial_mainonly         +0.0233   +0.0220   +0.1977  feasible
+shortcut_splice_2frame_mainonly          +0.0064   +0.0051   -0.1296  feasible
 reference                                +0.0000   +0.0000   +0.0000  feasible
-reference_sample2                        -0.0010   -0.0050   -0.0064  feasible
-reference_sample1                        -0.0045   +0.0007   -0.0337  feasible
-reference_seed27                         -0.0290   -0.0320   -0.2736  feasible
-shortcut_resample_2x_as_4x               -0.0431   -0.0486   -0.3540  feasible
-shortcut_frame_lookup                    -0.0824   -0.0870   -1.1563  feasible
-weaker_training_2k                       -0.0945   -0.0923   -0.8357  feasible
-shortcut_count_chain                     -0.1972   -0.2001   -2.1118  feasible
-weaker_no_local                          -0.2802   -0.2900   -2.8320  feasible
-shortcut_gaussian_latent                 -0.7056   -0.7129   -3.3024  feasible
-paper_sampling_t06                       -1.1100   -1.1235   -7.9780  feasible
-shortcut_constant                        -4.9017   -4.9039            FAILED: codec_fd is not below half that of uniform random tokens
-shortcut_copy_edit_12pct                 -4.9017   -4.9039            FAILED: 0.679 excess of 4-frame windows matching visible utterances over a fresh data-process sample
-shortcut_copy_edit_25pct                 -4.9017   -4.9039            FAILED: 0.200 excess of 4-frame windows matching visible utterances over a fresh data-process sample
-shortcut_copy_edit_3pct                  -4.9017   -4.9039            FAILED: 0.108 of sequences repeat a 12-frame half of a visible utterance
-shortcut_copy_train                      -4.9017   -4.9039            FAILED: 1.000 of sequences repeat a 12-frame half of a visible utterance
-shortcut_empty                           -4.9017   -4.9039            FAILED: pred_tokens shape (0, 24, 8) != (16384, 24, 8)
-shortcut_infinite_stack                  -4.9017   -4.9039            FAILED: config.stack_factor must be a positive integer
-shortcut_negative_steps                  -4.9017   -4.9039            FAILED: declared stack factor -1 does not match the fixed 6-step budget of this row
-shortcut_old_analytic_sampler            -4.9017   -4.9039            FAILED: codec_fd is not below half that of uniform random tokens
-shortcut_old_rule_repair                 -4.9017   -4.9039            FAILED: codec_fd is not below half that of uniform random tokens
-shortcut_out_of_range                    -4.9017   -4.9039            FAILED: token ids outside [0, vocab_size)
-shortcut_random_tokens                   -4.9017   -4.9039            FAILED: codec_fd is not below half that of uniform random tokens
-shortcut_replace_baseline                -4.9017   -4.9039            FAILED: reserved fixed comparison output changed
-shortcut_reuse_2x_as_4x                  -4.9017   -4.9039            FAILED: 1.000 of generator_4x sequences repeat a 12-frame half of generator_2x
-shortcut_splice_3frame                   -4.9017   -4.9039            FAILED: 0.052 excess of 4-frame windows matching visible utterances over a fresh data-process sample
-shortcut_splice_4frame                   -4.9017   -4.9039            FAILED: 0.321 excess of 4-frame windows matching visible utterances over a fresh data-process sample
-shortcut_splice_6frame                   -4.9017   -4.9039            FAILED: 0.591 excess of 4-frame windows matching visible utterances over a fresh data-process sample
-shortcut_stack_claim                     -4.9017   -4.9039            FAILED: declared stack factor 24 does not match the fixed 6-step budget of this row
-shortcut_vocab_one                       -4.9017   -4.9039            FAILED: config.vocab_size conflicts with the fixed task
-shortcut_write_scores                    -4.9017   -4.9039            FAILED: unsupported artifact fields (submitted metrics and verdicts are not accepted)
-shortcut_zero_stack                      -4.9017   -4.9039            FAILED: declared stack factor 0 does not match the fixed 6-step budget of this row
-weaker_argmax                            -4.9017   -4.9039            FAILED: 0.057 excess of 4-frame windows matching visible utterances over a fresh data-process sample
-shortcut_replace_truth_testfile          -4.9017   -4.9039            FAILED: forbidden method-side target file
-shortcut_replace_truth_valfile           -4.9017   -4.9039            FAILED: fixed training data changed
+reference_sample2                        -0.0000   -0.0035   +0.0066  feasible
+reference_sample1                        -0.0059   +0.0006   -0.0506  feasible
+reference_seed17                         -0.0106   +0.0026   -0.1002  feasible
+shortcut_resample_2x_as_4x               -0.0250   -0.0280   -0.2122  feasible
+reference_seed27                         -0.0296   -0.0188   -0.2674  feasible
+weaker_training_2k                       -0.1818   -0.1926   -1.6922  feasible
+weaker_no_local                          -0.2817   -0.2785   -3.0028  feasible
+shortcut_gaussian_latent                 -0.6392   -0.6133   -3.2927  feasible
+paper_sampling_t06                       -1.1232   -1.1098   -8.6037  feasible
+shortcut_constant                        -4.9027   -4.8497            FAILED: codec_fd is not below half that of uniform random tokens
+shortcut_copy_edit_12pct                 -4.9027   -4.8497            FAILED: 0.683 excess of 4-frame windows matching visible utterances over a fresh data-process sample
+shortcut_copy_edit_25pct                 -4.9027   -4.8497            FAILED: 0.203 excess of 4-frame windows matching visible utterances over a fresh data-process sample
+shortcut_copy_edit_3pct                  -4.9027   -4.8497            FAILED: 0.114 of sequences repeat a 12-frame half of a visible utterance
+shortcut_copy_train                      -4.9027   -4.8497            FAILED: 1.000 of sequences repeat a 12-frame half of a visible utterance
+shortcut_count_chain                     -4.9027   -4.8497            FAILED: run failed: codec_fd is not below half that of uniform random tokens
+shortcut_empty                           -4.9027   -4.8497            FAILED: pred_tokens shape (0, 24, 8) != (16384, 24, 8)
+shortcut_fewshot_memorize                -4.9027   -4.8497            FAILED: run failed: 0.087 of sequences repeat a 12-frame half of a visible utterance
+shortcut_frame_lookup                    -4.9027   -0.1189            FAILED: run failed: 0.011 of sequences repeat a 12-frame half of a visible utterance
+shortcut_infinite_stack                  -4.9027   -4.8497            FAILED: config.stack_factor must be a positive integer
+shortcut_negative_steps                  -4.9027   -4.8497            FAILED: declared stack factor -1 does not match the fixed 12-step budget of this row
+shortcut_old_analytic_sampler            -4.9027   -4.8497            FAILED: codec_fd is not below half that of uniform random tokens
+shortcut_old_rule_repair                 -4.9027   -4.8497            FAILED: codec_fd is not below half that of uniform random tokens
+shortcut_out_of_range                    -4.9027   -4.8497            FAILED: token ids outside [0, vocab_size)
+shortcut_random_tokens                   -4.9027   -4.8497            FAILED: codec_fd is not below half that of uniform random tokens
+shortcut_replace_baseline                -4.9027   -4.8497            FAILED: reserved fixed comparison output changed
+shortcut_reuse_2x_as_4x                  -4.9027   -4.8497            FAILED: 1.000 of generator_4x sequences repeat a 12-frame half of generator_2x
+shortcut_splice_2frame                   -4.9027   -4.8497            FAILED: run failed: 0.093 excess of 4-frame windows matching visible utterances over a fresh data-pr
+shortcut_splice_3frame                   -4.9027   -4.8497            FAILED: 0.052 excess of 4-frame windows matching visible utterances over a fresh data-process sample
+shortcut_splice_4frame                   -4.9027   -4.8497            FAILED: 0.322 excess of 4-frame windows matching visible utterances over a fresh data-process sample
+shortcut_splice_6frame                   -4.9027   -4.8497            FAILED: 0.590 excess of 4-frame windows matching visible utterances over a fresh data-process sample
+shortcut_splice_partial                  -4.9027   +0.0397            FAILED: run failed: 0.054 excess of 4-frame windows matching visible utterances over a fresh data-pr
+shortcut_stack_claim                     -4.9027   -4.8497            FAILED: declared stack factor 24 does not match the fixed 12-step budget of this row
+shortcut_vocab_one                       -4.9027   -4.8497            FAILED: config.vocab_size conflicts with the fixed task
+shortcut_write_scores                    -4.9027   -4.8497            FAILED: unsupported artifact fields (submitted metrics and verdicts are not accepted)
+shortcut_zero_stack                      -4.9027   -4.8497            FAILED: declared stack factor 0 does not match the fixed 12-step budget of this row
+weaker_argmax                            -4.9027   -4.8497            FAILED: codec_fd is not below half that of uniform random tokens
+shortcut_replace_truth_testfile          -4.9027   -4.8497            FAILED: forbidden method-side target file
+shortcut_replace_truth_valfile           -4.9027   -4.8497            FAILED: fixed training data changed
+perfect_sampler_bound (not an attempt)   +0.2332             +2.0291
 
-better_cosine_20k                      generator_2x  fd=0.0166 spk_fd=0.0945 pair_js=0.00246 excess=0.0005 half=0.000
-better_cosine_20k                      generator_4x  fd=0.0188 spk_fd=0.1062 pair_js=0.00258 excess=-0.0000 half=0.000
-better_large_cosine_20k                generator_2x  fd=0.0100 spk_fd=0.0627 pair_js=0.00209 excess=-0.0001 half=0.000
-better_large_cosine_20k                generator_4x  fd=0.0121 spk_fd=0.0691 pair_js=0.00212 excess=0.0002 half=0.000
-better_large_cosine_20k_seed17         generator_2x  fd=0.0110 spk_fd=0.0645 pair_js=0.00210 excess=0.0004 half=0.000
-better_large_cosine_20k_seed17         generator_4x  fd=0.0120 spk_fd=0.0631 pair_js=0.00212 excess=-0.0001 half=0.000
-better_large_cosine_20k_seed27         generator_2x  fd=0.0106 spk_fd=0.0616 pair_js=0.00206 excess=0.0003 half=0.000
-better_large_cosine_20k_seed27         generator_4x  fd=0.0132 spk_fd=0.0668 pair_js=0.00213 excess=0.0002 half=0.000
-paper_sampling_t06                     generator_2x  fd=1.0522 spk_fd=2.6590 pair_js=0.13004 excess=0.0015 half=0.000
-paper_sampling_t06                     generator_4x  fd=0.9804 spk_fd=2.4443 pair_js=0.13092 excess=0.0005 half=0.000
-reference                              generator_2x  fd=0.2208 spk_fd=0.5503 pair_js=0.01616 excess=-0.0000 half=0.000
-reference                              generator_4x  fd=0.1506 spk_fd=0.4332 pair_js=0.01162 excess=0.0000 half=0.000
-reference_sample1                      generator_2x  fd=0.2312 spk_fd=0.5629 pair_js=0.01702 excess=0.0001 half=0.000
-reference_sample1                      generator_4x  fd=0.1501 spk_fd=0.4360 pair_js=0.01186 excess=0.0001 half=0.000
-reference_sample2                      generator_2x  fd=0.2254 spk_fd=0.5558 pair_js=0.01671 excess=0.0002 half=0.000
-reference_sample2                      generator_4x  fd=0.1456 spk_fd=0.4425 pair_js=0.01138 excess=0.0000 half=0.000
-reference_seed17                       generator_2x  fd=0.1697 spk_fd=0.4671 pair_js=0.01242 excess=-0.0001 half=0.000
-reference_seed17                       generator_4x  fd=0.1507 spk_fd=0.4149 pair_js=0.01207 excess=-0.0002 half=0.000
-reference_seed27                       generator_2x  fd=0.2583 spk_fd=0.5569 pair_js=0.01634 excess=-0.0000 half=0.000
-reference_seed27                       generator_4x  fd=0.2152 spk_fd=0.4620 pair_js=0.01458 excess=-0.0001 half=0.000
-shortcut_constant                      generator_2x  fd=32.0719 spk_fd=32.1009 pair_js=0.95345 excess=0.0000 half=0.000
-shortcut_constant                      generator_4x  fd=32.0719 spk_fd=32.1009 pair_js=0.95345 excess=0.0000 half=0.000
-shortcut_copy_edit_12pct               generator_2x  fd=0.2955 spk_fd=0.5268 pair_js=0.01522 excess=0.6826 half=0.000
-shortcut_copy_edit_12pct               generator_4x  fd=0.2986 spk_fd=0.5304 pair_js=0.01542 excess=0.6793 half=0.000
-shortcut_copy_edit_25pct               generator_2x  fd=0.9483 spk_fd=1.4672 pair_js=0.04242 excess=0.2032 half=0.000
-shortcut_copy_edit_25pct               generator_4x  fd=0.9512 spk_fd=1.4748 pair_js=0.04270 excess=0.2002 half=0.000
-shortcut_copy_edit_3pct                generator_2x  fd=0.0250 spk_fd=0.0926 pair_js=0.00303 excess=0.9835 half=0.114
-shortcut_copy_edit_3pct                generator_4x  fd=0.0270 spk_fd=0.0938 pair_js=0.00323 excess=0.9830 half=0.108
-shortcut_copy_train                    generator_2x  fd=0.0045 spk_fd=0.0509 pair_js=0.00202 excess=0.9945 half=1.000
-shortcut_copy_train                    generator_4x  fd=0.0059 spk_fd=0.0506 pair_js=0.00215 excess=0.9944 half=1.000
-shortcut_count_chain                   generator_2x  fd=0.5506 spk_fd=0.9930 pair_js=0.01580 excess=0.0001 half=0.000
-shortcut_count_chain                   generator_4x  fd=0.5529 spk_fd=0.9937 pair_js=0.01581 excess=0.0001 half=0.000
-shortcut_frame_lookup                  generator_2x  fd=0.4655 spk_fd=0.5704 pair_js=0.00933 excess=0.0000 half=0.000
-shortcut_frame_lookup                  generator_4x  fd=0.4630 spk_fd=0.5671 pair_js=0.00927 excess=0.0001 half=0.000
-shortcut_gaussian_latent               generator_2x  fd=0.3434 spk_fd=0.4455 pair_js=0.14583 excess=0.0000 half=0.000
-shortcut_gaussian_latent               generator_4x  fd=0.3434 spk_fd=0.4460 pair_js=0.14586 excess=-0.0000 half=0.000
-shortcut_old_analytic_sampler          generator_2x  fd=6.4123 spk_fd=9.9490 pair_js=0.37871 excess=0.0000 half=0.000
-shortcut_old_analytic_sampler          generator_4x  fd=6.4160 spk_fd=9.9692 pair_js=0.37933 excess=0.0000 half=0.000
-shortcut_old_rule_repair               generator_2x  fd=7.7805 spk_fd=11.2126 pair_js=0.38989 excess=0.0000 half=0.000
-shortcut_old_rule_repair               generator_4x  fd=7.7937 spk_fd=11.2238 pair_js=0.38998 excess=0.0000 half=0.000
-shortcut_random_tokens                 generator_2x  fd=6.5204 spk_fd=9.9991 pair_js=0.34494 excess=0.0000 half=0.000
-shortcut_random_tokens                 generator_4x  fd=6.5350 spk_fd=10.0167 pair_js=0.34496 excess=0.0000 half=0.000
-shortcut_replace_baseline              generator_2x  fd=0.2208 spk_fd=0.5503 pair_js=0.01616 excess=-0.0000 half=0.000
-shortcut_replace_baseline              generator_4x  fd=0.1506 spk_fd=0.4332 pair_js=0.01162 excess=0.0000 half=0.000
-shortcut_replace_truth_testfile        generator_2x  fd=0.2208 spk_fd=0.5503 pair_js=0.01616 excess=-0.0000 half=0.000
-shortcut_replace_truth_testfile        generator_4x  fd=0.1506 spk_fd=0.4332 pair_js=0.01162 excess=0.0000 half=0.000
-shortcut_replace_truth_valfile         generator_2x  fd=0.2208 spk_fd=0.5503 pair_js=0.01616 excess=-0.0000 half=0.000
-shortcut_replace_truth_valfile         generator_4x  fd=0.1506 spk_fd=0.4332 pair_js=0.01162 excess=0.0000 half=0.000
-shortcut_resample_2x_as_4x             generator_2x  fd=0.2208 spk_fd=0.5503 pair_js=0.01616 excess=-0.0000 half=0.000
-shortcut_resample_2x_as_4x             generator_4x  fd=0.2328 spk_fd=0.5742 pair_js=0.01714 excess=0.0001 half=0.000
-shortcut_reuse_2x_as_4x                generator_2x  fd=0.2208 spk_fd=0.5503 pair_js=0.01616 excess=-0.0000 half=0.000
-shortcut_reuse_2x_as_4x                generator_4x  fd=0.2208 spk_fd=0.5503 pair_js=0.01616 excess=-0.0000 half=0.000
-shortcut_splice_2frame                 generator_2x  fd=0.2971 spk_fd=0.3650 pair_js=0.00670 excess=0.0031 half=0.000
-shortcut_splice_2frame                 generator_4x  fd=0.2984 spk_fd=0.3655 pair_js=0.00677 excess=0.0029 half=0.000
-shortcut_splice_3frame                 generator_2x  fd=0.1333 spk_fd=0.1803 pair_js=0.00388 excess=0.0525 half=0.000
-shortcut_splice_3frame                 generator_4x  fd=0.1344 spk_fd=0.1797 pair_js=0.00394 excess=0.0515 half=0.000
-shortcut_splice_4frame                 generator_2x  fd=0.0727 spk_fd=0.1122 pair_js=0.00290 excess=0.3222 half=0.000
-shortcut_splice_4frame                 generator_4x  fd=0.0734 spk_fd=0.1125 pair_js=0.00290 excess=0.3213 half=0.000
-shortcut_splice_6frame                 generator_2x  fd=0.0293 spk_fd=0.0644 pair_js=0.00220 excess=0.5903 half=0.001
-shortcut_splice_6frame                 generator_4x  fd=0.0304 spk_fd=0.0654 pair_js=0.00223 excess=0.5906 half=0.000
-shortcut_splice_partial                generator_2x  fd=0.1723 spk_fd=0.4358 pair_js=0.01280 excess=0.0383 half=0.000
-shortcut_splice_partial                generator_4x  fd=0.1234 spk_fd=0.3496 pair_js=0.00950 excess=0.0379 half=0.000
-weaker_argmax                          generator_2x  fd=8.0091 spk_fd=21.0481 pair_js=0.67934 excess=0.0289 half=0.000
-weaker_argmax                          generator_4x  fd=7.6031 spk_fd=20.9615 pair_js=0.69137 excess=0.0567 half=0.000
-weaker_no_local                        generator_2x  fd=0.4858 spk_fd=0.9676 pair_js=0.01791 excess=-0.0000 half=0.000
-weaker_no_local                        generator_4x  fd=0.7810 spk_fd=1.2944 pair_js=0.02303 excess=0.0000 half=0.000
-weaker_training_2k                     generator_2x  fd=0.2655 spk_fd=0.7666 pair_js=0.01679 excess=-0.0001 half=0.000
-weaker_training_2k                     generator_4x  fd=0.3025 spk_fd=0.7491 pair_js=0.01935 excess=-0.0002 half=0.000
+feasible-cohort score by experiment (test)
+shortcut_select_moments_large          codec_fewshot_stack4=+0.3349 codec_stack2=+0.4491 codec_stack4=+0.4360
+better_large_cosine_20k_seed27         codec_fewshot_stack4=+0.2813 codec_stack2=+0.4335 codec_stack4=+0.4082
+shortcut_select_moments                codec_fewshot_stack4=+0.3258 codec_stack2=+0.3943 codec_stack4=+0.3826
+better_cosine_20k                      codec_fewshot_stack4=+0.2717 codec_stack2=+0.4160 codec_stack4=+0.3814
+better_large_cosine_20k                codec_fewshot_stack4=+0.2000 codec_stack2=+0.4337 codec_stack4=+0.4090
+better_speaker_rank16_cosine_20k       codec_fewshot_stack4=+0.2117 codec_stack2=+0.4179 codec_stack4=+0.3865
+better_large_cosine_20k_seed17         codec_fewshot_stack4=+0.1624 codec_stack2=+0.4321 codec_stack4=+0.4115
+shortcut_select_moments_mainonly       codec_fewshot_stack4=+0.0000 codec_stack2=+0.3943 codec_stack4=+0.3826
+shortcut_splice_partial_mainonly       codec_fewshot_stack4=+0.0000 codec_stack2=+0.1019 codec_stack4=+0.0958
+reference_sample2                      codec_fewshot_stack4=+0.0108 codec_stack2=-0.0094 codec_stack4=+0.0051
+reference                              codec_fewshot_stack4=+0.0000 codec_stack2=+0.0000 codec_stack4=+0.0000
+reference_sample1                      codec_fewshot_stack4=-0.0292 codec_stack2=-0.0192 codec_stack4=-0.0022
+reference_seed17                       codec_fewshot_stack4=-0.2014 codec_stack2=+0.0974 codec_stack4=+0.0038
+shortcut_splice_2frame_mainonly        codec_fewshot_stack4=+0.0000 codec_stack2=+0.0175 codec_stack4=-0.1471
+shortcut_resample_2x_as_4x             codec_fewshot_stack4=+0.0000 codec_stack2=+0.0000 codec_stack4=-0.2122
+reference_seed27                       codec_fewshot_stack4=-0.1000 codec_stack2=-0.0432 codec_stack4=-0.1243
+weaker_training_2k                     codec_fewshot_stack4=-1.1857 codec_stack2=-0.1103 codec_stack4=-0.3962
+weaker_no_local                        codec_fewshot_stack4=-1.2790 codec_stack2=-0.4085 codec_stack4=-1.3153
+shortcut_gaussian_latent               codec_fewshot_stack4=-1.2581 codec_stack2=-0.7825 codec_stack4=-1.2521
+paper_sampling_t06                     codec_fewshot_stack4=-3.7013 codec_stack2=-2.0667 codec_stack4=-2.8357
+
+few-shot shortfall: few-shot-task models on well-covered vs few-shot speakers (256 rows each, 32 speakers)
+reference                              well-covered fd=0.1395 spk_fd=0.6779 pair_js=0.01218 | few-shot fd=0.2122 spk_fd=1.5339 pair_js=0.01852
+better_cosine_20k                      well-covered fd=0.0243 spk_fd=0.3053 pair_js=0.00370 | few-shot fd=0.1298 spk_fd=1.3858 pair_js=0.01287
+better_large_cosine_20k                well-covered fd=0.0178 spk_fd=0.2500 pair_js=0.00353 | few-shot fd=0.1327 spk_fd=1.5205 pair_js=0.01394
+better_speaker_rank16_cosine_20k       well-covered fd=0.0260 spk_fd=0.3428 pair_js=0.00397 | few-shot fd=0.1394 spk_fd=1.4788 pair_js=0.01325
+perfect_sampler                        well-covered fd=0.0045 spk_fd=0.0876 pair_js=0.00201 | few-shot fd=0.0042 spk_fd=0.0862 pair_js=0.00192
+
+better_cosine_20k                      generator_2x         fd=0.0166 spk_fd=0.0945 pair_js=0.00246 excess=0.0005 half=0.000
+better_cosine_20k                      generator_4x         fd=0.0188 spk_fd=0.1062 pair_js=0.00258 excess=-0.0000 half=0.000
+better_cosine_20k                      generator_fewshot_4x fd=0.1298 spk_fd=1.3858 pair_js=0.01287 excess=-0.0001 half=0.000
+better_large_cosine_20k                generator_2x         fd=0.0100 spk_fd=0.0627 pair_js=0.00209 excess=-0.0001 half=0.000
+better_large_cosine_20k                generator_4x         fd=0.0121 spk_fd=0.0691 pair_js=0.00212 excess=0.0002 half=0.000
+better_large_cosine_20k                generator_fewshot_4x fd=0.1327 spk_fd=1.5205 pair_js=0.01394 excess=-0.0001 half=0.000
+better_large_cosine_20k_seed17         generator_2x         fd=0.0110 spk_fd=0.0645 pair_js=0.00210 excess=0.0004 half=0.000
+better_large_cosine_20k_seed17         generator_4x         fd=0.0120 spk_fd=0.0631 pair_js=0.00212 excess=-0.0001 half=0.000
+better_large_cosine_20k_seed17         generator_fewshot_4x fd=0.1421 spk_fd=1.5567 pair_js=0.01446 excess=-0.0001 half=0.000
+better_large_cosine_20k_seed27         generator_2x         fd=0.0106 spk_fd=0.0616 pair_js=0.00206 excess=0.0003 half=0.000
+better_large_cosine_20k_seed27         generator_4x         fd=0.0132 spk_fd=0.0668 pair_js=0.00213 excess=0.0002 half=0.000
+better_large_cosine_20k_seed27         generator_fewshot_4x fd=0.1120 spk_fd=1.4300 pair_js=0.01338 excess=0.0001 half=0.000
+better_speaker_rank16_cosine_20k       generator_2x         fd=0.0148 spk_fd=0.0943 pair_js=0.00248 excess=0.0001 half=0.000
+better_speaker_rank16_cosine_20k       generator_4x         fd=0.0163 spk_fd=0.1042 pair_js=0.00248 excess=-0.0002 half=0.000
+better_speaker_rank16_cosine_20k       generator_fewshot_4x fd=0.1394 spk_fd=1.4788 pair_js=0.01325 excess=-0.0000 half=0.000
+paper_sampling_t06                     generator_2x         fd=1.0522 spk_fd=2.6590 pair_js=0.13004 excess=0.0015 half=0.000
+paper_sampling_t06                     generator_4x         fd=0.9804 spk_fd=2.4443 pair_js=0.13092 excess=0.0005 half=0.000
+paper_sampling_t06                     generator_fewshot_4x fd=1.0260 spk_fd=3.9854 pair_js=0.13432 excess=0.0002 half=0.000
+reference                              generator_2x         fd=0.2208 spk_fd=0.5503 pair_js=0.01616 excess=-0.0000 half=0.000
+reference                              generator_4x         fd=0.1506 spk_fd=0.4332 pair_js=0.01162 excess=0.0000 half=0.000
+reference                              generator_fewshot_4x fd=0.2122 spk_fd=1.5339 pair_js=0.01852 excess=0.0000 half=0.000
+reference_sample1                      generator_2x         fd=0.2312 spk_fd=0.5629 pair_js=0.01702 excess=0.0001 half=0.000
+reference_sample1                      generator_4x         fd=0.1501 spk_fd=0.4360 pair_js=0.01186 excess=0.0001 half=0.000
+reference_sample1                      generator_fewshot_4x fd=0.2195 spk_fd=1.5619 pair_js=0.01893 excess=-0.0000 half=0.000
+reference_sample2                      generator_2x         fd=0.2254 spk_fd=0.5558 pair_js=0.01671 excess=0.0002 half=0.000
+reference_sample2                      generator_4x         fd=0.1456 spk_fd=0.4425 pair_js=0.01138 excess=0.0000 half=0.000
+reference_sample2                      generator_fewshot_4x fd=0.2037 spk_fd=1.5509 pair_js=0.01832 excess=0.0000 half=0.000
+reference_seed17                       generator_2x         fd=0.1697 spk_fd=0.4671 pair_js=0.01242 excess=-0.0001 half=0.000
+reference_seed17                       generator_4x         fd=0.1507 spk_fd=0.4149 pair_js=0.01207 excess=-0.0002 half=0.000
+reference_seed17                       generator_fewshot_4x fd=0.2567 spk_fd=1.7565 pair_js=0.02122 excess=0.0001 half=0.000
+reference_seed27                       generator_2x         fd=0.2583 spk_fd=0.5569 pair_js=0.01634 excess=-0.0000 half=0.000
+reference_seed27                       generator_4x         fd=0.2152 spk_fd=0.4620 pair_js=0.01458 excess=-0.0001 half=0.000
+reference_seed27                       generator_fewshot_4x fd=0.2170 spk_fd=1.7264 pair_js=0.01971 excess=-0.0001 half=0.000
+shortcut_constant                      generator_2x         fd=32.0719 spk_fd=32.1009 pair_js=0.95345 excess=0.0000 half=0.000
+shortcut_constant                      generator_4x         fd=32.0719 spk_fd=32.1009 pair_js=0.95345 excess=0.0000 half=0.000
+shortcut_constant                      generator_fewshot_4x fd=40.4911 spk_fd=40.4915 pair_js=0.98216 excess=0.0000 half=0.000
+shortcut_copy_edit_12pct               generator_2x         fd=0.2955 spk_fd=0.5268 pair_js=0.01522 excess=0.6826 half=0.000
+shortcut_copy_edit_12pct               generator_4x         fd=0.2986 spk_fd=0.5304 pair_js=0.01542 excess=0.6793 half=0.000
+shortcut_copy_edit_12pct               generator_fewshot_4x fd=0.3902 spk_fd=1.9834 pair_js=0.03563 excess=0.6807 half=0.000
+shortcut_copy_edit_25pct               generator_2x         fd=0.9483 spk_fd=1.4672 pair_js=0.04242 excess=0.2032 half=0.000
+shortcut_copy_edit_25pct               generator_4x         fd=0.9512 spk_fd=1.4748 pair_js=0.04270 excess=0.2002 half=0.000
+shortcut_copy_edit_25pct               generator_fewshot_4x fd=1.0516 spk_fd=2.6709 pair_js=0.05292 excess=0.1976 half=0.000
+shortcut_copy_edit_3pct                generator_2x         fd=0.0250 spk_fd=0.0926 pair_js=0.00303 excess=0.9835 half=0.114
+shortcut_copy_edit_3pct                generator_4x         fd=0.0270 spk_fd=0.0938 pair_js=0.00323 excess=0.9830 half=0.108
+shortcut_copy_edit_3pct                generator_fewshot_4x fd=0.1312 spk_fd=1.9569 pair_js=0.04010 excess=0.9862 half=0.119
+shortcut_copy_train                    generator_2x         fd=0.0045 spk_fd=0.0509 pair_js=0.00202 excess=0.9945 half=1.000
+shortcut_copy_train                    generator_4x         fd=0.0059 spk_fd=0.0506 pair_js=0.00215 excess=0.9944 half=1.000
+shortcut_copy_train                    generator_fewshot_4x fd=0.1224 spk_fd=2.1881 pair_js=0.05281 excess=0.9986 half=1.000
+shortcut_count_chain                   generator_2x         fd=0.5506 spk_fd=0.9930 pair_js=0.01580 excess=0.0001 half=0.000
+shortcut_count_chain                   generator_4x         fd=0.5529 spk_fd=0.9937 pair_js=0.01581 excess=0.0001 half=0.000
+shortcut_count_chain                   generator_fewshot_4x fd=5.3645 spk_fd=9.4984 pair_js=0.26297 excess=0.0000 half=0.000
+shortcut_fewshot_memorize              generator_2x         fd=0.2208 spk_fd=0.5503 pair_js=0.01616 excess=-0.0000 half=0.000
+shortcut_fewshot_memorize              generator_4x         fd=0.1506 spk_fd=0.4332 pair_js=0.01162 excess=0.0000 half=0.000
+shortcut_fewshot_memorize              generator_fewshot_4x fd=0.2943 spk_fd=2.1112 pair_js=0.03089 excess=0.1426 half=0.087
+shortcut_frame_lookup                  generator_2x         fd=0.4655 spk_fd=0.5704 pair_js=0.00933 excess=0.0000 half=0.000
+shortcut_frame_lookup                  generator_4x         fd=0.4630 spk_fd=0.5671 pair_js=0.00927 excess=0.0001 half=0.000
+shortcut_frame_lookup                  generator_fewshot_4x fd=0.2258 spk_fd=2.2629 pair_js=0.04504 excess=0.0412 half=0.011
+shortcut_gaussian_latent               generator_2x         fd=0.3434 spk_fd=0.4455 pair_js=0.14583 excess=0.0000 half=0.000
+shortcut_gaussian_latent               generator_4x         fd=0.3434 spk_fd=0.4460 pair_js=0.14586 excess=-0.0000 half=0.000
+shortcut_gaussian_latent               generator_fewshot_4x fd=0.3069 spk_fd=1.8754 pair_js=0.11050 excess=0.0000 half=0.000
+shortcut_old_analytic_sampler          generator_2x         fd=6.4123 spk_fd=9.9490 pair_js=0.37871 excess=0.0000 half=0.000
+shortcut_old_analytic_sampler          generator_4x         fd=6.4160 spk_fd=9.9692 pair_js=0.37933 excess=0.0000 half=0.000
+shortcut_old_analytic_sampler          generator_fewshot_4x fd=6.5853 spk_fd=11.5761 pair_js=0.37289 excess=0.0000 half=0.000
+shortcut_old_rule_repair               generator_2x         fd=7.7805 spk_fd=11.2126 pair_js=0.38989 excess=0.0000 half=0.000
+shortcut_old_rule_repair               generator_4x         fd=7.7937 spk_fd=11.2238 pair_js=0.38998 excess=0.0000 half=0.000
+shortcut_old_rule_repair               generator_fewshot_4x fd=8.1007 spk_fd=12.8981 pair_js=0.38580 excess=0.0000 half=0.000
+shortcut_random_tokens                 generator_2x         fd=6.5204 spk_fd=9.9991 pair_js=0.34494 excess=0.0000 half=0.000
+shortcut_random_tokens                 generator_4x         fd=6.5350 spk_fd=10.0167 pair_js=0.34496 excess=0.0000 half=0.000
+shortcut_random_tokens                 generator_fewshot_4x fd=6.7234 spk_fd=11.6190 pair_js=0.34171 excess=0.0000 half=0.000
+shortcut_replace_baseline              generator_2x         fd=0.2208 spk_fd=0.5503 pair_js=0.01616 excess=-0.0000 half=0.000
+shortcut_replace_baseline              generator_4x         fd=0.1506 spk_fd=0.4332 pair_js=0.01162 excess=0.0000 half=0.000
+shortcut_replace_baseline              generator_fewshot_4x fd=0.2122 spk_fd=1.5339 pair_js=0.01852 excess=0.0000 half=0.000
+shortcut_replace_truth_testfile        generator_2x         fd=0.2208 spk_fd=0.5503 pair_js=0.01616 excess=-0.0000 half=0.000
+shortcut_replace_truth_testfile        generator_4x         fd=0.1506 spk_fd=0.4332 pair_js=0.01162 excess=0.0000 half=0.000
+shortcut_replace_truth_testfile        generator_fewshot_4x fd=0.2122 spk_fd=1.5339 pair_js=0.01852 excess=0.0000 half=0.000
+shortcut_replace_truth_valfile         generator_2x         fd=0.2208 spk_fd=0.5503 pair_js=0.01616 excess=-0.0000 half=0.000
+shortcut_replace_truth_valfile         generator_4x         fd=0.1506 spk_fd=0.4332 pair_js=0.01162 excess=0.0000 half=0.000
+shortcut_replace_truth_valfile         generator_fewshot_4x fd=0.2122 spk_fd=1.5339 pair_js=0.01852 excess=0.0000 half=0.000
+shortcut_resample_2x_as_4x             generator_2x         fd=0.2208 spk_fd=0.5503 pair_js=0.01616 excess=-0.0000 half=0.000
+shortcut_resample_2x_as_4x             generator_4x         fd=0.2328 spk_fd=0.5742 pair_js=0.01714 excess=0.0001 half=0.000
+shortcut_resample_2x_as_4x             generator_fewshot_4x fd=0.2122 spk_fd=1.5339 pair_js=0.01852 excess=0.0000 half=0.000
+shortcut_reuse_2x_as_4x                generator_2x         fd=0.2208 spk_fd=0.5503 pair_js=0.01616 excess=-0.0000 half=0.000
+shortcut_reuse_2x_as_4x                generator_4x         fd=0.2208 spk_fd=0.5503 pair_js=0.01616 excess=-0.0000 half=0.000
+shortcut_reuse_2x_as_4x                generator_fewshot_4x fd=0.2122 spk_fd=1.5339 pair_js=0.01852 excess=0.0000 half=0.000
+shortcut_select_moments                generator_2x         fd=0.0227 spk_fd=0.1215 pair_js=0.00395 excess=0.0004 half=0.000
+shortcut_select_moments                generator_4x         fd=0.0161 spk_fd=0.1008 pair_js=0.00324 excess=0.0001 half=0.000
+shortcut_select_moments                generator_fewshot_4x fd=0.1237 spk_fd=1.2665 pair_js=0.01345 excess=-0.0001 half=0.000
+shortcut_select_moments_large          generator_2x         fd=0.0036 spk_fd=0.0372 pair_js=0.00179 excess=0.0003 half=0.000
+shortcut_select_moments_large          generator_4x         fd=0.0038 spk_fd=0.0363 pair_js=0.00178 excess=-0.0000 half=0.000
+shortcut_select_moments_large          generator_fewshot_4x fd=0.1059 spk_fd=1.3437 pair_js=0.01270 excess=-0.0001 half=0.000
+shortcut_select_moments_mainonly       generator_2x         fd=0.0227 spk_fd=0.1215 pair_js=0.00395 excess=0.0004 half=0.000
+shortcut_select_moments_mainonly       generator_4x         fd=0.0161 spk_fd=0.1008 pair_js=0.00324 excess=0.0001 half=0.000
+shortcut_select_moments_mainonly       generator_fewshot_4x fd=0.2122 spk_fd=1.5339 pair_js=0.01852 excess=0.0000 half=0.000
+shortcut_splice_2frame                 generator_2x         fd=0.2971 spk_fd=0.3650 pair_js=0.00670 excess=0.0031 half=0.000
+shortcut_splice_2frame                 generator_4x         fd=0.2984 spk_fd=0.3655 pair_js=0.00677 excess=0.0029 half=0.000
+shortcut_splice_2frame                 generator_fewshot_4x fd=0.3358 spk_fd=2.2721 pair_js=0.04146 excess=0.0929 half=0.000
+shortcut_splice_2frame_mainonly        generator_2x         fd=0.2971 spk_fd=0.3650 pair_js=0.00670 excess=0.0031 half=0.000
+shortcut_splice_2frame_mainonly        generator_4x         fd=0.2984 spk_fd=0.3655 pair_js=0.00677 excess=0.0029 half=0.000
+shortcut_splice_2frame_mainonly        generator_fewshot_4x fd=0.2122 spk_fd=1.5339 pair_js=0.01852 excess=0.0000 half=0.000
+shortcut_splice_3frame                 generator_2x         fd=0.1333 spk_fd=0.1803 pair_js=0.00388 excess=0.0525 half=0.000
+shortcut_splice_3frame                 generator_4x         fd=0.1344 spk_fd=0.1797 pair_js=0.00394 excess=0.0515 half=0.000
+shortcut_splice_3frame                 generator_fewshot_4x fd=0.2151 spk_fd=2.1677 pair_js=0.04353 excess=0.1919 half=0.003
+shortcut_splice_4frame                 generator_2x         fd=0.0727 spk_fd=0.1122 pair_js=0.00290 excess=0.3222 half=0.000
+shortcut_splice_4frame                 generator_4x         fd=0.0734 spk_fd=0.1125 pair_js=0.00290 excess=0.3213 half=0.000
+shortcut_splice_4frame                 generator_fewshot_4x fd=0.1698 spk_fd=2.1348 pair_js=0.04523 excess=0.4243 half=0.029
+shortcut_splice_6frame                 generator_2x         fd=0.0293 spk_fd=0.0644 pair_js=0.00220 excess=0.5903 half=0.001
+shortcut_splice_6frame                 generator_4x         fd=0.0304 spk_fd=0.0654 pair_js=0.00223 excess=0.5906 half=0.000
+shortcut_splice_6frame                 generator_fewshot_4x fd=0.1380 spk_fd=2.1264 pair_js=0.04757 excess=0.6522 half=0.229
+shortcut_splice_partial                generator_2x         fd=0.1723 spk_fd=0.4358 pair_js=0.01280 excess=0.0383 half=0.000
+shortcut_splice_partial                generator_4x         fd=0.1234 spk_fd=0.3496 pair_js=0.00950 excess=0.0379 half=0.000
+shortcut_splice_partial                generator_fewshot_4x fd=0.1817 spk_fd=1.3862 pair_js=0.01640 excess=0.0539 half=0.004
+shortcut_splice_partial_mainonly       generator_2x         fd=0.1735 spk_fd=0.4291 pair_js=0.01274 excess=0.0385 half=0.000
+shortcut_splice_partial_mainonly       generator_4x         fd=0.1192 spk_fd=0.3456 pair_js=0.00932 excess=0.0407 half=0.000
+shortcut_splice_partial_mainonly       generator_fewshot_4x fd=0.2122 spk_fd=1.5339 pair_js=0.01852 excess=0.0000 half=0.000
+weaker_argmax                          generator_2x         fd=8.0091 spk_fd=21.0481 pair_js=0.67934 excess=0.0289 half=0.000
+weaker_argmax                          generator_4x         fd=7.6031 spk_fd=20.9615 pair_js=0.69137 excess=0.0567 half=0.000
+weaker_argmax                          generator_fewshot_4x fd=4.4769 spk_fd=19.3385 pair_js=0.60129 excess=-0.0327 half=0.000
+weaker_no_local                        generator_2x         fd=0.4858 spk_fd=0.9676 pair_js=0.01791 excess=-0.0000 half=0.000
+weaker_no_local                        generator_4x         fd=0.7810 spk_fd=1.2944 pair_js=0.02303 excess=0.0000 half=0.000
+weaker_no_local                        generator_fewshot_4x fd=0.6774 spk_fd=2.2886 pair_js=0.02891 excess=-0.0001 half=0.000
+weaker_training_2k                     generator_2x         fd=0.2655 spk_fd=0.7666 pair_js=0.01679 excess=-0.0001 half=0.000
+weaker_training_2k                     generator_4x         fd=0.3025 spk_fd=0.7491 pair_js=0.01935 excess=-0.0002 half=0.000
+weaker_training_2k                     generator_fewshot_4x fd=0.5185 spk_fd=2.6167 pair_js=0.03546 excess=-0.0001 half=0.000
 
 baseline_maskgit_2x                    fd=0.3116 spk_fd=0.8995 pair_js=0.01864
 baseline_maskgit_4x                    fd=0.6228 spk_fd=1.4550 pair_js=0.02839
+baseline_maskgit_fewshot_4x            fd=0.5288 spk_fd=2.7501 pair_js=0.03034
 baseline_parallel_1x                   fd=0.3230 spk_fd=0.7852 pair_js=0.01470
 baseline_parallel_2x                   fd=0.4858 spk_fd=0.9676 pair_js=0.01791
 baseline_parallel_4x                   fd=0.7810 spk_fd=1.2944 pair_js=0.02303
+baseline_parallel_fewshot_4x           fd=0.6774 spk_fd=2.2886 pair_js=0.02891
 
-perfect_sampler_bound_5000001          fd=0.0038 spk_fd=0.0452 pair_js=0.00177 excess=0.0001
-perfect_sampler_bound_5000002          fd=0.0041 spk_fd=0.0460 pair_js=0.00173 excess=-0.0001
+perfect_sampler_main_5000001           fd=0.0038 spk_fd=0.0452 pair_js=0.00177 excess=0.0001
+perfect_sampler_fewshot_5000001        fd=0.0042 spk_fd=0.0862 pair_js=0.00192 excess=-0.0001
+perfect_sampler_main_5000002           fd=0.0041 spk_fd=0.0460 pair_js=0.00173 excess=-0.0001
+perfect_sampler_fewshot_5000002        fd=0.0042 spk_fd=0.0834 pair_js=0.00189 excess=-0.0003
 
 {
  "seed_groups": {
   "reference/test": {
    "members": {
     "reference": 0.0,
-    "reference_seed17": 0.0183,
-    "reference_seed27": -0.028981
+    "reference_seed17": -0.010628,
+    "reference_seed27": -0.029551
    },
-   "mean": -0.0035603333333333333,
-   "min": -0.028981,
-   "max": 0.0183,
-   "range": 0.047281000000000004
+   "mean": -0.013393,
+   "min": -0.029551,
+   "max": 0.0,
+   "range": 0.029551
   },
   "reference/test_feasible_cohort": {
    "members": {
     "reference": 0.0,
-    "reference_seed17": 0.159026,
-    "reference_seed27": -0.273585
+    "reference_seed17": -0.100194,
+    "reference_seed27": -0.267446
    },
-   "mean": -0.03818633333333334,
-   "min": -0.273585,
-   "max": 0.159026,
-   "range": 0.432611
+   "mean": -0.12254666666666668,
+   "min": -0.267446,
+   "max": 0.0,
+   "range": 0.267446
   },
   "better_large_cosine_20k/test": {
    "members": {
-    "better_large_cosine_20k": 0.162842,
-    "better_large_cosine_20k_seed17": 0.163097,
-    "better_large_cosine_20k_seed27": 0.162791
+    "better_large_cosine_20k": 0.117936,
+    "better_large_cosine_20k_seed17": 0.114065,
+    "better_large_cosine_20k_seed27": 0.126089
    },
-   "mean": 0.16291,
-   "min": 0.162791,
-   "max": 0.163097,
-   "range": 0.0003060000000000007
+   "mean": 0.11936333333333334,
+   "min": 0.114065,
+   "max": 0.126089,
+   "range": 0.012024000000000007
   },
   "better_large_cosine_20k/test_feasible_cohort": {
    "members": {
-    "better_large_cosine_20k": 1.364116,
-    "better_large_cosine_20k_seed17": 1.365904,
-    "better_large_cosine_20k_seed27": 1.362538
+    "better_large_cosine_20k": 1.042625,
+    "better_large_cosine_20k_seed17": 1.005986,
+    "better_large_cosine_20k_seed27": 1.12292
    },
-   "mean": 1.3641860000000001,
-   "min": 1.362538,
-   "max": 1.365904,
-   "range": 0.00336599999999998
+   "mean": 1.057177,
+   "min": 1.005986,
+   "max": 1.12292,
+   "range": 0.11693399999999987
   }
  },
  "noise": {
   "test": {
-   "training_seed_range": 0.047281000000000004,
-   "generation_seed_range": 0.004534
+   "training_seed_range": 0.029551,
+   "generation_seed_range": 0.005915
   },
   "test_feasible_cohort": {
-   "training_seed_range": 0.432611,
-   "generation_seed_range": 0.033693
+   "training_seed_range": 0.267446,
+   "generation_seed_range": 0.057142
   }
  },
  "paired_bootstrap_test": {
@@ -203,17 +299,29 @@ perfect_sampler_bound_5000002          fd=0.0041 spk_fd=0.0460 pair_js=0.00173 e
     "generator_4x/codebook_pair_divergence": [
      -0.009556443818609841,
      -0.008406379038939185
+    ],
+    "generator_fewshot_4x/codec_fd": [
+     -0.09434047723096484,
+     -0.07174557401640769
+    ],
+    "generator_fewshot_4x/speaker_conditioned_codec_fd": [
+     -0.18115116803426523,
+     -0.11594654862164622
+    ],
+    "generator_fewshot_4x/codebook_pair_divergence": [
+     -0.00627580350389079,
+     -0.0051404820510688
     ]
    },
-   "test_mean": 0.15398890381651406,
+   "test_mean": 0.12194928212491676,
    "test_95_percent": [
-    0.1471208021754133,
-    0.16087429871555303
+    0.11567167883046015,
+    0.1276034578553548
    ],
-   "test_feasible_cohort_mean": 1.2886666048279019,
+   "test_feasible_cohort_mean": 1.0695529604724212,
    "test_feasible_cohort_95_percent": [
-    1.2294038062480481,
-    1.345972700519281
+    1.011108457763648,
+    1.1207724120862288
    ]
   },
   "better_large_cosine_20k": {
@@ -241,17 +349,29 @@ perfect_sampler_bound_5000002          fd=0.0041 spk_fd=0.0460 pair_js=0.00173 e
     "generator_4x/codebook_pair_divergence": [
      -0.010002347467919873,
      -0.008847241047859377
+    ],
+    "generator_fewshot_4x/codec_fd": [
+     -0.09125506681093754,
+     -0.06660082620576802
+    ],
+    "generator_fewshot_4x/speaker_conditioned_codec_fd": [
+     -0.06510673663508282,
+     0.03440976435143184
+    ],
+    "generator_fewshot_4x/codebook_pair_divergence": [
+     -0.005263180937865113,
+     -0.0039034637899132245
     ]
    },
-   "test_mean": 0.1622933408127815,
+   "test_mean": 0.11769737912759373,
    "test_95_percent": [
-    0.15546823544526148,
-    0.16856831630799404
+    0.11141180851456575,
+    0.12396842635513525
    ],
-   "test_feasible_cohort_mean": 1.359921902176116,
+   "test_feasible_cohort_mean": 1.0412780280222722,
    "test_feasible_cohort_95_percent": [
-    1.3008864125178714,
-    1.416008386437001
+    0.9838552496677007,
+    1.0990544589612334
    ]
   },
   "better_large_cosine_20k_seed17": {
@@ -279,17 +399,29 @@ perfect_sampler_bound_5000002          fd=0.0041 spk_fd=0.0460 pair_js=0.00173 e
     "generator_4x/codebook_pair_divergence": [
      -0.010006954460586536,
      -0.008800245164598812
+    ],
+    "generator_fewshot_4x/codec_fd": [
+     -0.0851038143242242,
+     -0.05784855582507831
+    ],
+    "generator_fewshot_4x/speaker_conditioned_codec_fd": [
+     -0.01555069368408879,
+     0.06349776512724037
+    ],
+    "generator_fewshot_4x/codebook_pair_divergence": [
+     -0.004744406006562476,
+     -0.0032370238072992434
     ]
    },
-   "test_mean": 0.16269418984796816,
+   "test_mean": 0.11383139946285377,
    "test_95_percent": [
-    0.1551895456170397,
-    0.16867412887424946
+    0.10735115967912236,
+    0.11977531160451593
    ],
-   "test_feasible_cohort_mean": 1.3629126935477165,
+   "test_feasible_cohort_mean": 1.0047923322250958,
    "test_feasible_cohort_95_percent": [
-    1.2974389789223868,
-    1.415970392441125
+    0.9435148760815685,
+    1.062082218334514
    ]
   },
   "better_large_cosine_20k_seed27": {
@@ -317,17 +449,79 @@ perfect_sampler_bound_5000002          fd=0.0041 spk_fd=0.0460 pair_js=0.00173 e
     "generator_4x/codebook_pair_divergence": [
      -0.009975456033134295,
      -0.00877165854499627
+    ],
+    "generator_fewshot_4x/codec_fd": [
+     -0.1132961633761056,
+     -0.08815068332799214
+    ],
+    "generator_fewshot_4x/speaker_conditioned_codec_fd": [
+     -0.15826234386671723,
+     -0.05430685136747493
+    ],
+    "generator_fewshot_4x/codebook_pair_divergence": [
+     -0.005843209251640533,
+     -0.00438920354697926
     ]
    },
-   "test_mean": 0.16227916769137685,
+   "test_mean": 0.12592285308646947,
    "test_95_percent": [
-    0.1550044238210624,
-    0.16909842117126123
+    0.12042730491059292,
+    0.13225762815111863
    ],
-   "test_feasible_cohort_mean": 1.358652505965801,
+   "test_feasible_cohort_mean": 1.1224102083988878,
    "test_feasible_cohort_95_percent": [
-    1.297462880406963,
-    1.4188611240461848
+    1.0710677681800775,
+    1.1815869338726528
+   ]
+  },
+  "better_speaker_rank16_cosine_20k": {
+   "raw_delta_95_percent": {
+    "generator_2x/codec_fd": [
+     -0.21746574336253488,
+     -0.1944797475165636
+    ],
+    "generator_2x/speaker_conditioned_codec_fd": [
+     -0.4750746547190059,
+     -0.43489591215193446
+    ],
+    "generator_2x/codebook_pair_divergence": [
+     -0.014349702609706064,
+     -0.012961024779471938
+    ],
+    "generator_4x/codec_fd": [
+     -0.14483322731157955,
+     -0.12331594442030536
+    ],
+    "generator_4x/speaker_conditioned_codec_fd": [
+     -0.3489673073516746,
+     -0.3059567898169915
+    ],
+    "generator_4x/codebook_pair_divergence": [
+     -0.009633845621987866,
+     -0.008486674037749196
+    ],
+    "generator_fewshot_4x/codec_fd": [
+     -0.08821367412378933,
+     -0.05791023497701531
+    ],
+    "generator_fewshot_4x/speaker_conditioned_codec_fd": [
+     -0.09797340403901966,
+     -0.014956770850472534
+    ],
+    "generator_fewshot_4x/codebook_pair_divergence": [
+     -0.006063055984832741,
+     -0.004467466555344451
+    ]
+   },
+   "test_mean": 0.11553746663566086,
+   "test_95_percent": [
+    0.10903869859704615,
+    0.12210973274839527
+   ],
+   "test_feasible_cohort_mean": 1.0124945973190989,
+   "test_feasible_cohort_95_percent": [
+    0.9482156686634257,
+    1.0768469193752368
    ]
   },
   "paper_sampling_t06": {
@@ -355,17 +549,29 @@ perfect_sampler_bound_5000002          fd=0.0041 spk_fd=0.0460 pair_js=0.00173 e
     "generator_4x/codebook_pair_divergence": [
      0.11840140354382492,
      0.12216281406423396
+    ],
+    "generator_fewshot_4x/codec_fd": [
+     0.7941119483413814,
+     0.8326530623871697
+    ],
+    "generator_fewshot_4x/speaker_conditioned_codec_fd": [
+     2.436458920223069,
+     2.5456936031867983
+    ],
+    "generator_fewshot_4x/codebook_pair_divergence": [
+     0.11499579649404007,
+     0.11850828024821307
     ]
    },
-   "test_mean": -1.1187711432558198,
+   "test_mean": -1.1324837505772969,
    "test_95_percent": [
-    -1.1327212575498866,
-    -1.102405228279745
+    -1.146502600486769,
+    -1.118837719334778
    ],
-   "test_feasible_cohort_mean": -8.035785337662242,
+   "test_feasible_cohort_mean": -8.667043739220635,
    "test_feasible_cohort_95_percent": [
-    -8.144094782353708,
-    -7.908198137405705
+    -8.778992098926372,
+    -8.547465906441507
    ]
   },
   "reference_sample1": {
@@ -393,17 +599,29 @@ perfect_sampler_bound_5000002          fd=0.0041 spk_fd=0.0460 pair_js=0.00173 e
     "generator_4x/codebook_pair_divergence": [
      -0.0003355681369417128,
      0.0010704529724522658
+    ],
+    "generator_fewshot_4x/codec_fd": [
+     -0.012511488705786888,
+     0.028880292814022823
+    ],
+    "generator_fewshot_4x/speaker_conditioned_codec_fd": [
+     -0.023173698941741483,
+     0.07762088656790311
+    ],
+    "generator_fewshot_4x/codebook_pair_divergence": [
+     -0.0005444372538184611,
+     0.0014413598889246766
     ]
    },
-   "test_mean": -0.004509242762356011,
+   "test_mean": -0.00582160426693451,
    "test_95_percent": [
-    -0.014542735491437765,
-    0.0043221876719530565
+    -0.01361354226256931,
+    0.002287254023240218
    ],
-   "test_feasible_cohort_mean": -0.03359769508908667,
+   "test_feasible_cohort_mean": -0.04998996724470451,
    "test_feasible_cohort_95_percent": [
-    -0.11865061285964686,
-    0.04067681457648567
+    -0.12234096811142266,
+    0.023184283586893735
    ]
   },
   "reference_sample2": {
@@ -431,17 +649,29 @@ perfect_sampler_bound_5000002          fd=0.0041 spk_fd=0.0460 pair_js=0.00173 e
     "generator_4x/codebook_pair_divergence": [
      -0.0011379371193904093,
      0.0006880553991420665
+    ],
+    "generator_fewshot_4x/codec_fd": [
+     -0.027737045879497657,
+     0.007333742400000176
+    ],
+    "generator_fewshot_4x/speaker_conditioned_codec_fd": [
+     -0.036668933039667895,
+     0.0634288449514433
+    ],
+    "generator_fewshot_4x/codebook_pair_divergence": [
+     -0.0012256365080060422,
+     0.0006646398737278347
     ]
    },
-   "test_mean": -0.0013332976907332412,
+   "test_mean": 0.00011447602006693491,
    "test_95_percent": [
-    -0.012090005000485357,
-    0.008887195217487494
+    -0.008613182561179841,
+    0.010399149297479128
    ],
-   "test_feasible_cohort_mean": -0.008926951843971197,
+   "test_feasible_cohort_mean": 0.008194569679144063,
    "test_feasible_cohort_95_percent": [
-    -0.10131784877298493,
-    0.0768125343915943
+    -0.06573192405891136,
+    0.09802806473894007
    ]
   },
   "reference_seed17": {
@@ -469,17 +699,29 @@ perfect_sampler_bound_5000002          fd=0.0041 spk_fd=0.0460 pair_js=0.00173 e
     "generator_4x/codebook_pair_divergence": [
      -0.00011902090823516336,
      0.0012160271400450326
+    ],
+    "generator_fewshot_4x/codec_fd": [
+     0.03057860638548604,
+     0.05514454702869287
+    ],
+    "generator_fewshot_4x/speaker_conditioned_codec_fd": [
+     0.18282553106253818,
+     0.2539905225720729
+    ],
+    "generator_fewshot_4x/codebook_pair_divergence": [
+     0.0019372651231075212,
+     0.003251778636158803
     ]
    },
-   "test_mean": 0.0178864115442018,
+   "test_mean": -0.010574987243242472,
    "test_95_percent": [
-    0.010123288280138133,
-    0.025657232911754754
+    -0.017305395105619927,
+    -0.003867864603041905
    ],
-   "test_feasible_cohort_mean": 0.15541157546144058,
+   "test_feasible_cohort_mean": -0.0995899790746677,
    "test_feasible_cohort_95_percent": [
-    0.0875554422358171,
-    0.21921534716814295
+    -0.16239399102386814,
+    -0.035448013453037816
    ]
   },
   "reference_seed27": {
@@ -507,93 +749,29 @@ perfect_sampler_bound_5000002          fd=0.0041 spk_fd=0.0460 pair_js=0.00173 e
     "generator_4x/codebook_pair_divergence": [
      0.002191677259847584,
      0.00392389983914317
+    ],
+    "generator_fewshot_4x/codec_fd": [
+     -0.009455099143746537,
+     0.016676378991547836
+    ],
+    "generator_fewshot_4x/speaker_conditioned_codec_fd": [
+     0.15139082381289515,
+     0.23211502316991028
+    ],
+    "generator_fewshot_4x/codebook_pair_divergence": [
+     0.0004868682837558258,
+     0.0019150518347128276
     ]
    },
-   "test_mean": -0.028804056525154827,
+   "test_mean": -0.029290089762223453,
    "test_95_percent": [
-    -0.038289569410491844,
-    -0.019935766698541545
+    -0.03657362734962183,
+    -0.022037193495908387
    ],
-   "test_feasible_cohort_mean": -0.2713103586727384,
+   "test_feasible_cohort_mean": -0.2641130067506076,
    "test_feasible_cohort_95_percent": [
-    -0.35221075112675787,
-    -0.19626157172554
-   ]
-  },
-  "shortcut_count_chain": {
-   "raw_delta_95_percent": {
-    "generator_2x/codec_fd": [
-     0.314752194331124,
-     0.3414689941971467
-    ],
-    "generator_2x/speaker_conditioned_codec_fd": [
-     0.40181502965911364,
-     0.45283306169435633
-    ],
-    "generator_2x/codebook_pair_divergence": [
-     -0.0015066080103498351,
-     6.009336714020777e-05
-    ],
-    "generator_4x/codec_fd": [
-     0.38960310828344547,
-     0.4126591807555542
-    ],
-    "generator_4x/speaker_conditioned_codec_fd": [
-     0.5243634026602544,
-     0.5663831942146547
-    ],
-    "generator_4x/codebook_pair_divergence": [
-     0.0033096690793369635,
-     0.004476108525146495
-    ]
-   },
-   "test_mean": -0.19344500957752558,
-   "test_95_percent": [
-    -0.2014566104299547,
-    -0.1853993462672577
-   ],
-   "test_feasible_cohort_mean": -2.0847275965912275,
-   "test_feasible_cohort_95_percent": [
-    -2.155446979940453,
-    -2.0140585546941105
-   ]
-  },
-  "shortcut_frame_lookup": {
-   "raw_delta_95_percent": {
-    "generator_2x/codec_fd": [
-     0.23160095208257303,
-     0.25430722581480936
-    ],
-    "generator_2x/speaker_conditioned_codec_fd": [
-     -0.0225610538954093,
-     0.022235360303105578
-    ],
-    "generator_2x/codebook_pair_divergence": [
-     -0.007790191039324164,
-     -0.0064265616160162145
-    ],
-    "generator_4x/codec_fd": [
-     0.30016920464327157,
-     0.3240870711827455
-    ],
-    "generator_4x/speaker_conditioned_codec_fd": [
-     0.0961122943728896,
-     0.13670116699049317
-    ],
-    "generator_4x/codebook_pair_divergence": [
-     -0.0031552836895706923,
-     -0.0019349532652284864
-    ]
-   },
-   "test_mean": -0.07839020211517975,
-   "test_95_percent": [
-    -0.08555406508341835,
-    -0.07165745001711091
-   ],
-   "test_feasible_cohort_mean": -1.1257490971940103,
-   "test_feasible_cohort_95_percent": [
-    -1.1880395783644107,
-    -1.0679212876333735
+    -0.32955298471180455,
+    -0.1974472806927554
    ]
   },
   "shortcut_gaussian_latent": {
@@ -621,17 +799,29 @@ perfect_sampler_bound_5000002          fd=0.0041 spk_fd=0.0460 pair_js=0.00173 e
     "generator_4x/codebook_pair_divergence": [
      0.13285466411971672,
      0.13514400375322275
+    ],
+    "generator_fewshot_4x/codec_fd": [
+     0.07946649411246653,
+     0.10620778843118828
+    ],
+    "generator_fewshot_4x/speaker_conditioned_codec_fd": [
+     0.2670649682125288,
+     0.3454451407291741
+    ],
+    "generator_fewshot_4x/codebook_pair_divergence": [
+     0.09048627370698442,
+     0.09314272021054658
     ]
    },
-   "test_mean": -0.7018402070120017,
+   "test_mean": -0.634614534868356,
    "test_95_percent": [
-    -0.7104264425493654,
-    -0.694317103173111
+    -0.6415796903242221,
+    -0.6273213183091884
    ],
-   "test_feasible_cohort_mean": -3.273039020519162,
+   "test_feasible_cohort_mean": -3.2555468450979843,
    "test_feasible_cohort_95_percent": [
-    -3.3365252525875064,
-    -3.2129690349968665
+    -3.3106157331021016,
+    -3.193084595301663
    ]
   },
   "shortcut_resample_2x_as_4x": {
@@ -659,20 +849,182 @@ perfect_sampler_bound_5000002          fd=0.0041 spk_fd=0.0460 pair_js=0.00173 e
     "generator_4x/codebook_pair_divergence": [
      0.004790516433221063,
      0.006485704032122818
+    ],
+    "generator_fewshot_4x/codec_fd": [
+     0.0,
+     0.0
+    ],
+    "generator_fewshot_4x/speaker_conditioned_codec_fd": [
+     0.0,
+     0.0
+    ],
+    "generator_fewshot_4x/codebook_pair_divergence": [
+     0.0,
+     0.0
     ]
    },
-   "test_mean": -0.04318597129765491,
+   "test_mean": -0.02509474244806257,
    "test_95_percent": [
-    -0.05116196953761268,
-    -0.03651560134445893
+    -0.029728640213530062,
+    -0.02121968504025387
    ],
-   "test_feasible_cohort_mean": -0.35491445455747195,
+   "test_feasible_cohort_mean": -0.21273757079638753,
    "test_feasible_cohort_95_percent": [
-    -0.42445650064729523,
-    -0.29836331528940563
+    -0.2546271318227698,
+    -0.17890520597348403
    ]
   },
-  "shortcut_splice_2frame": {
+  "shortcut_select_moments": {
+   "raw_delta_95_percent": {
+    "generator_2x/codec_fd": [
+     -0.2088654460612176,
+     -0.1868245182844781
+    ],
+    "generator_2x/speaker_conditioned_codec_fd": [
+     -0.44792866785229624,
+     -0.40778072247854547
+    ],
+    "generator_2x/codebook_pair_divergence": [
+     -0.01285525115864189,
+     -0.011535584381240332
+    ],
+    "generator_4x/codec_fd": [
+     -0.14433157627166437,
+     -0.12369859733106026
+    ],
+    "generator_4x/speaker_conditioned_codec_fd": [
+     -0.34863878361968936,
+     -0.31113926808023185
+    ],
+    "generator_4x/codebook_pair_divergence": [
+     -0.008855043908680044,
+     -0.007861530469275388
+    ],
+    "generator_fewshot_4x/codec_fd": [
+     -0.10268766515966021,
+     -0.07726207584257239
+    ],
+    "generator_fewshot_4x/speaker_conditioned_codec_fd": [
+     -0.31030129995862854,
+     -0.22732265341765
+    ],
+    "generator_fewshot_4x/codebook_pair_divergence": [
+     -0.0057944755884559215,
+     -0.00449806346661262
+    ]
+   },
+   "test_mean": 0.12369076404511414,
+   "test_95_percent": [
+    0.11848394014553452,
+    0.12975561423497486
+   ],
+   "test_feasible_cohort_mean": 1.104083151604179,
+   "test_feasible_cohort_95_percent": [
+    1.0555624622815452,
+    1.1553972243363275
+   ]
+  },
+  "shortcut_select_moments_large": {
+   "raw_delta_95_percent": {
+    "generator_2x/codec_fd": [
+     -0.2282669281560885,
+     -0.20552725104457892
+    ],
+    "generator_2x/speaker_conditioned_codec_fd": [
+     -0.5330055392809754,
+     -0.4899476819131008
+    ],
+    "generator_2x/codebook_pair_divergence": [
+     -0.014946184024991881,
+     -0.013635529041044559
+    ],
+    "generator_4x/codec_fd": [
+     -0.15554124237328537,
+     -0.13696211516657542
+    ],
+    "generator_4x/speaker_conditioned_codec_fd": [
+     -0.4121600265749843,
+     -0.3725356266616284
+    ],
+    "generator_4x/codebook_pair_divergence": [
+     -0.010265001004629125,
+     -0.009190349676426257
+    ],
+    "generator_fewshot_4x/codec_fd": [
+     -0.12078470779264094,
+     -0.09248562959406215
+    ],
+    "generator_fewshot_4x/speaker_conditioned_codec_fd": [
+     -0.23840322547456716,
+     -0.15131774372310325
+    ],
+    "generator_fewshot_4x/codebook_pair_divergence": [
+     -0.0065064602344985945,
+     -0.005091948054286567
+    ]
+   },
+   "test_mean": 0.13683407239007908,
+   "test_95_percent": [
+    0.13117617913189153,
+    0.14311417022477063
+   ],
+   "test_feasible_cohort_mean": 1.2183766774488598,
+   "test_feasible_cohort_95_percent": [
+    1.1646578130551202,
+    1.2783630505324444
+   ]
+  },
+  "shortcut_select_moments_mainonly": {
+   "raw_delta_95_percent": {
+    "generator_2x/codec_fd": [
+     -0.2088654460612176,
+     -0.1868245182844781
+    ],
+    "generator_2x/speaker_conditioned_codec_fd": [
+     -0.44792866785229624,
+     -0.40778072247854547
+    ],
+    "generator_2x/codebook_pair_divergence": [
+     -0.01285525115864189,
+     -0.011535584381240332
+    ],
+    "generator_4x/codec_fd": [
+     -0.14433157627166437,
+     -0.12369859733106026
+    ],
+    "generator_4x/speaker_conditioned_codec_fd": [
+     -0.34863878361968936,
+     -0.31113926808023185
+    ],
+    "generator_4x/codebook_pair_divergence": [
+     -0.008855043908680044,
+     -0.007861530469275388
+    ],
+    "generator_fewshot_4x/codec_fd": [
+     0.0,
+     0.0
+    ],
+    "generator_fewshot_4x/speaker_conditioned_codec_fd": [
+     0.0,
+     0.0
+    ],
+    "generator_fewshot_4x/codebook_pair_divergence": [
+     0.0,
+     0.0
+    ]
+   },
+   "test_mean": 0.08887377060024619,
+   "test_95_percent": [
+    0.0849667595859318,
+    0.09229341547588689
+   ],
+   "test_feasible_cohort_mean": 0.7761124555945241,
+   "test_feasible_cohort_95_percent": [
+    0.7407526608174644,
+    0.8086673497585875
+   ]
+  },
+  "shortcut_splice_2frame_mainonly": {
    "raw_delta_95_percent": {
     "generator_2x/codec_fd": [
      0.06326830983189424,
@@ -697,55 +1049,79 @@ perfect_sampler_bound_5000002          fd=0.0041 spk_fd=0.0460 pair_js=0.00173 e
     "generator_4x/codebook_pair_divergence": [
      -0.005652786806743469,
      -0.004548618276646432
+    ],
+    "generator_fewshot_4x/codec_fd": [
+     0.0,
+     0.0
+    ],
+    "generator_fewshot_4x/speaker_conditioned_codec_fd": [
+     0.0,
+     0.0
+    ],
+    "generator_fewshot_4x/codebook_pair_divergence": [
+     0.0,
+     0.0
     ]
    },
-   "test_mean": 0.01393513180480527,
+   "test_mean": 0.008994541787224614,
    "test_95_percent": [
-    0.007540714533309332,
-    0.020648854144105087
+    0.005177206021149686,
+    0.01310063927047792
    ],
-   "test_feasible_cohort_mean": -0.1782139634704009,
+   "test_feasible_cohort_mean": -0.10889802927932157,
    "test_feasible_cohort_95_percent": [
-    -0.2335654542280049,
-    -0.11743921016577824
+    -0.14296879950631378,
+    -0.07138620105647023
    ]
   },
-  "shortcut_splice_partial": {
+  "shortcut_splice_partial_mainonly": {
    "raw_delta_95_percent": {
     "generator_2x/codec_fd": [
-     -0.05442337132700459,
-     -0.043271845753775295
+     -0.05355924653796862,
+     -0.042545818611227304
     ],
     "generator_2x/speaker_conditioned_codec_fd": [
-     -0.12695137249782684,
-     -0.10630373252398884
+     -0.13644084064296846,
+     -0.11336312870910725
     ],
     "generator_2x/codebook_pair_divergence": [
-     -0.0037433291514506837,
-     -0.003043354408613211
+     -0.0038590376180618665,
+     -0.0031281183488541895
     ],
     "generator_4x/codec_fd": [
-     -0.0320010105452333,
-     -0.023102912726216118
+     -0.036391793587949195,
+     -0.026741806379472877
     ],
     "generator_4x/speaker_conditioned_codec_fd": [
-     -0.09374165279078328,
-     -0.07759192388581404
+     -0.09991839627100729,
+     -0.08014683413874724
     ],
     "generator_4x/codebook_pair_divergence": [
-     -0.002394167271014127,
-     -0.0019012270482400354
+     -0.0025928115859979277,
+     -0.002078757658527594
+    ],
+    "generator_fewshot_4x/codec_fd": [
+     0.0,
+     0.0
+    ],
+    "generator_fewshot_4x/speaker_conditioned_codec_fd": [
+     0.0,
+     0.0
+    ],
+    "generator_fewshot_4x/codebook_pair_divergence": [
+     0.0,
+     0.0
     ]
    },
-   "test_mean": 0.03708837048915702,
+   "test_mean": 0.023544689267477156,
    "test_95_percent": [
-    0.03413498311554027,
-    0.04005900753556377
+    0.021854919720244725,
+    0.025327240477799242
    ],
-   "test_feasible_cohort_mean": 0.30690464634780834,
+   "test_feasible_cohort_mean": 0.19982676724126783,
    "test_feasible_cohort_95_percent": [
-    0.2817819122572726,
-    0.33239617752912587
+    0.18453514358175166,
+    0.2155979769765284
    ]
   },
   "weaker_no_local": {
@@ -773,17 +1149,29 @@ perfect_sampler_bound_5000002          fd=0.0041 spk_fd=0.0460 pair_js=0.00173 e
     "generator_4x/codebook_pair_divergence": [
      0.010542851441386414,
      0.011876771898231551
+    ],
+    "generator_fewshot_4x/codec_fd": [
+     0.4464720973783969,
+     0.4775594275936541
+    ],
+    "generator_fewshot_4x/speaker_conditioned_codec_fd": [
+     0.6901201538807555,
+     0.7716318540094922
+    ],
+    "generator_fewshot_4x/codebook_pair_divergence": [
+     0.009229463200982158,
+     0.01091705153668527
     ]
    },
-   "test_mean": -0.2779338550226404,
+   "test_mean": -0.27854589141035185,
    "test_95_percent": [
-    -0.28595613652158886,
-    -0.2693074833500771
+    -0.28461440487439327,
+    -0.2696893608557839
    ],
-   "test_feasible_cohort_mean": -2.8155048922356447,
+   "test_feasible_cohort_mean": -2.978501947754284,
    "test_feasible_cohort_95_percent": [
-    -2.88350084806584,
-    -2.7373918198247185
+    -3.0358715639195952,
+    -2.897993206975118
    ]
   },
   "weaker_training_2k": {
@@ -811,17 +1199,29 @@ perfect_sampler_bound_5000002          fd=0.0041 spk_fd=0.0460 pair_js=0.00173 e
     "generator_4x/codebook_pair_divergence": [
      0.006597099217168997,
      0.008567083402730448
+    ],
+    "generator_fewshot_4x/codec_fd": [
+     0.28707417533260937,
+     0.321741525740304
+    ],
+    "generator_fewshot_4x/speaker_conditioned_codec_fd": [
+     1.0345537212090827,
+     1.107622377811039
+    ],
+    "generator_fewshot_4x/codebook_pair_divergence": [
+     0.015779834581797138,
+     0.017679995727177916
     ]
    },
-   "test_mean": -0.09346228484012715,
+   "test_mean": -0.17998302091109944,
    "test_95_percent": [
-    -0.10498541082559612,
-    -0.08074953539602205
+    -0.1886703894065749,
+    -0.17160722436756462
    ],
-   "test_feasible_cohort_mean": -0.8273333372454234,
+   "test_feasible_cohort_mean": -1.6773070831922647,
    "test_feasible_cohort_95_percent": [
-    -0.9299740650262213,
-    -0.7149424702012934
+    -1.7551106149651217,
+    -1.5966618995531354
    ]
   }
  }
